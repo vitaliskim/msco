@@ -16,15 +16,11 @@ Description: Co-occurrence patterns are typically explored between species pairs
  avert the statistical type II error by detecting patterns that would otherwise not be detected
  by any pairwise co-occurrence metrics. To dissect the effects of neutral encounter versus
  functional traits on multi-order species interactions and co-occurrence, generalised B-spline
-<<<<<<< HEAD
  model has also been proposed. The R package ``msco'' presents the implementation of joint
-=======
- model has also been proposed. The R package "msco" presents the implementation of joint
->>>>>>> 73a4fcc9999b6f7b54eca159d6c50d038190b331
  occupancy index and includes a list of functions for calculating this index for different
  orders, as well as testing and visualising species co-occurrence archetypes. This package also
  presents the implementation of the generalised B-spline model and analyses of the effects of
- neutral encounter verse functional traits on multi-order species interactions and co-occurrence.
+ neutral encounter versus functional traits on multi-order species interactions and co-occurrence.
 Depends: R (>= 3.5.0)
 License: GPL-3
 Imports: scales, ggplot2, dplyr, minpack.lm, cowplot, gtools, tibble, tidyr, magick, caret,
