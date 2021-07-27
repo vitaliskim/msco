@@ -1,6 +1,6 @@
 Package: msco
 Type: Package
-Title: Null Model Testing of Multi-Species Interaction Strengths & Analysis of their Drivers
+Title: Multi-Species Co-Occurrence Analysis 
 Version: 0.1.0
 Date: 2021-07-26
 Author: Vitalis K. Lagat [aut, cre],
@@ -16,11 +16,11 @@ Description: Co-occurrence patterns are typically explored between species pairs
  avert the statistical type II error by detecting patterns that would otherwise not be detected
  by any pairwise co-occurrence metrics. To dissect the effects of neutral encounter versus
  functional traits on multi-order species interactions and co-occurrence, generalised B-spline
- model has also been proposed. The R package msco presents the implementation of joint
+ model has also been proposed. The R package "msco" presents the implementation of joint
  occupancy index and includes a list of functions for calculating this index for different
- orders, as well as testing and visualising these co-occurrence archetypes. This package also
+ orders, as well as testing and visualising species co-occurrence archetypes. This package also
  presents the implementation of the generalised B-spline model and analyses of the effects of
- neutral verse functional traits on multi-order species interactions and co-occurrence.
+ neutral encounter verse functional traits on multi-order species interactions and co-occurrence.
 Depends: R (>= 3.5.0)
 License: GPL-3
 Imports: scales, ggplot2, dplyr, minpack.lm, cowplot, gtools, tibble, tidyr, magick, caret,
