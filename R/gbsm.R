@@ -77,7 +77,7 @@
 #'
 #'  my.gbsm <- msco::gbsm(s.data, t.data, p.d.mat, metric = "Simpson_eqn",
 #'   d.f=4, order.jo=3, degree=3, n=1000, b.plots=TRUE, scat.plot=TRUE,
-#'    bsplines="all", response.curves=TRUE, leg=1,
+#'    bsplines="single", response.curves=TRUE, leg=1,
 #'     start=seq(-0.1, 0, length.out=(ncol(t.data)+2)*4+1))
 #'
 #'  my.gbsm$bs_pred
@@ -266,19 +266,25 @@ gbsm <- function(s.data, t.data, p.d.mat, metric= "Simpson_eqn", d.f=4, order.jo
 
   #### Plot to see if the correct B-spline plots are output
   if(b.plots==TRUE){
+    cols <- rep(c("red","blue","black","green", "brown", "orange"), 8*d.f)
     if(bsplines=="single"){
+      grDevices::pdf(file = paste0(system.file("ms", package = "msco"), "/B-splines.curves_single.predictor.pdf"), height = 5, width = 5)
       plot(x=t.trans[,1], y=bt.trans[,(1+((1-1)*d.f))], type = "l", lty=1, lwd=2, col=cols[1], ylim=c(0,max(bt.trans[,(1+((1-1)*d.f))])),
            xlab = "Trait variable", ylab = "B-spline curves", main = paste(names(t.trans)[1]))
 
-      for(i in (((1-1)*d.f)+2):(((1-1)*d.f)+d.f)){
+      for(i in 2:4){
         graphics::lines(t.trans[,1], bt.trans[,i], col=cols[i], lwd=2, lty = i)
       }
+      for (i in 1:4) {
+        graphics::points(t.data[,1], bt.data[,i], col=cols[i], pch=match(cols[i], cols))
+      }
+      grDevices::dev.off()
+      base::system(paste0('open "', paste0(system.file("ms", package = "msco"), "/B-splines.curves_single.predictor.pdf"), '"'))
     }else{
       grDevices::pdf(file = paste0(system.file("ms", package = "msco"), "/B-splines.curves_all.predictors.pdf"), height = 8.27, width = 6)
       graphics::par(mar=c(4,4,2,0.5)+.1)
       graphics::par(mfcol=c(ceiling(((ncol(t.data)+2)/2)), 2))
 
-      cols <- rep(c("red","blue","black","green"), 8*d.f)
       for (v.index in 1:ncol(t.trans)) {
         plot(x=t.trans[,v.index], y=bt.trans[,(1+((v.index-1)*d.f))], type = "l", lty=1, lwd=2, col=cols[1], ylim=c(0,max(bt.trans[,(1+((v.index-1)*d.f))])),
              xlab = "Trait variable", ylab = "B-spline curves", main = paste(names(t.trans)[v.index]))
