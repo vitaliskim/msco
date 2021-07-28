@@ -14,6 +14,7 @@ gbsm(
   degree = 3,
   n = 1000,
   b.plots = TRUE,
+  bsplines = "single",
   scat.plot = TRUE,
   response.curves = TRUE,
   leg = 1,
@@ -42,6 +43,11 @@ raw form of index without rescaling.}
 \item{n}{Number of samples for which the joint occupancy is computed.}
 
 \item{b.plots}{Boolean value indicating if B-spline basis functions should be plotted.}
+
+\item{bsplines}{This parameter indicates if a single or all B-spline curves should be plotted.
+If \code{b.plots==TRUE} and \code{bsplines=="single"}, the B-spline curves for the first predictor in
+\code{t.data} will be plotted. Any other value for \code{bspline} results in the B-spline curves for
+all predictors being plotted.}
 
 \item{scat.plot}{Boolean value indicating if scatter plots between joint occupancy and its predicted
 values should be plotted.}
@@ -88,7 +94,8 @@ functions employed, with predictors transformed using a linear combination of B-
 
  my.gbsm <- msco::gbsm(s.data, t.data, p.d.mat, metric = "Simpson_eqn",
   d.f=4, order.jo=3, degree=3, n=1000, b.plots=TRUE, scat.plot=TRUE,
-   response.curves=TRUE, leg=1, start=seq(-0.1, 0, length.out=(ncol(t.data)+2)*4+1))
+   bsplines="all", response.curves=TRUE, leg=1,
+    start=seq(-0.1, 0, length.out=(ncol(t.data)+2)*4+1))
 
  my.gbsm$bs_pred
  my.gbsm$Predictors

@@ -20,6 +20,10 @@
 #'   raw form of index without rescaling.
 #' @param n Number of samples for which the joint occupancy is computed.
 #' @param b.plots Boolean value indicating if B-spline basis functions should be plotted.
+#' @param bsplines This parameter indicates if a single or all B-spline curves should be plotted.
+#'  If `b.plots==TRUE` and `bsplines=="single"`, the B-spline curves for the first predictor in
+#'   `t.data` will be plotted. Any other value for `bspline` results in the B-spline curves for
+#'    all predictors being plotted.
 #' @param response.curves A boolean value indicating if all response curves should be plotted.
 #' @param leg Boolean value indicating if the legend of the gbsm outputs should be included in the plots. This
 #'  parameter is added to help control the appearance of plots in \link[msco]{gbsm_m.orders} function.
@@ -73,7 +77,8 @@
 #'
 #'  my.gbsm <- msco::gbsm(s.data, t.data, p.d.mat, metric = "Simpson_eqn",
 #'   d.f=4, order.jo=3, degree=3, n=1000, b.plots=TRUE, scat.plot=TRUE,
-#'    response.curves=TRUE, leg=1, start=seq(-0.1, 0, length.out=(ncol(t.data)+2)*4+1))
+#'    bsplines="all", response.curves=TRUE, leg=1,
+#'     start=seq(-0.1, 0, length.out=(ncol(t.data)+2)*4+1))
 #'
 #'  my.gbsm$bs_pred
 #'  my.gbsm$Predictors
@@ -86,7 +91,7 @@
 #' @md
 
 gbsm <- function(s.data, t.data, p.d.mat, metric= "Simpson_eqn", d.f=4, order.jo=3, degree=3, n=1000, b.plots=TRUE,
-                  scat.plot=TRUE, response.curves=TRUE, leg=1, start=seq(-0.1, 0, length.out=(ncol(t.data)+2)*4+1)){
+                 bsplines="single", scat.plot=TRUE, response.curves=TRUE, leg=1, start=seq(-0.1, 0, length.out=(ncol(t.data)+2)*4+1)){
 
   if(class(t.data)!="data.frame"){
     t.data <- as.data.frame(t.data)
@@ -261,35 +266,43 @@ gbsm <- function(s.data, t.data, p.d.mat, metric= "Simpson_eqn", d.f=4, order.jo
 
   #### Plot to see if the correct B-spline plots are output
   if(b.plots==TRUE){
-    grDevices::pdf(file = paste0(system.file("ms", package = "msco"), "/B-splines.curves_all.predictors.pdf"), height = 8.27, width = 6)
-    graphics::par(mar=c(4,4,2,0.5)+.1)
-    graphics::par(mfcol=c(ceiling(((ncol(t.data)+2)/2)), 2))
+    if(bsplines=="single"){
+      plot(x=t.trans[,1], y=bt.trans[,(1+((1-1)*d.f))], type = "l", lty=1, lwd=2, col=cols[1], ylim=c(0,max(bt.trans[,(1+((1-1)*d.f))])),
+           xlab = "Trait variable", ylab = "B-spline curves", main = paste(names(t.trans)[1]))
 
-    cols <- rep(c("red","blue","black","green"), 8*d.f)
-    for (v.index in 1:ncol(t.trans)) {
-      plot(x=t.trans[,v.index], y=bt.trans[,(1+((v.index-1)*d.f))], type = "l", lty=1, lwd=2, col=cols[1], ylim=c(0,max(bt.trans[,(1+((v.index-1)*d.f))])),
-           xlab = "Trait variable", ylab = "B-spline curves", main = paste(names(t.trans)[v.index]))
+      for(i in (((1-1)*d.f)+2):(((1-1)*d.f)+d.f)){
+        graphics::lines(t.trans[,1], bt.trans[,i], col=cols[i], lwd=2, lty = i)
+      }
+    }else{
+      grDevices::pdf(file = paste0(system.file("ms", package = "msco"), "/B-splines.curves_all.predictors.pdf"), height = 8.27, width = 6)
+      graphics::par(mar=c(4,4,2,0.5)+.1)
+      graphics::par(mfcol=c(ceiling(((ncol(t.data)+2)/2)), 2))
 
-      for(i in (((v.index-1)*d.f)+2):(((v.index-1)*d.f)+d.f)){
-        graphics::lines(t.trans[,v.index], bt.trans[,i], col=cols[i], lwd=2, lty = i)
+      cols <- rep(c("red","blue","black","green"), 8*d.f)
+      for (v.index in 1:ncol(t.trans)) {
+        plot(x=t.trans[,v.index], y=bt.trans[,(1+((v.index-1)*d.f))], type = "l", lty=1, lwd=2, col=cols[1], ylim=c(0,max(bt.trans[,(1+((v.index-1)*d.f))])),
+             xlab = "Trait variable", ylab = "B-spline curves", main = paste(names(t.trans)[v.index]))
+
+        for(i in (((v.index-1)*d.f)+2):(((v.index-1)*d.f)+d.f)){
+          graphics::lines(t.trans[,v.index], bt.trans[,i], col=cols[i], lwd=2, lty = i)
+        }
+        if(v.index < ncol(t.data) | v.index==ncol(t.data)){
+          for (i in (1+((v.index-1)*d.f)):(((v.index-1)*d.f)+d.f)) {
+            graphics::points(t.data[,v.index], bt.data[,i], col=cols[i], pch=match(cols[i], cols))
+          }
+        }else if(v.index==(ncol(t.data)+1)){
+          for (i in 1:d.f) {
+            graphics::points(p.dist, bt.p.dist[,i], col=cols[i], pch=match(cols[i], cols))
+          }
+        }else if(v.index==(ncol(t.data)+2)){
+          for (i in 1:d.f) {
+            graphics::points(erate, bt.erate[,i], col=cols[i], pch=match(cols[i], cols))
+          }
+        }
       }
-      if(v.index < ncol(t.data) | v.index==ncol(t.data)){
-        for (i in (1+((v.index-1)*d.f)):(((v.index-1)*d.f)+d.f)) {
-          graphics::points(t.data[,v.index], bt.data[,i], col=cols[i], pch=match(cols[i], cols))
-        }
-      }else if(v.index==(ncol(t.data)+1)){
-        for (i in 1:d.f) {
-          graphics::points(p.dist, bt.p.dist[,i], col=cols[i], pch=match(cols[i], cols))
-        }
-      }else if(v.index==(ncol(t.data)+2)){
-        for (i in 1:d.f) {
-          graphics::points(erate, bt.erate[,i], col=cols[i], pch=match(cols[i], cols))
-        }
-      }
+      grDevices::dev.off()
+      base::system(paste0('open "', paste0(system.file("ms", package = "msco"), "/B-splines.curves_all.predictors.pdf"), '"'))
     }
-    grDevices::dev.off()
-    base::system(paste0('open "', paste0(system.file("ms", package = "msco"), "/B-splines.curves_all.predictors.pdf"), '"'))
-
   }
 
   ## Confirm if the plot of the sum of the B-splines is constant at y=1
