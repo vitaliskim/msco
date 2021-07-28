@@ -63,9 +63,6 @@ for more information. NCBI is used as default in this function;
 of \code{class}: "\code{phylo}") of species in the community using taxa obtained above;
 \item computes the phylogenetic distance matrix using the \link[ape]{cophenetic.phylo}
 function and the phylogeny obtained above as input;
-\item uses the \link[BIEN]{BIEN_trait_traits_per_species} function to obtain the traits per
-species (in the community) from the \href{https://bien.nceas.ucsb.edu/bien/}{\strong{BIEN}} online database, and
-\link[BIEN]{BIEN_trait_mean} function to summarize the same traits values;
 \item plots the phylogenetic tree using the phylogeny obtained above.
 }
 }

@@ -10,9 +10,6 @@
 #'  of `class`: "\code{phylo}") of species in the community using taxa obtained above;
 #' * computes the phylogenetic distance matrix using the \link[ape]{cophenetic.phylo}
 #'  function and the phylogeny obtained above as input;
-#' * uses the \link[BIEN]{BIEN_trait_traits_per_species} function to obtain the traits per
-#'  species (in the community) from the [**BIEN**](https://bien.nceas.ucsb.edu/bien/) online database, and
-#'  \link[BIEN]{BIEN_trait_mean} function to summarize the same traits values;
 #' * plots the phylogenetic tree using the phylogeny obtained above.
 #'
 #' @param s.data A species-by-site presence/absence `data.frame` with entries indicating
