@@ -8,7 +8,8 @@ Jo.res()
 }
 \value{
 Returns all the results presented in Lagat \emph{et al}. (202Xa). To replicate these results,
-execute the following code:\preformatted{  set.seed(14)
+execute the following code:\preformatted{  RNGkind(sample.kind = "Rejection")
+  set.seed(14)
   my.path <- system.file("extdata/myCSVs", package = "msco")
   setwd(my.path)
   my.files <- gtools::mixedsort(list.files(path = my.path, pattern = "*.csv"))

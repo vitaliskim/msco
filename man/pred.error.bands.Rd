@@ -62,6 +62,7 @@ This function plots the response curves with prediction error bands for all orde
  t.data <- base::get(load("t.data.csv")) ## Species-by-Trait matrix
  p.d.mat <- base::get(load("p.d.mat.csv")) ## Species-by-species phylogenetic distance matrix
 
+ RNGkind(sample.kind = "Rejection")
  set.seed(0)
  pe <- pred.error.bands(s.data, t.data, p.d.mat, metric="Simpson_eqn", d.f=4, simm=10,
   orders = c(2:5, 8, 10, 15), degree=3, n=1000,

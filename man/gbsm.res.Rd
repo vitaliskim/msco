@@ -15,7 +15,8 @@ Returns all the results presented in Lagat \emph{et al}. (202Xb). To replicate
  s.data <- base::get(load("s.data.csv"))
  t.data <- base::get(load("t.data.csv"))
  p.d.mat <- base::get(load("p.d.mat.csv"))
- set.seed(1)
+ RNGkind(sample.kind = "Rejection")
+ set.seed(0)
  gb.res <- msco::gbsm_m.orders(s.data,
              t.data,
              p.d.mat,
@@ -87,7 +88,8 @@ Returns all the results presented in Lagat \emph{et al}. (202Xb). To replicate
   s.data <- base::get(load("s.data.csv"))
   t.data <- base::get(load("t.data.csv"))
   p.d.mat <- base::get(load("p.d.mat.csv"))
-  set.seed(1)
+  RNGkind(sample.kind = "Rejection")
+  set.seed(0)
   pe <- msco::pred.error.bands(s.data,
                       t.data,
                       p.d.mat,

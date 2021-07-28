@@ -770,6 +770,7 @@ j.occs<-function(s.data, orders = 1:nrow(s.data)){
 #'  execute the following code:
 #'
 #'  ```
+#'    RNGkind(sample.kind = "Rejection")
 #'    set.seed(14)
 #'    my.path <- system.file("extdata/myCSVs", package = "msco")
 #'    setwd(my.path)
@@ -830,7 +831,8 @@ Jo.res <- function(){
 #'    s.data <- base::get(load("s.data.csv"))
 #'    t.data <- base::get(load("t.data.csv"))
 #'    p.d.mat <- base::get(load("p.d.mat.csv"))
-#'    set.seed(1)
+#'    RNGkind(sample.kind = "Rejection")
+#'    set.seed(0)
 #'    gb.res <- msco::gbsm_m.orders(s.data,
 #'                t.data,
 #'                p.d.mat,
@@ -905,7 +907,8 @@ Jo.res <- function(){
 #'        s.data <- base::get(load("s.data.csv"))
 #'        t.data <- base::get(load("t.data.csv"))
 #'        p.d.mat <- base::get(load("p.d.mat.csv"))
-#'        set.seed(1)
+#'        RNGkind(sample.kind = "Rejection")
+#'        set.seed(0)
 #'        pe <- msco::pred.error.bands(s.data,
 #'                            t.data,
 #'                            p.d.mat,
