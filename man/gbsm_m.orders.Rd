@@ -127,6 +127,28 @@ For multiple joint occupancy orders, this function computes:
  jp$model.validation.table
  jp$jo.orders
 
+ ## Close the open gbsm.plots.pdf file
+ jp2 <- msco::gbsm_m.orders(s.data, t.data, p.d.mat,
+  metric="Sorensen_eqn", orders = c(3:5, 8, 10, 15, 20), d.f=4,
+   degree=3, n=1000, k=5, p=0.8, type="k-fold", scat.plots=TRUE,
+    response.curves=TRUE, j.occs.distrbn=TRUE, mp.plots=TRUE,
+     start=seq(-0.1, 0, length.out=(ncol(t.data)+2)*4+1))
+
+ jp2$contbn_table[[1]]
+ jp2$model.validation.table
+ jp2$jo.orders
+
+## Close the open gbsm.plots.pdf file
+ jp3 <- msco::gbsm_m.orders(s.data, t.data, p.d.mat,
+  metric="raw", orders = c(3:5, 8, 10, 15, 20), d.f=4,
+   degree=3, n=1000, k=5, p=0.8, type="k-fold", scat.plots=TRUE,
+    response.curves=TRUE, j.occs.distrbn=TRUE, mp.plots=TRUE,
+     start=seq(-0.1, 0, length.out=(ncol(t.data)+2)*4+1))
+
+ jp3$contbn_table[[1]]
+ jp3$model.validation.table
+ jp3$jo.orders
+
  }
 
 }
