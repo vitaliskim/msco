@@ -78,6 +78,9 @@
 #'  t.data <- get(load("t.data.csv")) ## Species-by-Trait matrix
 #'  p.d.mat <- get(load("p.d.mat.csv")) ## Species-by-species phylogenetic distance matrix
 #'
+#'
+#'  RNGkind(sample.kind = "Rejection")
+#'  set.seed(0)
 #'  jp <- msco::gbsm_m.orders(s.data, t.data, p.d.mat,
 #'   metric="Simpson_eqn", orders = c(3:5, 8, 10, 15, 20), d.f=4,
 #'    degree=3, n=1000, k=5, p=0.8, type="k-fold", scat.plots=TRUE,
@@ -88,7 +91,9 @@
 #'  jp$model.validation.table
 #'  jp$jo.orders
 #'
-#'  ## Close the open gbsm.plots.pdf file
+#'  ## Close the open plots.gbsm.pdf file before running the 2nd example
+#'  RNGkind(sample.kind = "Rejection")
+#'  set.seed(0)
 #'  jp2 <- msco::gbsm_m.orders(s.data, t.data, p.d.mat,
 #'   metric="Sorensen_eqn", orders = c(3:5, 8, 10, 15, 20), d.f=4,
 #'    degree=3, n=1000, k=5, p=0.8, type="k-fold", scat.plots=TRUE,
@@ -99,7 +104,9 @@
 #'  jp2$model.validation.table
 #'  jp2$jo.orders
 #'
-#' ## Close the open gbsm.plots.pdf file
+#' ## Close the open plots.gbsm.pdf file before running the 3rd example
+#'  RNGkind(sample.kind = "Rejection")
+#'  set.seed(0)
 #'  jp3 <- msco::gbsm_m.orders(s.data, t.data, p.d.mat,
 #'   metric="raw", orders = c(3:5, 8, 10, 15, 20), d.f=4,
 #'    degree=3, n=1000, k=5, p=0.8, type="k-fold", scat.plots=TRUE,
