@@ -866,7 +866,6 @@ Jo.res <- function(){
 #'        taxa <- base::get(load("taxa.levels.csv"))
 #'        my.phylo.plot <- msco::s.info(s.data,
 #'                                  database = "ncbi",
-#'                                  t.omit = TRUE,
 #'                                  obs.taxa=TRUE,
 #'                                  taxa.levels = taxa,
 #'                                  Obs.data=TRUE,
