@@ -53,6 +53,7 @@ my.files <- gtools::mixedsort(list.files(path = my.path, pattern = "*.csv"))
 m.plots <- msco::m.Jo.plots(my.files = my.files)
 m.plots
 
+## Close the open pdf reader
 my.path2 <- system.file("extdata/myCSVs", package = "msco")
 setwd(my.path2)
 my.files2 <- gtools::mixedsort(list.files(path = my.path2, pattern = "*.csv"))

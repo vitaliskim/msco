@@ -38,15 +38,15 @@ respectively)}.
 
 ex.data <- read.csv(system.file("extdata", "274.csv", package = "msco"))
 jo_Obj <- msco::Jo.eng(ex.data, nReps = 999, All.plots = TRUE, s.dplot = FALSE, dig = 3)
-Jo.plots(jo_Obj)
+jplots <- msco::Jo.plots(jo_Obj)
 
 ex.data2 <- read.csv(system.file("extdata", "22.csv", package = "msco"))
 jo_Obj2 <- msco::Jo.eng(ex.data2, nReps = 999, All.plots = TRUE, s.dplot = FALSE, dig = 3)
-Jo.plots(jo_Obj2)
+jplots2 <- msco::Jo.plots(jo_Obj2)
 
 ex.data3 <- read.csv(system.file("extdata", "78.csv", package = "msco"))
 jo_Obj3 <- msco::Jo.eng(ex.data3, nReps = 999, All.plots = TRUE, s.dplot = FALSE, dig = 3)
-Jo.plots(jo_Obj3)
+jplots3 <- msco::Jo.plots(jo_Obj3)
 
 ex.data4 <- read.csv(system.file("extdata", "65.csv", package = "msco"))
 jo_Obj4 <- msco::Jo.eng(ex.data4, nReps = 999, All.plots = TRUE, s.dplot = FALSE, dig = 3)
