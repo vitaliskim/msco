@@ -89,9 +89,6 @@ my.taxa
 my.p.d.mat <- my.s.info$phylogenetic.distance.matrix
 my.p.d.mat
 
-dev.off()
-my.phylo.plot <- my.s.info$phylo.plot
-my.phylo.plot
 }
 }
 \references{
