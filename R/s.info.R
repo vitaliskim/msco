@@ -58,7 +58,6 @@
 #'
 #' my.s.info <- msco::s.info(s.data, database = "ncbi", obs.taxa=TRUE,
 #'  taxa.levels = taxa, Obs.data=TRUE, phy.d.mat=TRUE, phylo.plot = TRUE)
-#' my.s.info
 #'
 #' my.s.data <- my.s.info$s.data
 #' my.s.data

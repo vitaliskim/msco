@@ -104,11 +104,10 @@ my.res2
 my.path2 <- system.file("extdata/myCSVs", package = "msco")
 setwd(my.path2)
 my.files2 <- gtools::mixedsort(list.files(path = my.path2, pattern = "*.csv"))
-my.res3 <- msco::mJo.eng(my.files = my.files2[250:255], algo = "sim2", m.Jo.plots = TRUE,
-              my.Archs = FALSE, metric = "Jo.occ", nReps = 999, my.AICs = FALSE,
-              my.params = FALSE, my.best.mod2 = FALSE, my.best.mod3 = FALSE,
-              my.params_c.i = FALSE, my.r2 = FALSE, my.r2.s = FALSE,
-              my.params_c.i = TRUE, m.Jo.plots = TRUE)
+my.res3 <- msco::mJo.eng(my.files = my.files2[250:255], algo = "sim2", my.Archs = FALSE,
+              metric = "Jo.occ", nReps = 999, my.AICs = FALSE, my.params = FALSE,
+              my.best.mod2 = FALSE, my.best.mod3 = FALSE, my.params_c.i = TRUE,
+              my.r2 = FALSE, my.r2.s = FALSE, m.Jo.plots = TRUE)
 my.res3
  }
 }
