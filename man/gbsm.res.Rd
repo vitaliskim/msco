@@ -49,7 +49,6 @@ Returns all the results presented in Lagat \emph{et al}. (202Xb). To replicate
   taxa <- base::get(load("taxa.levels.csv"))
   my.phylo.plot <- msco::s.info(s.data,
                             database = "ncbi",
-                            t.omit = TRUE,
                             obs.taxa=TRUE,
                             taxa.levels = taxa,
                             Obs.data=TRUE,
