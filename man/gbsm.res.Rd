@@ -12,9 +12,9 @@ Returns all the results presented in Lagat \emph{et al}. (202Xb). To replicate
 \item \strong{Figs. 1}, \strong{5}, \strong{6}, \strong{7} and \strong{Tables 1} and \strong{2}, execute the following code:\preformatted{
  my.path <- system.file("extdata/gsmdat", package = "msco")
  setwd(my.path)
- s.data <- base::get(load("s.data.csv"))
- t.data <- base::get(load("t.data.csv"))
- p.d.mat <- base::get(load("p.d.mat.csv"))
+ s.data <- get(load("s.data.csv")) # Species-by-site matrix
+ t.data <- get(load("t.data.csv")) # Species-by-trait matrix
+ p.d.mat <- get(load("p.d.mat.csv")) # Species-by-species phylogenetic distance matrix
  RNGkind(sample.kind = "Rejection")
  set.seed(0)
  gb.res <- msco::gbsm_m.orders(s.data,
@@ -46,8 +46,8 @@ Returns all the results presented in Lagat \emph{et al}. (202Xb). To replicate
   library(V.PhyloMaker)
   my.path <- system.file("extdata/gsmdat", package = "msco")
   setwd(my.path)
-  s.data <- base::get(load("s.data.csv"))
-  taxa <- base::get(load("taxa.levels.csv"))
+  s.data <- get(load("s.data.csv")) ## Species-by-site matrix
+  taxa <- get(load("taxa.levels.csv")) ## Species taxa
   my.phylo.plot <- msco::s.info(s.data,
                             database = "ncbi",
                             obs.taxa=FALSE,
@@ -61,9 +61,9 @@ Returns all the results presented in Lagat \emph{et al}. (202Xb). To replicate
 \item \strong{Fig. 3}:
 }\preformatted{  my.path <- system.file("extdata/gsmdat", package = "msco")
   setwd(my.path)
-  s.data <- base::get(load("s.data.csv"))
-  t.data <- base::get(load("t.data.csv"))
-  p.d.mat <- base::get(load("p.d.mat.csv"))
+  s.data <- get(load("s.data.csv")) ## Species-by-site matrix
+  t.data <- get(load("t.data.csv")) ## Species-by-trait matrix
+  p.d.mat <- get(load("p.d.mat.csv")) ## Species-by-species pgylogenetic distance matrix
   my.gbsm <- msco::gbsm(s.data,
                     t.data,
                     p.d.mat,
@@ -85,9 +85,9 @@ Returns all the results presented in Lagat \emph{et al}. (202Xb). To replicate
 \item \strong{Fig. 4}:
 }\preformatted{  my.path <- system.file("extdata/gsmdat", package = "msco")
   setwd(my.path)
-  s.data <- base::get(load("s.data.csv"))
-  t.data <- base::get(load("t.data.csv"))
-  p.d.mat <- base::get(load("p.d.mat.csv"))
+  s.data <- get(load("s.data.csv")) ## Species-by-site matrix
+  t.data <- get(load("t.data.csv")) ## Species-by-trait matrix
+  p.d.mat <- get(load("p.d.mat.csv")) ## Species-by-species phylogenetic distance matrix
   RNGkind(sample.kind = "Rejection")
   set.seed(0)
   pe <- msco::pred.error.bands(s.data,

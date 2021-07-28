@@ -57,7 +57,7 @@ simulated or any known \code{.csv} binary data matrices serving as the proxies f
 presence/absence community data can be accessed with \link[msco]{Jo.plots} function.
 }
 \examples{
-s.arc <- Arch_schem()
+s.arc <- msco::Arch_schem()
 s.arc
 }
 \references{
@@ -72,8 +72,7 @@ Biogeogr.} \strong{10}, 337-343. \url{https://doi.org/10.1046/j.1466-822X.2001.0
 \item{Hein et al. (2014). Fish introductions reveal the temperature
 dependence of species interactions. \emph{Proc. R. Soc. B Biol. Sci.} \strong{281}.
 \url{https://doi.org/10.1098/rspb.2013.2641}}
-\item{Lagat, V. K., Latombe, G. and Hui, C. (202X). \emph{Designing a multi-species co-occurrence
-index to avoid Type II errors in null model testing for co-occurrence}. Manuscript submitted
-for publication.}
+\item{Lagat, V. K., Latombe, G. and Hui, C. (202X). \emph{A multi-species co-occurrence index to
+avoid type II errors in null model testing}. Manuscript submitted for publication.}
 }
 }

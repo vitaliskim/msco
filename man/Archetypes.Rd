@@ -53,21 +53,20 @@ function \link[msco]{Jo.eng} should suffice.
 my.path <- system.file("extdata", package = "msco")
 setwd(my.path)
 my.files <- gtools::mixedsort(list.files(path = my.path, pattern = "*.csv"))
-my.Archs <- Archetypes(my.files = my.files)
+my.Archs <- msco::Archetypes(my.files = my.files)
 my.Archs
 
 my.path2 <- system.file("extdata/myCSVs", package = "msco")
 setwd(my.path2)
 my.files2 <- gtools::mixedsort(list.files(path = my.path2, pattern = "*.csv"))
-my.Archs2 <- Archetypes(my.files = my.files2[250:255])
+my.Archs2 <- msco::Archetypes(my.files = my.files2[250:255])
 my.Archs2
 }
 }
 \references{
 \enumerate{
-\item{Lagat, V. K., Latombe, G. and Hui, C. (202X). \emph{Designing a multi-species
-co-occurrence index to avoid Type II errors in null model testing for
-co-occurrence}. Manuscript submitted for publication.}
+\item{Lagat, V. K., Latombe, G. and Hui, C. (202X). \emph{A multi-species co-occurrence index to avoid type
+II errors in null model testing}. Manuscript submitted for publication.}
 
 \item{Gotelli, N. J. (2000). Null model analysis of species co-occurrence patterns.
 \emph{Ecology, 81(9)}, 2606-2621. \url{https://doi.org/10.1890/0012-9658(2000)081[2606:NMAOSC]2.0.CO;2}}

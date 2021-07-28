@@ -88,9 +88,9 @@ functions employed, with predictors transformed using a linear combination of B-
 \dontrun{
  my.path <- system.file("extdata/gsmdat", package = "msco")
  setwd(my.path)
- s.data <- base::get(load("s.data.csv")) ## Species-by-site matrix
- t.data <- base::get(load("t.data.csv")) ## Species-by-trait matrix
- p.d.mat <- base::get(load("p.d.mat.csv")) ## Species-by-species phylogenetic distance matrix
+ s.data <- get(load("s.data.csv")) ## Species-by-site matrix
+ t.data <- get(load("t.data.csv")) ## Species-by-trait matrix
+ p.d.mat <- get(load("p.d.mat.csv")) ## Species-by-species phylogenetic distance matrix
 
  my.gbsm <- msco::gbsm(s.data, t.data, p.d.mat, metric = "Simpson_eqn",
   d.f=4, order.jo=3, degree=3, n=1000, b.plots=TRUE, scat.plot=TRUE,
@@ -115,9 +115,9 @@ fundamental spline functions and their limits. In \emph{IJ Schoenberg Selected P
 \item{Hastie, T., and Tibshirani, R. (1986). Generalized additive models. \emph{Stat. Sci. 1}(3),
 297-310. \url{https://doi.org/10.1214/ss/1177013604}}
 
-\item{Lagat, V. K., Latombe, G. and Hui, C. (202Xa). \emph{Designing a multi-species
-co-occurrence index to avoid Type II errors in null model testing for
-co-occurrence}. Manuscript submitted for publication.}
+\item{Lagat, V. K., Latombe, G. and Hui, C. (202Xa). \emph{A multi-species co-occurrence
+index to avoid type II errors in null model testing}. Manuscript submitted for
+publication.}
 
 \item{Lagat, V. K., Latombe, G. and Hui, C. (202Xb). \emph{Dissecting the effects of
 neutral encounter versus functional traits on multi-order species interactions

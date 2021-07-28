@@ -61,9 +61,9 @@ cross-validation approaches, see Lagat \emph{et al.} (202Xb).
 
 my.path <- system.file("extdata/gsmdat", package = "msco")
 setwd(my.path)
-s.data <- base::get(load("s.data.csv")) ## Species-by-site matrix
-t.data <- base::get(load("t.data.csv")) ## Species-by-trait matrix
-p.d.mat <- base::get(load("p.d.mat.csv")) ## Species-by-species phylogenetic distance matrix
+s.data <- get(load("s.data.csv")) ## Species-by-site matrix
+t.data <- get(load("t.data.csv")) ## Species-by-trait matrix
+p.d.mat <- get(load("p.d.mat.csv")) ## Species-by-species phylogenetic distance matrix
 
 gbsm_obj <- msco::gbsm(s.data, t.data, p.d.mat, metric= "Simpson_eqn", d.f=4,
  order.jo=3, degree=3, n=1000, b.plots=FALSE, scat.plot=FALSE, all.plots=FALSE,

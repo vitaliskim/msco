@@ -105,9 +105,9 @@
 #'    of the nine expected archetypes (see \link[msco]{Arch_schem}).}
 #' @references
 #' \enumerate{
-#'  \item{Lagat, V. K., Latombe, G. and Hui, C. (202X). *Designing a multi-species
-#'  co-occurrence index to avoid Type II errors in null model testing for
-#'   co-occurrence*. Manuscript submitted for publication.}
+#'  \item{Lagat, V. K., Latombe, G. and Hui, C. (202X). *A multi-species co-occurrence
+#'  index to avoid type II errors in null model testing*. Manuscript submitted for
+#'   publication.}
 #'
 #'  \item{Gotelli, N. J. (2000). Null model analysis of species co-occurrence patterns.
 #'  *Ecology, 81(9)*, 2606-2621. <https://doi.org/10.1890/0012-9658(2000)081[2606:NMAOSC]2.0.CO;2>}
@@ -115,7 +115,7 @@
 #' @examples
 #' ex.data <- read.csv(system.file("extdata", "274.csv", package = "msco"))
 #'
-#' j.en <- Jo.eng(ex.data, algo="sim2", metric = "j.occ", nReps = 999,
+#' j.en <- msco::Jo.eng(ex.data, algo="sim2", metric = "j.occ", nReps = 999,
 #'            dig = 3, s.dplot = FALSE, All.plots = TRUE, Jo.coeff = TRUE,
 #'            my.AIC = TRUE, my.rsq = TRUE, Exp_Reg = TRUE, P.law_Reg = TRUE,
 #'            Exp_p.l_Reg = TRUE, Obs.data = FALSE, Sim.data = FALSE,

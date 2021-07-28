@@ -34,9 +34,8 @@
 #' }
 #' @references
 #' \enumerate{
-#' \item{Lagat, V. K., Latombe, G. and Hui, C. (202X). *Designing a multi-species
-#'  co-occurrence index to avoid Type II errors in null model testing for
-#'   co-occurrence*. Manuscript submitted for publication.}
+#' \item{Lagat, V. K., Latombe, G. and Hui, C. (202X). *A multi-species co-occurrence index to avoid type
+#'  II errors in null model testing*. Manuscript submitted for publication.}
 #'
 #' \item{Gotelli, N. J. (2000). Null model analysis of species co-occurrence patterns.
 #'  *Ecology, 81(9)*, 2606-2621. <https://doi.org/10.1890/0012-9658(2000)081[2606:NMAOSC]2.0.CO;2>}
@@ -47,13 +46,13 @@
 #' my.path <- system.file("extdata", package = "msco")
 #' setwd(my.path)
 #' my.files <- gtools::mixedsort(list.files(path = my.path, pattern = "*.csv"))
-#' my.Archs <- Archetypes(my.files = my.files)
+#' my.Archs <- msco::Archetypes(my.files = my.files)
 #' my.Archs
 #'
 #' my.path2 <- system.file("extdata/myCSVs", package = "msco")
 #' setwd(my.path2)
 #' my.files2 <- gtools::mixedsort(list.files(path = my.path2, pattern = "*.csv"))
-#' my.Archs2 <- Archetypes(my.files = my.files2[250:255])
+#' my.Archs2 <- msco::Archetypes(my.files = my.files2[250:255])
 #' my.Archs2
 #' }
 #' @export
@@ -119,16 +118,15 @@ Archetypes <- function(my.files, algo = "sim2", metric = "J.occ", nReps = 999){
 #' \item{Hein et al. (2014). Fish introductions reveal the temperature
 #'  dependence of species interactions. *Proc. R. Soc. B Biol. Sci.* **281**.
 #'   <https://doi.org/10.1098/rspb.2013.2641>}
-#' \item{Lagat, V. K., Latombe, G. and Hui, C. (202X). *Designing a multi-species co-occurrence
-#'  index to avoid Type II errors in null model testing for co-occurrence*. Manuscript submitted
-#'   for publication.}
+#' \item{Lagat, V. K., Latombe, G. and Hui, C. (202X). *A multi-species co-occurrence index to
+#'  avoid type II errors in null model testing*. Manuscript submitted for publication.}
 #' }
 #' @note `Arch_schem` is not a generic function which can take in any dataset and give the outputs,
 #'  but a path to a schematic diagram saved in this package. A representational figure from empirical,
 #'   simulated or any known `.csv` binary data matrices serving as the proxies for species-by-site
 #'    presence/absence community data can be accessed with \link[msco]{Jo.plots} function.
 #'
-#' @examples s.arc <- Arch_schem()
+#' @examples s.arc <- msco::Arch_schem()
 #' s.arc
 #' @export
 #' @md
@@ -163,9 +161,8 @@ Arch_schem <- function(){
 #'  communities (`n`) analyzed.}
 #' @references
 #' \enumerate{
-#' \item{Lagat, V. K., Latombe, G. and Hui, C. (202X). *Designing a multi-species
-#'  co-occurrence index to avoid Type II errors in null model testing for
-#'   co-occurrence*. Manuscript submitted for publication.}
+#' \item{Lagat, V. K., Latombe, G. and Hui, C. (202X). *A multi-species co-occurrence index to
+#'  avoid type II errors in null model testing*. Manuscript submitted for publication.}
 #'
 #' \item{Petrossian, G. A., and Maxfield, M. (2018). An information theory approach to hypothesis testing
 #'   in criminological research. *Crime Science*, 7(1), 2.
@@ -177,13 +174,13 @@ Arch_schem <- function(){
 #' my.path <- system.file("extdata", package = "msco")
 #' setwd(my.path)
 #' my.files <- gtools::mixedsort(list.files(path = my.path, pattern = "*.csv"))
-#' my.best.mod2 <- best.mod2(my.files = my.files)
+#' my.best.mod2 <- msco::best.mod2(my.files = my.files)
 #' my.best.mod2
 #'
 #' my.path2 <- system.file("extdata/myCSVs", package = "msco")
 #' setwd(my.path2)
 #' my.files2 <- gtools::mixedsort(list.files(path = my.path2, pattern = "*.csv"))
-#' my2.best.mod2 <- best.mod2(my.files = my.files2[250:255])
+#' my2.best.mod2 <- msco::best.mod2(my.files = my.files2[250:255])
 #' my2.best.mod2
 #' }
 #' @export
@@ -221,9 +218,8 @@ best.mod2 <- function(my.files){
 #'  communities (`n`) analyzed.}
 #' @references
 #' \enumerate{
-#' \item{Lagat, V. K., Latombe, G. and Hui, C. (202X). *Designing a multi-species
-#'  co-occurrence index to avoid Type II errors in null model testing for
-#'   co-occurrence*. Manuscript submitted for publication.}
+#' \item{Lagat, V. K., Latombe, G. and Hui, C. (202X). *A multi-species co-occurrence index to
+#'  avoid type II errors in null model testing*. Manuscript submitted for publication.}
 #'
 #' \item{Petrossian, G. A., and Maxfield, M. (2018). An information theory approach to hypothesis testing
 #'   in criminological research. *Crime Science*, 7(1), 2.
@@ -235,13 +231,13 @@ best.mod2 <- function(my.files){
 #' my.path <- system.file("extdata", package = "msco")
 #' setwd(my.path)
 #' my.files <- gtools::mixedsort(list.files(path = my.path, pattern = "*.csv"))
-#' my.best.mod3 <- best.mod3(my.files = my.files)
+#' my.best.mod3 <- msco::best.mod3(my.files = my.files)
 #' my.best.mod3
 #'
 #' my.path2 <- system.file("extdata/myCSVs", package = "msco")
 #' setwd(my.path2)
 #' my.files2 <- gtools::mixedsort(list.files(path = my.path2, pattern = "*.csv"))
-#' my2.best.mod3 <- best.mod3(my.files = my.files2[250:255])
+#' my2.best.mod3 <- msco::best.mod3(my.files = my.files2[250:255])
 #' my2.best.mod3
 #' }
 #' @export
@@ -275,9 +271,8 @@ best.mod3 <- function(my.files){
 #'  decline regression models.}
 #' @references
 #' \enumerate{
-#' \item{Lagat, V. K., Latombe, G. and Hui, C. (202X). *Designing a multi-species
-#'  co-occurrence index to avoid Type II errors in null model testing for
-#'   co-occurrence*. Manuscript submitted for publication.}
+#' \item{Lagat, V. K., Latombe, G. and Hui, C. (202X). *A multi-species co-occurrence index to
+#'  avoid type II errors in null model testing*. Manuscript submitted for publication.}
 #' \item{Petrossian, G. A., and Maxfield, M. (2018). An information theory approach to hypothesis testing
 #'   in criminological research. *Crime Science*, 7(1), 2.
 #'    <https://doi.org/10.1186/s40163-018-0077-5>}
@@ -288,13 +283,13 @@ best.mod3 <- function(my.files){
 #' my.path <- system.file("extdata", package = "msco")
 #' setwd(my.path)
 #' my.files <- gtools::mixedsort(list.files(path = my.path, pattern = "*.csv"))
-#' my.aic <- m.AICs(my.files = my.files)
+#' my.aic <- msco::m.AICs(my.files = my.files)
 #' my.aic
 #'
 #' my.path2 <- system.file("extdata/myCSVs", package = "msco")
 #' setwd(my.path2)
 #' my.files2 <- gtools::mixedsort(list.files(path = my.path2, pattern = "*.csv"))
-#' my.aic2 <- m.AICs(my.files = my.files2[250:255])
+#' my.aic2 <- msco::m.AICs(my.files = my.files2[250:255])
 #' my.aic2
 #' }
 #' @export
@@ -333,22 +328,21 @@ m.AICs <- function(my.files){
 #' \item{a.expl}{The `a` parameter estimate of the exponential-power law form of joint occupancy decline.}
 #' \item{b.expl}{The `b` parameter estimate of the exponential-power law form of joint occupancy decline.}
 #' \item{c.expl}{The `c` parameter estimate of the exponential-power law form of joint occupancy decline.}
-#' @references Lagat, V. K., Latombe, G. and Hui, C. (202X). *Designing a multi-species
-#'  co-occurrence index to avoid Type II errors in null model testing for
-#'   co-occurrence*. Manuscript submitted for publication.
+#' @references Lagat, V. K., Latombe, G. and Hui, C. (202X). *A multi-species co-occurrence index to
+#'  avoid type II errors in null model testing*. Manuscript submitted for publication.
 #' @examples
 #' \dontrun{
 #'
 #' my.path <- system.file("extdata", package = "msco")
 #' setwd(my.path)
 #' my.files <- gtools::mixedsort(list.files(path = my.path, pattern = "*.csv"))
-#' my.params <- params(my.files = my.files)
+#' my.params <- msco::params(my.files = my.files)
 #' my.params
 #'
 #' my.path2 <- system.file("extdata/myCSVs", package = "msco")
 #' setwd(my.path2)
 #' my.files2 <- gtools::mixedsort(list.files(path = my.path2, pattern = "*.csv"))
-#' my.params2 <- params(my.files = my.files2[250:255])
+#' my.params2 <- msco::params(my.files = my.files2[250:255])
 #' my.params2
 #' }
 #' @export
@@ -405,22 +399,21 @@ params <- function(my.files){
 #'  form of joint occupancy decline, under every archetype.}
 #' \item{c.expl}{The 95% closed confidence interval of the `c` parameter estimates of the exponential-power law
 #'  form of joint occupancy decline, under every archetype.}
-#' @references Lagat, V. K., Latombe, G. and Hui, C. (202X). *Designing a multi-species
-#'  co-occurrence index to avoid Type II errors in null model testing for
-#'   co-occurrence*. Manuscript submitted for publication.
+#' @references Lagat, V. K., Latombe, G. and Hui, C. (202X). *A multi-species co-occurrence index to
+#'  avoid type II errors in null model testing*. Manuscript submitted for publication.
 #' @examples
 #' \dontrun{
 #'
 #' my.path <- system.file("extdata", package = "msco")
 #' setwd(my.path)
 #' my.files <- gtools::mixedsort(list.files(path = my.path, pattern = "*.csv"))
-#' my.params_c.i <- params_c.i(my.files = my.files)
+#' my.params_c.i <- msco::params_c.i(my.files = my.files)
 #' my.params_c.i
 #'
 #' my.path2 <- system.file("extdata/myCSVs", package = "msco")
 #' setwd(my.path2)
 #' my.files2 <- gtools::mixedsort(list.files(path = my.path2, pattern = "*.csv"))
-#' my.params_c.i2 <- params_c.i(my.files = my.files2[250:255])
+#' my.params_c.i2 <- msco::params_c.i(my.files = my.files2[250:255])
 #' my.params_c.i2
 #' }
 #' @export
@@ -452,26 +445,26 @@ params_c.i <- function(my.files){
 #'      the affixed `AIC` and `rsq` values on (b), (c) and (d) plots,
 #'       respectively)}.
 #'   }
-#' @references Lagat, V. K., Latombe, G. and Hui, C. (202X). *Designing a multi-species
-#'  co-occurrence index to avoid Type II errors in null model testing for
-#'   co-occurrence*. Manuscript submitted for publication.
+#' @references Lagat, V. K., Latombe, G. and Hui, C. (202X). *A multi-species co-occurrence
+#'  index to avoid type II errors in null model testing*. Manuscript submitted for
+#'   publication.
 #' @examples
 #' \dontrun{
 #'
 #' ex.data <- read.csv(system.file("extdata", "274.csv", package = "msco"))
-#' jo_Obj <- Jo.eng(ex.data, nReps = 999, All.plots = TRUE, s.dplot = FALSE, dig = 3)
+#' jo_Obj <- msco::Jo.eng(ex.data, nReps = 999, All.plots = TRUE, s.dplot = FALSE, dig = 3)
 #' Jo.plots(jo_Obj)
 #'
 #' ex.data2 <- read.csv(system.file("extdata", "22.csv", package = "msco"))
-#' jo_Obj2 <- Jo.eng(ex.data2, nReps = 999, All.plots = TRUE, s.dplot = FALSE, dig = 3)
+#' jo_Obj2 <- msco::Jo.eng(ex.data2, nReps = 999, All.plots = TRUE, s.dplot = FALSE, dig = 3)
 #' Jo.plots(jo_Obj2)
 #'
 #' ex.data3 <- read.csv(system.file("extdata", "78.csv", package = "msco"))
-#' jo_Obj3 <- Jo.eng(ex.data3, nReps = 999, All.plots = TRUE, s.dplot = FALSE, dig = 3)
+#' jo_Obj3 <- msco::Jo.eng(ex.data3, nReps = 999, All.plots = TRUE, s.dplot = FALSE, dig = 3)
 #' Jo.plots(jo_Obj3)
 #'
 #' ex.data4 <- read.csv(system.file("extdata", "65.csv", package = "msco"))
-#' jo_Obj4 <- Jo.eng(ex.data4, nReps = 999, All.plots = TRUE, s.dplot = FALSE, dig = 3)
+#' jo_Obj4 <- msco::Jo.eng(ex.data4, nReps = 999, All.plots = TRUE, s.dplot = FALSE, dig = 3)
 #' Jo.plots(jo_Obj4)
 #' }
 #' @export
@@ -515,9 +508,9 @@ Jo.plots <- function(jo_Obj){
 #'
 #' @references
 #' \enumerate{
-#' \item{Lagat, V. K., Latombe, G. and Hui, C. (202X). *Designing a multi-species
-#'  co-occurrence index to avoid Type II errors in null model testing for
-#'   co-occurrence*. Manuscript submitted for publication.}
+#' \item{Lagat, V. K., Latombe, G. and Hui, C. (202X). *A multi-species co-occurrence
+#'  index to avoid type II errors in null model testing*. Manuscript submitted for
+#'   publication.}
 #'
 #' \item{Gotelli, N. J. (2000). Null model analysis of species co-occurrence patterns.
 #'  *Ecology, 81(9)*, 2606-2621. <https://doi.org/10.1890/0012-9658(2000)081[2606:NMAOSC]2.0.CO;2>}
@@ -529,13 +522,13 @@ Jo.plots <- function(jo_Obj){
 #' my.path <- system.file("extdata", package = "msco")
 #' setwd(my.path)
 #' my.files <- gtools::mixedsort(list.files(path = my.path, pattern = "*.csv"))
-#' m.plots <- m.Jo.plots(my.files = my.files)
+#' m.plots <- msco::m.Jo.plots(my.files = my.files)
 #' m.plots
 #'
 #' my.path2 <- system.file("extdata/myCSVs", package = "msco")
 #' setwd(my.path2)
 #' my.files2 <- gtools::mixedsort(list.files(path = my.path2, pattern = "*.csv"))
-#' m.plots2 <- m.Jo.plots(my.files = my.files2[250:255])
+#' m.plots2 <- msco::m.Jo.plots(my.files = my.files2[250:255])
 #' m.plots2
 #' }
 #' @export
@@ -565,9 +558,9 @@ m.Jo.plots <- function(my.files, algo = "sim2", metric = "J.occ", nReps = 999){
 #' @references
 #' \enumerate{
 #'
-#' \item{Lagat, V. K., Latombe, G. and Hui, C. (202X). *Designing a multi-species
-#'  co-occurrence index to avoid Type II errors in null model testing for
-#'   co-occurrence*. Manuscript submitted for publication.}
+#' \item{Lagat, V. K., Latombe, G. and Hui, C. (202X). *A multi-species co-occurrence
+#'  index to avoid type II errors in null model testing*. Manuscript submitted for
+#'   publication.}
 #'
 #' \item{Pearson, K. (1895) VII. Note on regression and inheritance in the
 #'  case of two parents. *proceedings of the royal society of London,* **58**:240-242.
@@ -580,13 +573,13 @@ m.Jo.plots <- function(my.files, algo = "sim2", metric = "J.occ", nReps = 999){
 #' my.path <- system.file("extdata", package = "msco")
 #' setwd(my.path)
 #' my.files <- gtools::mixedsort(list.files(path = my.path, pattern = "*.csv"))
-#' my.r2 <- rsq(my.files = my.files)
+#' my.r2 <- msco::rsq(my.files = my.files)
 #' my.r2
 #'
 #' my.path2 <- system.file("extdata/myCSVs", package = "msco")
 #' setwd(my.path2)
 #' my.files2 <- gtools::mixedsort(list.files(path = my.path2, pattern = "*.csv"))
-#' my2.r2 <- rsq(my.files = my.files2[250:255])
+#' my2.r2 <- msco::rsq(my.files = my.files2[250:255])
 #' my2.r2
 #' }
 #' @export
@@ -633,9 +626,9 @@ rsq <- function(my.files){
 #' @references
 #' \enumerate{
 #'
-#' \item{Lagat, V. K., Latombe, G. and Hui, C. (202X). *Designing a multi-species
-#'  co-occurrence index to avoid Type II errors in null model testing for
-#'   co-occurrence*. Manuscript submitted for publication.}
+#' \item{Lagat, V. K., Latombe, G. and Hui, C. (202X). *A multi-species co-occurrence
+#'  index to avoid type II errors in null model testing*. Manuscript submitted for
+#'   publication.}
 #'
 #' \item{Pearson, K. (1895) VII. Note on regression and inheritance in the
 #'  case of two parents. *proceedings of the royal society of London,* **58**:240-242.
@@ -648,13 +641,13 @@ rsq <- function(my.files){
 #'my.path <- system.file("extdata", package = "msco")
 #' setwd(my.path)
 #' my.files <- gtools::mixedsort(list.files(path = my.path, pattern = "*.csv"))
-#' my.rsq.s <- rsq.s(my.files = my.files)
+#' my.rsq.s <- msco::rsq.s(my.files = my.files)
 #' my.rsq.s
 #'
 #' my.path2 <- system.file("extdata/myCSVs", package = "msco")
 #' setwd(my.path2)
 #' my.files2 <- gtools::mixedsort(list.files(path = my.path2, pattern = "*.csv"))
-#' my2.rsq.s <- rsq.s(my.files = my.files2[250:255])
+#' my2.rsq.s <- msco::rsq.s(my.files = my.files2[250:255])
 #' my2.rsq.s
 #' }
 #' @export
@@ -678,16 +671,16 @@ rsq.s <- function(my.files){
 #' @return Returns a `list` with the following outputs:
 #' \item{jo.val}{Joint occupancy value.}
 #' \item{jo.sd}{The standard deviation of `jo.val`.}
-#' @references Lagat, V. K., Latombe, G. and Hui, C. (202X). *Designing a multi-species
-#'  co-occurrence index to avoid Type II errors in null model testing for
-#'   co-occurrence*. Manuscript submitted for publication.
+#' @references Lagat, V. K., Latombe, G. and Hui, C. (202X). *A multi-species co-occurrence
+#'  index to avoid type II errors in null model testing*. Manuscript submitted for
+#'   publication.
 #' @examples
 #' ex.data <- read.csv(system.file("extdata", "274.csv", package = "msco"))
-#' jo <- j.occ(ex.data, order = 3)
+#' jo <- msco::j.occ(ex.data, order = 3)
 #' jo
 #'
 #' ex.data2 <- read.csv(system.file("extdata", "65.csv", package = "msco"))
-#' jo2 <- j.occ(ex.data2, order = 3)
+#' jo2 <- msco::j.occ(ex.data2, order = 3)
 #' jo2
 #' @export
 #' @md
@@ -733,16 +726,16 @@ j.occ<-function(s.data, order){
 #' @return Returns a `list` with the following outputs:
 #' \item{jo.vals}{A vector of joint occupancy values for a range number of species (in `orders`).}
 #' \item{jo.sds}{A vector of standard deviations of `jo.vals`.}
-#' @references Lagat, V. K., Latombe, G. and Hui, C. (202X). *Designing a multi-species
-#'  co-occurrence index to avoid Type II errors in null model testing for
-#'   co-occurrence*. Manuscript submitted for publication.
+#' @references Lagat, V. K., Latombe, G. and Hui, C. (202X). *A multi-species co-occurrence
+#'  index to avoid type II errors in null model testing*. Manuscript submitted for
+#'   publication.
 #' @examples
 #' ex.data <- read.csv(system.file("extdata", "274.csv", package = "msco"))
-#' jos <- j.occs(ex.data, orders = 1:nrow(ex.data))
+#' jos <- msco::j.occs(ex.data, orders = 1:nrow(ex.data))
 #' jos
 #'
 #' ex.data2 <- read.csv(system.file("extdata", "65.csv", package = "msco"))
-#' jos2 <- j.occs(ex.data2, orders = 1:nrow(ex.data))
+#' jos2 <- msco::j.occs(ex.data2, orders = 1:nrow(ex.data))
 #' jos2
 #' @export
 #' @md
@@ -791,14 +784,14 @@ j.occs<-function(s.data, orders = 1:nrow(s.data)){
 #'  **Caveat:** The above code can take approximately 10 minutes to execute. It took 10.39014 minutes to run
 #'   (and output results) on a 64 bit system with 8 GB RAM and 3.60 GHz CPU.
 #'
-#' @references Lagat, V. K., Latombe, G. and Hui, C. (202Xa). *Designing a multi-species
-#'  co-occurrence index to avoid Type II errors in null model testing for
-#'   co-occurrence*. Manuscript submitted for publication.
+#' @references Lagat, V. K., Latombe, G. and Hui, C. (202Xa). *A multi-species co-occurrence
+#'  index to avoid type II errors in null model testing*. Manuscript submitted for
+#'   publication.
 #'
 #' @examples
 #' \dontrun{
 #'
-#' ms.res <- Jo.res()
+#' ms.res <- msco::Jo.res()
 #' ms.res$r2.s
 #' ms.res$best.mod2
 #' ms.res$best.mod3
@@ -828,9 +821,9 @@ Jo.res <- function(){
 #'
 #'    my.path <- system.file("extdata/gsmdat", package = "msco")
 #'    setwd(my.path)
-#'    s.data <- base::get(load("s.data.csv"))
-#'    t.data <- base::get(load("t.data.csv"))
-#'    p.d.mat <- base::get(load("p.d.mat.csv"))
+#'    s.data <- get(load("s.data.csv")) # Species-by-site matrix
+#'    t.data <- get(load("t.data.csv")) # Species-by-trait matrix
+#'    p.d.mat <- get(load("p.d.mat.csv")) # Species-by-species phylogenetic distance matrix
 #'    RNGkind(sample.kind = "Rejection")
 #'    set.seed(0)
 #'    gb.res <- msco::gbsm_m.orders(s.data,
@@ -864,8 +857,8 @@ Jo.res <- function(){
 #'        library(V.PhyloMaker)
 #'        my.path <- system.file("extdata/gsmdat", package = "msco")
 #'        setwd(my.path)
-#'        s.data <- base::get(load("s.data.csv"))
-#'        taxa <- base::get(load("taxa.levels.csv"))
+#'        s.data <- get(load("s.data.csv")) ## Species-by-site matrix
+#'        taxa <- get(load("taxa.levels.csv")) ## Species taxa
 #'        my.phylo.plot <- msco::s.info(s.data,
 #'                                  database = "ncbi",
 #'                                  obs.taxa=FALSE,
@@ -880,9 +873,9 @@ Jo.res <- function(){
 #'      ```
 #'        my.path <- system.file("extdata/gsmdat", package = "msco")
 #'        setwd(my.path)
-#'        s.data <- base::get(load("s.data.csv"))
-#'        t.data <- base::get(load("t.data.csv"))
-#'        p.d.mat <- base::get(load("p.d.mat.csv"))
+#'        s.data <- get(load("s.data.csv")) ## Species-by-site matrix
+#'        t.data <- get(load("t.data.csv")) ## Species-by-trait matrix
+#'        p.d.mat <- get(load("p.d.mat.csv")) ## Species-by-species pgylogenetic distance matrix
 #'        my.gbsm <- msco::gbsm(s.data,
 #'                          t.data,
 #'                          p.d.mat,
@@ -904,9 +897,9 @@ Jo.res <- function(){
 #'      ```
 #'        my.path <- system.file("extdata/gsmdat", package = "msco")
 #'        setwd(my.path)
-#'        s.data <- base::get(load("s.data.csv"))
-#'        t.data <- base::get(load("t.data.csv"))
-#'        p.d.mat <- base::get(load("p.d.mat.csv"))
+#'        s.data <- get(load("s.data.csv")) ## Species-by-site matrix
+#'        t.data <- get(load("t.data.csv")) ## Species-by-trait matrix
+#'        p.d.mat <- get(load("p.d.mat.csv")) ## Species-by-species phylogenetic distance matrix
 #'        RNGkind(sample.kind = "Rejection")
 #'        set.seed(0)
 #'        pe <- msco::pred.error.bands(s.data,

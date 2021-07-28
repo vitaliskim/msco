@@ -33,22 +33,22 @@ output of the function \link[msco]{Jo.eng} should suffice.
 my.path <- system.file("extdata", package = "msco")
 setwd(my.path)
 my.files <- gtools::mixedsort(list.files(path = my.path, pattern = "*.csv"))
-my.r2 <- rsq(my.files = my.files)
+my.r2 <- msco::rsq(my.files = my.files)
 my.r2
 
 my.path2 <- system.file("extdata/myCSVs", package = "msco")
 setwd(my.path2)
 my.files2 <- gtools::mixedsort(list.files(path = my.path2, pattern = "*.csv"))
-my2.r2 <- rsq(my.files = my.files2[250:255])
+my2.r2 <- msco::rsq(my.files = my.files2[250:255])
 my2.r2
 }
 }
 \references{
 \enumerate{
 
-\item{Lagat, V. K., Latombe, G. and Hui, C. (202X). \emph{Designing a multi-species
-co-occurrence index to avoid Type II errors in null model testing for
-co-occurrence}. Manuscript submitted for publication.}
+\item{Lagat, V. K., Latombe, G. and Hui, C. (202X). \emph{A multi-species co-occurrence
+index to avoid type II errors in null model testing}. Manuscript submitted for
+publication.}
 
 \item{Pearson, K. (1895) VII. Note on regression and inheritance in the
 case of two parents. \emph{proceedings of the royal society of London,} \strong{58}:240-242.

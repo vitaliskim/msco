@@ -73,8 +73,8 @@ remotes::install_github("jinyizju/V.PhyloMaker", force = TRUE)
 library(V.PhyloMaker)
 my.path <- system.file("extdata/gsmdat", package = "msco")
 setwd(my.path)
-s.data <- base::get(load("s.data.csv"))
-taxa <- base::get(load("taxa.levels.csv"))
+s.data <- get(load("s.data.csv"))
+taxa <- get(load("taxa.levels.csv"))
 
 my.s.info <- msco::s.info(s.data, database = "ncbi", obs.taxa=TRUE,
  taxa.levels = taxa, Obs.data=TRUE, phy.d.mat=TRUE, phylo.plot = TRUE)

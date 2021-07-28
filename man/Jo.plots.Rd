@@ -37,24 +37,24 @@ respectively)}.
 \dontrun{
 
 ex.data <- read.csv(system.file("extdata", "274.csv", package = "msco"))
-jo_Obj <- Jo.eng(ex.data, nReps = 999, All.plots = TRUE, s.dplot = FALSE, dig = 3)
+jo_Obj <- msco::Jo.eng(ex.data, nReps = 999, All.plots = TRUE, s.dplot = FALSE, dig = 3)
 Jo.plots(jo_Obj)
 
 ex.data2 <- read.csv(system.file("extdata", "22.csv", package = "msco"))
-jo_Obj2 <- Jo.eng(ex.data2, nReps = 999, All.plots = TRUE, s.dplot = FALSE, dig = 3)
+jo_Obj2 <- msco::Jo.eng(ex.data2, nReps = 999, All.plots = TRUE, s.dplot = FALSE, dig = 3)
 Jo.plots(jo_Obj2)
 
 ex.data3 <- read.csv(system.file("extdata", "78.csv", package = "msco"))
-jo_Obj3 <- Jo.eng(ex.data3, nReps = 999, All.plots = TRUE, s.dplot = FALSE, dig = 3)
+jo_Obj3 <- msco::Jo.eng(ex.data3, nReps = 999, All.plots = TRUE, s.dplot = FALSE, dig = 3)
 Jo.plots(jo_Obj3)
 
 ex.data4 <- read.csv(system.file("extdata", "65.csv", package = "msco"))
-jo_Obj4 <- Jo.eng(ex.data4, nReps = 999, All.plots = TRUE, s.dplot = FALSE, dig = 3)
+jo_Obj4 <- msco::Jo.eng(ex.data4, nReps = 999, All.plots = TRUE, s.dplot = FALSE, dig = 3)
 Jo.plots(jo_Obj4)
 }
 }
 \references{
-Lagat, V. K., Latombe, G. and Hui, C. (202X). \emph{Designing a multi-species
-co-occurrence index to avoid Type II errors in null model testing for
-co-occurrence}. Manuscript submitted for publication.
+Lagat, V. K., Latombe, G. and Hui, C. (202X). \emph{A multi-species co-occurrence
+index to avoid type II errors in null model testing}. Manuscript submitted for
+publication.
 }

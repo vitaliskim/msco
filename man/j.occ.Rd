@@ -24,15 +24,15 @@ simultaneously), and its standard deviation.
 }
 \examples{
 ex.data <- read.csv(system.file("extdata", "274.csv", package = "msco"))
-jo <- j.occ(ex.data, order = 3)
+jo <- msco::j.occ(ex.data, order = 3)
 jo
 
 ex.data2 <- read.csv(system.file("extdata", "65.csv", package = "msco"))
-jo2 <- j.occ(ex.data2, order = 3)
+jo2 <- msco::j.occ(ex.data2, order = 3)
 jo2
 }
 \references{
-Lagat, V. K., Latombe, G. and Hui, C. (202X). \emph{Designing a multi-species
-co-occurrence index to avoid Type II errors in null model testing for
-co-occurrence}. Manuscript submitted for publication.
+Lagat, V. K., Latombe, G. and Hui, C. (202X). \emph{A multi-species co-occurrence
+index to avoid type II errors in null model testing}. Manuscript submitted for
+publication.
 }

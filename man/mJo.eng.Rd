@@ -86,7 +86,7 @@ data matrices at once. If one community matrix is analyzed, the outputs of the f
 my.path <- system.file("extdata", package = "msco")
 setwd(my.path)
 my.files <- gtools::mixedsort(list.files(path = my.path, pattern = "*.csv"))
-my.res <- mJo.eng(my.files = my.files, algo = "sim2", my.Archs = TRUE,
+my.res <- msco::mJo.eng(my.files = my.files, algo = "sim2", my.Archs = TRUE,
              metric = "Jo.occ", nReps = 999, my.AICs = FALSE, my.params = FALSE,
              my.best.mod2 = FALSE, my.best.mod3 = FALSE, my.params_c.i = FALSE,
              my.r2 = FALSE, my.r2.s = FALSE, m.Jo.plots = FALSE)
@@ -95,7 +95,7 @@ my.res
 my.path2 <- system.file("extdata/myCSVs", package = "msco")
 setwd(my.path2)
 my.files2 <- gtools::mixedsort(list.files(path = my.path2, pattern = "*.csv"))
-my.res2 <- mJo.eng(my.files = my.files2[250:255], algo = "sim2", my.Archs = FALSE,
+my.res2 <- msco::mJo.eng(my.files = my.files2[250:255], algo = "sim2", my.Archs = FALSE,
               metric = "Jo.occ", nReps = 999, my.AICs = FALSE, my.params = TRUE,
               my.best.mod2 = FALSE, my.best.mod3 = FALSE, my.params_c.i = FALSE,
               my.r2 = FALSE, my.r2.s = FALSE, m.Jo.plots = FALSE)
@@ -104,7 +104,7 @@ my.res2
 my.path2 <- system.file("extdata/myCSVs", package = "msco")
 setwd(my.path2)
 my.files2 <- gtools::mixedsort(list.files(path = my.path2, pattern = "*.csv"))
-my.res3 <- mJo.eng(my.files = my.files2[250:255], algo = "sim2", m.Jo.plots = TRUE,
+my.res3 <- msco::mJo.eng(my.files = my.files2[250:255], algo = "sim2", m.Jo.plots = TRUE,
               my.Archs = FALSE, metric = "Jo.occ", nReps = 999, my.AICs = FALSE,
               my.params = FALSE, my.best.mod2 = FALSE, my.best.mod3 = FALSE,
               my.params_c.i = FALSE, my.r2 = FALSE, my.r2.s = FALSE,
@@ -114,9 +114,9 @@ my.res3
 }
 \references{
 \enumerate{
-\item{Lagat, V. K., Latombe, G. and Hui, C. (202X). \emph{Designing a multi-species
-co-occurrence index to avoid Type II errors in null model testing for
-co-occurrence}. Manuscript submitted for publication.}
+\item{Lagat, V. K., Latombe, G. and Hui, C. (202X). \emph{A multi-species co-occurrence
+index to avoid type II errors in null model testing}. Manuscript submitted for
+publication.}
 
 \item{Gotelli, N. J. (2000). Null model analysis of species co-occurrence patterns.
 \emph{Ecology, 81(9)}, 2606-2621. \url{https://doi.org/10.1890/0012-9658(2000)081[2606:NMAOSC]2.0.CO;2}}

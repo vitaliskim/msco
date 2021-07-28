@@ -37,7 +37,7 @@ in Lagat \emph{et al}. (202Xa).
 \examples{
 \dontrun{
 
-ms.res <- Jo.res()
+ms.res <- msco::Jo.res()
 ms.res$r2.s
 ms.res$best.mod2
 ms.res$best.mod3
@@ -45,7 +45,7 @@ ms.res$params_c.i
 }
 }
 \references{
-Lagat, V. K., Latombe, G. and Hui, C. (202Xa). \emph{Designing a multi-species
-co-occurrence index to avoid Type II errors in null model testing for
-co-occurrence}. Manuscript submitted for publication.
+Lagat, V. K., Latombe, G. and Hui, C. (202Xa). \emph{A multi-species co-occurrence
+index to avoid type II errors in null model testing}. Manuscript submitted for
+publication.
 }

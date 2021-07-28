@@ -61,9 +61,9 @@
 #'  * `jo.orders`: &nbsp; Orders of joint occupancy used.
 #' @references
 #' \enumerate{
-#'  \item{Lagat, V. K., Latombe, G. and Hui, C. (202Xa). *Designing a multi-species
-#'  co-occurrence index to avoid Type II errors in null model testing for
-#'   co-occurrence*. Manuscript submitted for publication.}
+#'  \item{Lagat, V. K., Latombe, G. and Hui, C. (202Xa). *A multi-species co-occurrence
+#'  index to avoid type II errors in null model testing*. Manuscript submitted for
+#'   publication.}
 #'
 #'  \item{Lagat, V. K., Latombe, G. and Hui, C. (202Xb). *Dissecting the effects of
 #'   neutral encounter versus functional traits on multi-order species interactions
@@ -74,9 +74,9 @@
 #' \dontrun{
 #'  my.path <- system.file("extdata/gsmdat", package = "msco")
 #'  setwd(my.path)
-#'  s.data <- base::get(load("s.data.csv")) ## Species-by-site matrix
-#'  t.data <- base::get(load("t.data.csv")) ## Species-by-Trait matrix
-#'  p.d.mat <- base::get(load("p.d.mat.csv")) ## Species-by-species phylogenetic distance matrix
+#'  s.data <- get(load("s.data.csv")) ## Species-by-site matrix
+#'  t.data <- get(load("t.data.csv")) ## Species-by-Trait matrix
+#'  p.d.mat <- get(load("p.d.mat.csv")) ## Species-by-species phylogenetic distance matrix
 #'
 #'  jp <- msco::gbsm_m.orders(s.data, t.data, p.d.mat,
 #'   metric="Simpson_eqn", orders = c(3:5, 8, 10, 15, 20), d.f=4,

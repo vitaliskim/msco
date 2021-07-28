@@ -25,15 +25,15 @@ range of orders (number of species).
 }
 \examples{
 ex.data <- read.csv(system.file("extdata", "274.csv", package = "msco"))
-jos <- j.occs(ex.data, orders = 1:nrow(ex.data))
+jos <- msco::j.occs(ex.data, orders = 1:nrow(ex.data))
 jos
 
 ex.data2 <- read.csv(system.file("extdata", "65.csv", package = "msco"))
-jos2 <- j.occs(ex.data2, orders = 1:nrow(ex.data))
+jos2 <- msco::j.occs(ex.data2, orders = 1:nrow(ex.data))
 jos2
 }
 \references{
-Lagat, V. K., Latombe, G. and Hui, C. (202X). \emph{Designing a multi-species
-co-occurrence index to avoid Type II errors in null model testing for
-co-occurrence}. Manuscript submitted for publication.
+Lagat, V. K., Latombe, G. and Hui, C. (202X). \emph{A multi-species co-occurrence
+index to avoid type II errors in null model testing}. Manuscript submitted for
+publication.
 }

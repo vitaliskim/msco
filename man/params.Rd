@@ -45,18 +45,17 @@ at once. If one community matrix is analyzed, the \code{jo.coeff} and \code{Arch
 my.path <- system.file("extdata", package = "msco")
 setwd(my.path)
 my.files <- gtools::mixedsort(list.files(path = my.path, pattern = "*.csv"))
-my.params <- params(my.files = my.files)
+my.params <- msco::params(my.files = my.files)
 my.params
 
 my.path2 <- system.file("extdata/myCSVs", package = "msco")
 setwd(my.path2)
 my.files2 <- gtools::mixedsort(list.files(path = my.path2, pattern = "*.csv"))
-my.params2 <- params(my.files = my.files2[250:255])
+my.params2 <- msco::params(my.files = my.files2[250:255])
 my.params2
 }
 }
 \references{
-Lagat, V. K., Latombe, G. and Hui, C. (202X). \emph{Designing a multi-species
-co-occurrence index to avoid Type II errors in null model testing for
-co-occurrence}. Manuscript submitted for publication.
+Lagat, V. K., Latombe, G. and Hui, C. (202X). \emph{A multi-species co-occurrence index to
+avoid type II errors in null model testing}. Manuscript submitted for publication.
 }
