@@ -69,9 +69,6 @@
 #' my.p.d.mat <- my.s.info$phylogenetic.distance.matrix
 #' my.p.d.mat
 #'
-#' dev.off()
-#' my.phylo.plot <- my.s.info$phylo.plot
-#' my.phylo.plot
 #' }
 #' @export
 #' @md
@@ -131,7 +128,7 @@ s.info <- function(s.data, database = "ncbi", obs.taxa=TRUE, taxa.levels = NULL,
     dend <- stats::as.dendrogram(hc)
     graphics::par(mar = c(12, 6, 4, 0)) # leave space for the labels
     graphics::plot(dend, ylab = "Phylogenetic distance", main = "Cluster Dendrogram")
-    phylo.vee$phylo.plot <- grDevices::recordPlot()
+    # phylo.vee$phylo.plot <- grDevices::recordPlot()
     grDevices::dev.off()
     base::system(paste0('open "', paste0(system.file("ms", package = "msco"), "/Phylogenetic.tree.pdf"), '"'))
   }
