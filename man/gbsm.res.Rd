@@ -15,7 +15,7 @@ Returns all the results presented in Lagat \emph{et al}. (202Xb). To replicate
  s.data <- base::get(load("s.data.csv"))
  t.data <- base::get(load("t.data.csv"))
  p.d.mat <- base::get(load("p.d.mat.csv"))
- set.seed(0)
+ set.seed(1)
  gb.res <- msco::gbsm_m.orders(s.data,
              t.data,
              p.d.mat,
@@ -72,7 +72,7 @@ Returns all the results presented in Lagat \emph{et al}. (202Xb). To replicate
                     degree=3,
                     n=1000,
                     b.plots=TRUE,
-                    bsplines="single"
+                    bsplines="single",
                     scat.plot=FALSE,
                     response.curves=FALSE,
                     leg=1,
@@ -87,7 +87,7 @@ Returns all the results presented in Lagat \emph{et al}. (202Xb). To replicate
   s.data <- base::get(load("s.data.csv"))
   t.data <- base::get(load("t.data.csv"))
   p.d.mat <- base::get(load("p.d.mat.csv"))
-  set.seed(0)
+  set.seed(1)
   pe <- msco::pred.error.bands(s.data,
                       t.data,
                       p.d.mat,

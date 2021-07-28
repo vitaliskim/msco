@@ -94,7 +94,7 @@ functions employed, with predictors transformed using a linear combination of B-
 
  my.gbsm <- msco::gbsm(s.data, t.data, p.d.mat, metric = "Simpson_eqn",
   d.f=4, order.jo=3, degree=3, n=1000, b.plots=TRUE, scat.plot=TRUE,
-   bsplines="single", response.curves=TRUE, leg=1,
+   bsplines="all", response.curves=TRUE, leg=1,
     start=seq(-0.1, 0, length.out=(ncol(t.data)+2)*4+1))
 
  my.gbsm$bs_pred
