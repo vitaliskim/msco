@@ -7,7 +7,6 @@
 s.info(
   s.data,
   database = "ncbi",
-  t.omit = TRUE,
   obs.taxa = TRUE,
   taxa.levels = NULL,
   Obs.data = TRUE,
@@ -24,9 +23,6 @@ with no initials.}
 \item{database}{The online database used to obtain the taxonomic names (species,
 genus and family) for a given rank (species list in this function). The options
 are "ncbi" or "itis". We used "ncbi" as default in this function.}
-
-\item{t.omit}{Boolean value indicating if traits with missing values
-in at least one of the species should be omitted.}
 
 \item{obs.taxa}{A logical indicating if \code{taxa.levels} should be output.}
 
@@ -50,7 +46,6 @@ Returns a \code{list} with the following outputs:
 \item \code{genus}:  Genus names of species in \code{s.data}.
 \item \code{family}:  Family names of species in \code{s.data}.
 }
-\item \code{t.data}:  If available, this represents a \code{data.frame} with traits as columns and species as rows.
 \item \code{p.d.matrix}:  A symmetric \code{matrix} with \code{dimnames} as species and entries indicating the
 phylogenetic distance between any two of them (species).
 \item \code{phylo.plot}:  A phylogenetic tree (cluster dendrogram) of species in \code{s.data}
@@ -84,7 +79,7 @@ setwd(my.path)
 s.data <- base::get(load("s.data.csv"))
 taxa <- base::get(load("taxa.levels.csv"))
 
-my.s.info <- msco::s.info(s.data, database = "ncbi", t.omit = TRUE, obs.taxa=TRUE,
+my.s.info <- msco::s.info(s.data, database = "ncbi", obs.taxa=TRUE,
  taxa.levels = taxa, Obs.data=TRUE, phy.d.mat=TRUE, phylo.plot = TRUE)
 my.s.info
 

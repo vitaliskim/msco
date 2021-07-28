@@ -22,8 +22,6 @@
 #' @param database The online database used to obtain the taxonomic names (species,
 #'  genus and family) for a given rank (species list in this function). The options
 #'   are "ncbi" or "itis". We used "ncbi" as default in this function.
-#' @param t.omit Boolean value indicating if traits with missing values
-#'  in at least one of the species should be omitted.
 #' @param taxa.levels Species taxa (i.e. a `data.frame` with species, genus, and family as `colnames`) used
 #'  in extracting phylogenetic distance matrix between species. If supplied, `taxa.levels` won't be
 #'   computed from online repositories. Taxa provision is highly recommended.
@@ -37,7 +35,6 @@
 #'     + `species`: &nbsp;Species names in `s.data`.
 #'     + `genus`: &nbsp;Genus names of species in `s.data`.
 #'     + `family`: &nbsp;Family names of species in `s.data`.
-#' * `t.data`: &nbsp;If available, this represents a `data.frame` with traits as columns and species as rows.
 #' * `p.d.matrix`: &nbsp;A symmetric `matrix` with `dimnames` as species and entries indicating the
 #'  phylogenetic distance between any two of them (species).
 #' * `phylo.plot`: &nbsp;A phylogenetic tree (cluster dendrogram) of species in `s.data`
@@ -62,7 +59,7 @@
 #' s.data <- base::get(load("s.data.csv"))
 #' taxa <- base::get(load("taxa.levels.csv"))
 #'
-#' my.s.info <- msco::s.info(s.data, database = "ncbi", t.omit = TRUE, obs.taxa=TRUE,
+#' my.s.info <- msco::s.info(s.data, database = "ncbi", obs.taxa=TRUE,
 #'  taxa.levels = taxa, Obs.data=TRUE, phy.d.mat=TRUE, phylo.plot = TRUE)
 #' my.s.info
 #'
@@ -81,7 +78,7 @@
 #' }
 #' @export
 #' @md
-s.info <- function(s.data, database = "ncbi", t.omit = TRUE, obs.taxa=TRUE, taxa.levels = NULL, Obs.data=TRUE,
+s.info <- function(s.data, database = "ncbi", obs.taxa=TRUE, taxa.levels = NULL, Obs.data=TRUE,
                    phy.d.mat=TRUE,  phylo.plot = TRUE){
 
   #taxa
@@ -95,42 +92,6 @@ s.info <- function(s.data, database = "ncbi", t.omit = TRUE, obs.taxa=TRUE, taxa
     taxa <- taxa[stats::complete.cases(taxa),]
   }else {
     taxa <- taxa.levels
-  }
-
-
-  #species trait variables
-  t.list <- BIEN::BIEN_trait_traits_per_species(species = row.names(s.data))
-  uniq.s <- unique(t.list$scrubbed_species_binomial)
-  uniq.t <- unique(t.list$trait_name)
-
-  traits <- c()
-  for(i in 1:length(uniq.t)){
-    if(length(which(t.list$trait_name==uniq.t[i])) ==  length(uniq.s)){
-      traits[i] <- uniq.t[i]
-    }
-  }
-  if(length(traits)==0){
-    tee <- c()
-    for(i in 1:length(uniq.t)){
-      tee[i] <- length(which(t.list$trait_name==uniq.t[i]))
-    }
-    traits <- uniq.t[which(tee>=(0.8*length(uniq.s)))]
-  }
-
-  if(!is.null(traits)){
-    traits <- traits[stats::complete.cases(traits)]
-  }
-
-
-  #species trait variable values
-  if(!is.null(traits)){
-    t.vals <- matrix(NA, nrow = length(row.names(s.data)), ncol = length(traits))
-    for(j in 1:length(traits)){
-      t.vals[,j] <-  round(as.numeric(as.character(suppressWarnings(
-        BIEN::BIEN_trait_mean(species = row.names(s.data), trait = traits[j])$mean_value))), 4)
-    }
-    t.val <- `dimnames<-`(t.vals, list(row.names(s.data), base::chartr(" ", "_", traits)))
-    t.vall <- t.val[ , colSums(is.na(t.val)) == 0]
   }
 
   ##Phylogenetic distance matrix
@@ -162,36 +123,6 @@ s.info <- function(s.data, database = "ncbi", t.omit = TRUE, obs.taxa=TRUE, taxa
     phylo.vee$taxa.levels <- taxa
   }
 
-
-  if(!is.null(traits)){
-    if(t.omit==TRUE & nrow(p.d.mat) != nrow(t.vall)){
-      warning(paste(deparse(setdiff(base::chartr(" ", "_", row.names(t.vall)), row.names(p.d.mat))),
-                    " species failed to be binded to the tree", ". It was removed from t.data.",
-                    sep = ""))
-      t.vall <- `row.names<-`(t.vall, base::chartr(" ", "_", row.names(t.vall)))
-      t.vall <- t.vall[intersect(row.names(t.vall), row.names(p.d.mat)),]
-      t.vall <- `row.names<-`(t.vall, base::sub("_", " ", row.names(t.vall)))
-      phylo.vee$t.data <- as.data.frame(t.vall)
-    }else if(t.omit==TRUE & nrow(p.d.mat) == nrow(t.vall)){
-      t.vall <- `row.names<-`(t.vall, base::chartr(" ", "_", row.names(t.vall)))
-      t.vall <- t.vall[intersect(row.names(t.vall), row.names(p.d.mat)),]
-      t.vall <- `row.names<-`(t.vall, base::sub("_", " ", row.names(t.vall)))
-      phylo.vee$t.data <- as.data.frame(t.vall)
-    }else if(t.omit==FALSE & nrow(p.d.mat) != nrow(t.val)){
-      warning(paste(deparse(setdiff(base::chartr(" ", "_", row.names(t.val)), row.names(p.d.mat))),
-                    " species failed to be binded to the tree", ". It was removed from t.data.",
-                    sep = ""))
-      t.val <- `row.names<-`(t.val, base::chartr(" ", "_", row.names(t.val)))
-      t.val <- t.val[intersect(row.names(t.val), row.names(p.d.mat)),]
-      t.val <- `row.names<-`(t.val, base::sub("_", " ", row.names(t.val)))
-      phylo.vee$t.data <- as.data.frame(t.val)
-    }else if(t.omit==FALSE & nrow(p.d.mat) == nrow(t.val)){
-      t.val <- `row.names<-`(t.val, base::chartr(" ", "_", row.names(t.val)))
-      t.val <- t.val[intersect(row.names(t.val), row.names(p.d.mat)),]
-      t.val <- `row.names<-`(t.val, base::sub("_", " ", row.names(t.val)))
-      phylo.vee$t.data <- as.data.frame(t.val)
-    }
-  }
   if(phy.d.mat==TRUE){
     phylo.vee$phylogenetic.distance.matrix <- as.data.frame(p.d.mat)
   }
