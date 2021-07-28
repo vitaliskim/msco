@@ -266,7 +266,7 @@ gbsm <- function(s.data, t.data, p.d.mat, metric= "Simpson_eqn", d.f=4, order.jo
 
   #### Plot to see if the correct B-spline plots are output
   if(b.plots==TRUE){
-    cols <- rep(c("red","blue","black","green", "brown", "orange"), 8*d.f)
+    cols <- rep(c("red","blue","black","green"), 8*d.f)
     if(bsplines=="single"){
       grDevices::pdf(file = paste0(system.file("ms", package = "msco"), "/B-splines.curves_single.predictor.pdf"), height = 5, width = 5)
       plot(x=t.trans[,1], y=bt.trans[,(1+((1-1)*d.f))], type = "l", lty=1, lwd=2, col=cols[1], ylim=c(0,max(bt.trans[,(1+((1-1)*d.f))])),
