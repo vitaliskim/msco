@@ -24,7 +24,7 @@
 #' @param metric Metric used to quantify the patterns in `s.data`. It has to be multi-species
 #'  co-occurrence index (see \link[msco]{j.occ}).
 #' @param nReps Number of simulations used in the null model test.
-#' @param nmod_stats A logical value (`TRUE` or `FALSE`) indicating whether the summary
+#' @param nmod_stats A logical value indicating whether the summary
 #'  statistics for the null model test should be output.
 #' @param s.dplot A logical value (`TRUE` or `FALSE`) indicating whether the standard deviation
 #'  of multi-species co-occurrence index should be included in the plots of joint occupancy

@@ -96,7 +96,7 @@ multispecies co-occurrence index (joint occupancy; see \link[msco]{j.occ}).}
 \item{S.order}{A logical indicating if the number of species whose joint occupancy is computed
 should be printed.}
 
-\item{nmod_stats}{A logical value (\code{TRUE} or \code{FALSE}) indicating whether the summary
+\item{nmod_stats}{A logical value indicating whether the summary
 statistics for the null model test should be output.}
 
 \item{Pt_Arch_Vals}{A logical indicating if character strings indicating the location of
