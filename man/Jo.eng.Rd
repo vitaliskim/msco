@@ -51,14 +51,14 @@ co-occurrence index (see \link[msco]{j.occ}).}
 The default is 3.}
 
 \item{s.dplot}{A logical value (\code{TRUE} or \code{FALSE}) indicating whether the standard deviation
-of multispecies co-occurrence index should be included in the plots of joint occupancy
+of multi-species co-occurrence index should be included in the plots of joint occupancy
 decline or not.}
 
-\item{All.plots}{A logical value (\code{TRUE} or \code{FALSE}) indicating whether joint occupancy decline
-regression and null model plots should be output.}
+\item{All.plots}{A logical value indicating whether joint occupancy decline  regression
+and null model plots should be output.}
 
-\item{Jo.coeff}{A logical value (\code{TRUE} or \code{FALSE}) indicating if coefficient estimates of the
-joint occupancy decline regression models should be output.}
+\item{Jo.coeff}{A logical value indicating if coefficient estimates of the joint occupancy
+decline regression models should be output.}
 
 \item{my.AIC}{A logical indicating whether Akaike Information Criterion of the joint occupancy
 decline regression models should be output or not.}
@@ -109,20 +109,19 @@ joint occupancy decline should be printed.This value must be \eqn{\in \{}"A1", "
 "A5", "A6", "A7", "A8", "A9"\eqn{\}} or "NA". "NA" could be the combinations of two or more
 of the nine expected archetypes.}
 
-\item{p.n.plot}{A logical value (\code{TRUE} or \code{FALSE}) indicating whether null model plot produced
-using the pairwise natural metric should be output.}
+\item{p.n.plot}{A logical value indicating whether null model plot produced using the
+pairwise natural metric should be output.}
 
-\item{trans}{A logical value (\code{TRUE} or \code{FALSE}) indicating if the observed and simulated
-values used in \code{p.n.plot} should be transformed by raising them to (1/100).
-This can be done to compare \code{p.n.plot} with \code{All.plots} at a point
-where the order, \code{i = 2}.}
+\item{trans}{A logical value indicating if the observed and simulated values used in
+\code{p.n.plot} should be transformed by raising them to (1/100). This can be done to
+compare \code{p.n.plot} with \code{All.plots} at a point where the order, \code{i = 2}.}
 
-\item{m.n.plot}{A logical value (\code{TRUE} or \code{FALSE}) indicating whether null model plot produced
-using joint occupancy metrics should be output. The default is \code{FALSE}.}
+\item{m.n.plot}{A logical value indicating whether null model plot produced using joint
+occupancy metrics should be output. The default is \code{FALSE}.}
 }
 \value{
 \code{Jo.eng} function returns a list containing the following outputs:
-\item{\code{all.plots}}{joint occupancy decline regression and null model plots.}
+\item{\code{all.plots}}{Joint occupancy decline regression and null model plots.}
 \item{\code{jo.coeff}}{Coefficient estimates of the joint occupancy decline regression models.}
 \item{\code{AIC}}{Akaike information criterion of the joint occupancy decline regression models.}
 \item{\code{r2}}{Square of correlation coefficient between the observed and predicted values of
@@ -160,7 +159,7 @@ harbouring multiple species simultaneously)};
 to joint occupancy decline (\emph{sensu} Lagat \emph{et al.,} 202X) with order (number of species)};
 \item{estimates the parameter values of these models};
 \item{determines the best model among the three using AIC values};
-\item{quantifies the efficacy of the fitted models using square of correlation coefficient (\code{rsq})};
+\item{quantifies the efficacy of the fitted models using square of correlation coefficient (\eqn{r^2})};
 \item{plots the joint occupancy decline regression and null models}, and
 \item{ascertains the archetypes of the patterns of species co-occurrences (from null
 model test) from which inferences on the type of drivers structuralizing ecological
