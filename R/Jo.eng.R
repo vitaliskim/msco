@@ -9,7 +9,7 @@
 #'   to joint occupancy decline (*sensu* Lagat *et al.,* 202X) with order (number of species)};
 #'   \item{estimates the parameter values of these models};
 #'   \item{determines the best model among the three using AIC values};
-#'   \item{quantifies the efficacy of the fitted models using square of correlation coefficient (`rsq`)};
+#'   \item{quantifies the efficacy of the fitted models using square of correlation coefficient (\eqn{r^2})};
 #'   \item{plots the joint occupancy decline regression and null models}, and
 #'   \item{ascertains the archetypes of the patterns of species co-occurrences (from null
 #'    model test) from which inferences on the type of drivers structuralizing ecological
@@ -27,22 +27,21 @@
 #' @param nmod_stats A logical value (`TRUE` or `FALSE`) indicating whether the summary
 #'  statistics for the null model test should be output.
 #' @param s.dplot A logical value (`TRUE` or `FALSE`) indicating whether the standard deviation
-#'  of multispecies co-occurrence index should be included in the plots of joint occupancy
+#'  of multi-species co-occurrence index should be included in the plots of joint occupancy
 #'   decline or not.
-#' @param All.plots A logical value (`TRUE` or `FALSE`) indicating whether joint occupancy decline
-#'  regression and null model plots should be output.
-#' @param p.n.plot A logical value (`TRUE` or `FALSE`) indicating whether null model plot produced
-#'  using the pairwise natural metric should be output.
-#' @param trans A logical value (`TRUE` or `FALSE`) indicating if the observed and simulated
-#'  values used in `p.n.plot` should be transformed by raising them to (1/100).
-#'  This can be done to compare `p.n.plot` with `All.plots` at a point
-#'  where the order, `i = 2`.
-#' @param m.n.plot A logical value (`TRUE` or `FALSE`) indicating whether null model plot produced
-#'  using joint occupancy metrics should be output. The default is `FALSE`.
+#' @param All.plots A logical value indicating whether joint occupancy decline  regression
+#'  and null model plots should be output.
+#' @param p.n.plot A logical value indicating whether null model plot produced using the
+#'  pairwise natural metric should be output.
+#' @param trans A logical value indicating if the observed and simulated values used in
+#'  `p.n.plot` should be transformed by raising them to (1/100). This can be done to
+#'   compare `p.n.plot` with `All.plots` at a point where the order, `i = 2`.
+#' @param m.n.plot A logical value indicating whether null model plot produced using joint
+#'  occupancy metrics should be output. The default is `FALSE`.
 #' @param dig The number of decimal places of the joint occupancy values (y axis) in the plots.
 #'  The default is 3.
-#' @param Jo.coeff A logical value (`TRUE` or `FALSE`) indicating if coefficient estimates of the
-#'  joint occupancy decline regression models should be output.
+#' @param Jo.coeff A logical value indicating if coefficient estimates of the joint occupancy
+#'  decline regression models should be output.
 #' @param my.AIC A logical indicating whether Akaike Information Criterion of the joint occupancy
 #'  decline regression models should be output or not.
 #' @param my.rsq A logical indicating whether square of correlation coefficient between the
@@ -76,7 +75,7 @@
 #'    of the nine expected archetypes.
 #'
 #' @return `Jo.eng` function returns a list containing the following outputs:
-#' \item{`all.plots`}{joint occupancy decline regression and null model plots.}
+#' \item{`all.plots`}{Joint occupancy decline regression and null model plots.}
 #' \item{`jo.coeff`}{Coefficient estimates of the joint occupancy decline regression models.}
 #' \item{`AIC`}{Akaike information criterion of the joint occupancy decline regression models.}
 #' \item{`r2`}{Square of correlation coefficient between the observed and predicted values of
@@ -196,7 +195,7 @@ Jo.eng<-function(s.data, algo="sim2", metric = "j.occ", nReps = 999, dig = 3,
     return(r.data)
   }
 
-  #####################################
+  ############### Jo metric and its SD ######################
 
   jo.ex<-function(s.data, order){
 
@@ -210,7 +209,7 @@ Jo.eng<-function(s.data, algo="sim2", metric = "j.occ", nReps = 999, dig = 3,
     j.occ=jo.ex
   }
   if(metric != "j.occ"){
-    stop("Metric must be multispecies joint occupancy index (see msco::j.occ).
+    stop("Metric must be multi-species joint occupancy index (see msco::j.occ).
          Replace the metric with `j.occ' to proceed.")
   }
 
@@ -258,7 +257,7 @@ Jo.eng<-function(s.data, algo="sim2", metric = "j.occ", nReps = 999, dig = 3,
   }
 
   #####################################################################
-  ### Matrix of joint occupancy for different orders (as columns)    #####
+  ### Matrix of joint occupancy for different orders (as columns) #####
   ###                      from random matrices                   #####
   #####################################################################
 
