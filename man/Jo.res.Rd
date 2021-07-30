@@ -46,6 +46,5 @@ ms.res$params_c.i
 }
 \references{
 Lagat, V. K., Latombe, G. and Hui, C. (202Xa). \emph{A multi-species co-occurrence
-index to avoid type II errors in null model testing}. Manuscript submitted for
-publication.
+index to avoid type II errors in null model testing}. Upcoming.
 }

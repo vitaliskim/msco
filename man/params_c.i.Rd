@@ -75,5 +75,5 @@ my.params_c.i2
 }
 \references{
 Lagat, V. K., Latombe, G. and Hui, C. (202X). \emph{A multi-species co-occurrence index to
-avoid type II errors in null model testing}. Manuscript submitted for publication.
+avoid type II errors in null model testing}. Upcoming.
 }

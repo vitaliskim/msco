@@ -124,6 +124,5 @@ gbs.res$model.validation.table
 \references{
 Lagat, V. K., Latombe, G. and Hui, C. (202Xb). \emph{Dissecting the effects of
 neutral encounter versus functional traits on multi-order species interactions
-and co-occurrence with generalised B-spline modelling}. Manuscript submitted
-for publication.
+and co-occurrence with generalised B-spline modelling}. Upcoming.
 }

@@ -58,13 +58,11 @@
 #'   297-310. <https://doi.org/10.1214/ss/1177013604>}
 #'
 #'  \item{Lagat, V. K., Latombe, G. and Hui, C. (202Xa). *A multi-species co-occurrence
-#'  index to avoid type II errors in null model testing*. Manuscript submitted for
-#'   publication.}
+#'  index to avoid type II errors in null model testing*. Upcoming.}
 #'
 #'  \item{Lagat, V. K., Latombe, G. and Hui, C. (202Xb). *Dissecting the effects of
 #'   neutral encounter versus functional traits on multi-order species interactions
-#'    and co-occurrence with generalised B-spline modelling*. Manuscript submitted
-#'     for publication.}
+#'    and co-occurrence with generalised B-spline modelling*. Upcoming.}
 #'  }
 #'
 #' @examples
@@ -77,7 +75,7 @@
 #'
 #'  my.gbsm <- msco::gbsm(s.data, t.data, p.d.mat, metric = "Simpson_eqn",
 #'   d.f=4, order.jo=3, degree=3, n=1000, b.plots=TRUE, scat.plot=TRUE,
-#'    bsplines="all", response.curves=TRUE, leg=1,
+#'    bsplines="single", response.curves=TRUE, leg=1,
 #'     start=seq(-0.1, 0, length.out=(ncol(t.data)+2)*4+1))
 #'
 #'  my.gbsm$bs_pred

@@ -35,7 +35,7 @@
 #' @references
 #' \enumerate{
 #' \item{Lagat, V. K., Latombe, G. and Hui, C. (202X). *A multi-species co-occurrence index to avoid type
-#'  II errors in null model testing*. Manuscript submitted for publication.}
+#'  II errors in null model testing*. Upcoming.}
 #'
 #' \item{Gotelli, N. J. (2000). Null model analysis of species co-occurrence patterns.
 #'  *Ecology, 81(9)*, 2606-2621. <https://doi.org/10.1890/0012-9658(2000)081[2606:NMAOSC]2.0.CO;2>}
@@ -119,7 +119,7 @@ Archetypes <- function(my.files, algo = "sim2", metric = "J.occ", nReps = 999){
 #'  dependence of species interactions. *Proc. R. Soc. B Biol. Sci.* **281**.
 #'   <https://doi.org/10.1098/rspb.2013.2641>}
 #' \item{Lagat, V. K., Latombe, G. and Hui, C. (202X). *A multi-species co-occurrence index to
-#'  avoid type II errors in null model testing*. Manuscript submitted for publication.}
+#'  avoid type II errors in null model testing*. Upcoming.}
 #' }
 #' @note `Arch_schem` is not a generic function which can take in any dataset and give the outputs,
 #'  but a path to a schematic diagram saved in this package. A representational figure from empirical,
@@ -162,7 +162,7 @@ Arch_schem <- function(){
 #' @references
 #' \enumerate{
 #' \item{Lagat, V. K., Latombe, G. and Hui, C. (202X). *A multi-species co-occurrence index to
-#'  avoid type II errors in null model testing*. Manuscript submitted for publication.}
+#'  avoid type II errors in null model testing*. Upcoming.}
 #'
 #' \item{Petrossian, G. A., and Maxfield, M. (2018). An information theory approach to hypothesis testing
 #'   in criminological research. *Crime Science*, 7(1), 2.
@@ -219,7 +219,7 @@ best.mod2 <- function(my.files){
 #' @references
 #' \enumerate{
 #' \item{Lagat, V. K., Latombe, G. and Hui, C. (202X). *A multi-species co-occurrence index to
-#'  avoid type II errors in null model testing*. Manuscript submitted for publication.}
+#'  avoid type II errors in null model testing*. Upcoming.}
 #'
 #' \item{Petrossian, G. A., and Maxfield, M. (2018). An information theory approach to hypothesis testing
 #'   in criminological research. *Crime Science*, 7(1), 2.
@@ -272,7 +272,7 @@ best.mod3 <- function(my.files){
 #' @references
 #' \enumerate{
 #' \item{Lagat, V. K., Latombe, G. and Hui, C. (202X). *A multi-species co-occurrence index to
-#'  avoid type II errors in null model testing*. Manuscript submitted for publication.}
+#'  avoid type II errors in null model testing*. Upcoming.}
 #' \item{Petrossian, G. A., and Maxfield, M. (2018). An information theory approach to hypothesis testing
 #'   in criminological research. *Crime Science*, 7(1), 2.
 #'    <https://doi.org/10.1186/s40163-018-0077-5>}
@@ -329,7 +329,7 @@ m.AICs <- function(my.files){
 #' \item{b.expl}{The `b` parameter estimate of the exponential-power law form of joint occupancy decline.}
 #' \item{c.expl}{The `c` parameter estimate of the exponential-power law form of joint occupancy decline.}
 #' @references Lagat, V. K., Latombe, G. and Hui, C. (202X). *A multi-species co-occurrence index to
-#'  avoid type II errors in null model testing*. Manuscript submitted for publication.
+#'  avoid type II errors in null model testing*. Upcoming.
 #' @examples
 #' \dontrun{
 #'
@@ -400,7 +400,7 @@ params <- function(my.files){
 #' \item{c.expl}{The 95% closed confidence interval of the `c` parameter estimates of the exponential-power law
 #'  form of joint occupancy decline, under every archetype.}
 #' @references Lagat, V. K., Latombe, G. and Hui, C. (202X). *A multi-species co-occurrence index to
-#'  avoid type II errors in null model testing*. Manuscript submitted for publication.
+#'  avoid type II errors in null model testing*. Upcoming.
 #' @examples
 #' \dontrun{
 #'
@@ -446,8 +446,7 @@ params_c.i <- function(my.files){
 #'       respectively)}.
 #'   }
 #' @references Lagat, V. K., Latombe, G. and Hui, C. (202X). *A multi-species co-occurrence
-#'  index to avoid type II errors in null model testing*. Manuscript submitted for
-#'   publication.
+#'  index to avoid type II errors in null model testing*. Upcoming.
 #' @examples
 #' \dontrun{
 #'
@@ -514,8 +513,7 @@ Jo.plots <- function(jo_Obj){
 #' @references
 #' \enumerate{
 #' \item{Lagat, V. K., Latombe, G. and Hui, C. (202X). *A multi-species co-occurrence
-#'  index to avoid type II errors in null model testing*. Manuscript submitted for
-#'   publication.}
+#'  index to avoid type II errors in null model testing*. Upcoming.}
 #'
 #' \item{Gotelli, N. J. (2000). Null model analysis of species co-occurrence patterns.
 #'  *Ecology, 81(9)*, 2606-2621. <https://doi.org/10.1890/0012-9658(2000)081[2606:NMAOSC]2.0.CO;2>}
@@ -565,8 +563,7 @@ m.Jo.plots <- function(my.files, algo = "sim2", metric = "J.occ", nReps = 999){
 #' \enumerate{
 #'
 #' \item{Lagat, V. K., Latombe, G. and Hui, C. (202X). *A multi-species co-occurrence
-#'  index to avoid type II errors in null model testing*. Manuscript submitted for
-#'   publication.}
+#'  index to avoid type II errors in null model testing*. Upcoming.}
 #'
 #' \item{Pearson, K. (1895) VII. Note on regression and inheritance in the
 #'  case of two parents. *proceedings of the royal society of London,* **58**:240-242.
@@ -633,8 +630,7 @@ rsq <- function(my.files){
 #' \enumerate{
 #'
 #' \item{Lagat, V. K., Latombe, G. and Hui, C. (202X). *A multi-species co-occurrence
-#'  index to avoid type II errors in null model testing*. Manuscript submitted for
-#'   publication.}
+#'  index to avoid type II errors in null model testing*. Upcoming.}
 #'
 #' \item{Pearson, K. (1895) VII. Note on regression and inheritance in the
 #'  case of two parents. *proceedings of the royal society of London,* **58**:240-242.
@@ -678,8 +674,7 @@ rsq.s <- function(my.files){
 #' \item{jo.val}{Joint occupancy value.}
 #' \item{jo.sd}{The standard deviation of `jo.val`.}
 #' @references Lagat, V. K., Latombe, G. and Hui, C. (202X). *A multi-species co-occurrence
-#'  index to avoid type II errors in null model testing*. Manuscript submitted for
-#'   publication.
+#'  index to avoid type II errors in null model testing*. Upcoming.
 #' @examples
 #' ex.data <- read.csv(system.file("extdata", "274.csv", package = "msco"))
 #' jo <- msco::j.occ(ex.data, order = 3)
@@ -733,8 +728,7 @@ j.occ<-function(s.data, order){
 #' \item{jo.vals}{A vector of joint occupancy values for a range number of species (in `orders`).}
 #' \item{jo.sds}{A vector of standard deviations of `jo.vals`.}
 #' @references Lagat, V. K., Latombe, G. and Hui, C. (202X). *A multi-species co-occurrence
-#'  index to avoid type II errors in null model testing*. Manuscript submitted for
-#'   publication.
+#'  index to avoid type II errors in null model testing*. Upcoming.
 #' @examples
 #' ex.data <- read.csv(system.file("extdata", "274.csv", package = "msco"))
 #' jos <- msco::j.occs(ex.data, orders = 1:nrow(ex.data))
@@ -791,8 +785,7 @@ j.occs<-function(s.data, orders = 1:nrow(s.data)){
 #'   (and output results) on a 64 bit system with 8 GB RAM and 3.60 GHz CPU.
 #'
 #' @references Lagat, V. K., Latombe, G. and Hui, C. (202Xa). *A multi-species co-occurrence
-#'  index to avoid type II errors in null model testing*. Manuscript submitted for
-#'   publication.
+#'  index to avoid type II errors in null model testing*. Upcoming.
 #'
 #' @examples
 #' \dontrun{
@@ -927,8 +920,7 @@ Jo.res <- function(){
 #'
 #' @references Lagat, V. K., Latombe, G. and Hui, C. (202Xb). *Dissecting the effects of
 #'   neutral encounter versus functional traits on multi-order species interactions
-#'    and co-occurrence with generalised B-spline modelling*. Manuscript submitted
-#'     for publication.
+#'    and co-occurrence with generalised B-spline modelling*. Upcoming.
 #'
 #' @examples
 #' \dontrun{

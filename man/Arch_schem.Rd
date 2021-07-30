@@ -73,6 +73,6 @@ Biogeogr.} \strong{10}, 337-343. \url{https://doi.org/10.1046/j.1466-822X.2001.0
 dependence of species interactions. \emph{Proc. R. Soc. B Biol. Sci.} \strong{281}.
 \url{https://doi.org/10.1098/rspb.2013.2641}}
 \item{Lagat, V. K., Latombe, G. and Hui, C. (202X). \emph{A multi-species co-occurrence index to
-avoid type II errors in null model testing}. Manuscript submitted for publication.}
+avoid type II errors in null model testing}. Upcoming.}
 }
 }

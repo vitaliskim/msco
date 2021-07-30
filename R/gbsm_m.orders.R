@@ -62,13 +62,11 @@
 #' @references
 #' \enumerate{
 #'  \item{Lagat, V. K., Latombe, G. and Hui, C. (202Xa). *A multi-species co-occurrence
-#'  index to avoid type II errors in null model testing*. Manuscript submitted for
-#'   publication.}
+#'  index to avoid type II errors in null model testing*. Upcoming.}
 #'
 #'  \item{Lagat, V. K., Latombe, G. and Hui, C. (202Xb). *Dissecting the effects of
 #'   neutral encounter versus functional traits on multi-order species interactions
-#'    and co-occurrence with generalised B-spline modelling*. Manuscript submitted
-#'     for publication.}
+#'    and co-occurrence with generalised B-spline modelling*. Upcoming.}
 #' }
 #' @examples
 #' \dontrun{

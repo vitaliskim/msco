@@ -39,12 +39,11 @@
 #'
 #'  \item{Lagat, V. K., Latombe, G. and Hui, C. (202Xa). *Dissecting the effects of
 #'   neutral encounter versus functional traits on multi-order species interactions
-#'    and co-occurrence with generalised B-spline modelling*. Manuscript submitted
-#'     for publication.}
+#'    and co-occurrence with generalised B-spline modelling*. Upcoming.}
 #'
 #'  \item{Lagat, V. K., Latombe, G. and Hui, C. (202Xb). *msco: an R software package
 #'   for null model testing of multi-species interactions and interference, and analysis
-#'    of their drivers*. Manuscript submitted for publication.}
+#'    of their drivers*. Upcoming.}
 #'  }
 #'
 #' @examples

@@ -60,6 +60,5 @@ jplots4
 }
 \references{
 Lagat, V. K., Latombe, G. and Hui, C. (202X). \emph{A multi-species co-occurrence
-index to avoid type II errors in null model testing}. Manuscript submitted for
-publication.
+index to avoid type II errors in null model testing}. Upcoming.
 }

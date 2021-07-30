@@ -97,7 +97,6 @@ my.p.d.mat
 
 \item{Lagat, V. K., Latombe, G. and Hui, C., 202X. \emph{Dissecting the effects of
 neutral encounter versus functional traits on multi-order species interactions
-and co-occurrence with generalised B-spline modelling}. Manuscript submitted
-for publication.}
+and co-occurrence with generalised B-spline modelling}. Upcoming.}
 }
 }

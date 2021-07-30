@@ -51,7 +51,7 @@ my.aic2
 \references{
 \enumerate{
 \item{Lagat, V. K., Latombe, G. and Hui, C. (202X). \emph{A multi-species co-occurrence index to
-avoid type II errors in null model testing}. Manuscript submitted for publication.}
+avoid type II errors in null model testing}. Upcoming.}
 \item{Petrossian, G. A., and Maxfield, M. (2018). An information theory approach to hypothesis testing
 in criminological research. \emph{Crime Science}, 7(1), 2.
 \url{https://doi.org/10.1186/s40163-018-0077-5}}

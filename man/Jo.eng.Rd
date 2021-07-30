@@ -183,8 +183,7 @@ j.en
 \references{
 \enumerate{
 \item{Lagat, V. K., Latombe, G. and Hui, C. (202X). \emph{A multi-species co-occurrence
-index to avoid type II errors in null model testing}. Manuscript submitted for
-publication.}
+index to avoid type II errors in null model testing}. Upcoming.}
 
 \item{Gotelli, N. J. (2000). Null model analysis of species co-occurrence patterns.
 \emph{Ecology, 81(9)}, 2606-2621. \url{https://doi.org/10.1890/0012-9658(2000)081[2606:NMAOSC]2.0.CO;2}}
