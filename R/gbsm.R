@@ -276,6 +276,11 @@ gbsm <- function(s.data, t.data, p.d.mat, metric= "Simpson_eqn", d.f=4, order.jo
       for (i in 1:4) {
         graphics::points(t.data[,1], bt.data[,i], col=cols[i], pch=match(cols[i], cols))
       }
+      graphics::text(0.1, 0.95, expression(paste(B["0,4"])), font=2)
+      graphics::text(0.35, 0.52, expression(paste(B["1,4"])), font=2)
+      graphics::text(0.7, 0.52, expression(paste(B["2,4"])), font=2)
+      graphics::text(0.9, 0.95, expression(paste(B["3,4"])), font=2)
+
       grDevices::dev.off()
       base::system(paste0('open "', paste0(system.file("ms", package = "msco"), "/B-splines.curves_single.predictor.pdf"), '"'))
     }else{
@@ -303,6 +308,10 @@ gbsm <- function(s.data, t.data, p.d.mat, metric= "Simpson_eqn", d.f=4, order.jo
             graphics::points(erate, bt.erate[,i], col=cols[i], pch=match(cols[i], cols))
           }
         }
+        graphics::text(0.13, 0.9, expression(paste(B["0,4"])), font=2)
+        graphics::text(0.35, 0.55, expression(paste(B["1,4"])), font=2)
+        graphics::text(0.7, 0.55, expression(paste(B["2,4"])), font=2)
+        graphics::text(0.87, 0.9, expression(paste(B["3,4"])), font=2)
       }
       grDevices::dev.off()
       base::system(paste0('open "', paste0(system.file("ms", package = "msco"), "/B-splines.curves_all.predictors.pdf"), '"'))
