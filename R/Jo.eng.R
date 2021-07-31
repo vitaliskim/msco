@@ -73,6 +73,10 @@
 #'  joint occupancy decline should be printed.This value must be \eqn{\in \{}"A1", "A2", "A3", "A4",
 #'   "A5", "A6", "A7", "A8", "A9"\eqn{\}} or "NA". "NA" could be the combinations of two or more
 #'    of the nine expected archetypes.
+#' @param leg A logical value indicating if the legend should be added to the `m.n.plot`. This parameter
+#'  helps to control the plots in the `nullmod_arch` function.
+#' @param lab A logical value indicating if the plot labels should be added to the `m.n.plot`. This parameter
+#'  helps to control the plots in the `nullmod_arch` function.
 #'
 #' @return `Jo.eng` function returns a list containing the following outputs:
 #' \item{`all.plots`}{Joint occupancy decline regression and null model plots.}
@@ -112,7 +116,6 @@
 #' }
 #' @examples
 #' ex.data <- read.csv(system.file("extdata", "274.csv", package = "msco"))
-#'
 #' j.en <- msco::Jo.eng(ex.data, algo="sim2", metric = "j.occ", nReps = 999,
 #'            dig = 3, s.dplot = FALSE, All.plots = TRUE, Jo.coeff = TRUE,
 #'            my.AIC = TRUE, my.rsq = TRUE, Exp_Reg = TRUE, P.law_Reg = TRUE,
@@ -120,7 +123,7 @@
 #'            Jo_val.sim = FALSE, C.I_Jo_val.sim = FALSE, Jo_val.obs = TRUE,
 #'            Metric = TRUE, Algorithm = TRUE, S.order = TRUE,
 #'            nmod_stats = TRUE, Pt_Arch_Vals = TRUE, Atype = TRUE,
-#'            p.n.plot = FALSE, trans = FALSE, m.n.plot = FALSE)
+#'            p.n.plot = FALSE, trans = FALSE, lab=FALSE, leg=FALSE, m.n.plot = FALSE)
 #' j.en
 #'
 #' @export
@@ -132,7 +135,7 @@ Jo.eng<-function(s.data, algo="sim2", metric = "j.occ", nReps = 999, dig = 3,
                      Obs.data = FALSE, Sim.data = FALSE, Jo_val.sim = FALSE,
                      C.I_Jo_val.sim = FALSE, Jo_val.obs = TRUE, Metric = TRUE,
                      Algorithm = TRUE, S.order = TRUE, nmod_stats = TRUE, Pt_Arch_Vals = TRUE,
-                     Atype = TRUE, p.n.plot = FALSE, trans = FALSE, m.n.plot = FALSE){
+                     Atype = TRUE, p.n.plot = FALSE, trans = FALSE, lab=TRUE, leg=TRUE, m.n.plot = FALSE){
 
   if (!is.matrix(s.data)) {
     s.data <- as.matrix(s.data)
@@ -684,7 +687,7 @@ Jo.eng<-function(s.data, algo="sim2", metric = "j.occ", nReps = 999, dig = 3,
     ggplot2::geom_line(ggplot2::aes(y = lObs, colour=c("Observed")),
                        size=0) +
     ggplot2::geom_line(ggplot2::aes(x = 2), colour="darkgrey",
-                       size=0, linetype="dotdash") +
+                       size=0, linetype="dashed") +
     ggplot2::geom_ribbon(data = ldtf, ggplot2::aes(ymin = lL.L,
                                                    ymax=lU.L,
                                                    fill="Null model"),
@@ -699,16 +702,32 @@ Jo.eng<-function(s.data, algo="sim2", metric = "j.occ", nReps = 999, dig = 3,
                                                           digits = dig),
                                 breaks = scales::pretty_breaks(n=4))+
     ggplot2::ggtitle("")+
-    ggplot2::theme(legend.position = "right")
+    if(leg==TRUE){
+      ggplot2::theme(legend.position = "right")
+    }else{
+      ggplot2::theme(legend.position = "none")
+    }
+
 
   nplot <- cowplot::ggdraw() +
-    cowplot::draw_plot(nplot1, x = 0.1, y = 0.1, width = 0.9, height = 0.9)+
-    cowplot::draw_image(system.file("logos", "ylab.jpg", package = "msco"),
-                      x=0.05, y=0.1, scale = 0.65, width = 0.05) +
-    cowplot::draw_image(system.file("logos", "xlab.jpg", package = "msco"),
-                      x=0.05, y=0.05, scale = 0.6, height = 0.05)+
-    cowplot::draw_plot_label(label = myArch, size = 12, x=0.8, y = 0.93)
-
+    if(lab==TRUE & leg==TRUE){
+      cowplot::draw_plot(nplot1, x = 0.1, y = 0.1, width = 0.9, height = 0.9)+
+      cowplot::draw_image(system.file("logos", "ylab.jpg", package = "msco"),
+                            x=0.05, y=0.1, scale = 0.65, width = 0.05) +
+      cowplot::draw_image(system.file("logos", "xlab.jpg", package = "msco"),
+                            x=0.05, y=0.05, scale = 0.6, height = 0.05)+
+      cowplot::draw_plot_label(label = myArch, size = 12, x=0.8, y = 0.93)
+    }else if(lab==TRUE & leg==FALSE){
+      cowplot::draw_plot(nplot1, x = 0.1, y = 0.1, width = 0.9, height = 0.9)+
+      cowplot::draw_image(system.file("logos", "ylab.jpg", package = "msco"),
+                            x=0.05, y=0.1, scale = 0.65, width = 0.05) +
+      cowplot::draw_image(system.file("logos", "xlab.jpg", package = "msco"),
+                            x=0.05, y=0.05, scale = 0.6, height = 0.05)
+    }else if(lab==FALSE & leg==TRUE){
+      cowplot::draw_plot(nplot1, x = 0.1, y = 0.1, width = 0.9, height = 0.9)
+    }else if(lab==FALSE & leg==FALSE){
+      cowplot::draw_plot(nplot1, x = 0.1, y = 0.1, width = 0.9, height = 0.9)
+    }
 
   #######################################################################
 

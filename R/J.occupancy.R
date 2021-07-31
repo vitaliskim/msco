@@ -801,7 +801,8 @@ j.occs<-function(s.data, orders = 1:nrow(s.data)){
 
 Jo.res <- function(){
   res <- readRDS(system.file("ms", "jo.res.RDS", package = "msco"))
-  res.plo <- Biobase::openPDF(system.file("ms", "jo.plots.pdf", package = "msco"))
+  # res.plo <- Biobase::openPDF(system.file("ms", "jo.plots.pdf", package = "msco"))
+  system(paste0('open "', paste0(system.file("ms", package = "msco"), "/jo.plots.pdf"), '"'))
 
   return(res)
 }
@@ -935,7 +936,8 @@ Jo.res <- function(){
 
 gbsm.res <- function(){
   gres <- readRDS(system.file("ms", "gbsm.res.RDS", package = "msco"))
-  Biobase::openPDF(system.file("ms", "gbsm.plots.pdf", package = "msco"))
+  # Biobase::openPDF(system.file("ms", "gbsm.plots.pdf", package = "msco"))
+  system(paste0('open "', paste0(system.file("ms", package = "msco"), "/gbsm.plots.pdf"), '"'))
   # Biobase::openPDF(system.file("ms", "Cluster.Dendrogram.pdf", package = "msco"))
   # Biobase::openPDF(system.file("ms", "B-splines.curves.pdf", package = "msco"))
   # Biobase::openPDF(system.file("ms", "pred.error.bands.pdf", package = "msco"))
