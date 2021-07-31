@@ -31,6 +31,8 @@ Jo.eng(
   Atype = TRUE,
   p.n.plot = FALSE,
   trans = FALSE,
+  lab = TRUE,
+  leg = TRUE,
   m.n.plot = FALSE
 )
 }
@@ -116,6 +118,12 @@ pairwise natural metric should be output.}
 \code{p.n.plot} should be transformed by raising them to (1/100). This can be done to
 compare \code{p.n.plot} with \code{All.plots} at a point where the order, \code{i = 2}.}
 
+\item{lab}{A logical value indicating if the plot labels should be added to the \code{m.n.plot}. This parameter
+helps to control the plots in the \code{nullmod_arch} function.}
+
+\item{leg}{A logical value indicating if the legend should be added to the \code{m.n.plot}. This parameter
+helps to control the plots in the \code{nullmod_arch} function.}
+
 \item{m.n.plot}{A logical value indicating whether null model plot produced using joint
 occupancy metrics should be output. The default is \code{FALSE}.}
 }
@@ -168,7 +176,6 @@ communities can be made.}
 }
 \examples{
 ex.data <- read.csv(system.file("extdata", "274.csv", package = "msco"))
-
 j.en <- msco::Jo.eng(ex.data, algo="sim2", metric = "j.occ", nReps = 999,
            dig = 3, s.dplot = FALSE, All.plots = TRUE, Jo.coeff = TRUE,
            my.AIC = TRUE, my.rsq = TRUE, Exp_Reg = TRUE, P.law_Reg = TRUE,
@@ -176,7 +183,7 @@ j.en <- msco::Jo.eng(ex.data, algo="sim2", metric = "j.occ", nReps = 999,
            Jo_val.sim = FALSE, C.I_Jo_val.sim = FALSE, Jo_val.obs = TRUE,
            Metric = TRUE, Algorithm = TRUE, S.order = TRUE,
            nmod_stats = TRUE, Pt_Arch_Vals = TRUE, Atype = TRUE,
-           p.n.plot = FALSE, trans = FALSE, m.n.plot = FALSE)
+           p.n.plot = FALSE, trans = FALSE, lab=FALSE, leg=FALSE, m.n.plot = FALSE)
 j.en
 
 }
