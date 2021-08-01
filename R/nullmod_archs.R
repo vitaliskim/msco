@@ -80,7 +80,6 @@ nullmod_archs <- function(){
                         x=0.42, y=0.07,scale = 0.15)
   return(all.plots)
 }
-
 # st <- Sys.time()
 # grDevices::pdf(file = paste0(system.file("ms", package = "msco"), "/real.arch.plots.pdf"), paper="a4r", height = 8.27, width = 11.69)
 # msco:::nullmod_archs()

@@ -33,11 +33,12 @@ execute the following code:\preformatted{  RNGkind(sample.kind = "Rejection")
 \item \strong{Figs. 3} can be replicated using:
 }\preformatted{ RNGkind(sample.kind = "Rejection")
  set.seed(14)
- grDevices::pdf(file = paste0(system.file("ms", package = "msco"), "/real.arch.plots.pdf"),
+ path <- system.file("ms", package = "msco")
+ grDevices::pdf(file = paste0(path, "/real.arch.plots.pdf"),
   paper="a4r", height = 8.27, width = 11.69)
  msco:::nullmod_archs()
  grDevices::dev.off()
- system(paste0('open "', paste0(system.file("ms", package = "msco"), "/real.arch.plots.pdf"), '"'))
+ system(paste0('open "', paste0(path, "/real.arch.plots.pdf"), '"'))
 }
 }
 \description{
