@@ -2,8 +2,8 @@
 # my.path <- system.file("extdata/myCSVs", package = "msco")
 # setwd(my.path)
 # my.files <- gtools::mixedsort(list.files(path = my.path, pattern = "*.csv"))
-# myfiles = lapply(my.files, utils::read.csv, header=T)
-
+# RNGkind(sample.kind = "Rejection")
+# set.seed(14)
 richness.variances <- function(my.files, Boxplot=TRUE){
   myfiles = lapply(my.files, utils::read.csv, header=T)
   richness_var <- c()
