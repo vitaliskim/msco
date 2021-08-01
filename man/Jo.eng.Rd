@@ -31,8 +31,8 @@ Jo.eng(
   Atype = TRUE,
   p.n.plot = FALSE,
   trans = FALSE,
-  lab = TRUE,
-  leg = TRUE,
+  lab = FALSE,
+  leg = FALSE,
   m.n.plot = FALSE
 )
 }

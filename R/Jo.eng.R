@@ -135,7 +135,7 @@ Jo.eng<-function(s.data, algo="sim2", metric = "j.occ", nReps = 999, dig = 3,
                      Obs.data = FALSE, Sim.data = FALSE, Jo_val.sim = FALSE,
                      C.I_Jo_val.sim = FALSE, Jo_val.obs = TRUE, Metric = TRUE,
                      Algorithm = TRUE, S.order = TRUE, nmod_stats = TRUE, Pt_Arch_Vals = TRUE,
-                     Atype = TRUE, p.n.plot = FALSE, trans = FALSE, lab=TRUE, leg=TRUE, m.n.plot = FALSE){
+                     Atype = TRUE, p.n.plot = FALSE, trans = FALSE, lab=FALSE, leg=FALSE, m.n.plot = FALSE){
 
   if (!is.matrix(s.data)) {
     s.data <- as.matrix(s.data)
@@ -679,34 +679,57 @@ Jo.eng<-function(s.data, algo="sim2", metric = "j.occ", nReps = 999, dig = 3,
   ##### null model plot only
 
 
-  nplot1 <- ggplot2::ggplot(ldtf, ggplot2::aes(x=s.order,
-                                               y=lObs)) +
-    ggplot2::theme_grey() +
-    ggplot2::geom_point(ggplot2::aes(y = lObs, colour="Observed"),
-                        shape = 1) +
-    ggplot2::geom_line(ggplot2::aes(y = lObs, colour=c("Observed")),
-                       size=0) +
-    ggplot2::geom_line(ggplot2::aes(x = 2), colour="darkgrey",
-                       size=0, linetype="dashed") +
-    ggplot2::geom_ribbon(data = ldtf, ggplot2::aes(ymin = lL.L,
-                                                   ymax=lU.L,
-                                                   fill="Null model"),
-                         alpha=0.5) +
-    ggplot2::scale_colour_manual(c("",""),values=c("black"))+
-    ggplot2::scale_fill_manual("",values="grey12", drop=F)+
-    ggplot2::ylab("")+
-    ggplot2::xlab("") +
-    ggplot2::scale_x_continuous(
-      breaks = function(x) unique(floor(pretty(seq(0, (max(x) + 1) * 1.1)))))+
-    ggplot2::scale_y_continuous(labels = function(y)round((10^y)^(1/100),
-                                                          digits = dig),
-                                breaks = scales::pretty_breaks(n=4))+
-    ggplot2::ggtitle("")+
-    if(leg==TRUE){
+  if(leg==TRUE){
+    nplot1 <- ggplot2::ggplot(ldtf, ggplot2::aes(x=s.order,
+                                                 y=lObs)) +
+      ggplot2::theme_grey() +
+      ggplot2::geom_point(ggplot2::aes(y = lObs, colour="Observed"),
+                          shape = 1) +
+      ggplot2::geom_line(ggplot2::aes(y = lObs, colour=c("Observed")),
+                         size=0) +
+      ggplot2::geom_line(ggplot2::aes(x = 2), colour="darkgrey",
+                         size=0, linetype="dashed") +
+      ggplot2::geom_ribbon(data = ldtf, ggplot2::aes(ymin = lL.L,
+                                                     ymax=lU.L,
+                                                     fill="Null model"),
+                           alpha=0.5) +
+      ggplot2::scale_colour_manual(c("",""),values=c("black"))+
+      ggplot2::scale_fill_manual("",values="grey12", drop=F)+
+      ggplot2::ylab("")+
+      ggplot2::xlab("") +
+      ggplot2::scale_x_continuous(
+        breaks = function(x) unique(floor(pretty(seq(0, (max(x) + 1) * 1.1)))))+
+      ggplot2::scale_y_continuous(labels = function(y)round((10^y)^(1/100),
+                                                            digits = dig),
+                                  breaks = scales::pretty_breaks(n=4))+
+      ggplot2::ggtitle("")+
       ggplot2::theme(legend.position = "right")
-    }else{
+  }else{
+    nplot1 <- ggplot2::ggplot(ldtf, ggplot2::aes(x=s.order,
+                                                 y=lObs)) +
+      ggplot2::theme_grey() +
+      ggplot2::geom_point(ggplot2::aes(y = lObs, colour="Observed"),
+                          shape = 1) +
+      ggplot2::geom_line(ggplot2::aes(y = lObs, colour=c("Observed")),
+                         size=0) +
+      ggplot2::geom_line(ggplot2::aes(x = 2), colour="darkgrey",
+                         size=0, linetype="dashed") +
+      ggplot2::geom_ribbon(data = ldtf, ggplot2::aes(ymin = lL.L,
+                                                     ymax=lU.L,
+                                                     fill="Null model"),
+                           alpha=0.5) +
+      ggplot2::scale_colour_manual(c("",""),values=c("black"))+
+      ggplot2::scale_fill_manual("",values="grey12", drop=F)+
+      ggplot2::ylab("")+
+      ggplot2::xlab("") +
+      ggplot2::scale_x_continuous(
+        breaks = function(x) unique(floor(pretty(seq(0, (max(x) + 1) * 1.1)))))+
+      ggplot2::scale_y_continuous(labels = function(y)round((10^y)^(1/100),
+                                                            digits = dig),
+                                  breaks = scales::pretty_breaks(n=4))+
+      ggplot2::ggtitle("")+
       ggplot2::theme(legend.position = "none")
-    }
+  }
 
 
   nplot <- cowplot::ggdraw() +

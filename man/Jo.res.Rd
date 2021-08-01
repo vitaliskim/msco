@@ -29,6 +29,16 @@ execute the following code:\preformatted{  RNGkind(sample.kind = "Rejection")
 
 \strong{Caveat:} The above code can take approximately 10 minutes to execute. It took 10.39014 minutes to run
 (and output results) on a 64 bit system with 8 GB RAM and 3.60 GHz CPU.
+\itemize{
+\item \strong{Figs. 3} can be replicated using:
+}\preformatted{ RNGkind(sample.kind = "Rejection")
+ set.seed(14)
+ grDevices::pdf(file = paste0(system.file("ms", package = "msco"), "/real.arch.plots.pdf"),
+  paper="a4r", height = 8.27, width = 11.69)
+ msco:::nullmod_archs()
+ grDevices::dev.off()
+ system(paste0('open "', paste0(system.file("ms", package = "msco"), "/real.arch.plots.pdf"), '"'))
+}
 }
 \description{
 This function is not for general use but avails the results presented
