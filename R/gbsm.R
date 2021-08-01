@@ -21,8 +21,8 @@
 #' @param n Number of samples for which the joint occupancy is computed.
 #' @param b.plots Boolean value indicating if B-spline basis functions should be plotted.
 #' @param bsplines This parameter indicates if a single or all B-spline curves should be plotted.
-#'  If `b.plots==TRUE` and `bsplines=="single"`, the B-spline curves for the first predictor in
-#'   `t.data` will be plotted. Any other value for `bspline` results in the B-spline curves for
+#'  If `b.plots=TRUE` and `bsplines="single"`, the B-spline curves for the first predictor in
+#'   `t.data` will be plotted. Any other value for `bsplines` results in the B-spline curves for
 #'    all predictors being plotted.
 #' @param response.curves A boolean value indicating if all response curves should be plotted.
 #' @param leg Boolean value indicating if the legend of the gbsm outputs should be included in the plots. This
