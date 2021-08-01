@@ -45,8 +45,8 @@ raw form of index without rescaling.}
 \item{b.plots}{Boolean value indicating if B-spline basis functions should be plotted.}
 
 \item{bsplines}{This parameter indicates if a single or all B-spline curves should be plotted.
-If \code{b.plots==TRUE} and \code{bsplines=="single"}, the B-spline curves for the first predictor in
-\code{t.data} will be plotted. Any other value for \code{bspline} results in the B-spline curves for
+If \code{b.plots=TRUE} and \code{bsplines="single"}, the B-spline curves for the first predictor in
+\code{t.data} will be plotted. Any other value for \code{bsplines} results in the B-spline curves for
 all predictors being plotted.}
 
 \item{scat.plot}{Boolean value indicating if scatter plots between joint occupancy and its predicted
