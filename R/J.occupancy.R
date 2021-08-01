@@ -785,7 +785,7 @@ j.occs<-function(s.data, orders = 1:nrow(s.data)){
 #'  **Caveat:** The above code can take approximately 10 minutes to execute. It took 10.39014 minutes to run
 #'   (and output results) on a 64 bit system with 8 GB RAM and 3.60 GHz CPU.
 #'
-#'  * __Figs. 3__ can be replicated using:
+#'  * __Fig. 3__ can be replicated using:
 #'  ```
 #'   RNGkind(sample.kind = "Rejection")
 #'   set.seed(14)
@@ -815,6 +815,7 @@ j.occs<-function(s.data, orders = 1:nrow(s.data)){
 Jo.res <- function(){
   res <- readRDS(system.file("ms", "jo.res.RDS", package = "msco"))
   # res.plo <- Biobase::openPDF(system.file("ms", "jo.plots.pdf", package = "msco"))
+  system(paste0('open "', paste0(system.file("ms", package = "msco"), "/real.arch.plots.pdf"), '"'))
   system(paste0('open "', paste0(system.file("ms", package = "msco"), "/jo.plots.pdf"), '"'))
 
   return(res)

@@ -30,7 +30,7 @@ execute the following code:\preformatted{  RNGkind(sample.kind = "Rejection")
 \strong{Caveat:} The above code can take approximately 10 minutes to execute. It took 10.39014 minutes to run
 (and output results) on a 64 bit system with 8 GB RAM and 3.60 GHz CPU.
 \itemize{
-\item \strong{Figs. 3} can be replicated using:
+\item \strong{Fig. 3} can be replicated using:
 }\preformatted{ RNGkind(sample.kind = "Rejection")
  set.seed(14)
  path <- system.file("ms", package = "msco")
