@@ -57,8 +57,8 @@ simulated or any known \code{.csv} binary data matrices serving as the proxies f
 presence/absence community data can be accessed with \link[msco]{Jo.plots} function.
 }
 \examples{
-s.arc <- msco::Arch_schem()
-s.arc
+msco::Arch_schem()
+
 }
 \references{
 \enumerate{

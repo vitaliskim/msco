@@ -126,15 +126,17 @@ Archetypes <- function(my.files, algo = "sim2", metric = "J.occ", nReps = 999){
 #'   simulated or any known `.csv` binary data matrices serving as the proxies for species-by-site
 #'    presence/absence community data can be accessed with \link[msco]{Jo.plots} function.
 #'
-#' @examples s.arc <- msco::Arch_schem()
-#' s.arc
+#' @examples
+#' msco::Arch_schem()
+#'
 #' @export
 #' @md
 
 Arch_schem <- function(){
-  system(paste0('open "', paste0(system.file("ms", package = "msco"), "/Schematic_archetype_figures.pdf"), '"'))
+  schem <- system(paste0('open "', paste0(system.file("ms", package = "msco"), "/Schematic_archetype_figures.pdf"), '"'))
   # magick::image_scale(magick::image_read(system.file(
     # "logos", "arcfig.png", package = "msco")),"597.4x514!")
+  return(schem)
 }
 
 #' Exponential and power law regression model comparisons
