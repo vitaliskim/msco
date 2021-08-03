@@ -297,32 +297,31 @@ Jo.eng<-function(s.data, algo="sim2", metric = "j.occ", nReps = 999, dig = 3,
   ### Null model plot using pairwise natural metric  ####################
 
   if(p.n.plot == TRUE & trans==FALSE){
-    p.plot <- function(){
-      simm <- Sim[,2]
-      obss <- Obs[2]
-      ci <- c.i[,2]
+    grDevices::pdf(file = paste0(system.file("ms", package = "msco"), "/pairwise.nm.plot.pdf"), height = 5, width = 6)
+    simm <- Sim[,2]
+    obss <- Obs[2]
+    ci <- c.i[,2]
 
-      graphics::hist(simm, xlab = expression(paste("Simulated", " ",
-                                                   italic(Natural), " ",
-                                                   "Metric", " ", (J^{'{2}'}), sep='')),
-                     main = "Null model test")
-      graphics::abline(v=obss,col="black", lty="dotted", lwd=2)
-      graphics::abline(v=ci,col="black", lty="longdash", lwd=2)
-    }
+    graphics::hist(simm, xlab = expression(paste("Simulated", " ",
+                                                 italic(natural), " ",
+                                                 "metric", " ", (italic(J)^{'{2}'}), sep='')),
+                   main = "Null model test")
+    graphics::abline(v=obss,col="blue", lty="dotted", lwd=1.8)
+    graphics::abline(v=ci,col="red", lty="longdash", lwd=1.5)
+    grDevices::dev.off()
 
   }else if(p.n.plot == TRUE & trans==TRUE){
-    p.plot2 <- function(){
-      simm <- round((Sim[,2])^(1/100), digits = dig)
-      obss <- round((Obs[2])^(1/100), digits = dig)
-      ci <-round((c.i[,2])^(1/100), digits = dig)
-      graphics::hist(simm, xlab = expression(paste("Simulated", " ",
-                                                   italic(Natural), " ",
-                                                   "Metric", " ", (J^{'{2}'}), sep='')),
-                     main = "Null model test")
-      graphics::abline(v=obss,col="black", lty="dotted", lwd=2)
-      graphics::abline(v=ci,col="black", lty="longdash", lwd=2)
-    }
-
+    grDevices::pdf(file = paste0(system.file("ms", package = "msco"), "/pairwise.nm.plot.pdf"), height = 5, width = 6)
+    simm <- round((Sim[,2])^(1/100), digits = dig)
+    obss <- round((Obs[2])^(1/100), digits = dig)
+    ci <-round((c.i[,2])^(1/100), digits = dig)
+    graphics::hist(simm, xlab = expression(paste("Simulated", " ",
+                                                 italic(natural), " ",
+                                                 "metric", " ", (italic(J)^{'{2}'}), sep='')),
+                   main = "Null model test")
+    graphics::abline(v=obss,col="blue", lty="dotted", lwd=1.8)
+    graphics::abline(v=ci,col="red", lty="longdash", lwd=1.5)
+    grDevices::dev.off()
   }
 
   ###########################################################################
@@ -763,11 +762,12 @@ Jo.eng<-function(s.data, algo="sim2", metric = "j.occ", nReps = 999, dig = 3,
   if(m.n.plot == TRUE){
     jo.engine$m.n.plot <- nplot
   }
-  if(p.n.plot == TRUE & trans==FALSE){
-    jo.engine$p.n.plot <- p.plot()
-  }else if(p.n.plot == TRUE & trans==TRUE){
-    jo.engine$p.n.plot <- p.plot2()
+
+  ## Pairwise null model plot
+  if(p.n.plot==TRUE){
+    jo.engine$p.n.plot <- system(paste0('open "', paste0(system.file("ms", package = "msco"), "/pairwise.nm.plot.pdf"), '"'))
   }
+
 
   jo.engine$"#################  REGRESSION ANALYSES  ###############" <- noquote('')
 

@@ -961,3 +961,81 @@ gbsm.res <- function(){
   return(gres)
 }
 
+#' Results on `msco` illustration (presented in Lagat et al., 202Xc)
+#'
+#' This function is not for general use but avails the `msco` R package
+#'  illustration presented in Lagat *et al*. (202Xc).
+#'
+#' @return Returns all the results presented in Lagat *et al*. (202Xc). To replicate
+#'
+#' * __Figs. 1__, __2__ and __Table 2__, execute the following code:
+#'
+#'
+#'   ```
+#'
+#'    RNGkind(sample.kind = "Rejection")
+#'    set.seed(14)
+#'    ex.data <- read.csv(system.file("extdata", "251.csv", package = "msco"))
+#'    j.en <- msco::Jo.eng(ex.data, algo="sim2", metric = "j.occ", nReps = 999, dig = 3,
+#'    s.dplot = FALSE, All.plots = TRUE, Jo.coeff = TRUE, my.AIC = TRUE,
+#'    my.rsq = TRUE, Exp_Reg = TRUE, P.law_Reg = TRUE, Exp_p.l_Reg = TRUE,
+#'    Obs.data = FALSE, Sim.data = FALSE, Jo_val.sim = FALSE, lab=FALSE,
+#'    leg=FALSE, C.I_Jo_val.sim = FALSE, Jo_val.obs = TRUE, Metric = TRUE,
+#'    Algorithm = TRUE, S.order = TRUE, nmod_stats = TRUE, Pt_Arch_Vals = TRUE,
+#'    Atype = TRUE, p.n.plot = TRUE, trans = FALSE,  m.n.plot = FALSE)
+#'    j.en$nmod_stats
+#'    grDevices::pdf(file = paste0(system.file("ms", package = "msco"),
+#'     "/aJo.plots.pdf"), paper="a4r", height = 8.27, width = 11.69)
+#'    j.en$all.plots
+#'    grDevices::dev.off()
+#'    system(paste0('open "', paste0(system.file("ms", package = "msco"),
+#'     "/aJo.plots.pdf"), '"'))
+#'
+#'   ```
+#'
+#' * __Fig. 3__, execute the following code:
+#'
+#'   ```
+#'    RNGkind(sample.kind = "Rejection")
+#'    set.seed(14)
+#'    grDevices::pdf(file = paste0(system.file("ms", package = "msco"),
+#'     "/real.arch.plots2.pdf"), paper="a4r", height = 8.27, width = 11.69)
+#'    msco:::nullmod_archs2()
+#'    grDevices::dev.off()
+#'    system(paste0('open "', paste0(system.file("ms", package = "msco"),
+#'     "/real.arch.plots2.pdf"), '"'))
+#'
+#'   ```
+#'
+#' @references
+#' \enumerate{
+#' \item{Lagat, V. K., Latombe, G. and Hui, C. (202Xa). *A multi-species co-occurrence
+#'  index to avoid type II errors in null model testing*. Upcoming.}
+#'
+#'  \item{Lagat, V. K., Latombe, G. and Hui, C. (202Xb). *Dissecting the effects of
+#'   neutral encounter versus functional traits on multi-order species interactions
+#'    and co-occurrence with generalised B-spline modelling*. Upcoming.}
+#' }
+#'
+#' @examples
+#' \dontrun{
+#'
+#' ms.res <- msco::msco.res()
+#'
+#' }
+#' @export
+#' @md
+
+msco.res <- function(){
+  mres <- readRDS(system.file("ms", "msco.res.RDS", package = "msco"))
+  system(paste0('open "', paste0(system.file("ms", package = "msco"), "/real.arch.plots2.pdf"), '"'))
+  # Biobase::openPDF(system.file("ms", "Cluster.Dendrogram.pdf", package = "msco"))
+  # Biobase::openPDF(system.file("ms", "B-splines.curves.pdf", package = "msco"))
+  # Biobase::openPDF(system.file("ms", "pred.error.bands.pdf", package = "msco"))
+  # Biobase::openPDF(system.file("ms", "gbsm.plots.pdf", package = "msco"))
+  # saveRDS(gb.res, file = paste0(system.file("ms", package="msco"), "/gbsm.res.RDS"))
+  # saveRDS(j.en, file = paste0(system.file("ms", package="msco"), "/msco.res.RDS"))
+
+  return(mres)
+}
+

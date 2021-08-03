@@ -1,11 +1,11 @@
 ########################################################################################################
 #########################                                ###############################################
-######################### To replicate Fig. 3 (Jo paper) ###############################################
+######################### To replicate Fig. 3 (msco paper) #############################################
 #########################                                ###############################################
 ########################################################################################################
 
-nullmod_archs <- function(){
-  a1 <- utils::read.csv(system.file("extdata/myCSVs", "133.csv", package = "msco"))
+nullmod_archs2 <- function(){
+  a1 <- utils::read.csv(system.file("extdata/myCSVs", "12.csv", package = "msco"))
   j.en1 <- Jo.eng(a1, algo="sim2", metric = "j.occ", nReps = 999,
                   dig = 3, s.dplot = FALSE, All.plots = FALSE, Jo.coeff = FALSE,
                   my.AIC = FALSE, my.rsq = FALSE, Exp_Reg = FALSE, P.law_Reg = FALSE,
@@ -15,7 +15,7 @@ nullmod_archs <- function(){
                   nmod_stats = FALSE, Pt_Arch_Vals = FALSE, Atype = TRUE,
                   p.n.plot = FALSE, trans = FALSE, lab=FALSE, leg=FALSE, m.n.plot = TRUE)
 
-  a2 <- utils::read.csv(system.file("extdata/myCSVs", "226.csv", package = "msco"))
+  a2 <- utils::read.csv(system.file("extdata/myCSVs", "204.csv", package = "msco"))
   j.en2 <- Jo.eng(a2, algo="sim2", metric = "j.occ", nReps = 999,
                   dig = 3, s.dplot = FALSE, All.plots = FALSE, Jo.coeff = FALSE,
                   my.AIC = FALSE, my.rsq = FALSE, Exp_Reg = FALSE, P.law_Reg = FALSE,
@@ -25,7 +25,7 @@ nullmod_archs <- function(){
                   nmod_stats = FALSE, Pt_Arch_Vals = FALSE, Atype = TRUE,
                   p.n.plot = FALSE, trans = FALSE, lab=FALSE, leg=FALSE, m.n.plot = TRUE)
 
-  a5 <- utils::read.csv(system.file("extdata/myCSVs", "108.csv", package = "msco"))
+  a5 <- utils::read.csv(system.file("extdata/myCSVs", "107.csv", package = "msco"))
   j.en5 <- Jo.eng(a5, algo="sim2", metric = "j.occ", nReps = 999,
                   dig = 3, s.dplot = FALSE, All.plots = FALSE, Jo.coeff = FALSE,
                   my.AIC = FALSE, my.rsq = FALSE, Exp_Reg = FALSE, P.law_Reg = FALSE,
@@ -35,7 +35,7 @@ nullmod_archs <- function(){
                   nmod_stats = FALSE, Pt_Arch_Vals = FALSE, Atype = TRUE,
                   p.n.plot = FALSE, trans = FALSE, lab=FALSE, leg=FALSE, m.n.plot = TRUE)
 
-  a9 <- utils::read.csv(system.file("extdata/myCSVs", "274.csv", package = "msco"))
+  a9 <- utils::read.csv(system.file("extdata/myCSVs", "65.csv", package = "msco"))
   j.en9 <- Jo.eng(a9, algo="sim2", metric = "j.occ", nReps = 999,
                   dig = 3, s.dplot = FALSE, All.plots = FALSE, Jo.coeff = FALSE,
                   my.AIC = FALSE, my.rsq = FALSE, Exp_Reg = FALSE, P.law_Reg = FALSE,
@@ -45,7 +45,7 @@ nullmod_archs <- function(){
                   nmod_stats = FALSE, Pt_Arch_Vals = FALSE, Atype = TRUE,
                   p.n.plot = FALSE, trans = FALSE, lab=FALSE, leg=FALSE, m.n.plot = TRUE)
 
-  a4 <- utils::read.csv(system.file("extdata/myCSVs", "251.csv", package = "msco"))
+  a4 <- utils::read.csv(system.file("extdata/myCSVs", "272.csv", package = "msco"))
   j.en4 <- Jo.eng(a4, algo="sim2", metric = "j.occ", nReps = 999,
                   dig = 3, s.dplot = FALSE, All.plots = FALSE, Jo.coeff = FALSE,
                   my.AIC = FALSE, my.rsq = FALSE, Exp_Reg = FALSE, P.law_Reg = FALSE,
@@ -54,8 +54,6 @@ nullmod_archs <- function(){
                   Metric = FALSE, Algorithm = FALSE, S.order = FALSE,
                   nmod_stats = FALSE, Pt_Arch_Vals = FALSE, Atype = TRUE,
                   p.n.plot = FALSE, trans = FALSE, lab=FALSE, leg=FALSE, m.n.plot = TRUE)
-
-
 
   all.plots <- cowplot::ggdraw() +
     cowplot::draw_plot(j.en1$m.n.plot, x = 0.05, y = 0.50, width = .22, height = .5)+
@@ -83,10 +81,8 @@ nullmod_archs <- function(){
 # st <- Sys.time()
 # RNGkind(sample.kind = "Rejection")
 # set.seed(14)
-# grDevices::pdf(file = paste0(system.file("ms", package = "msco"), "/real.arch.plots.pdf"), paper="a4r", height = 8.27, width = 11.69)
-# msco:::nullmod_archs()
+# grDevices::pdf(file = paste0(system.file("ms", package = "msco"), "/real.arch.plots2.pdf"), paper="a4r", height = 8.27, width = 11.69)
+# msco:::nullmod_archs2()
 # grDevices::dev.off()
-# system(paste0('open "', paste0(system.file("ms", package = "msco"), "/real.arch.plots.pdf"), '"'))
+# system(paste0('open "', paste0(system.file("ms", package = "msco"), "/real.arch.plots2.pdf"), '"'))
 # et <- Sys.time();et-st
-
-
