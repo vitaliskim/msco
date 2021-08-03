@@ -873,7 +873,7 @@ Jo.res <- function(){
 #'        setwd(my.path)
 #'        s.data <- get(load("s.data.csv")) ## Species-by-site matrix
 #'        taxa <- get(load("taxa.levels.csv")) ## Species taxa
-#'        my.phylo.plot <- msco::s.info(s.data,
+#'        my.phylo.plot <- msco::s.phylo(s.data,
 #'                                  database = "ncbi",
 #'                                  obs.taxa=FALSE,
 #'                                  taxa.levels = taxa,
