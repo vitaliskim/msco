@@ -132,8 +132,9 @@ Archetypes <- function(my.files, algo = "sim2", metric = "J.occ", nReps = 999){
 #' @md
 
 Arch_schem <- function(){
-  magick::image_scale(magick::image_read(system.file(
-    "logos", "arcfig.png", package = "msco")),"597.4x514!")
+  system(paste0('open "', paste0(system.file("ms", package = "msco"), "/Schematic_archetype_figures.pdf"), '"'))
+  # magick::image_scale(magick::image_read(system.file(
+    # "logos", "arcfig.png", package = "msco")),"597.4x514!")
 }
 
 #' Exponential and power law regression model comparisons
