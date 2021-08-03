@@ -13,13 +13,36 @@ Returns all the results presented in Lagat \emph{et al}. (202Xc). To replicate
  RNGkind(sample.kind = "Rejection")
  set.seed(14)
  ex.data <- read.csv(system.file("extdata", "251.csv", package = "msco"))
- j.en <- msco::Jo.eng(ex.data, algo="sim2", metric = "j.occ", nReps = 999, dig = 3,
- s.dplot = FALSE, All.plots = TRUE, Jo.coeff = TRUE, my.AIC = TRUE,
- my.rsq = TRUE, Exp_Reg = TRUE, P.law_Reg = TRUE, Exp_p.l_Reg = TRUE,
- Obs.data = FALSE, Sim.data = FALSE, Jo_val.sim = FALSE, lab=FALSE,
- leg=FALSE, C.I_Jo_val.sim = FALSE, Jo_val.obs = TRUE, Metric = TRUE,
- Algorithm = TRUE, S.order = TRUE, nmod_stats = TRUE, Pt_Arch_Vals = TRUE,
- Atype = TRUE, p.n.plot = TRUE, trans = FALSE,  m.n.plot = FALSE)
+ j.en <- msco::Jo.eng(ex.data,
+             algo="sim2",
+             metric = "j.occ",
+             nReps = 999,
+             dig = 3,
+             s.dplot = FALSE,
+             All.plots = TRUE,
+             Jo.coeff = TRUE,
+             my.AIC = TRUE,
+             my.rsq = TRUE,
+             Exp_Reg = TRUE,
+             P.law_Reg = TRUE,
+             Exp_p.l_Reg = TRUE,
+             Obs.data = FALSE,
+             Sim.data = FALSE,
+             Jo_val.sim = FALSE,
+             lab=FALSE,
+             leg=FALSE,
+             C.I_Jo_val.sim = FALSE,
+             Jo_val.obs = TRUE,
+             Metric = TRUE,
+             Algorithm = TRUE,
+             S.order = TRUE,
+             nmod_stats = TRUE,
+             Pt_Arch_Vals = TRUE,
+             Atype = TRUE,
+             p.n.plot = TRUE,
+             trans = FALSE,
+             m.n.plot = FALSE)
+
  j.en$nmod_stats ## Table 2
  grDevices::pdf(file = paste0(system.file("ms", package = "msco"),
   "/aJo.plots.pdf"), paper="a4r", height = 8.27, width = 11.69)
