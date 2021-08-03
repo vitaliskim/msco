@@ -7,8 +7,8 @@
 Arch_schem()
 }
 \value{
-The \code{Arch_schem} function returns a \strong{schematic diagram} of the null model tests with the following
-components:
+The \code{Arch_schem} function returns a \strong{schematic diagram} of the archetypes of species
+co-occurrence patterns with the following components:
 \item{\strong{Archetype}}{\strong{Description/Interpretation}}
 \item{A1}{The joint occupancy value of the observed community matrix (dark solid line) is above the null
 model. This means the null hypothesis should be rejected, confirming the presence of a

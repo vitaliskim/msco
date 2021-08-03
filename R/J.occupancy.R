@@ -68,8 +68,8 @@ Archetypes <- function(my.files, algo = "sim2", metric = "J.occ", nReps = 999){
 #' A schematic diagram illustrating nine possible archetypes (from the null model test) of the
 #'  patterns of species co-occurrences in ecological communities.
 #'
-#' @return The `Arch_schem` function returns a **schematic diagram** of the null model tests with the following
-#'  components:
+#' @return The `Arch_schem` function returns a **schematic diagram** of the archetypes of species
+#'  co-occurrence patterns with the following components:
 #' \item{**Archetype**}{**Description/Interpretation**}
 #' \item{A1}{The joint occupancy value of the observed community matrix (dark solid line) is above the null
 #'  model. This means the null hypothesis should be rejected, confirming the presence of a
