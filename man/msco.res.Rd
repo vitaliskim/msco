@@ -20,7 +20,7 @@ Returns all the results presented in Lagat \emph{et al}. (202Xc). To replicate
  leg=FALSE, C.I_Jo_val.sim = FALSE, Jo_val.obs = TRUE, Metric = TRUE,
  Algorithm = TRUE, S.order = TRUE, nmod_stats = TRUE, Pt_Arch_Vals = TRUE,
  Atype = TRUE, p.n.plot = TRUE, trans = FALSE,  m.n.plot = FALSE)
- j.en$nmod_stats
+ j.en$nmod_stats ## Table 2
  grDevices::pdf(file = paste0(system.file("ms", package = "msco"),
   "/aJo.plots.pdf"), paper="a4r", height = 8.27, width = 11.69)
  j.en$all.plots
@@ -49,6 +49,7 @@ illustration presented in Lagat \emph{et al}. (202Xc).
 \dontrun{
 
 ms.res <- msco::msco.res()
+ms.res$nmod_stats ## Table 2
 
 }
 }
@@ -60,5 +61,9 @@ index to avoid type II errors in null model testing}. Upcoming.}
 \item{Lagat, V. K., Latombe, G. and Hui, C. (202Xb). \emph{Dissecting the effects of
 neutral encounter versus functional traits on multi-order species interactions
 and co-occurrence with generalised B-spline modelling}. Upcoming.}
+
+\item{Lagat, V. K., Latombe, G. and Hui, C. (202Xc). \verb{msco:} \emph{an R software
+package for null model testing of multi-species interactions and  interference,
+and analysis of their drivers}. Upcoming.}
 }
 }

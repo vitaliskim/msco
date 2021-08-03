@@ -983,7 +983,7 @@ gbsm.res <- function(){
 #'    leg=FALSE, C.I_Jo_val.sim = FALSE, Jo_val.obs = TRUE, Metric = TRUE,
 #'    Algorithm = TRUE, S.order = TRUE, nmod_stats = TRUE, Pt_Arch_Vals = TRUE,
 #'    Atype = TRUE, p.n.plot = TRUE, trans = FALSE,  m.n.plot = FALSE)
-#'    j.en$nmod_stats
+#'    j.en$nmod_stats ## Table 2
 #'    grDevices::pdf(file = paste0(system.file("ms", package = "msco"),
 #'     "/aJo.plots.pdf"), paper="a4r", height = 8.27, width = 11.69)
 #'    j.en$all.plots
@@ -1015,12 +1015,17 @@ gbsm.res <- function(){
 #'  \item{Lagat, V. K., Latombe, G. and Hui, C. (202Xb). *Dissecting the effects of
 #'   neutral encounter versus functional traits on multi-order species interactions
 #'    and co-occurrence with generalised B-spline modelling*. Upcoming.}
+#'
+#'   \item{Lagat, V. K., Latombe, G. and Hui, C. (202Xc). `msco:` *an R software
+#'    package for null model testing of multi-species interactions and  interference,
+#'     and analysis of their drivers*. Upcoming.}
 #' }
 #'
 #' @examples
 #' \dontrun{
 #'
 #' ms.res <- msco::msco.res()
+#' ms.res$nmod_stats ## Table 2
 #'
 #' }
 #' @export
@@ -1029,11 +1034,6 @@ gbsm.res <- function(){
 msco.res <- function(){
   mres <- readRDS(system.file("ms", "msco.res.RDS", package = "msco"))
   system(paste0('open "', paste0(system.file("ms", package = "msco"), "/real.arch.plots2.pdf"), '"'))
-  # Biobase::openPDF(system.file("ms", "Cluster.Dendrogram.pdf", package = "msco"))
-  # Biobase::openPDF(system.file("ms", "B-splines.curves.pdf", package = "msco"))
-  # Biobase::openPDF(system.file("ms", "pred.error.bands.pdf", package = "msco"))
-  # Biobase::openPDF(system.file("ms", "gbsm.plots.pdf", package = "msco"))
-  # saveRDS(gb.res, file = paste0(system.file("ms", package="msco"), "/gbsm.res.RDS"))
   # saveRDS(j.en, file = paste0(system.file("ms", package="msco"), "/msco.res.RDS"))
 
   return(mres)
