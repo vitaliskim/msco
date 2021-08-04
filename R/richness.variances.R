@@ -1,3 +1,6 @@
+# my.path <- system.file("extdata/myCSVs", package = "msco")
+# setwd(my.path)
+# my.files <- gtools::mixedsort(list.files(path = my.path, pattern = "*.csv"))
 
 richness.variances <- function(my.files, Boxplot=TRUE){
   myfiles = lapply(my.files, utils::read.csv, header=T)
@@ -5,6 +8,8 @@ richness.variances <- function(my.files, Boxplot=TRUE){
   Archs <- list()
   community_archs <- list()
   richness_cv_archs <- list()
+  RNGkind(sample.kind = "Rejection")
+  set.seed(14)
   for (j in 1:length(myfiles)) {
     coe <- msco::Jo.eng(myfiles[[j]], nReps = 999)
     Archs[[j]] <- coe$Archetype ### Archetypes
@@ -51,13 +56,14 @@ richness.variances <- function(my.files, Boxplot=TRUE){
   richn <- list()
   richn$community_archs <- community_archs
   richn$richness_cv_archs <- richness_cv_archs
-  grDevices::pdf(file = paste0(system.file("ms", package = "msco"), "/richness_cv.archs.plots.pdf"), height = 5, width = 5)
+  # grDevices::pdf(file = paste0(system.file("ms", package = "msco"), "/richness_cv.archs.plots.pdf"), height = 5, width = 5)
   if(Boxplot==TRUE){
-    richn$Boxplot <- graphics::boxplot(richness_cv_archs[-which(names(richness_cv_archs)=="NA")], xlab="Archetypes", ylab="Richness coefficient of variance")
+  graphics::boxplot(richness_cv_archs[-which(names(richness_cv_archs)=="NA")],
+                                       xlab="Archetypes", ylab="Richness coefficient of variation")
   }
-  grDevices::dev.off()
-  system(paste0('open "', paste0(system.file("ms", package = "msco"), "/richness_cv.archs.plots.pdf"), '"'))
-  return(richn)
+  # grDevices::dev.off()
+  # system(paste0('open "', paste0(system.file("ms", package = "msco"), "/richness_cv.archs.plots.pdf"), '"'))
+return(richn)
 }
 # st <- Sys.time()
 # my.path <- system.file("extdata/myCSVs", package = "msco")
@@ -67,6 +73,7 @@ richness.variances <- function(my.files, Boxplot=TRUE){
 # set.seed(14)
 # grDevices::pdf(file = paste0(system.file("ms", package = "msco"), "/richness_cv.archs.plots.pdf"), height = 5, width = 5)
 # richn.cv <- msco:::richness.variances(my.files)
-# # system(paste0('open "', paste0(system.file("ms", package = "msco"), "/richness_cv.archs.plots.pdf"), '"'))
+# grDevices::dev.off()
+# system(paste0('open "', paste0(system.file("ms", package = "msco"), "/richness_cv.archs.plots.pdf"), '"'))
 # et <- Sys.time();et-st
 

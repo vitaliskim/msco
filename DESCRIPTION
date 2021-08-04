@@ -22,7 +22,7 @@ Description: Co-occurrence patterns are typically explored between species pairs
  neutral encounter versus functional traits on multi-order species interactions and co-occurrence.
 Depends: R (>= 3.5.0)
 License: GPL-3
-Imports: scales, ggplot2, dplyr, minpack.lm, cowplot, gtools, tibble, tidyr, magick, caret,
+Imports: scales, ggplot2, dplyr, minpack.lm, cowplot, gtools, tibble, tidyr, caret,
  pagenum, ape, import, taxize, glm2, splines2
 Encoding: UTF-8
 LazyData: true
