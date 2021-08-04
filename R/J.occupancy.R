@@ -816,10 +816,11 @@ j.occs<-function(s.data, orders = 1:nrow(s.data)){
 #' @md
 
 Jo.res <- function(){
-  res <- readRDS(system.file("ms", "jo.res.RDS", package = "msco"))
+  res <- readRDS(system.file("ms", "m.Jo.res.RDS", package = "msco"))
+  # saveRDS(j.en, file = paste0(system.file("ms", package="msco"), "/jo.res.RDS"))
   # res.plo <- Biobase::openPDF(system.file("ms", "jo.plots.pdf", package = "msco"))
   system(paste0('open "', paste0(system.file("ms", package = "msco"), "/real.arch.plots.pdf"), '"'))
-  system(paste0('open "', paste0(system.file("ms", package = "msco"), "/jo.plots.pdf"), '"'))
+  system(paste0('open "', paste0(system.file("ms", package = "msco"), "/m.Jo.plots.pdf"), '"'))
 
   return(res)
 }
