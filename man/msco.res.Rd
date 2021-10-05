@@ -114,7 +114,7 @@ neutral encounter versus functional traits on multi-order species interactions
 and co-occurrence with generalised B-spline modelling}. Upcoming.}
 
 \item{Lagat, V. K., Latombe, G. and Hui, C. (202Xc). \verb{msco:} \emph{an R software
-package for null model testing of multi-species interactions and  interference,
-and analysis of their drivers}. Upcoming.}
+package for null model testing of multi-species interactions and their
+potential niche versus neutral drivers}. Upcoming.}
 }
 }
