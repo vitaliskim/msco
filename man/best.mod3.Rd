@@ -54,8 +54,8 @@ my2.best.mod3
 }
 \references{
 \enumerate{
-\item{Lagat, V. K., Latombe, G. and Hui, C. (202X). \emph{A multi-species co-occurrence index to
-avoid type II errors in null model testing}. Upcoming.}
+\item{Lagat, V. K., Latombe, G. and Hui, C. (2021). \emph{A multi-species co-occurrence index to
+avoid type II errors in null model testing}. Submitted.}
 
 \item{Petrossian, G. A., and Maxfield, M. (2018). An information theory approach to hypothesis testing
 in criminological research. \emph{Crime Science}, 7(1), 2.

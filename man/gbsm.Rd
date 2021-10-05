@@ -77,7 +77,7 @@ it is the Pearson's \strong{\eqn{r^2}} between the observed and predicted values
 \item{\code{summary}}{summary of the regression results}
 }
 \description{
-This function implements the generalised B-spline model (\emph{sensu} Lagat \emph{et al.,} 202Xb)
+This function implements the generalised B-spline model (\emph{sensu} Lagat \emph{et al.,} 2021b)
 for dissecting the effects of neutral encounter versus functional traits on multi-order
 species interactions and co-occurrence. Generalized linear model
 (\emph{sensu} Hastie and Tibshirani, 1986) with binomial variance distribution and log link
@@ -115,11 +115,11 @@ fundamental spline functions and their limits. In \emph{IJ Schoenberg Selected P
 \item{Hastie, T., and Tibshirani, R. (1986). Generalized additive models. \emph{Stat. Sci. 1}(3),
 297-310. \url{https://doi.org/10.1214/ss/1177013604}}
 
-\item{Lagat, V. K., Latombe, G. and Hui, C. (202Xa). \emph{A multi-species co-occurrence
-index to avoid type II errors in null model testing}. Upcoming.}
+\item{Lagat, V. K., Latombe, G. and Hui, C. (2021a). \emph{A multi-species co-occurrence
+index to avoid type II errors in null model testing}. Submitted.}
 
-\item{Lagat, V. K., Latombe, G. and Hui, C. (202Xb). \emph{Dissecting the effects of
+\item{Lagat, V. K., Latombe, G. and Hui, C. (2021b). \emph{Dissecting the effects of
 neutral encounter versus functional traits on multi-order species interactions
-and co-occurrence with generalised B-spline modelling}. Upcoming.}
+and co-occurrence with generalised B-spline modelling}. Submitted.}
 }
 }

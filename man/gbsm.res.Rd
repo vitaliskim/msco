@@ -2,37 +2,37 @@
 % Please edit documentation in R/J.occupancy.R
 \name{gbsm.res}
 \alias{gbsm.res}
-\title{Results on generalised B-spline modelling (presented in Lagat et al., 202Xb)}
+\title{Results on generalised B-spline modelling (presented in Lagat et al., 2021b)}
 \usage{
 gbsm.res()
 }
 \value{
-Returns all the results presented in Lagat \emph{et al}. (202Xb). To replicate
+Returns all the results presented in Lagat \emph{et al}. (2021b). To replicate
 \itemize{
 \item \strong{Figs. 1}, \strong{3}, \strong{4}, \strong{5}, and \strong{Tables 1} and \strong{S1}, execute the following code:\preformatted{
  my.path <- system.file("extdata/gsmdat", package = "msco")
  setwd(my.path)
- s.data <- get(load("s.data.csv")) # Species-by-site matrix
- t.data <- get(load("t.data.csv")) # Species-by-trait matrix
- p.d.mat <- get(load("p.d.mat.csv")) # Species-by-species phylogenetic distance matrix
+ s.data <- get(load("s.data.csv")) ##Species-by-site matrix
+ t.data <- get(load("t.data.csv")) ##Species-by-trait matrix
+ p.d.mat <- get(load("p.d.mat.csv")) ##Species-by-species phylogenetic distance matrix
  RNGkind(sample.kind = "Rejection")
  set.seed(0)
  gb.res <- msco::gbsm_m.orders(s.data,
              t.data,
              p.d.mat,
-             metric="Simpson_eqn",
-             orders=c(2:5, 8, 10, 15),
-             d.f=4,
-             degree=3,
-             n=1000,
-             k=5,
-             p=0.8,
-             type="k-fold",
-             scat.plots=TRUE,
-             response.curves=TRUE,
-             j.occs.distrbn=TRUE,
-             mp.plots=TRUE,
-             start=seq(-0.1, 0, length.out=(ncol(t.data)+2)*4+1)
+             metric = "Simpson_eqn",
+             orders = c(2:5, 8, 10, 15),
+             d.f = 4,
+             degree = 3,
+             n = 1000,
+             k = 5,
+             p = 0.8,
+             type = "k-fold",
+             scat.plots = TRUE,
+             response.curves = TRUE,
+             j.occs.distrbn = TRUE,
+             mp.plots = TRUE,
+             start = seq(-0.1, 0, length.out=(ncol(t.data)+2)*4+1)
            )
 
  gb.res$contbn_table$`order 3`  ## Table 1
@@ -47,14 +47,14 @@ Returns all the results presented in Lagat \emph{et al}. (202Xb). To replicate
   library(V.PhyloMaker)
   my.path <- system.file("extdata/gsmdat", package = "msco")
   setwd(my.path)
-  s.data <- get(load("s.data.csv")) ## Species-by-site matrix
-  taxa <- get(load("taxa.levels.csv")) ## Species taxa
+  s.data <- get(load("s.data.csv")) ##Species-by-site matrix
+  taxa <- get(load("taxa.levels.csv")) ##Species taxa
   my.phylo.plot <- msco::s.phylo(s.data,
                             database = "ncbi",
-                            obs.taxa=FALSE,
+                            obs.taxa = FALSE,
                             taxa.levels = taxa,
-                            Obs.data=FALSE,
-                            phy.d.mat=FALSE,
+                            Obs.data = FALSE,
+                            phy.d.mat = FALSE,
                             phylo.plot = TRUE)
 
 }
@@ -62,23 +62,23 @@ Returns all the results presented in Lagat \emph{et al}. (202Xb). To replicate
 \item \strong{Fig. 2}:
 }\preformatted{  my.path <- system.file("extdata/gsmdat", package = "msco")
   setwd(my.path)
-  s.data <- get(load("s.data.csv")) ## Species-by-site matrix
-  t.data <- get(load("t.data.csv")) ## Species-by-trait matrix
-  p.d.mat <- get(load("p.d.mat.csv")) ## Species-by-species pgylogenetic distance matrix
+  s.data <- get(load("s.data.csv")) ##Species-by-site matrix
+  t.data <- get(load("t.data.csv")) ##Species-by-trait matrix
+  p.d.mat <- get(load("p.d.mat.csv")) ##Species-by-species phylogenetic distance matrix
   my.gbsm <- msco::gbsm(s.data,
                     t.data,
                     p.d.mat,
                     metric = "Simpson_eqn",
-                    d.f=4,
-                    order.jo=3,
-                    degree=3,
-                    n=1000,
-                    b.plots=TRUE,
-                    bsplines="single",
-                    scat.plot=FALSE,
-                    response.curves=FALSE,
-                    leg=1,
-                    start=seq(-0.1, 0, length.out=(ncol(t.data)+2)*4+1)
+                    d.f = 4,
+                    order.jo = 3,
+                    degree = 3,
+                    n = 1000,
+                    b.plots = TRUE,
+                    bsplines = "single",
+                    scat.plot = FALSE,
+                    response.curves = FALSE,
+                    leg = 1,
+                    start = seq(-0.1, 0, length.out=(ncol(t.data)+2)*4+1)
                   )
 
 }
@@ -86,21 +86,21 @@ Returns all the results presented in Lagat \emph{et al}. (202Xb). To replicate
 \item \strong{Fig. S2}:
 }\preformatted{  my.path <- system.file("extdata/gsmdat", package = "msco")
   setwd(my.path)
-  s.data <- get(load("s.data.csv")) ## Species-by-site matrix
-  t.data <- get(load("t.data.csv")) ## Species-by-trait matrix
-  p.d.mat <- get(load("p.d.mat.csv")) ## Species-by-species phylogenetic distance matrix
+  s.data <- get(load("s.data.csv")) ##Species-by-site matrix
+  t.data <- get(load("t.data.csv")) ##Species-by-trait matrix
+  p.d.mat <- get(load("p.d.mat.csv")) ##Species-by-species phylogenetic distance matrix
   RNGkind(sample.kind = "Rejection")
   set.seed(0)
   pe <- msco::pred.error.bands(s.data,
                       t.data,
                       p.d.mat,
-                      metric="Simpson_eqn",
-                      d.f=4,
-                      simm=10,
+                      metric = "Simpson_eqn",
+                      d.f = 4,
+                      simm = 10,
                       orders = c(2:5, 8, 10, 15),
-                      degree=3,
-                      n=1000,
-                      start=seq(-0.1, 0, length.out=(ncol(t.data)+2)*4+1)
+                      degree = 3,
+                      n = 1000,
+                      start = seq(-0.1, 0, length.out=(ncol(t.data)+2)*4+1)
                     )
 }
 }
@@ -111,7 +111,7 @@ to run (and output results) on a 64 bit system with 8 GB RAM and 3.60 GHz CPU.
 }
 \description{
 This function is not for general use but avails the generalised B-spline
-model results presented in Lagat \emph{et al}. (202Xb).
+model results presented in Lagat \emph{et al}. (2021b).
 }
 \examples{
 \dontrun{
@@ -123,7 +123,7 @@ gbs.res$model.validation.table
 }
 }
 \references{
-Lagat, V. K., Latombe, G. and Hui, C. (202Xb). \emph{Dissecting the effects of
+Lagat, V. K., Latombe, G. and Hui, C. (2021b). \emph{Dissecting the effects of
 neutral encounter versus functional traits on multi-order species interactions
-and co-occurrence with generalised B-spline modelling}. Upcoming.
+and co-occurrence with generalised B-spline modelling}. Submitted.
 }

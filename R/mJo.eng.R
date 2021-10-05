@@ -10,7 +10,7 @@
 #'  The data matrices should be saved in the working directory.
 #' @param algo Simulation algorithm used. The possible options to choose from are: `sim1`,
 #'  `sim2`, `sim3`, `sim4`, `sim5`, `sim6`, `sim7`, `sim8`, and `sim9`, all from
-#'   Gotelli (2000). `sim2` is highly recommended (see Lagat *et al.,* 202X).
+#'   Gotelli (2000). `sim2` is highly recommended (see Lagat *et al.,* 2021).
 #' @param metric Metric used to quantify the patterns in `s.data`. It has to be multi-species
 #'  co-occurrence index (see \link[msco]{j.occ}).
 #' @param nReps Number of simulations used in the null model test.
@@ -44,8 +44,8 @@
 #' \item{`m.Jo.plots`}{as for \link[msco]{m.Jo.plots}.}
 #' @references
 #' \enumerate{
-#'  \item{Lagat, V. K., Latombe, G. and Hui, C. (202X). *A multi-species co-occurrence
-#'  index to avoid type II errors in null model testing*. Upcoming.}
+#'  \item{Lagat, V. K., Latombe, G. and Hui, C. (2021). *A multi-species co-occurrence
+#'  index to avoid type II errors in null model testing*. Submitted.}
 #'
 #'  \item{Gotelli, N. J. (2000). Null model analysis of species co-occurrence patterns.
 #'  *Ecology, 81(9)*, 2606-2621. <https://doi.org/10.1890/0012-9658(2000)081[2606:NMAOSC]2.0.CO;2>}
@@ -57,7 +57,7 @@
 #' setwd(my.path)
 #' my.files <- gtools::mixedsort(list.files(path = my.path, pattern = "*.csv"))
 #' my.res <- msco::mJo.eng(my.files = my.files, algo = "sim2", my.Archs = TRUE,
-#'              metric = "Jo.occ", nReps = 999, my.AICs = FALSE, my.params = FALSE,
+#'              metric = "j.occ", nReps = 999, my.AICs = FALSE, my.params = FALSE,
 #'              my.best.mod2 = FALSE, my.best.mod3 = FALSE, my.params_c.i = FALSE,
 #'              my.r2 = FALSE, my.r2.s = FALSE, m.Jo.plots = FALSE)
 #' my.res
@@ -66,7 +66,7 @@
 #' setwd(my.path2)
 #' my.files2 <- gtools::mixedsort(list.files(path = my.path2, pattern = "*.csv"))
 #' my.res2 <- msco::mJo.eng(my.files = my.files2[250:255], algo = "sim2", my.Archs = FALSE,
-#'               metric = "Jo.occ", nReps = 999, my.AICs = FALSE, my.params = TRUE,
+#'               metric = "j.occ", nReps = 999, my.AICs = FALSE, my.params = TRUE,
 #'               my.best.mod2 = FALSE, my.best.mod3 = FALSE, my.params_c.i = FALSE,
 #'               my.r2 = FALSE, my.r2.s = FALSE, m.Jo.plots = FALSE)
 #' my.res2
@@ -75,7 +75,7 @@
 #' setwd(my.path2)
 #' my.files2 <- gtools::mixedsort(list.files(path = my.path2, pattern = "*.csv"))
 #' my.res3 <- msco::mJo.eng(my.files = my.files2[250:255], algo = "sim2", my.Archs = FALSE,
-#'               metric = "Jo.occ", nReps = 999, my.AICs = FALSE, my.params = FALSE,
+#'               metric = "j.occ", nReps = 999, my.AICs = FALSE, my.params = FALSE,
 #'               my.best.mod2 = FALSE, my.best.mod3 = FALSE, my.params_c.i = TRUE,
 #'               my.r2 = FALSE, my.r2.s = FALSE, m.Jo.plots = TRUE)
 #' my.res3
@@ -85,7 +85,7 @@
 
 mJo.eng <- function(my.files,
                       algo = "sim2",
-                      metric = "Jo.occ",
+                      metric = "j.occ",
                       nReps = 999,
                       my.Archs = FALSE,
                       my.AICs = FALSE,
@@ -1224,13 +1224,13 @@ mJo.eng <- function(my.files,
       unlist(Archs), ncol=length(Archs))), my.files)
   }
   if(my.AICs == TRUE){
-    myres$all.AICs <- all.AICs
+    myres$all.AICs <- `names<-`(all.AICs, my.files)
   }
   if(my.params == TRUE){
     myres$params <- params
   }
   if(my.r2 == TRUE){
-    myres$r2 <- r2
+    myres$r2 <- `names<-`(r2, my.files)
   }
   if(my.r2.s == TRUE){
     myres$r2.s <- r2.s

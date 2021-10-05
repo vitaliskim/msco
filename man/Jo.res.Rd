@@ -2,12 +2,12 @@
 % Please edit documentation in R/J.occupancy.R
 \name{Jo.res}
 \alias{Jo.res}
-\title{Results on joint occupancy index (presented in Lagat et al., 202Xa)}
+\title{Results on joint occupancy index (presented in Lagat et al., 2021a)}
 \usage{
 Jo.res()
 }
 \value{
-Returns all the results presented in Lagat \emph{et al}. (202Xa). To replicate these results,
+Returns all the results presented in Lagat \emph{et al}. (2021a). To replicate these results,
 execute the following code:\preformatted{  RNGkind(sample.kind = "Rejection")
   set.seed(14)
   my.path <- system.file("extdata/myCSVs", package = "msco")
@@ -35,7 +35,7 @@ execute the following code:\preformatted{  RNGkind(sample.kind = "Rejection")
  set.seed(14)
  path <- system.file("ms", package = "msco")
  grDevices::pdf(file = paste0(path, "/real.arch.plots.pdf"),
-  paper="a4r", height = 8.27, width = 11.69)
+  paper = "a4r", height = 8.27, width = 11.69)
  msco:::nullmod_archs()
  grDevices::dev.off()
  system(paste0('open "', paste0(path, "/real.arch.plots.pdf"), '"'))
@@ -43,7 +43,7 @@ execute the following code:\preformatted{  RNGkind(sample.kind = "Rejection")
 }
 \description{
 This function is not for general use but avails the results presented
-in Lagat \emph{et al}. (202Xa).
+in Lagat \emph{et al}. (2021a).
 }
 \examples{
 \dontrun{
@@ -56,6 +56,6 @@ ms.res$params_c.i
 }
 }
 \references{
-Lagat, V. K., Latombe, G. and Hui, C. (202Xa). \emph{A multi-species co-occurrence
-index to avoid type II errors in null model testing}. Upcoming.
+Lagat, V. K., Latombe, G. and Hui, C. (2021a). \emph{A multi-species co-occurrence
+index to avoid type II errors in null model testing}. Submitted.
 }

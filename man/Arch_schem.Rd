@@ -12,7 +12,7 @@ co-occurrence patterns with the following components:
 \item{\strong{Archetype}}{\strong{Description/Interpretation}}
 \item{A1}{The joint occupancy value of the observed community matrix (dark solid line) is above the null
 model. This means the null hypothesis should be rejected, confirming the presence of a
-mechanism of interest being tested (Lagat \emph{et al.,} 202X). It is typical of a community whose
+mechanism of interest being tested (Lagat \emph{et al.,} 2021). It is typical of a community whose
 species are positively associated (or aggregated) more often than would be expected by chance.
 Such patterns of community structure may arise from a number of ecological mechanisms
 including environmental filtering or shared habitat requirements (Cordero and Jackson,
@@ -20,29 +20,29 @@ including environmental filtering or shared habitat requirements (Cordero and Ja
 \item{A2}{A pairwise metric detects a non-random pattern of the community structure,
 but when higher order species are considered, a random pattern is produced. This
 is typical of a community whose species are aggregated more often than by chance in
-sites with few species than in sites with many species (Lagat \emph{et al.,} 202X).}
+sites with few species than in sites with many species (Lagat \emph{et al.,} 2021).}
 \item{A3}{Species co-occur more often than by chance in sites with few species, but are
 segregated more often than by chance in sites with many species, depicting a community
-structured by two different community assembly processes (Lagat \emph{et al.,} 202X).}
+structured by two different community assembly processes (Lagat \emph{et al.,} 2021).}
 \item{A4}{Using pairwise co-occurrence only fails at detecting patterns of aggregation
-for sites with many species, i.e. a type II error (Lagat \emph{et al.,} 202X).}
+for sites with many species, i.e. a type II error (Lagat \emph{et al.,} 2021).}
 \item{A5}{The test is not statistically significant. This has been ecologically
 inferred to mean ecological communities are random and that no community
-assembly processes or mechanisms influence their structure (Lagat \emph{et al.,} 202X;
+assembly processes or mechanisms influence their structure (Lagat \emph{et al.,} 2021;
 Cordero and Jackson, 2019; Gotelli and Sounding, 2001).}
 \item{A6}{Using pairwise co-occurrence only fails at detecting patterns of segregation
-for sites with many species, i.e. a type II error (Lagat \emph{et al.,} 202X).}
+for sites with many species, i.e. a type II error (Lagat \emph{et al.,} 2021).}
 \item{A7}{Species are segregated more often than would be expected by chance in sites with
 few species, but co-occur more often than would be expected by chance in sites with many
 species, depicting a community structured by two different community assembly processes
-(Lagat \emph{et al.,} 202X).}
+(Lagat \emph{et al.,} 2021).}
 \item{A8}{A pairwise metric detects a non-random pattern of the community structure,
 but when higher order species are considered, a random pattern is produced. This
 is typical of a community whose species are segregated more often than would be expected
-by chance in sites with few species than in sites with many species (Lagat \emph{et al.,} 202X).}
+by chance in sites with few species than in sites with many species (Lagat \emph{et al.,} 2021).}
 \item{A9}{The joint occupancy value of the observed community matrix (dark solid line) is below the
 null model. This means the null hypothesis should be rejected, confirming the presence of a
-mechanism of interest being tested (Lagat \emph{et al.,} 202X). It is typical of a community
+mechanism of interest being tested (Lagat \emph{et al.,} 2021). It is typical of a community
 structured by inter-specific competition or limiting similarity, though predation might also
 generate similar patterns (Hein et al. 2014).}
 }
@@ -72,7 +72,7 @@ Biogeogr.} \strong{10}, 337-343. \url{https://doi.org/10.1046/j.1466-822X.2001.0
 \item{Hein et al. (2014). Fish introductions reveal the temperature
 dependence of species interactions. \emph{Proc. R. Soc. B Biol. Sci.} \strong{281}.
 \url{https://doi.org/10.1098/rspb.2013.2641}}
-\item{Lagat, V. K., Latombe, G. and Hui, C. (202X). \emph{A multi-species co-occurrence index to
-avoid type II errors in null model testing}. Upcoming.}
+\item{Lagat, V. K., Latombe, G. and Hui, C. (2021). \emph{A multi-species co-occurrence index to
+avoid type II errors in null model testing}. Submitted.}
 }
 }

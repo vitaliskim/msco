@@ -2,19 +2,19 @@
 % Please edit documentation in R/J.occupancy.R
 \name{msco.res}
 \alias{msco.res}
-\title{Results on \code{msco} illustration (presented in Lagat et al., 202Xc)}
+\title{Results on \code{msco} illustration (presented in Lagat et al., 2021c)}
 \usage{
 msco.res()
 }
 \value{
-Returns all the results presented in Lagat \emph{et al}. (202Xc). To replicate
+Returns all the results presented in Lagat \emph{et al}. (2021c). To replicate
 \itemize{
 \item \strong{Figs. 1}, \strong{2} and \strong{Table 2}, execute the following code:\preformatted{
  RNGkind(sample.kind = "Rejection")
  set.seed(14)
  ex.data <- read.csv(system.file("extdata", "251.csv", package = "msco"))
  j.en <- msco::Jo.eng(ex.data,
-             algo="sim2",
+             algo = "sim2",
              metric = "j.occ",
              nReps = 999,
              dig = 3,
@@ -29,8 +29,8 @@ Returns all the results presented in Lagat \emph{et al}. (202Xc). To replicate
              Obs.data = FALSE,
              Sim.data = FALSE,
              Jo_val.sim = FALSE,
-             lab=FALSE,
-             leg=FALSE,
+             lab = FALSE,
+             leg = FALSE,
              C.I_Jo_val.sim = FALSE,
              Jo_val.obs = TRUE,
              Metric = TRUE,
@@ -45,7 +45,7 @@ Returns all the results presented in Lagat \emph{et al}. (202Xc). To replicate
 
  j.en$nmod_stats ## Table 2
  grDevices::pdf(file = paste0(system.file("ms", package = "msco"),
-  "/aJo.plots.pdf"), paper="a4r", height = 8.27, width = 11.69)
+  "/aJo.plots.pdf"), paper = "a4r", height = 8.27, width = 11.69)
  j.en$all.plots
  grDevices::dev.off()
  system(paste0('open "', paste0(system.file("ms", package = "msco"), ## Fig. 2
@@ -55,7 +55,7 @@ Returns all the results presented in Lagat \emph{et al}. (202Xc). To replicate
 \item \strong{Fig. 3}, execute the following code:\preformatted{ RNGkind(sample.kind = "Rejection")
  set.seed(14)
  grDevices::pdf(file = paste0(system.file("ms", package = "msco"),
-  "/real.arch.plots2.pdf"), paper="a4r", height = 8.27, width = 11.69)
+  "/real.arch.plots2.pdf"), paper = "a4r", height = 8.27, width = 11.69)
  msco:::nullmod_archs2()
  grDevices::dev.off()
  system(paste0('open "', paste0(system.file("ms", package = "msco"),
@@ -65,27 +65,27 @@ Returns all the results presented in Lagat \emph{et al}. (202Xc). To replicate
 \item \strong{Fig. 5}, execute the following code:\preformatted{
  my.path <- system.file("extdata/gsmdat", package = "msco")
  setwd(my.path)
- s.data <- get(load("s.data.csv")) # Species-by-site matrix
- t.data <- get(load("t.data.csv")) # Species-by-trait matrix
- p.d.mat <- get(load("p.d.mat.csv")) # Species-by-species phylogenetic distance matrix
+ s.data <- get(load("s.data.csv")) #Species-by-site matrix
+ t.data <- get(load("t.data.csv")) #Species-by-trait matrix
+ p.d.mat <- get(load("p.d.mat.csv")) #Species-by-species phylogenetic distance matrix
  RNGkind(sample.kind = "Rejection")
  set.seed(0)
  gb.res <- msco::gbsm_m.orders(s.data,
              t.data,
              p.d.mat,
-             metric="Simpson_eqn",
-             orders=c(3:5, 8, 10, 15, 20),
-             d.f=4,
-             degree=3,
-             n=1000,
-             k=5,
-             p=0.8,
-             type="k-fold",
-             scat.plots=FALSE,
-             response.curves=TRUE,
-             j.occs.distrbn=FALSE,
-             mp.plots=FALSE,
-             start=seq(-0.1, 0, length.out=(ncol(t.data)+2)*4+1)
+             metric = "Simpson_eqn",
+             orders = c(3:5, 8, 10, 15, 20),
+             d.f = 4,
+             degree = 3,
+             n = 1000,
+             k = 5,
+             p = 0.8,
+             type = "k-fold",
+             scat.plots = FALSE,
+             response.curves = TRUE,
+             j.occs.distrbn = FALSE,
+             mp.plots = FALSE,
+             start = seq(-0.1, 0, length.out=(ncol(t.data)+2)*4+1)
            )
 
 
@@ -94,7 +94,7 @@ Returns all the results presented in Lagat \emph{et al}. (202Xc). To replicate
 }
 \description{
 This function is not for general use but avails the \code{msco} R package
-illustration presented in Lagat \emph{et al}. (202Xc).
+illustration presented in Lagat \emph{et al}. (2021c).
 }
 \examples{
 \dontrun{
@@ -106,15 +106,15 @@ ms.res$nmod_stats ## Table 2
 }
 \references{
 \enumerate{
-\item{Lagat, V. K., Latombe, G. and Hui, C. (202Xa). \emph{A multi-species co-occurrence
-index to avoid type II errors in null model testing}. Upcoming.}
+\item{Lagat, V. K., Latombe, G. and Hui, C. (2021a). \emph{A multi-species co-occurrence
+index to avoid type II errors in null model testing}. Submitted.}
 
-\item{Lagat, V. K., Latombe, G. and Hui, C. (202Xb). \emph{Dissecting the effects of
+\item{Lagat, V. K., Latombe, G. and Hui, C. (2021b). \emph{Dissecting the effects of
 neutral encounter versus functional traits on multi-order species interactions
-and co-occurrence with generalised B-spline modelling}. Upcoming.}
+and co-occurrence with generalised B-spline modelling}. Submitted.}
 
-\item{Lagat, V. K., Latombe, G. and Hui, C. (202Xc). \verb{msco:} \emph{an R software
-package for null model testing of multi-species interactions and  interference,
-and analysis of their drivers}. Upcoming.}
+\item{Lagat, V. K., Latombe, G. and Hui, C. (2021c). \emph{\code{msco}: an R software package
+for null model testing of multi-species interactions and interference with
+covariates}. Submitted.}
 }
 }

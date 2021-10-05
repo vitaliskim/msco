@@ -7,7 +7,7 @@
 mJo.eng(
   my.files,
   algo = "sim2",
-  metric = "Jo.occ",
+  metric = "j.occ",
   nReps = 999,
   my.Archs = FALSE,
   my.AICs = FALSE,
@@ -26,7 +26,7 @@ The data matrices should be saved in the working directory.}
 
 \item{algo}{Simulation algorithm used. The possible options to choose from are: \code{sim1},
 \code{sim2}, \code{sim3}, \code{sim4}, \code{sim5}, \code{sim6}, \code{sim7}, \code{sim8}, and \code{sim9}, all from
-Gotelli (2000). \code{sim2} is highly recommended (see Lagat \emph{et al.,} 202X).}
+Gotelli (2000). \code{sim2} is highly recommended (see Lagat \emph{et al.,} 2021).}
 
 \item{metric}{Metric used to quantify the patterns in \code{s.data}. It has to be multi-species
 co-occurrence index (see \link[msco]{j.occ}).}
@@ -87,7 +87,7 @@ my.path <- system.file("extdata", package = "msco")
 setwd(my.path)
 my.files <- gtools::mixedsort(list.files(path = my.path, pattern = "*.csv"))
 my.res <- msco::mJo.eng(my.files = my.files, algo = "sim2", my.Archs = TRUE,
-             metric = "Jo.occ", nReps = 999, my.AICs = FALSE, my.params = FALSE,
+             metric = "j.occ", nReps = 999, my.AICs = FALSE, my.params = FALSE,
              my.best.mod2 = FALSE, my.best.mod3 = FALSE, my.params_c.i = FALSE,
              my.r2 = FALSE, my.r2.s = FALSE, m.Jo.plots = FALSE)
 my.res
@@ -96,7 +96,7 @@ my.path2 <- system.file("extdata/myCSVs", package = "msco")
 setwd(my.path2)
 my.files2 <- gtools::mixedsort(list.files(path = my.path2, pattern = "*.csv"))
 my.res2 <- msco::mJo.eng(my.files = my.files2[250:255], algo = "sim2", my.Archs = FALSE,
-              metric = "Jo.occ", nReps = 999, my.AICs = FALSE, my.params = TRUE,
+              metric = "j.occ", nReps = 999, my.AICs = FALSE, my.params = TRUE,
               my.best.mod2 = FALSE, my.best.mod3 = FALSE, my.params_c.i = FALSE,
               my.r2 = FALSE, my.r2.s = FALSE, m.Jo.plots = FALSE)
 my.res2
@@ -105,7 +105,7 @@ my.path2 <- system.file("extdata/myCSVs", package = "msco")
 setwd(my.path2)
 my.files2 <- gtools::mixedsort(list.files(path = my.path2, pattern = "*.csv"))
 my.res3 <- msco::mJo.eng(my.files = my.files2[250:255], algo = "sim2", my.Archs = FALSE,
-              metric = "Jo.occ", nReps = 999, my.AICs = FALSE, my.params = FALSE,
+              metric = "j.occ", nReps = 999, my.AICs = FALSE, my.params = FALSE,
               my.best.mod2 = FALSE, my.best.mod3 = FALSE, my.params_c.i = TRUE,
               my.r2 = FALSE, my.r2.s = FALSE, m.Jo.plots = TRUE)
 my.res3
@@ -113,8 +113,8 @@ my.res3
 }
 \references{
 \enumerate{
-\item{Lagat, V. K., Latombe, G. and Hui, C. (202X). \emph{A multi-species co-occurrence
-index to avoid type II errors in null model testing}. Upcoming.}
+\item{Lagat, V. K., Latombe, G. and Hui, C. (2021). \emph{A multi-species co-occurrence
+index to avoid type II errors in null model testing}. Submitted.}
 
 \item{Gotelli, N. J. (2000). Null model analysis of species co-occurrence patterns.
 \emph{Ecology, 81(9)}, 2606-2621. \url{https://doi.org/10.1890/0012-9658(2000)081[2606:NMAOSC]2.0.CO;2}}

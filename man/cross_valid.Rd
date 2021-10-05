@@ -18,7 +18,7 @@ cross-validation approach implemented is "validation.set".}
 \item{k}{The value of \code{k} used in both "k-fold" and "repeated.k-fold" types of
 cross-validation. This value represents the number of subsets or groups that a
 given sample of data is to be split into. A value of 5 or 10 is used in practice,
-as it leads to an ideal bias-variance trade-off (Lagat \emph{et al.,} 202Xa).}
+as it leads to an ideal bias-variance trade-off (Lagat \emph{et al.,} 2021a).}
 
 \item{k_fold.repeats}{The number of replicates used in "repeated.k-fold" type of
 cross-validation.}
@@ -41,7 +41,7 @@ type of cross-validation performed, and summary of sample sizes
 }
 \description{
 This function implements four different cross-validation techniques to evaluate the
-predictive ability of the generalised B-spline model (\emph{sensu} Lagat \emph{et al.,} 202Xa).
+predictive ability of the generalised B-spline model (\emph{sensu} Lagat \emph{et al.,} 2021a).
 The four different techniques implemented are:
 \itemize{
 \item validation set approach;
@@ -53,8 +53,8 @@ The four different techniques implemented are:
 \details{
 The k-fold cross-validation approach is highly recommended due to its computational
 efficiency and an acceptable bias-variance trade-off, subject to the value of \code{k}
-chosen to be either 5 or 10 (Lagat \emph{et al.,} 202Xa). For more details on the other
-cross-validation approaches, see Lagat \emph{et al.} (202Xb).
+chosen to be either 5 or 10 (Lagat \emph{et al.,} 2021a). For more details on the other
+cross-validation approaches, see Lagat \emph{et al.} (2021b).
 }
 \examples{
 \dontrun{
@@ -86,12 +86,12 @@ repeated.kfold
 \references{
 \enumerate{
 
-\item{Lagat, V. K., Latombe, G. and Hui, C. (202Xa). \emph{Dissecting the effects of
+\item{Lagat, V. K., Latombe, G. and Hui, C. (2021a). \emph{Dissecting the effects of
 neutral encounter versus functional traits on multi-order species interactions
-and co-occurrence with generalised B-spline modelling}. Upcoming.}
+and co-occurrence with generalised B-spline modelling}. Submitted.}
 
-\item{Lagat, V. K., Latombe, G. and Hui, C. (202Xb). \emph{msco: an R software package
-for null model testing of multi-species interactions and interference, and analysis
-of their drivers}. Upcoming.}
+\item{Lagat, V. K., Latombe, G. and Hui, C. (2021b). \emph{\code{msco}: an R software package
+for null model testing of multi-species interactions and interference with
+covariates}. Submitted.}
 }
 }

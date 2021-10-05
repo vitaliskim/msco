@@ -41,9 +41,9 @@
 #'  \item{Binomial nomenclature' (2020) *Wikipedia*. Available at:
 #'  <https://en.wikipedia.org/wiki/Binomial_nomenclature> (Accessed: 09 November 2020).}
 #'
-#'  \item{Lagat, V. K., Latombe, G. and Hui, C., 202X. *Dissecting the effects of
+#'  \item{Lagat, V. K., Latombe, G. and Hui, C., 2021. *Dissecting the effects of
 #'   neutral encounter versus functional traits on multi-order species interactions
-#'    and co-occurrence with generalised B-spline modelling*. Upcoming.}
+#'    and co-occurrence with generalised B-spline modelling*. Submitted.}
 #' }
 #' @examples
 #' \dontrun{

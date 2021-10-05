@@ -4,7 +4,7 @@
 \alias{m.Jo.plots}
 \title{Joint occupancy parametric and null model plots for multiple communities}
 \usage{
-m.Jo.plots(my.files, algo = "sim2", metric = "J.occ", nReps = 999)
+m.Jo.plots(my.files, algo = "sim2", metric = "j.occ", nReps = 999)
 }
 \arguments{
 \item{my.files}{A vector containing names of species-by-site presence/absence \code{.csv} data matrices.
@@ -12,7 +12,7 @@ The data matrices should be saved in the working directory.}
 
 \item{algo}{Simulation algorithm used. The possible options to choose from are: \code{sim1},
 \code{sim2}, \code{sim3}, \code{sim4}, \code{sim5}, \code{sim6}, \code{sim7}, \code{sim8}, and \code{sim9}, all from
-Gotelli (2000). \code{sim2} is highly recommended (see Lagat \emph{et al.,} 202X).}
+Gotelli (2000). \code{sim2} is highly recommended (see Lagat \emph{et al.,} 2021).}
 
 \item{metric}{Metric used to quantify the patterns in \code{s.data}. It has to be multi-species
 co-occurrence index (see \link[msco]{j.occ}).}
@@ -63,8 +63,8 @@ m.plots2
 }
 \references{
 \enumerate{
-\item{Lagat, V. K., Latombe, G. and Hui, C. (202X). \emph{A multi-species co-occurrence
-index to avoid type II errors in null model testing}. Upcoming.}
+\item{Lagat, V. K., Latombe, G. and Hui, C. (2021). \emph{A multi-species co-occurrence
+index to avoid type II errors in null model testing}. Submitted.}
 
 \item{Gotelli, N. J. (2000). Null model analysis of species co-occurrence patterns.
 \emph{Ecology, 81(9)}, 2606-2621. \url{https://doi.org/10.1890/0012-9658(2000)081[2606:NMAOSC]2.0.CO;2}}

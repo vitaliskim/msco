@@ -46,8 +46,8 @@ my2.r2
 \references{
 \enumerate{
 
-\item{Lagat, V. K., Latombe, G. and Hui, C. (202X). \emph{A multi-species co-occurrence
-index to avoid type II errors in null model testing}. Upcoming.}
+\item{Lagat, V. K., Latombe, G. and Hui, C. (2021). \emph{A multi-species co-occurrence
+index to avoid type II errors in null model testing}. Submitted.}
 
 \item{Pearson, K. (1895) VII. Note on regression and inheritance in the
 case of two parents. \emph{proceedings of the royal society of London,} \strong{58}:240-242.

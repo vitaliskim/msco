@@ -6,7 +6,7 @@
 #'  harbouring multiple species simultaneously)};
 #'  \item{performs a null model test using the same index};
 #'  \item{fits the three regression models (exponential, power law and exponential-power law)
-#'   to joint occupancy decline (*sensu* Lagat *et al.,* 202X) with order (number of species)};
+#'   to joint occupancy decline (*sensu* Lagat *et al.,* 2021) with order (number of species)};
 #'   \item{estimates the parameter values of these models};
 #'   \item{determines the best model among the three using AIC values};
 #'   \item{quantifies the efficacy of the fitted models using square of correlation coefficient (\eqn{r^2})};
@@ -20,7 +20,7 @@
 #' occurrence (1) and non-occurrence (0) of species in a site.
 #' @param algo Simulation algorithm used. The possible options to choose from are: `sim1`,
 #'  `sim2`, `sim3`, `sim4`, `sim5`, `sim6`, `sim7`, `sim8`, and `sim9`, all from
-#'   Gotelli (2000). `sim2` is highly recommended (see Lagat *et al.,* 202X).
+#'   Gotelli (2000). `sim2` is highly recommended (see Lagat *et al.,* 2021).
 #' @param metric Metric used to quantify the patterns in `s.data`. It has to be multi-species
 #'  co-occurrence index (see \link[msco]{j.occ}).
 #' @param nReps Number of simulations used in the null model test.
@@ -108,8 +108,8 @@
 #'    of the nine expected archetypes (see \link[msco]{Arch_schem}).}
 #' @references
 #' \enumerate{
-#'  \item{Lagat, V. K., Latombe, G. and Hui, C. (202X). *A multi-species co-occurrence
-#'  index to avoid type II errors in null model testing*. Upcoming.}
+#'  \item{Lagat, V. K., Latombe, G. and Hui, C. (2021). *A multi-species co-occurrence
+#'  index to avoid type II errors in null model testing*. Submitted.}
 #'
 #'  \item{Gotelli, N. J. (2000). Null model analysis of species co-occurrence patterns.
 #'  *Ecology, 81(9)*, 2606-2621. <https://doi.org/10.1890/0012-9658(2000)081[2606:NMAOSC]2.0.CO;2>}

@@ -1,6 +1,6 @@
 #' A generalised B-spline modelling for a set of neutral and niche-based variables
 #'
-#' This function implements the generalised B-spline model (*sensu* Lagat *et al.,* 202Xb)
+#' This function implements the generalised B-spline model (*sensu* Lagat *et al.,* 2021b)
 #'  for dissecting the effects of neutral encounter versus functional traits on multi-order
 #'   species interactions and co-occurrence. Generalized linear model
 #'   (*sensu* Hastie and Tibshirani, 1986) with binomial variance distribution and log link
@@ -57,12 +57,12 @@
 #'  \item{Hastie, T., and Tibshirani, R. (1986). Generalized additive models. *Stat. Sci. 1*(3),
 #'   297-310. <https://doi.org/10.1214/ss/1177013604>}
 #'
-#'  \item{Lagat, V. K., Latombe, G. and Hui, C. (202Xa). *A multi-species co-occurrence
-#'  index to avoid type II errors in null model testing*. Upcoming.}
+#'  \item{Lagat, V. K., Latombe, G. and Hui, C. (2021a). *A multi-species co-occurrence
+#'  index to avoid type II errors in null model testing*. Submitted.}
 #'
-#'  \item{Lagat, V. K., Latombe, G. and Hui, C. (202Xb). *Dissecting the effects of
+#'  \item{Lagat, V. K., Latombe, G. and Hui, C. (2021b). *Dissecting the effects of
 #'   neutral encounter versus functional traits on multi-order species interactions
-#'    and co-occurrence with generalised B-spline modelling*. Upcoming.}
+#'    and co-occurrence with generalised B-spline modelling*. Submitted.}
 #'  }
 #'
 #' @examples

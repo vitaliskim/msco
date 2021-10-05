@@ -19,7 +19,7 @@
 #'  The data matrices should be saved in the working directory.
 #' @param algo Simulation algorithm used. The possible options to choose from are: `sim1`,
 #'  `sim2`, `sim3`, `sim4`, `sim5`, `sim6`, `sim7`, `sim8`, and `sim9`, all from
-#'   Gotelli (2000). `sim2` is highly recommended (see Lagat *et al.,* 202X).
+#'   Gotelli (2000). `sim2` is highly recommended (see Lagat *et al.,* 2021).
 #' @param metric Metric used to quantify the patterns in `s.data`. It has to be multi-species
 #'  co-occurrence index (see \link[msco]{j.occ}).
 #' @param nReps Number of simulations used in the null model test.
@@ -34,8 +34,8 @@
 #' }
 #' @references
 #' \enumerate{
-#' \item{Lagat, V. K., Latombe, G. and Hui, C. (202X). *A multi-species co-occurrence index to avoid type
-#'  II errors in null model testing*. Upcoming.}
+#' \item{Lagat, V. K., Latombe, G. and Hui, C. (2021). *A multi-species co-occurrence index to avoid type
+#'  II errors in null model testing*. Submitted.}
 #'
 #' \item{Gotelli, N. J. (2000). Null model analysis of species co-occurrence patterns.
 #'  *Ecology, 81(9)*, 2606-2621. <https://doi.org/10.1890/0012-9658(2000)081[2606:NMAOSC]2.0.CO;2>}
@@ -58,7 +58,7 @@
 #' @export
 #' @md
 
-Archetypes <- function(my.files, algo = "sim2", metric = "J.occ", nReps = 999){
+Archetypes <- function(my.files, algo = "sim2", metric = "j.occ", nReps = 999){
   mJo.eng(my.files = my.files, algo = algo, metric = metric, nReps = nReps,
             my.Archs = TRUE)$Archs
 }
@@ -73,7 +73,7 @@ Archetypes <- function(my.files, algo = "sim2", metric = "J.occ", nReps = 999){
 #' \item{**Archetype**}{**Description/Interpretation**}
 #' \item{A1}{The joint occupancy value of the observed community matrix (dark solid line) is above the null
 #'  model. This means the null hypothesis should be rejected, confirming the presence of a
-#'   mechanism of interest being tested (Lagat *et al.,* 202X). It is typical of a community whose
+#'   mechanism of interest being tested (Lagat *et al.,* 2021). It is typical of a community whose
 #'   species are positively associated (or aggregated) more often than would be expected by chance.
 #'    Such patterns of community structure may arise from a number of ecological mechanisms
 #'     including environmental filtering or shared habitat requirements (Cordero and Jackson,
@@ -81,29 +81,29 @@ Archetypes <- function(my.files, algo = "sim2", metric = "J.occ", nReps = 999){
 #' \item{A2}{A pairwise metric detects a non-random pattern of the community structure,
 #'  but when higher order species are considered, a random pattern is produced. This
 #'  is typical of a community whose species are aggregated more often than by chance in
-#'   sites with few species than in sites with many species (Lagat *et al.,* 202X).}
+#'   sites with few species than in sites with many species (Lagat *et al.,* 2021).}
 #' \item{A3}{Species co-occur more often than by chance in sites with few species, but are
 #'  segregated more often than by chance in sites with many species, depicting a community
-#'   structured by two different community assembly processes (Lagat *et al.,* 202X).}
+#'   structured by two different community assembly processes (Lagat *et al.,* 2021).}
 #' \item{A4}{Using pairwise co-occurrence only fails at detecting patterns of aggregation
-#'  for sites with many species, i.e. a type II error (Lagat *et al.,* 202X).}
+#'  for sites with many species, i.e. a type II error (Lagat *et al.,* 2021).}
 #' \item{A5}{The test is not statistically significant. This has been ecologically
 #'  inferred to mean ecological communities are random and that no community
-#'   assembly processes or mechanisms influence their structure (Lagat *et al.,* 202X;
+#'   assembly processes or mechanisms influence their structure (Lagat *et al.,* 2021;
 #'    Cordero and Jackson, 2019; Gotelli and Sounding, 2001).}
 #' \item{A6}{Using pairwise co-occurrence only fails at detecting patterns of segregation
-#'  for sites with many species, i.e. a type II error (Lagat *et al.,* 202X).}
+#'  for sites with many species, i.e. a type II error (Lagat *et al.,* 2021).}
 #' \item{A7}{Species are segregated more often than would be expected by chance in sites with
 #'  few species, but co-occur more often than would be expected by chance in sites with many
 #'   species, depicting a community structured by two different community assembly processes
-#'    (Lagat *et al.,* 202X).}
+#'    (Lagat *et al.,* 2021).}
 #' \item{A8}{A pairwise metric detects a non-random pattern of the community structure,
 #'  but when higher order species are considered, a random pattern is produced. This
 #'  is typical of a community whose species are segregated more often than would be expected
-#'   by chance in sites with few species than in sites with many species (Lagat *et al.,* 202X).}
+#'   by chance in sites with few species than in sites with many species (Lagat *et al.,* 2021).}
 #' \item{A9}{The joint occupancy value of the observed community matrix (dark solid line) is below the
 #'  null model. This means the null hypothesis should be rejected, confirming the presence of a
-#'   mechanism of interest being tested (Lagat *et al.,* 202X). It is typical of a community
+#'   mechanism of interest being tested (Lagat *et al.,* 2021). It is typical of a community
 #'    structured by inter-specific competition or limiting similarity, though predation might also
 #'     generate similar patterns (Hein et al. 2014).}
 #' @references
@@ -118,8 +118,8 @@ Archetypes <- function(my.files, algo = "sim2", metric = "J.occ", nReps = 999){
 #' \item{Hein et al. (2014). Fish introductions reveal the temperature
 #'  dependence of species interactions. *Proc. R. Soc. B Biol. Sci.* **281**.
 #'   <https://doi.org/10.1098/rspb.2013.2641>}
-#' \item{Lagat, V. K., Latombe, G. and Hui, C. (202X). *A multi-species co-occurrence index to
-#'  avoid type II errors in null model testing*. Upcoming.}
+#' \item{Lagat, V. K., Latombe, G. and Hui, C. (2021). *A multi-species co-occurrence index to
+#'  avoid type II errors in null model testing*. Submitted.}
 #' }
 #' @note `Arch_schem` is not a generic function which can take in any dataset and give the outputs,
 #'  but a path to a schematic diagram saved in this package. A representational figure from empirical,
@@ -164,8 +164,8 @@ Arch_schem <- function(){
 #'  communities (`n`) analyzed.}
 #' @references
 #' \enumerate{
-#' \item{Lagat, V. K., Latombe, G. and Hui, C. (202X). *A multi-species co-occurrence index to
-#'  avoid type II errors in null model testing*. Upcoming.}
+#' \item{Lagat, V. K., Latombe, G. and Hui, C. (2021). *A multi-species co-occurrence index to
+#'  avoid type II errors in null model testing*. Submitted.}
 #'
 #' \item{Petrossian, G. A., and Maxfield, M. (2018). An information theory approach to hypothesis testing
 #'   in criminological research. *Crime Science*, 7(1), 2.
@@ -221,8 +221,8 @@ best.mod2 <- function(my.files){
 #'  communities (`n`) analyzed.}
 #' @references
 #' \enumerate{
-#' \item{Lagat, V. K., Latombe, G. and Hui, C. (202X). *A multi-species co-occurrence index to
-#'  avoid type II errors in null model testing*. Upcoming.}
+#' \item{Lagat, V. K., Latombe, G. and Hui, C. (2021). *A multi-species co-occurrence index to
+#'  avoid type II errors in null model testing*. Submitted.}
 #'
 #' \item{Petrossian, G. A., and Maxfield, M. (2018). An information theory approach to hypothesis testing
 #'   in criminological research. *Crime Science*, 7(1), 2.
@@ -274,8 +274,8 @@ best.mod3 <- function(my.files){
 #'  decline regression models.}
 #' @references
 #' \enumerate{
-#' \item{Lagat, V. K., Latombe, G. and Hui, C. (202X). *A multi-species co-occurrence index to
-#'  avoid type II errors in null model testing*. Upcoming.}
+#' \item{Lagat, V. K., Latombe, G. and Hui, C. (2021). *A multi-species co-occurrence index to
+#'  avoid type II errors in null model testing*. Submitted.}
 #' \item{Petrossian, G. A., and Maxfield, M. (2018). An information theory approach to hypothesis testing
 #'   in criminological research. *Crime Science*, 7(1), 2.
 #'    <https://doi.org/10.1186/s40163-018-0077-5>}
@@ -331,8 +331,8 @@ m.AICs <- function(my.files){
 #' \item{a.expl}{The `a` parameter estimate of the exponential-power law form of joint occupancy decline.}
 #' \item{b.expl}{The `b` parameter estimate of the exponential-power law form of joint occupancy decline.}
 #' \item{c.expl}{The `c` parameter estimate of the exponential-power law form of joint occupancy decline.}
-#' @references Lagat, V. K., Latombe, G. and Hui, C. (202X). *A multi-species co-occurrence index to
-#'  avoid type II errors in null model testing*. Upcoming.
+#' @references Lagat, V. K., Latombe, G. and Hui, C. (2021). *A multi-species co-occurrence index to
+#'  avoid type II errors in null model testing*. Submitted.
 #' @examples
 #' \dontrun{
 #'
@@ -402,8 +402,8 @@ params <- function(my.files){
 #'  form of joint occupancy decline, under every archetype.}
 #' \item{c.expl}{The 95% closed confidence interval of the `c` parameter estimates of the exponential-power law
 #'  form of joint occupancy decline, under every archetype.}
-#' @references Lagat, V. K., Latombe, G. and Hui, C. (202X). *A multi-species co-occurrence index to
-#'  avoid type II errors in null model testing*. Upcoming.
+#' @references Lagat, V. K., Latombe, G. and Hui, C. (2021). *A multi-species co-occurrence index to
+#'  avoid type II errors in null model testing*. Submitted.
 #' @examples
 #' \dontrun{
 #'
@@ -448,8 +448,8 @@ params_c.i <- function(my.files){
 #'      the affixed `AIC` and `rsq` values on (b), (c) and (d) plots,
 #'       respectively)}.
 #'   }
-#' @references Lagat, V. K., Latombe, G. and Hui, C. (202X). *A multi-species co-occurrence
-#'  index to avoid type II errors in null model testing*. Upcoming.
+#' @references Lagat, V. K., Latombe, G. and Hui, C. (2021). *A multi-species co-occurrence
+#'  index to avoid type II errors in null model testing*. Submitted.
 #' @examples
 #' \dontrun{
 #'
@@ -492,7 +492,7 @@ Jo.plots <- function(jo_Obj){
 #'  The data matrices should be saved in the working directory.
 #' @param algo Simulation algorithm used. The possible options to choose from are: `sim1`,
 #'  `sim2`, `sim3`, `sim4`, `sim5`, `sim6`, `sim7`, `sim8`, and `sim9`, all from
-#'   Gotelli (2000). `sim2` is highly recommended (see Lagat *et al.,* 202X).
+#'   Gotelli (2000). `sim2` is highly recommended (see Lagat *et al.,* 2021).
 #' @param metric Metric used to quantify the patterns in `s.data`. It has to be multi-species
 #'  co-occurrence index (see \link[msco]{j.occ}).
 #' @param nReps Number of simulations used in the null model test.
@@ -515,8 +515,8 @@ Jo.plots <- function(jo_Obj){
 #'
 #' @references
 #' \enumerate{
-#' \item{Lagat, V. K., Latombe, G. and Hui, C. (202X). *A multi-species co-occurrence
-#'  index to avoid type II errors in null model testing*. Upcoming.}
+#' \item{Lagat, V. K., Latombe, G. and Hui, C. (2021). *A multi-species co-occurrence
+#'  index to avoid type II errors in null model testing*. Submitted.}
 #'
 #' \item{Gotelli, N. J. (2000). Null model analysis of species co-occurrence patterns.
 #'  *Ecology, 81(9)*, 2606-2621. <https://doi.org/10.1890/0012-9658(2000)081[2606:NMAOSC]2.0.CO;2>}
@@ -541,7 +541,7 @@ Jo.plots <- function(jo_Obj){
 #' @export
 #' @md
 
-m.Jo.plots <- function(my.files, algo = "sim2", metric = "J.occ", nReps = 999){
+m.Jo.plots <- function(my.files, algo = "sim2", metric = "j.occ", nReps = 999){
   mJo.eng(my.files,  algo = algo, metric = metric, nReps = nReps, m.Jo.plots = TRUE)$m.Jo.plots
 }
 
@@ -565,8 +565,8 @@ m.Jo.plots <- function(my.files, algo = "sim2", metric = "J.occ", nReps = 999){
 #' @references
 #' \enumerate{
 #'
-#' \item{Lagat, V. K., Latombe, G. and Hui, C. (202X). *A multi-species co-occurrence
-#'  index to avoid type II errors in null model testing*. Upcoming.}
+#' \item{Lagat, V. K., Latombe, G. and Hui, C. (2021). *A multi-species co-occurrence
+#'  index to avoid type II errors in null model testing*. Submitted.}
 #'
 #' \item{Pearson, K. (1895) VII. Note on regression and inheritance in the
 #'  case of two parents. *proceedings of the royal society of London,* **58**:240-242.
@@ -632,8 +632,8 @@ rsq <- function(my.files){
 #' @references
 #' \enumerate{
 #'
-#' \item{Lagat, V. K., Latombe, G. and Hui, C. (202X). *A multi-species co-occurrence
-#'  index to avoid type II errors in null model testing*. Upcoming.}
+#' \item{Lagat, V. K., Latombe, G. and Hui, C. (2021). *A multi-species co-occurrence
+#'  index to avoid type II errors in null model testing*. Submitted.}
 #'
 #' \item{Pearson, K. (1895) VII. Note on regression and inheritance in the
 #'  case of two parents. *proceedings of the royal society of London,* **58**:240-242.
@@ -676,8 +676,8 @@ rsq.s <- function(my.files){
 #' @return Returns a `list` with the following outputs:
 #' \item{jo.val}{Joint occupancy value.}
 #' \item{jo.sd}{The standard deviation of `jo.val`.}
-#' @references Lagat, V. K., Latombe, G. and Hui, C. (202X). *A multi-species co-occurrence
-#'  index to avoid type II errors in null model testing*. Upcoming.
+#' @references Lagat, V. K., Latombe, G. and Hui, C. (2021). *A multi-species co-occurrence
+#'  index to avoid type II errors in null model testing*. Submitted.
 #' @examples
 #' ex.data <- read.csv(system.file("extdata", "274.csv", package = "msco"))
 #' jo <- msco::j.occ(ex.data, order = 3)
@@ -730,8 +730,8 @@ j.occ<-function(s.data, order){
 #' @return Returns a `list` with the following outputs:
 #' \item{jo.vals}{A vector of joint occupancy values for a range number of species (in `orders`).}
 #' \item{jo.sds}{A vector of standard deviations of `jo.vals`.}
-#' @references Lagat, V. K., Latombe, G. and Hui, C. (202X). *A multi-species co-occurrence
-#'  index to avoid type II errors in null model testing*. Upcoming.
+#' @references Lagat, V. K., Latombe, G. and Hui, C. (2021). *A multi-species co-occurrence
+#'  index to avoid type II errors in null model testing*. Submitted.
 #' @examples
 #' ex.data <- read.csv(system.file("extdata", "274.csv", package = "msco"))
 #' jos <- msco::j.occs(ex.data, orders = 1:nrow(ex.data))
@@ -757,12 +757,12 @@ j.occs<-function(s.data, orders = 1:nrow(s.data)){
   return(jo.inds)
 }
 
-#' Results on joint occupancy index (presented in Lagat et al., 202Xa)
+#' Results on joint occupancy index (presented in Lagat et al., 2021a)
 #'
 #' This function is not for general use but avails the results presented
-#'  in Lagat *et al*. (202Xa).
+#'  in Lagat *et al*. (2021a).
 #'
-#' @return Returns all the results presented in Lagat *et al*. (202Xa). To replicate these results,
+#' @return Returns all the results presented in Lagat *et al*. (2021a). To replicate these results,
 #'  execute the following code:
 #'
 #'  ```
@@ -794,14 +794,14 @@ j.occs<-function(s.data, orders = 1:nrow(s.data)){
 #'   set.seed(14)
 #'   path <- system.file("ms", package = "msco")
 #'   grDevices::pdf(file = paste0(path, "/real.arch.plots.pdf"),
-#'    paper="a4r", height = 8.27, width = 11.69)
+#'    paper = "a4r", height = 8.27, width = 11.69)
 #'   msco:::nullmod_archs()
 #'   grDevices::dev.off()
 #'   system(paste0('open "', paste0(path, "/real.arch.plots.pdf"), '"'))
 #'  ```
 #'
-#' @references Lagat, V. K., Latombe, G. and Hui, C. (202Xa). *A multi-species co-occurrence
-#'  index to avoid type II errors in null model testing*. Upcoming.
+#' @references Lagat, V. K., Latombe, G. and Hui, C. (2021a). *A multi-species co-occurrence
+#'  index to avoid type II errors in null model testing*. Submitted.
 #'
 #' @examples
 #' \dontrun{
@@ -825,12 +825,12 @@ Jo.res <- function(){
   return(res)
 }
 
-#' Results on generalised B-spline modelling (presented in Lagat et al., 202Xb)
+#' Results on generalised B-spline modelling (presented in Lagat et al., 2021b)
 #'
 #' This function is not for general use but avails the generalised B-spline
-#'  model results presented in Lagat *et al*. (202Xb).
+#'  model results presented in Lagat *et al*. (2021b).
 #'
-#' @return Returns all the results presented in Lagat *et al*. (202Xb). To replicate
+#' @return Returns all the results presented in Lagat *et al*. (2021b). To replicate
 #'
 #' * __Figs. 1__, __3__, __4__, __5__, and __Tables 1__ and __S1__, execute the following code:
 #'
@@ -839,27 +839,27 @@ Jo.res <- function(){
 #'
 #'    my.path <- system.file("extdata/gsmdat", package = "msco")
 #'    setwd(my.path)
-#'    s.data <- get(load("s.data.csv")) # Species-by-site matrix
-#'    t.data <- get(load("t.data.csv")) # Species-by-trait matrix
-#'    p.d.mat <- get(load("p.d.mat.csv")) # Species-by-species phylogenetic distance matrix
+#'    s.data <- get(load("s.data.csv")) ##Species-by-site matrix
+#'    t.data <- get(load("t.data.csv")) ##Species-by-trait matrix
+#'    p.d.mat <- get(load("p.d.mat.csv")) ##Species-by-species phylogenetic distance matrix
 #'    RNGkind(sample.kind = "Rejection")
 #'    set.seed(0)
 #'    gb.res <- msco::gbsm_m.orders(s.data,
 #'                t.data,
 #'                p.d.mat,
-#'                metric="Simpson_eqn",
-#'                orders=c(2:5, 8, 10, 15),
-#'                d.f=4,
-#'                degree=3,
-#'                n=1000,
-#'                k=5,
-#'                p=0.8,
-#'                type="k-fold",
-#'                scat.plots=TRUE,
-#'                response.curves=TRUE,
-#'                j.occs.distrbn=TRUE,
-#'                mp.plots=TRUE,
-#'                start=seq(-0.1, 0, length.out=(ncol(t.data)+2)*4+1)
+#'                metric = "Simpson_eqn",
+#'                orders = c(2:5, 8, 10, 15),
+#'                d.f = 4,
+#'                degree = 3,
+#'                n = 1000,
+#'                k = 5,
+#'                p = 0.8,
+#'                type = "k-fold",
+#'                scat.plots = TRUE,
+#'                response.curves = TRUE,
+#'                j.occs.distrbn = TRUE,
+#'                mp.plots = TRUE,
+#'                start = seq(-0.1, 0, length.out=(ncol(t.data)+2)*4+1)
 #'              )
 #'
 #'    gb.res$contbn_table$`order 3`  ## Table 1
@@ -876,14 +876,14 @@ Jo.res <- function(){
 #'        library(V.PhyloMaker)
 #'        my.path <- system.file("extdata/gsmdat", package = "msco")
 #'        setwd(my.path)
-#'        s.data <- get(load("s.data.csv")) ## Species-by-site matrix
-#'        taxa <- get(load("taxa.levels.csv")) ## Species taxa
+#'        s.data <- get(load("s.data.csv")) ##Species-by-site matrix
+#'        taxa <- get(load("taxa.levels.csv")) ##Species taxa
 #'        my.phylo.plot <- msco::s.phylo(s.data,
 #'                                  database = "ncbi",
-#'                                  obs.taxa=FALSE,
+#'                                  obs.taxa = FALSE,
 #'                                  taxa.levels = taxa,
-#'                                  Obs.data=FALSE,
-#'                                  phy.d.mat=FALSE,
+#'                                  Obs.data = FALSE,
+#'                                  phy.d.mat = FALSE,
 #'                                  phylo.plot = TRUE)
 #'
 #'      ```
@@ -892,23 +892,23 @@ Jo.res <- function(){
 #'      ```
 #'        my.path <- system.file("extdata/gsmdat", package = "msco")
 #'        setwd(my.path)
-#'        s.data <- get(load("s.data.csv")) ## Species-by-site matrix
-#'        t.data <- get(load("t.data.csv")) ## Species-by-trait matrix
-#'        p.d.mat <- get(load("p.d.mat.csv")) ## Species-by-species pgylogenetic distance matrix
+#'        s.data <- get(load("s.data.csv")) ##Species-by-site matrix
+#'        t.data <- get(load("t.data.csv")) ##Species-by-trait matrix
+#'        p.d.mat <- get(load("p.d.mat.csv")) ##Species-by-species phylogenetic distance matrix
 #'        my.gbsm <- msco::gbsm(s.data,
 #'                          t.data,
 #'                          p.d.mat,
 #'                          metric = "Simpson_eqn",
-#'                          d.f=4,
-#'                          order.jo=3,
-#'                          degree=3,
-#'                          n=1000,
-#'                          b.plots=TRUE,
-#'                          bsplines="single",
-#'                          scat.plot=FALSE,
-#'                          response.curves=FALSE,
-#'                          leg=1,
-#'                          start=seq(-0.1, 0, length.out=(ncol(t.data)+2)*4+1)
+#'                          d.f = 4,
+#'                          order.jo = 3,
+#'                          degree = 3,
+#'                          n = 1000,
+#'                          b.plots = TRUE,
+#'                          bsplines = "single",
+#'                          scat.plot = FALSE,
+#'                          response.curves = FALSE,
+#'                          leg = 1,
+#'                          start = seq(-0.1, 0, length.out=(ncol(t.data)+2)*4+1)
 #'                        )
 #'
 #'      ```
@@ -916,21 +916,21 @@ Jo.res <- function(){
 #'      ```
 #'        my.path <- system.file("extdata/gsmdat", package = "msco")
 #'        setwd(my.path)
-#'        s.data <- get(load("s.data.csv")) ## Species-by-site matrix
-#'        t.data <- get(load("t.data.csv")) ## Species-by-trait matrix
-#'        p.d.mat <- get(load("p.d.mat.csv")) ## Species-by-species phylogenetic distance matrix
+#'        s.data <- get(load("s.data.csv")) ##Species-by-site matrix
+#'        t.data <- get(load("t.data.csv")) ##Species-by-trait matrix
+#'        p.d.mat <- get(load("p.d.mat.csv")) ##Species-by-species phylogenetic distance matrix
 #'        RNGkind(sample.kind = "Rejection")
 #'        set.seed(0)
 #'        pe <- msco::pred.error.bands(s.data,
 #'                            t.data,
 #'                            p.d.mat,
-#'                            metric="Simpson_eqn",
-#'                            d.f=4,
-#'                            simm=10,
+#'                            metric = "Simpson_eqn",
+#'                            d.f = 4,
+#'                            simm = 10,
 #'                            orders = c(2:5, 8, 10, 15),
-#'                            degree=3,
-#'                            n=1000,
-#'                            start=seq(-0.1, 0, length.out=(ncol(t.data)+2)*4+1)
+#'                            degree = 3,
+#'                            n = 1000,
+#'                            start = seq(-0.1, 0, length.out=(ncol(t.data)+2)*4+1)
 #'                          )
 #'      ```
 #'
@@ -938,9 +938,9 @@ Jo.res <- function(){
 #'   (with prediction uncertainty plot taking 6 minutes alone). It took 7.3895 minutes
 #'    to run (and output results) on a 64 bit system with 8 GB RAM and 3.60 GHz CPU.
 #'
-#' @references Lagat, V. K., Latombe, G. and Hui, C. (202Xb). *Dissecting the effects of
+#' @references Lagat, V. K., Latombe, G. and Hui, C. (2021b). *Dissecting the effects of
 #'   neutral encounter versus functional traits on multi-order species interactions
-#'    and co-occurrence with generalised B-spline modelling*. Upcoming.
+#'    and co-occurrence with generalised B-spline modelling*. Submitted.
 #'
 #' @examples
 #' \dontrun{
@@ -961,17 +961,17 @@ gbsm.res <- function(){
   # Biobase::openPDF(system.file("ms", "B-splines.curves.pdf", package = "msco"))
   # Biobase::openPDF(system.file("ms", "pred.error.bands.pdf", package = "msco"))
   # Biobase::openPDF(system.file("ms", "gbsm.plots.pdf", package = "msco"))
-  # saveRDS(gb.res, file = paste0(system.file("ms", package="msco"), "/gbsm.res.RDS"))
+  # saveRDS(gb.res, file = paste0(system.file("ms", package = "msco"), "/gbsm.res.RDS"))
 
   return(gres)
 }
 
-#' Results on `msco` illustration (presented in Lagat et al., 202Xc)
+#' Results on `msco` illustration (presented in Lagat et al., 2021c)
 #'
 #' This function is not for general use but avails the `msco` R package
-#'  illustration presented in Lagat *et al*. (202Xc).
+#'  illustration presented in Lagat *et al*. (2021c).
 #'
-#' @return Returns all the results presented in Lagat *et al*. (202Xc). To replicate
+#' @return Returns all the results presented in Lagat *et al*. (2021c). To replicate
 #'
 #' * __Figs. 1__, __2__ and __Table 2__, execute the following code:
 #'
@@ -982,7 +982,7 @@ gbsm.res <- function(){
 #'    set.seed(14)
 #'    ex.data <- read.csv(system.file("extdata", "251.csv", package = "msco"))
 #'    j.en <- msco::Jo.eng(ex.data,
-#'                algo="sim2",
+#'                algo = "sim2",
 #'                metric = "j.occ",
 #'                nReps = 999,
 #'                dig = 3,
@@ -997,8 +997,8 @@ gbsm.res <- function(){
 #'                Obs.data = FALSE,
 #'                Sim.data = FALSE,
 #'                Jo_val.sim = FALSE,
-#'                lab=FALSE,
-#'                leg=FALSE,
+#'                lab = FALSE,
+#'                leg = FALSE,
 #'                C.I_Jo_val.sim = FALSE,
 #'                Jo_val.obs = TRUE,
 #'                Metric = TRUE,
@@ -1013,7 +1013,7 @@ gbsm.res <- function(){
 #'
 #'    j.en$nmod_stats ## Table 2
 #'    grDevices::pdf(file = paste0(system.file("ms", package = "msco"),
-#'     "/aJo.plots.pdf"), paper="a4r", height = 8.27, width = 11.69)
+#'     "/aJo.plots.pdf"), paper = "a4r", height = 8.27, width = 11.69)
 #'    j.en$all.plots
 #'    grDevices::dev.off()
 #'    system(paste0('open "', paste0(system.file("ms", package = "msco"), ## Fig. 2
@@ -1027,7 +1027,7 @@ gbsm.res <- function(){
 #'    RNGkind(sample.kind = "Rejection")
 #'    set.seed(14)
 #'    grDevices::pdf(file = paste0(system.file("ms", package = "msco"),
-#'     "/real.arch.plots2.pdf"), paper="a4r", height = 8.27, width = 11.69)
+#'     "/real.arch.plots2.pdf"), paper = "a4r", height = 8.27, width = 11.69)
 #'    msco:::nullmod_archs2()
 #'    grDevices::dev.off()
 #'    system(paste0('open "', paste0(system.file("ms", package = "msco"),
@@ -1041,43 +1041,43 @@ gbsm.res <- function(){
 #'
 #'    my.path <- system.file("extdata/gsmdat", package = "msco")
 #'    setwd(my.path)
-#'    s.data <- get(load("s.data.csv")) # Species-by-site matrix
-#'    t.data <- get(load("t.data.csv")) # Species-by-trait matrix
-#'    p.d.mat <- get(load("p.d.mat.csv")) # Species-by-species phylogenetic distance matrix
+#'    s.data <- get(load("s.data.csv")) #Species-by-site matrix
+#'    t.data <- get(load("t.data.csv")) #Species-by-trait matrix
+#'    p.d.mat <- get(load("p.d.mat.csv")) #Species-by-species phylogenetic distance matrix
 #'    RNGkind(sample.kind = "Rejection")
 #'    set.seed(0)
 #'    gb.res <- msco::gbsm_m.orders(s.data,
 #'                t.data,
 #'                p.d.mat,
-#'                metric="Simpson_eqn",
-#'                orders=c(3:5, 8, 10, 15, 20),
-#'                d.f=4,
-#'                degree=3,
-#'                n=1000,
-#'                k=5,
-#'                p=0.8,
-#'                type="k-fold",
-#'                scat.plots=FALSE,
-#'                response.curves=TRUE,
-#'                j.occs.distrbn=FALSE,
-#'                mp.plots=FALSE,
-#'                start=seq(-0.1, 0, length.out=(ncol(t.data)+2)*4+1)
+#'                metric = "Simpson_eqn",
+#'                orders = c(3:5, 8, 10, 15, 20),
+#'                d.f = 4,
+#'                degree = 3,
+#'                n = 1000,
+#'                k = 5,
+#'                p = 0.8,
+#'                type = "k-fold",
+#'                scat.plots = FALSE,
+#'                response.curves = TRUE,
+#'                j.occs.distrbn = FALSE,
+#'                mp.plots = FALSE,
+#'                start = seq(-0.1, 0, length.out=(ncol(t.data)+2)*4+1)
 #'              )
 #'
 #'
 #'   ```
 #' @references
 #' \enumerate{
-#' \item{Lagat, V. K., Latombe, G. and Hui, C. (202Xa). *A multi-species co-occurrence
-#'  index to avoid type II errors in null model testing*. Upcoming.}
+#' \item{Lagat, V. K., Latombe, G. and Hui, C. (2021a). *A multi-species co-occurrence
+#'  index to avoid type II errors in null model testing*. Submitted.}
 #'
-#'  \item{Lagat, V. K., Latombe, G. and Hui, C. (202Xb). *Dissecting the effects of
+#'  \item{Lagat, V. K., Latombe, G. and Hui, C. (2021b). *Dissecting the effects of
 #'   neutral encounter versus functional traits on multi-order species interactions
-#'    and co-occurrence with generalised B-spline modelling*. Upcoming.}
+#'    and co-occurrence with generalised B-spline modelling*. Submitted.}
 #'
-#'   \item{Lagat, V. K., Latombe, G. and Hui, C. (202Xc). `msco:` *an R software
-#'    package for null model testing of multi-species interactions and  interference,
-#'     and analysis of their drivers*. Upcoming.}
+#'   \item{Lagat, V. K., Latombe, G. and Hui, C. (2021c). *`msco`: an R software package
+#'   for null model testing of multi-species interactions and interference with
+#'    covariates*. Submitted.}
 #' }
 #'
 #' @examples

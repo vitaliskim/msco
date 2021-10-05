@@ -85,11 +85,11 @@ This function plots the response curves with prediction error bands for all orde
 }
 \references{
 \enumerate{
-\item{Lagat, V. K., Latombe, G. and Hui, C. (202Xa). \emph{A multi-species co-occurrence
-index to avoid type II errors in null model testing}. Upcoming.}
+\item{Lagat, V. K., Latombe, G. and Hui, C. (2021a). \emph{A multi-species co-occurrence
+index to avoid type II errors in null model testing}. Submitted.}
 
-\item{Lagat, V. K., Latombe, G. and Hui, C. (202Xb). \emph{Dissecting the effects of
+\item{Lagat, V. K., Latombe, G. and Hui, C. (2021b). \emph{Dissecting the effects of
 neutral encounter versus functional traits on multi-order species interactions
-and co-occurrence with generalised B-spline modelling}. Upcoming.}
+and co-occurrence with generalised B-spline modelling}. Submitted.}
 }
 }
