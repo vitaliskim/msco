@@ -832,7 +832,7 @@ Jo.res <- function(){
 #'
 #' @return Returns all the results presented in Lagat *et al*. (202Xb). To replicate
 #'
-#' * __Figs. 1__, __5__, __6__, __7__ and __Tables 1__ and __2__, execute the following code:
+#' * __Figs. 1__, __3__, __4__, __5__, and __Tables 1__ and __S1__, execute the following code:
 #'
 #'
 #'   ```
@@ -862,14 +862,15 @@ Jo.res <- function(){
 #'                start=seq(-0.1, 0, length.out=(ncol(t.data)+2)*4+1)
 #'              )
 #'
-#'    gb.res$model.validation.table  ## Table 1
-#'    gb.res$contbn_table$`order 3`  ## Table 2
+#'    gb.res$contbn_table$`order 3`  ## Table 1
+#'    gb.res$model.validation.table  ## Table S1
+#'
 #'
 #'   ```
 #'
-#' * __Figs. 2, 3,__ and __4__, execute the following codes:
+#' * __Figs. S1, 2,__ and __S2__, execute the following codes:
 #'
-#'      + __Fig. 2__:
+#'      + __Fig. S1__:
 #'      ```
 #'        remotes::install_github("jinyizju/V.PhyloMaker", force = TRUE)
 #'        library(V.PhyloMaker)
@@ -887,7 +888,7 @@ Jo.res <- function(){
 #'
 #'      ```
 #'
-#'      + __Fig. 3__:
+#'      + __Fig. 2__:
 #'      ```
 #'        my.path <- system.file("extdata/gsmdat", package = "msco")
 #'        setwd(my.path)
@@ -911,7 +912,7 @@ Jo.res <- function(){
 #'                        )
 #'
 #'      ```
-#'      + __Fig. 4__:
+#'      + __Fig. S2__:
 #'      ```
 #'        my.path <- system.file("extdata/gsmdat", package = "msco")
 #'        setwd(my.path)
@@ -1015,7 +1016,7 @@ gbsm.res <- function(){
 #'     "/aJo.plots.pdf"), paper="a4r", height = 8.27, width = 11.69)
 #'    j.en$all.plots
 #'    grDevices::dev.off()
-#'    system(paste0('open "', paste0(system.file("ms", package = "msco"),
+#'    system(paste0('open "', paste0(system.file("ms", package = "msco"), ## Fig. 2
 #'     "/aJo.plots.pdf"), '"'))
 #'
 #'   ```
@@ -1034,6 +1035,37 @@ gbsm.res <- function(){
 #'
 #'   ```
 #'
+#' * __Fig. 5__, execute the following code:
+#'
+#'   ```
+#'
+#'    my.path <- system.file("extdata/gsmdat", package = "msco")
+#'    setwd(my.path)
+#'    s.data <- get(load("s.data.csv")) # Species-by-site matrix
+#'    t.data <- get(load("t.data.csv")) # Species-by-trait matrix
+#'    p.d.mat <- get(load("p.d.mat.csv")) # Species-by-species phylogenetic distance matrix
+#'    RNGkind(sample.kind = "Rejection")
+#'    set.seed(0)
+#'    gb.res <- msco::gbsm_m.orders(s.data,
+#'                t.data,
+#'                p.d.mat,
+#'                metric="Simpson_eqn",
+#'                orders=c(3:5, 8, 10, 15, 20),
+#'                d.f=4,
+#'                degree=3,
+#'                n=1000,
+#'                k=5,
+#'                p=0.8,
+#'                type="k-fold",
+#'                scat.plots=FALSE,
+#'                response.curves=TRUE,
+#'                j.occs.distrbn=FALSE,
+#'                mp.plots=FALSE,
+#'                start=seq(-0.1, 0, length.out=(ncol(t.data)+2)*4+1)
+#'              )
+#'
+#'
+#'   ```
 #' @references
 #' \enumerate{
 #' \item{Lagat, V. K., Latombe, G. and Hui, C. (202Xa). *A multi-species co-occurrence

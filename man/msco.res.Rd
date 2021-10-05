@@ -48,7 +48,7 @@ Returns all the results presented in Lagat \emph{et al}. (202Xc). To replicate
   "/aJo.plots.pdf"), paper="a4r", height = 8.27, width = 11.69)
  j.en$all.plots
  grDevices::dev.off()
- system(paste0('open "', paste0(system.file("ms", package = "msco"),
+ system(paste0('open "', paste0(system.file("ms", package = "msco"), ## Fig. 2
   "/aJo.plots.pdf"), '"'))
 
 }
@@ -60,6 +60,34 @@ Returns all the results presented in Lagat \emph{et al}. (202Xc). To replicate
  grDevices::dev.off()
  system(paste0('open "', paste0(system.file("ms", package = "msco"),
   "/real.arch.plots2.pdf"), '"'))
+
+}
+\item \strong{Fig. 5}, execute the following code:\preformatted{
+ my.path <- system.file("extdata/gsmdat", package = "msco")
+ setwd(my.path)
+ s.data <- get(load("s.data.csv")) # Species-by-site matrix
+ t.data <- get(load("t.data.csv")) # Species-by-trait matrix
+ p.d.mat <- get(load("p.d.mat.csv")) # Species-by-species phylogenetic distance matrix
+ RNGkind(sample.kind = "Rejection")
+ set.seed(0)
+ gb.res <- msco::gbsm_m.orders(s.data,
+             t.data,
+             p.d.mat,
+             metric="Simpson_eqn",
+             orders=c(3:5, 8, 10, 15, 20),
+             d.f=4,
+             degree=3,
+             n=1000,
+             k=5,
+             p=0.8,
+             type="k-fold",
+             scat.plots=FALSE,
+             response.curves=TRUE,
+             j.occs.distrbn=FALSE,
+             mp.plots=FALSE,
+             start=seq(-0.1, 0, length.out=(ncol(t.data)+2)*4+1)
+           )
+
 
 }
 }

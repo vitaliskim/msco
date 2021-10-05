@@ -9,7 +9,7 @@ gbsm.res()
 \value{
 Returns all the results presented in Lagat \emph{et al}. (202Xb). To replicate
 \itemize{
-\item \strong{Figs. 1}, \strong{5}, \strong{6}, \strong{7} and \strong{Tables 1} and \strong{2}, execute the following code:\preformatted{
+\item \strong{Figs. 1}, \strong{3}, \strong{4}, \strong{5}, and \strong{Tables 1} and \strong{S1}, execute the following code:\preformatted{
  my.path <- system.file("extdata/gsmdat", package = "msco")
  setwd(my.path)
  s.data <- get(load("s.data.csv")) # Species-by-site matrix
@@ -35,13 +35,14 @@ Returns all the results presented in Lagat \emph{et al}. (202Xb). To replicate
              start=seq(-0.1, 0, length.out=(ncol(t.data)+2)*4+1)
            )
 
- gb.res$model.validation.table  ## Table 1
- gb.res$contbn_table$`order 3`  ## Table 2
+ gb.res$contbn_table$`order 3`  ## Table 1
+ gb.res$model.validation.table  ## Table S1
+
 
 }
-\item \strong{Figs. 2, 3,} and \strong{4}, execute the following codes:
+\item \strong{Figs. S1, 2,} and \strong{S2}, execute the following codes:
 \itemize{
-\item \strong{Fig. 2}:
+\item \strong{Fig. S1}:
 }\preformatted{  remotes::install_github("jinyizju/V.PhyloMaker", force = TRUE)
   library(V.PhyloMaker)
   my.path <- system.file("extdata/gsmdat", package = "msco")
@@ -58,7 +59,7 @@ Returns all the results presented in Lagat \emph{et al}. (202Xb). To replicate
 
 }
 \itemize{
-\item \strong{Fig. 3}:
+\item \strong{Fig. 2}:
 }\preformatted{  my.path <- system.file("extdata/gsmdat", package = "msco")
   setwd(my.path)
   s.data <- get(load("s.data.csv")) ## Species-by-site matrix
@@ -82,7 +83,7 @@ Returns all the results presented in Lagat \emph{et al}. (202Xb). To replicate
 
 }
 \itemize{
-\item \strong{Fig. 4}:
+\item \strong{Fig. S2}:
 }\preformatted{  my.path <- system.file("extdata/gsmdat", package = "msco")
   setwd(my.path)
   s.data <- get(load("s.data.csv")) ## Species-by-site matrix
