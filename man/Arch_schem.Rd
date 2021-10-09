@@ -56,10 +56,6 @@ but a path to a schematic diagram saved in this package. A representational figu
 simulated or any known \code{.csv} binary data matrices serving as the proxies for species-by-site
 presence/absence community data can be accessed with \link[msco]{Jo.plots} function.
 }
-\examples{
-msco::Arch_schem()
-
-}
 \references{
 \enumerate{
 \item{Cordero, R.D. and Jackson, D.A. (2019). Species-pair associations, null models, and tests of

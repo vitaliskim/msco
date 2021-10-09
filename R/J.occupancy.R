@@ -126,9 +126,6 @@ Archetypes <- function(my.files, algo = "sim2", metric = "j.occ", nReps = 999){
 #'   simulated or any known `.csv` binary data matrices serving as the proxies for species-by-site
 #'    presence/absence community data can be accessed with \link[msco]{Jo.plots} function.
 #'
-#' @examples
-#' msco::Arch_schem()
-#'
 #' @export
 #' @md
 
