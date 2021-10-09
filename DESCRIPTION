@@ -14,11 +14,11 @@ Description: Co-occurrence patterns are typically explored between species pairs
  occupancy index can encapsulate nine possible archetypes of species co-occurrence patterns and
  avert the statistical type II error by detecting patterns that would otherwise not be detected
  by any pairwise co-occurrence metrics. To dissect the effects of neutral encounter versus
- functional traits on multi-order species interactions and co-occurrence, generalised B-spline
+ functional traits on multi-order species interactions and co-occurrence, generalized B-spline
  model has also been proposed. The R package ''msco'' presents the implementation of joint
  occupancy index and includes a list of functions for calculating this index for different
- orders, as well as testing and visualising species co-occurrence archetypes. This package also
- presents the implementation of the generalised B-spline model and analyses of the effects of
+ orders, as well as testing and visualizing species co-occurrence archetypes. This package also
+ presents the implementation of the generalized B-spline model and analyses of the effects of
  neutral encounter versus functional traits on multi-order species interactions and co-occurrence.
 Depends: R (>= 3.5.0)
 License: GPL-3
