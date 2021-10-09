@@ -1075,9 +1075,15 @@ gbsm.res <- function(){
 #'   neutral encounter versus functional traits on multi-order species interactions
 #'    and co-occurrence with generalised B-spline modelling*. Submitted.}
 #'
+<<<<<<< HEAD
 #'   \item{Lagat, V. K., Latombe, G. and Hui, C. (2021c). *`msco`: an R software package
 #'   for null model testing of multi-species interactions and interference with
 #'    covariates*. Submitted.}
+=======
+#'   \item{Lagat, V. K., Latombe, G. and Hui, C. (202Xc). `msco:` *an R software
+#'    package for null model testing of multi-species interactions and their
+#'     potential niche versus neutral drivers*. Upcoming.}
+>>>>>>> 1fa6fe600929326761c3626d3835dc2093acd12f
 #' }
 #'
 #' @examples
