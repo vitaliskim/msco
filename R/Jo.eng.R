@@ -74,9 +74,9 @@
 #'   "A5", "A6", "A7", "A8", "A9"\eqn{\}} or "NA". "NA" could be the combinations of two or more
 #'    of the nine expected archetypes.
 #' @param leg A logical value indicating if the legend should be added to the `m.n.plot`. This parameter
-#'  helps to control the plots in the `nullmod_arch` function.
+#'  helps to control the appearance of plots in this function.
 #' @param lab A logical value indicating if the plot labels should be added to the `m.n.plot`. This parameter
-#'  helps to control the plots in the `nullmod_arch` function.
+#'  helps to control the appearance of plots in this function.
 #'
 #' @return `Jo.eng` function returns a list containing the following outputs:
 #' \item{`all.plots`}{Joint occupancy decline regression and null model plots.}

@@ -119,10 +119,10 @@ pairwise natural metric should be output.}
 compare \code{p.n.plot} with \code{All.plots} at a point where the order, \code{i = 2}.}
 
 \item{lab}{A logical value indicating if the plot labels should be added to the \code{m.n.plot}. This parameter
-helps to control the plots in the \code{nullmod_arch} function.}
+helps to control the appearance of plots in this function.}
 
 \item{leg}{A logical value indicating if the legend should be added to the \code{m.n.plot}. This parameter
-helps to control the plots in the \code{nullmod_arch} function.}
+helps to control the appearance of plots in this function.}
 
 \item{m.n.plot}{A logical value indicating whether null model plot produced using joint
 occupancy metrics should be output. The default is \code{FALSE}.}
