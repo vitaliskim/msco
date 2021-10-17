@@ -7,14 +7,14 @@
 mJo.eng(
   my.files,
   algo = "sim2",
-  metric = "j.occ",
+  metric = "raw",
   nReps = 999,
-  my.Archs = FALSE,
-  my.AICs = FALSE,
-  my.params = FALSE,
-  my.best.mod2 = FALSE,
-  my.best.mod3 = FALSE,
-  my.params_c.i = FALSE,
+  Archetypes = FALSE,
+  AICs = FALSE,
+  params = FALSE,
+  best.mod2 = FALSE,
+  best.mod3 = FALSE,
+  params_c.i = FALSE,
   my.r2 = FALSE,
   my.r2.s = FALSE,
   m.Jo.plots = FALSE
@@ -26,54 +26,197 @@ The data matrices should be saved in the working directory.}
 
 \item{algo}{Simulation algorithm used. The possible options to choose from are: \code{sim1},
 \code{sim2}, \code{sim3}, \code{sim4}, \code{sim5}, \code{sim6}, \code{sim7}, \code{sim8}, and \code{sim9}, all from
-Gotelli (2000). \code{sim2} is highly recommended (see Lagat \emph{et al.,} 2021).}
+Gotelli (2000). \code{sim2} is highly recommended (see Lagat \emph{et al.,} 2021a).}
 
-\item{metric}{Metric used to quantify the patterns in \code{s.data}. It has to be multi-species
-co-occurrence index (see \link[msco]{j.occ}).}
+\item{metric}{The type of rescaling applied to the joint occupancy metric. Available options are:
+\code{Simpson_eqn} for Simpson equivalent, \code{Sorensen_eqn} for Sorensen equivalent, and \code{raw} for the
+raw form of index without rescaling.}
 
 \item{nReps}{Number of simulations used in the null model test.}
 
-\item{my.Archs}{A logical value (\code{TRUE} or \code{FALSE}) indicating if the archetypes of the patterns
-of species co-occurrences in multiple communities (\link[msco]{Archetypes}) can be output.}
+\item{Archetypes}{A Boolean indicating if the archetypes of the patterns
+of species co-occurrences in multiple communities should be included in the output.}
 
-\item{my.AICs}{A logical indicating whether the akaike information criterion (AIC) and Delta AIC
-of joint occupancy decline regression models for all communities (\link[msco]{m.AICs}) can be output.}
+\item{AICs}{A Boolean indicating whether the akaike information criterion (AIC) and Delta AIC
+of joint occupancy decline regression models for all communities should be included in the output.}
 
-\item{my.params}{A logical indicating whether parameter estimates of the joint occupancy decline
-regression models (\link[msco]{params}) can be output.}
+\item{params}{A Boolean indicating whether parameter estimates of the joint occupancy decline
+regression models should be included in the output.}
 
-\item{my.best.mod2}{A logical indicating if exponential and power law regression model comparisons
-(\link[msco]{best.mod2}) can be output.}
+\item{best.mod2}{A Boolean indicating if exponential and power law regression model comparisons
+should be included in the output.}
 
-\item{my.best.mod3}{A logical  indicating if exponential, power law and exponential-power law
-regression model comparisons (\link[msco]{best.mod3}) can be output.}
+\item{best.mod3}{A Boolean indicating if exponential, power law and exponential-power law
+regression model comparisons should be included in the output.}
 
-\item{my.params_c.i}{A logical indicating if 95\% C.I of the parameter estimates of the joint occupancy
-decline regression models (\link[msco]{params_c.i}) can be output.}
+\item{params_c.i}{A Boolean indicating if 95\% C.I of the parameter estimates of the joint occupancy
+decline regression models should be included in the output.}
 
-\item{my.r2}{A logical indicating if the robustness of joint occupancy decline regression models
-(\link[msco]{rsq}) should be computed and output.}
+\item{my.r2}{A Boolean indicating if the robustness of joint occupancy decline regression models
+should be computed and output.}
 
-\item{my.r2.s}{A logical indicating if the robustness summary values of joint occupancy decline
-regression models (\link[msco]{rsq.s}) should be computed and output.}
+\item{my.r2.s}{A Boolean indicating if the robustness summary values of joint occupancy decline
+regression models should be computed and output.}
 
-\item{m.Jo.plots}{A logical indicating whether joint occupancy parametric and null model plots for
-multiple communities (\link[msco]{m.Jo.plots}) can be output.}
+\item{m.Jo.plots}{A Boolean indicating whether joint occupancy parametric and null model plots for
+multiple communities should be included in the output.}
 }
 \value{
 \code{mJo.eng} function returns a list containing the following outputs:
-\item{\code{Archs}}{as for \link[msco]{Archetypes}.}
-\item{\code{all.AICs}}{as for \link[msco]{m.AICs}.}
-\item{\code{params}}{as for \link[msco]{params}.}
-\item{\code{best.mod2}}{as for \link[msco]{best.mod2}.}
-\item{\code{best.mod3}}{as for \link[msco]{best.mod3}.}
-\item{\code{params_c.i}}{as for \link[msco]{params_c.i}.}
-\item{\code{r2}}{as for \link[msco]{rsq}.}
-\item{\code{r2.s}}{as for \link[msco]{rsq.s}.}
-\item{\code{m.Jo.plots}}{as for \link[msco]{m.Jo.plots}.}
+
+$\code{Archs}
+
+For every community, a \code{list} consisting of:
+
+\itemize{
+\item \verb{$nmod_stats}: A data frame with the summary statistics for the null model test; and
+\item \verb{$Archetype}: archetypes of the patterns of species co-occurrences in ecological
+communities/matrices (\code{my.files}). These archetypes must be \eqn{\in \{}"A1",
+"A2", "A3", "A4", "A5", "A6", "A7", "A8", "A9"\eqn{\}} or "NA". "NA" could be the
+combinations of two or more of the nine expected archetypes.}
+$\code{all.AICs}
+
+A \code{list} of \code{data.frame}s containig the following components:
+\item{\code{df}}{the number of parameters in each of the three (exponential, power law and
+exponential-power law) joint occupancy decline regression models.}
+\item{\code{aic}}{the aic values for each of the three joint occupancy decline regression models.}
+\item{\code{delta_aic3}}{the \code{delta_aic} values for each of the three joint occupancy decline regression
+models.}
+\item{\code{delta_aic2}}{the \code{delta_aic} values for exponential and power law forms of joint occupancy
+decline regression models.}
+$\code{params}
+
+A \code{data.frame} consisting of:
+\item{\code{arch}}{the archetypes of the patterns of species co-occurrences in each of the  species-by-site
+presence/absence \code{.csv} data matrices.}
+\item{\code{a.ex}}{the \code{a} parameter estimate of the exponential form of joint occupancy decline.}
+\item{\code{b.ex}}{the \code{b} parameter estimate of the exponential form of joint occupancy decline.}
+\item{\code{a.pl}}{the \code{a} parameter estimate of the power law form of joint occupancy decline.}
+\item{\code{b.pl}}{the \code{b} parameter estimate of the power law form of joint occupancy decline.}
+\item{\code{a.expl}}{the \code{a} parameter estimate of the exponential-power law form of joint occupancy decline.}
+\item{\code{b.expl}}{the \code{b} parameter estimate of the exponential-power law form of joint occupancy decline.}
+\item{\code{c.expl}}{the \code{c} parameter estimate of the exponential-power law form of joint occupancy decline.}
+$\code{best.mod2}
+
+A\code{table} containig the following components:
+\item{\code{n}}{the number of ecological communities represented by species-by-site
+presence/absence \code{.csv} data matrices.}
+\item{\code{n.lwst_aic}}{the number of communities with exponential as the best
+form of joint occupancy decline than power law and vice versa.}
+\item{\code{n.delta_aic}}{the number of communities whose exponential and power law forms of joint occupancy
+decline have \code{delta_aic = 0}, respectively. this number must be equal to \code{n.lwst_aic}.}
+\item{\verb{\%}}{the percentage of \code{n.lwst_aic} (or \code{n.delta_aic}) relative to the total number of
+communities (\code{n}) analyzed.}
+$\code{best.mod3}
+
+A \code{table} containig the following components:
+\item{\code{n}}{the number of ecological communities represented by species-by-site
+presence/absence \code{.csv} data matrices.}
+\item{\code{n.lwst_aic}}{the number of communities with exponential or power law or exponential-power
+law as the best form of joint occupancy decline among the three (exponential, power law and
+exponential-power law) regression models.}
+\item{\code{n.delta_aic}}{the number of communities whose exponential, power law and exponential-power
+law forms of joint occupancy decline, respectively, have \code{delta_aic = 0}. this number must be
+equal to \code{n.lwst_aic}.}
+\item{\verb{\%}}{the percentage of \code{n.lwst_aic} (or \code{n.delta_aic}) relative to the total number of
+communities (\code{n}) analyzed.}
+$\code{params_c.i}
+
+A \code{data.frame} consisting of:
+\item{\code{arch}}{the archetypes of the patterns of species co-occurrences in each of the  species-by-site
+presence/absence \code{.csv} data matrices.}
+\item{\code{n}}{the number of communities under every archetype.}
+\item{\verb{ex_\%}}{the percentages of the number of communities (under every archetype) where
+exponential form of joint occupancy decline fitted better than power law.}
+\item{\code{a.ex}}{the 95\% closed confidence interval of the \code{a} parameter estimates of the exponential
+form of joint occupancy decline, under every archetype.}
+\item{\code{b.ex}}{the 95\% closed confidence interval of the \code{b} parameter estimates of the exponential
+form of joint occupancy decline, under every archetype.}
+\item{\verb{p.l_\%}}{the percentages of the number of communities (under every archetype) where
+power law form of joint occupancy decline fitted better than exponential.}
+\item{\code{a.pl}}{the 95\% closed confidence interval of the \code{a} parameter estimates of the power law
+form of joint occupancy decline, under every archetype.}
+\item{\code{b.pl}}{the 95\% closed confidence interval of the \code{b} parameter estimates of the power law
+form of joint occupancy decline, under every archetype.}
+\item{\verb{ex.pl_\%}}{the percentages of the number of communities (under every archetype) where exponential-power
+law form of joint occupancy decline fitted better than both the exponential and power law forms.}
+\item{\code{a.expl}}{the 95\% closed confidence interval of the \code{a} parameter estimates of the exponential-power law
+form of joint occupancy decline, under every archetype.}
+\item{\code{b.expl}}{the 95\% closed confidence interval of the \code{b} parameter estimates of the exponential-power law
+form of joint occupancy decline, under every archetype.}
+\item{\code{c.expl}}{the 95\% closed confidence interval of the \code{c} parameter estimates of the exponential-power law
+form of joint occupancy decline, under every archetype.}
+$\code{r2}
+
+A \code{list} of \code{data.frame}s containig the following components:
+\item{\code{rsq.ex}}{\eqn{r^2} for the exponential form of joint occupancy decline.}
+\item{\code{rsq.pl}}{\eqn{r^2} for the power law form of joint occupancy decline.}
+\item{\code{rsq.ex.pl}}{\eqn{r^2} for the exponential-power law form of joint occupancy decline.}
+$\code{r2.s}
+\itemize{
+\item A \code{list} containig the following components:
+
+$\code{rsq.per.Archs}
+\itemize{
+\item \code{Archs}: Archetypes of the patterns of species co-occurrences in each
+of the species-by-site presence/absence .csv data matrices.
+\item \code{n.a}: Number of communities under each archetype.
+\item \code{rsq.ex}: Number of communities under each archetype whose exponential
+forms of joint occupancy decline have \eqn{r^2 > 0.95}.
+\item \code{rsq.pl}: Number of communities under each archetype whose power
+law forms of joint occupancy decline have \eqn{r^2 > 0.95}.
+\item \code{rsq.ex-pl}: Number of communities under each archetype whose
+exponential-power law forms of joint occupancy decline have \eqn{r^2 > 0.95}.
+}
+
+$\code{rsq.all.Communities}
+\itemize{
+\item \code{n}: Number of all communities analyzed
+\item \code{ex}: Number of communities whose exponential forms of joint occupancy
+decline have \eqn{r^2 > 0.95}
+\item \code{pl}: Number of communities whose power law forms of joint occupancy
+decline have \eqn{r^2 > 0.95}
+\item \code{ex.pl}: Number of communities whose exponential-power law forms
+of joint occupancy decline have \eqn{r^2 > 0.95}
+}
+}
+
+$\code{m.Jo.plots}
+
+Produces a \code{.pdf} file with multiple figures each consisting of the following plots:
+
+\item{(a)}{as for \link[msco]{Jo.plots}}
+\item{(b)}{as for \link[msco]{Jo.plots}}
+\item{(c)}{as for \link[msco]{Jo.plots}}
+\item{(d)}{as for \link[msco]{Jo.plots}}
+\item{(e)}{as for \link[msco]{Jo.plots}}
 }
 \description{
-This wrapper function is similar to \link[msco]{Jo.eng}, but it reckons with multiple communities.
+This function is the engine behind the null model testing of species co-occurrence patterns, and
+analyses of the joint occupancy decline and the parametric forms of this decline, for multiple
+communities. In particular:
+\itemize{
+\item{It performs the null model testing of species co-occurrence patterns and generates the
+archetypes depicting how joint occupancy declines with the number of species (the order
+of msco) based on species-by-site presence/absence \code{.csv} data matrices. From these archetypes,
+inferences can be made according to the implemented null models};
+\item{Determines the robustness of the exponential, power law and exponential-power law forms of
+joint occupancy decline by computing the Pearson's \eqn{r^2} between the joint occupancy values
+of the observed data and predicted data, for all orders of species};
+\item{Gives a summary of the total number of communities (under each and for all archetypes) whose
+forms of joint occupancy decline have \eqn{r^2 > 0.95}};
+\item{Computes the AIC and Delta AIC of joint occupancy decline regression models for all communities};
+\item{Computes the total number of communities:
+\itemize{
+\item{with exponential as the best form of joint occupancy decline than power law and vice versa;}
+\item{with either of the three regression models (exponential, power law and exponential-power law)
+having the best form of the joint occupancy decline;}}}
+\item{Estimates the parameters of:
+\enumerate{
+\item{\strong{exponential:} \strong{\eqn{j^{\{i\}} = a \times exp(b \times i)}};}
+\item{\strong{power law:} \strong{\eqn{j^{\{i\}} = a \times i^b}}; and}
+\item{\strong{exponential-power law:} \strong{\eqn{j^{\{i\}} = a \times exp(b \times i) \times i^c}}}
+}}forms of joint occupancy decline, respectively, and their 95\% confidence interval.}
 }
 \details{
 \code{mJo.eng} function is useful when analyzing multiple species-by-site presence/absence
@@ -86,37 +229,45 @@ data matrices at once. If one community matrix is analyzed, the outputs of the f
 my.path <- system.file("extdata", package = "msco")
 setwd(my.path)
 my.files <- gtools::mixedsort(list.files(path = my.path, pattern = "*.csv"))
-my.res <- msco::mJo.eng(my.files = my.files, algo = "sim2", my.Archs = TRUE,
-             metric = "j.occ", nReps = 999, my.AICs = FALSE, my.params = FALSE,
-             my.best.mod2 = FALSE, my.best.mod3 = FALSE, my.params_c.i = FALSE,
+my.res <- msco::mJo.eng(my.files = my.files, algo = "sim2", Archetypes = TRUE,
+             metric = "raw", nReps = 999, AICs = FALSE, params = FALSE,
+             best.mod2 = FALSE, best.mod3 = FALSE, params_c.i = FALSE,
              my.r2 = FALSE, my.r2.s = FALSE, m.Jo.plots = FALSE)
-my.res
+my.res$Archs$`252.csv`
 
 my.path2 <- system.file("extdata/myCSVs", package = "msco")
 setwd(my.path2)
 my.files2 <- gtools::mixedsort(list.files(path = my.path2, pattern = "*.csv"))
-my.res2 <- msco::mJo.eng(my.files = my.files2[250:255], algo = "sim2", my.Archs = FALSE,
-              metric = "j.occ", nReps = 999, my.AICs = FALSE, my.params = TRUE,
-              my.best.mod2 = FALSE, my.best.mod3 = FALSE, my.params_c.i = FALSE,
+my.res2 <- msco::mJo.eng(my.files = my.files2[250:255], algo = "sim2", Archetypes = FALSE,
+              metric = "raw", nReps = 999, AICs = FALSE, params = TRUE,
+              best.mod2 = FALSE, best.mod3 = FALSE, params_c.i = FALSE,
               my.r2 = FALSE, my.r2.s = FALSE, m.Jo.plots = FALSE)
 my.res2
 
 my.path2 <- system.file("extdata/myCSVs", package = "msco")
 setwd(my.path2)
 my.files2 <- gtools::mixedsort(list.files(path = my.path2, pattern = "*.csv"))
-my.res3 <- msco::mJo.eng(my.files = my.files2[250:255], algo = "sim2", my.Archs = FALSE,
-              metric = "j.occ", nReps = 999, my.AICs = FALSE, my.params = FALSE,
-              my.best.mod2 = FALSE, my.best.mod3 = FALSE, my.params_c.i = TRUE,
+my.res3 <- msco::mJo.eng(my.files = my.files2[250:255], algo = "sim2", Archetypes = FALSE,
+              metric = "raw", nReps = 999, AICs = FALSE, params = FALSE,
+              best.mod2 = FALSE, best.mod3 = FALSE, params_c.i = TRUE,
               my.r2 = FALSE, my.r2.s = FALSE, m.Jo.plots = TRUE)
 my.res3
  }
 }
 \references{
 \enumerate{
-\item{Lagat, V. K., Latombe, G. and Hui, C. (2021). \emph{A multi-species co-occurrence
-index to avoid type II errors in null model testing}. Submitted.}
+\item{Lagat, V. K., Latombe, G. and Hui, C. (2021a). \emph{A multi-species co-occurrence
+index to avoid type II errors in null model testing}. DOI: \verb{<To be added>}.}
 
 \item{Gotelli, N. J. (2000). Null model analysis of species co-occurrence patterns.
 \emph{Ecology, 81(9)}, 2606-2621. \url{https://doi.org/10.1890/0012-9658(2000)081[2606:NMAOSC]2.0.CO;2}}
+
+\item{Pearson, K. (1895) VII. Note on regression and inheritance in the
+case of two parents. \emph{proceedings of the royal society of London,} \strong{58}:240-242.
+\url{https://doi.org/10.1098/rspl.1895.0041}}
+
+\item{petrossian, g. a., and maxfield, m. (2018). an information theory approach to hypothesis testing
+in criminological research. \emph{crime science}, 7(1), 2.
+\url{https://doi.org/10.1186/s40163-018-0077-5}}
 }
 }

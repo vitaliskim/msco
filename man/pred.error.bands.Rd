@@ -52,7 +52,9 @@ phylogenetic distance between any two of them (species).}
 }
 }
 \description{
-This function plots the response curves with prediction error bands for all orders of joint occupancy
+This function plots the response curves showing the effect of the predictors (i.e. trait-based and
+neutral forces) on joint occupancy as the response variable, with prediction error bands (as the
+standard deviation from the mean of the response variable) for all orders of joint occupancy.
 }
 \examples{
 \dontrun{
@@ -86,10 +88,10 @@ This function plots the response curves with prediction error bands for all orde
 \references{
 \enumerate{
 \item{Lagat, V. K., Latombe, G. and Hui, C. (2021a). \emph{A multi-species co-occurrence
-index to avoid type II errors in null model testing}. Submitted.}
+index to avoid type II errors in null model testing}. DOI: \verb{<To be added>}.}
 
 \item{Lagat, V. K., Latombe, G. and Hui, C. (2021b). \emph{Dissecting the effects of
 neutral encounter versus functional traits on multi-order species interactions
-and co-occurrence with generalised B-spline modelling}. Submitted.}
+and co-occurrence with generalised B-spline modelling}. DOI: \verb{<To be added>}.}
 }
 }

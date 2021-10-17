@@ -2,7 +2,7 @@
 % Please edit documentation in R/gbsm.R
 \name{gbsm}
 \alias{gbsm}
-\title{A generalised B-spline modelling for a set of neutral and niche-based variables}
+\title{A generalised B-spline modelling for a set of neutral and trait-based variables}
 \usage{
 gbsm(
   s.data,
@@ -27,7 +27,7 @@ occurrence (1) and non-occurrence (0) of species in a site.}
 
 \item{t.data}{A \code{data.frame} with traits as columns and species as rows. The species must be the same as in \code{s.data}.}
 
-\item{p.d.mat}{A symmetric \code{matrix} with \code{dimnames} as species and entries indicating the
+\item{p.d.mat}{A symmetric \code{matrix} with dimension names as species and entries indicating the
 phylogenetic distance between any two of them (species).}
 
 \item{metric}{The type of rescaling applied to the joint occupancy metric. Available options are:
@@ -36,18 +36,23 @@ raw form of index without rescaling.}
 
 \item{d.f}{Degrees of freedom for B-splines.}
 
-\item{order.jo}{Specific number of species for which the joint occupancy is computed.}
+\item{order.jo}{Specific number of species for which the joint occupancy is computed. To implement
+generalised B-spline modelling for multiple orders, see \link[msco]{gbsm_m.orders} function.}
 
 \item{degree}{Degree of the B-splines.}
 
-\item{n}{Number of samples for which the joint occupancy is computed.}
+\item{n}{Number of samples for which the joint occupancy is computed. These samples are non-overlapping.
+I.e., sampling is done without replacement. If the total number of combinations of \code{i} species chosen
+from the total species pool \code{m}, i.e. \code{choose(m,i)}, is less than this value (\code{n}), \code{choose(m,i)} is
+used as the (maximum) number of samples one can set. Otherwise sampling without replacement is
+performed to select just the \code{n} samples.}
 
 \item{b.plots}{Boolean value indicating if B-spline basis functions should be plotted.}
 
 \item{bsplines}{This parameter indicates if a single or all B-spline curves should be plotted.
 If \code{b.plots=TRUE} and \code{bsplines="single"}, the B-spline curves for the first predictor in
-\code{t.data} will be plotted. Any other value for \code{bsplines} results in the B-spline curves for
-all predictors being plotted.}
+\code{t.data} will be plotted. Any other value for \code{bsplines} (other than \code{"single"}) results in the
+B-spline curves for all predictors being plotted.}
 
 \item{scat.plot}{Boolean value indicating if scatter plots between joint occupancy and its predicted
 values should be plotted.}
@@ -116,10 +121,10 @@ fundamental spline functions and their limits. In \emph{IJ Schoenberg Selected P
 297-310. \url{https://doi.org/10.1214/ss/1177013604}}
 
 \item{Lagat, V. K., Latombe, G. and Hui, C. (2021a). \emph{A multi-species co-occurrence
-index to avoid type II errors in null model testing}. Submitted.}
+index to avoid type II errors in null model testing}. DOI: \verb{<To be added>}.}
 
 \item{Lagat, V. K., Latombe, G. and Hui, C. (2021b). \emph{Dissecting the effects of
 neutral encounter versus functional traits on multi-order species interactions
-and co-occurrence with generalised B-spline modelling}. Submitted.}
+and co-occurrence with generalised B-spline modelling}. DOI: \verb{<To be added>}.}
 }
 }

@@ -1,6 +1,6 @@
 #' Species phylogeny generator
 #'
-#' Given species-by-site matrix (community), this function:
+#' Given a species-by-site matrix (community), this function:
 #' * uses the \link[taxize]{tax_name} function to obtain (from the
 #'  [NCBI](https://www.ncbi.nlm.nih.gov/) or [ITIS](https://www.itis.gov/) online
 #'   databases) the genus and family taxa levels of species in the community.
@@ -18,21 +18,21 @@
 #'   with no initials.
 #' @param database The online database used to obtain the taxonomic names (species,
 #'  genus and family) for a given rank (species list in this function). The options
-#'   are "ncbi" or "itis". We used "ncbi" as default in this function.
+#'   are "ncbi" (default) or "itis".
 #' @param taxa.levels Species taxa (i.e. a `data.frame` with species, genus, and family as `colnames`) used
 #'  in extracting phylogenetic distance matrix between species. If supplied, `taxa.levels` won't be
 #'   computed from online repositories. Taxa provision is highly recommended.
-#' @param Obs.data A logical indicating if `s.data` should be output.
-#' @param obs.taxa A logical indicating if `taxa.levels` should be output.
-#' @param phy.d.mat A logical indicating if phylogenetic distance matrix should be output.
-#' @param phylo.plot Boolean value indicating if phylogenetic tree (cluster dendrogram) should be plotted.
+#' @param Obs.data A Boolean indicating if `s.data` should be included in the returned list.
+#' @param obs.taxa A Boolean indicating if `taxa.levels` should be included in the returned list.
+#' @param phy.d.mat A Boolean indicating if phylogenetic distance matrix should be in the returned list.
+#' @param phylo.plot Boolean value indicating if the phylogenetic tree (cluster dendrogram) should be plotted.
 #' @return Returns a `list` with the following outputs:
 #' * `s.data`: &nbsp;A `data.frame` with sites as columns and species as rows.
 #' * `taxa.levels`: &nbsp;A `data.frame` with the following columns:
 #'     + `species`: &nbsp;Species names in `s.data`.
 #'     + `genus`: &nbsp;Genus names of species in `s.data`.
 #'     + `family`: &nbsp;Family names of species in `s.data`.
-#' * `p.d.matrix`: &nbsp;A symmetric `matrix` with `dimnames` as species and entries indicating the
+#' * `p.d.matrix`: &nbsp;A symmetric `matrix` with dimension names as species and entries indicating the
 #'  phylogenetic distance between any two of them (species).
 #' * `phylo.plot`: &nbsp;A phylogenetic tree (cluster dendrogram) of species in `s.data`
 #'
@@ -41,9 +41,9 @@
 #'  \item{Binomial nomenclature' (2020) *Wikipedia*. Available at:
 #'  <https://en.wikipedia.org/wiki/Binomial_nomenclature> (Accessed: 09 November 2020).}
 #'
-#'  \item{Lagat, V. K., Latombe, G. and Hui, C., 2021. *Dissecting the effects of
+#'  \item{Lagat, V. K., Latombe, G. and Hui, C., 2021b. *Dissecting the effects of
 #'   neutral encounter versus functional traits on multi-order species interactions
-#'    and co-occurrence with generalised B-spline modelling*. Submitted.}
+#'    and co-occurrence with generalised B-spline modelling*. DOI: `<To be added>`.}
 #' }
 #' @examples
 #' \dontrun{

@@ -4,7 +4,7 @@
 \alias{j.occ}
 \title{Expected value of joint occupancy for order \eqn{i} and its standard deviation}
 \usage{
-j.occ(s.data, order)
+j.occ(s.data, order, metric = "raw")
 }
 \arguments{
 \item{s.data}{A species-by-site presence/absence matrix with entries indicating
@@ -12,6 +12,10 @@ occurrence (1) and non-occurrence (0) of species in a site.}
 
 \item{order}{Specific number of species for which joint occupancy and its standard deviation
 is computed.}
+
+\item{metric}{The type of rescaling applied to the joint occupancy metric. Available options are:
+\code{Simpson_eqn} for Simpson equivalent, \code{Sorensen_eqn} for Sorensen equivalent, and \code{raw} for the
+raw form of index without rescaling.}
 }
 \value{
 Returns a \code{list} with the following outputs:
@@ -24,14 +28,14 @@ simultaneously), and its standard deviation.
 }
 \examples{
 ex.data <- read.csv(system.file("extdata", "274.csv", package = "msco"))
-jo <- msco::j.occ(ex.data, order = 3)
+jo <- msco::j.occ(ex.data, order = 3, metric = "raw")
 jo
 
 ex.data2 <- read.csv(system.file("extdata", "65.csv", package = "msco"))
-jo2 <- msco::j.occ(ex.data2, order = 3)
+jo2 <- msco::j.occ(ex.data2, order = 3, metric = "raw")
 jo2
 }
 \references{
-Lagat, V. K., Latombe, G. and Hui, C. (2021). \emph{A multi-species co-occurrence
-index to avoid type II errors in null model testing}. Submitted.
+Lagat, V. K., Latombe, G. and Hui, C. (2021a). \emph{A multi-species co-occurrence
+index to avoid type II errors in null model testing}. DOI: \verb{<To be added>}.
 }

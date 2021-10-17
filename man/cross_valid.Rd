@@ -2,7 +2,7 @@
 % Please edit documentation in R/cross_validation.R
 \name{cross_valid}
 \alias{cross_valid}
-\title{A generalised B-spline model evaluation using Cross-validation approaches}
+\title{Cross validation of the generalised B-spline model}
 \usage{
 cross_valid(gbsm_obj, type = "k-fold", p, k, k_fold.repeats)
 }
@@ -12,13 +12,13 @@ cross_valid(gbsm_obj, type = "k-fold", p, k, k_fold.repeats)
 \item{type}{The type of the cross-validation approach used. It must be
 \eqn{\in \{}"validation.set", "k-fold", "LOOCV", "repeated.k-fold" \eqn{\}}}
 
-\item{p}{The percentage of data used in training the model. The value is used if the
+\item{p}{The percentage (in decimal form) of data used in training the model. The value is used if the
 cross-validation approach implemented is "validation.set".}
 
 \item{k}{The value of \code{k} used in both "k-fold" and "repeated.k-fold" types of
 cross-validation. This value represents the number of subsets or groups that a
 given sample of data is to be split into. A value of 5 or 10 is used in practice,
-as it leads to an ideal bias-variance trade-off (Lagat \emph{et al.,} 2021a).}
+as it leads to an ideal bias-variance trade-off (Lagat \emph{et al.,} 2021b).}
 
 \item{k_fold.repeats}{The number of replicates used in "repeated.k-fold" type of
 cross-validation.}
@@ -41,7 +41,7 @@ type of cross-validation performed, and summary of sample sizes
 }
 \description{
 This function implements four different cross-validation techniques to evaluate the
-predictive ability of the generalised B-spline model (\emph{sensu} Lagat \emph{et al.,} 2021a).
+predictive ability of the generalised B-spline model (\emph{sensu} Lagat \emph{et al.,} 2021b).
 The four different techniques implemented are:
 \itemize{
 \item validation set approach;
@@ -53,8 +53,8 @@ The four different techniques implemented are:
 \details{
 The k-fold cross-validation approach is highly recommended due to its computational
 efficiency and an acceptable bias-variance trade-off, subject to the value of \code{k}
-chosen to be either 5 or 10 (Lagat \emph{et al.,} 2021a). For more details on the other
-cross-validation approaches, see Lagat \emph{et al.} (2021b).
+chosen to be either 5 or 10 (Lagat \emph{et al.,} 2021b). For more details on the other
+cross-validation approaches, see Lagat \emph{et al.} (2021c).
 }
 \examples{
 \dontrun{
@@ -86,12 +86,19 @@ repeated.kfold
 \references{
 \enumerate{
 
-\item{Lagat, V. K., Latombe, G. and Hui, C. (2021a). \emph{Dissecting the effects of
-neutral encounter versus functional traits on multi-order species interactions
-and co-occurrence with generalised B-spline modelling}. Submitted.}
+\item{Fushiki, T. (2011). Estimation of prediction error by using K-fold cross-validation.
+\emph{Stat. Comput.} \strong{21}, 137-146. \url{https://doi.org/10.1007/s11222-009-9153-8}}
 
-\item{Lagat, V. K., Latombe, G. and Hui, C. (2021b). \emph{\code{msco}: an R software package
+\item{Lagat, V. K., Latombe, G. and Hui, C. (2021b). \emph{Dissecting the effects of
+neutral encounter versus functional traits on multi-order species interactions
+and co-occurrence with generalised B-spline modelling}. DOI: \verb{<To be added>}.}
+
+\item{Lagat, V. K., Latombe, G. and Hui, C. (2021c). \emph{\code{msco}: an R software package
 for null model testing of multi-species interactions and interference with
-covariates}. Submitted.}
+covariates}. DOI: \verb{<To be added>}.}
+
+\item{Pearson, K. (1895) VII. Note on regression and inheritance in the
+case of two parents. \emph{proceedings of the royal society of London,} \strong{58}:240-242.
+\url{https://doi.org/10.1098/rspl.1895.0041}}
 }
 }

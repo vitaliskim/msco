@@ -1,81 +1,84 @@
 #' Joint occupancy model engine
 #'
-#' A function that:
+#' This function is the engine behind the null model testing of species co-occurrence patterns,
+#'  and analyses of the joint occupancy decline and the parametric forms of this decline, for
+#'   one particular community. In particular, \link[msco]{Jo.eng}:
 #' \itemize{
 #' \item{computes the joint occupancy (i.e. the number of sites or assemblages
 #'  harbouring multiple species simultaneously)};
 #'  \item{performs a null model test using the same index};
 #'  \item{fits the three regression models (exponential, power law and exponential-power law)
-#'   to joint occupancy decline (*sensu* Lagat *et al.,* 2021) with order (number of species)};
+#'   to joint occupancy decline (*sensu* Lagat *et al.,* 2021a) with order (number of species)};
 #'   \item{estimates the parameter values of these models};
 #'   \item{determines the best model among the three using AIC values};
-#'   \item{quantifies the efficacy of the fitted models using square of correlation coefficient (\eqn{r^2})};
+#'   \item{quantifies the performance of the fitted models using the Pearson's \eqn{r^2}};
 #'   \item{plots the joint occupancy decline regression and null models}, and
 #'   \item{ascertains the archetypes of the patterns of species co-occurrences (from null
-#'    model test) from which inferences on the type of drivers structuralizing ecological
+#'    model test) from which inferences on the type of drivers structuralising ecological
 #'     communities can be made.}
 #'}
 #'
 #' @param s.data A species-by-site presence/absence matrix with entries indicating
 #' occurrence (1) and non-occurrence (0) of species in a site.
-#' @param algo Simulation algorithm used. The possible options to choose from are: `sim1`,
-#'  `sim2`, `sim3`, `sim4`, `sim5`, `sim6`, `sim7`, `sim8`, and `sim9`, all from
-#'   Gotelli (2000). `sim2` is highly recommended (see Lagat *et al.,* 2021).
-#' @param metric Metric used to quantify the patterns in `s.data`. It has to be multi-species
-#'  co-occurrence index (see \link[msco]{j.occ}).
+#' @param algo Randomisation algorithm used for the comparison with the null model. The
+#'  possible options to choose from are: `sim1`, `sim2`, `sim3`, `sim4`, `sim5`, `sim6`,
+#'   `sim7`, `sim8`, and `sim9`, all from Gotelli (2000). `sim2` is highly recommended
+#'    (see Lagat *et al.,* 2021a).
+#' @param metric The type of rescaling applied to the joint occupancy metric. Available options are:
+#'  `Simpson_eqn` for Simpson equivalent, `Sorensen_eqn` for Sorensen equivalent, and `raw` for the
+#'   raw form of index without rescaling.
 #' @param nReps Number of simulations used in the null model test.
-#' @param nmod_stats A logical value indicating whether the summary
+#' @param nmod_stats A Boolean indicating whether the summary
 #'  statistics for the null model test should be output.
-#' @param s.dplot A logical value (`TRUE` or `FALSE`) indicating whether the standard deviation
+#' @param s.dplot A Boolean indicating whether the standard deviation
 #'  of multi-species co-occurrence index should be included in the plots of joint occupancy
 #'   decline or not.
-#' @param All.plots A logical value indicating whether joint occupancy decline  regression
+#' @param All.plots A Boolean indicating whether joint occupancy decline  regression
 #'  and null model plots should be output.
-#' @param p.n.plot A logical value indicating whether null model plot produced using the
+#' @param p.n.plot A Boolean indicating whether null model plot produced using the
 #'  pairwise natural metric should be output.
-#' @param trans A logical value indicating if the observed and simulated values used in
+#' @param trans A Boolean indicating if the observed and simulated values used in
 #'  `p.n.plot` should be transformed by raising them to (1/100). This can be done to
 #'   compare `p.n.plot` with `All.plots` at a point where the order, `i = 2`.
-#' @param m.n.plot A logical value indicating whether null model plot produced using joint
+#' @param m.n.plot A Boolean indicating whether null model plot produced using joint
 #'  occupancy metrics should be output. The default is `FALSE`.
 #' @param dig The number of decimal places of the joint occupancy values (y axis) in the plots.
 #'  The default is 3.
-#' @param Jo.coeff A logical value indicating if coefficient estimates of the joint occupancy
-#'  decline regression models should be output.
-#' @param my.AIC A logical indicating whether Akaike Information Criterion of the joint occupancy
+#' @param Jo.coeff A Boolean indicating if coefficient estimates of the joint occupancy
+#'  decline regression models should be printed.
+#' @param my.AIC A Boolean indicating whether Akaike Information Criterion of the joint occupancy
 #'  decline regression models should be output or not.
-#' @param my.rsq A logical indicating whether square of correlation coefficient between the
+#' @param my.rsq A Boolean indicating whether square of correlation coefficient between the
 #'  observed and predicted values of joint occupancy should be output.
-#' @param Exp_Reg A logical indicating if exponential regression parametric model should be
+#' @param Exp_Reg A Boolean indicating if exponential regression parametric model should be
 #'  printed.
-#' @param P.law_Reg A logical indicating if power law regression parametric model should be printed.
-#' @param Exp_p.l_Reg A logical indicating if exponential-power law regression parametric model
+#' @param P.law_Reg A Boolean indicating if power law regression parametric model should be printed.
+#' @param Exp_p.l_Reg A Boolean indicating if exponential-power law regression parametric model
 #'  should be printed.
-#' @param Obs.data A logical indicating if observed/empirical data should be output.
-#' @param Sim.data A logical indicating if simulated/random data produced using any of the
+#' @param Obs.data A Boolean indicating if observed/empirical data should be output.
+#' @param Sim.data A Boolean indicating if simulated/random data produced using any of the
 #'  simulation algorithms should be output.
-#' @param Jo_val.sim A logical indicating if joint occupancy values of the
+#' @param Jo_val.sim A Boolean indicating if joint occupancy values of the
 #'  simulated species-by-site presence/absence matrices should be output.
-#' @param C.I_Jo_val.sim A logical indicating if 95% confidence interval of the joint occupancy values of the
+#' @param C.I_Jo_val.sim A Boolean indicating if 95% confidence interval of the joint occupancy values of the
 #'  simulated data should be printed. This interval is the area under the null model.
-#' @param Jo_val.obs A logical indicating if joint occupancy values of the
+#' @param Jo_val.obs A Boolean indicating if joint occupancy values of the
 #'  observed species-by-site presence/absence matrices should be output.
-#' @param Metric A logical indicating if metric used should be printed. This metric must be
-#'  multispecies co-occurrence index (joint occupancy; see \link[msco]{j.occ}).
-#' @param Algorithm A logical indicating if simulation algorithm used should be printed.
-#' @param S.order A logical indicating if the number of species whose joint occupancy is computed
+#' @param Metric A Boolean indicating if metric used should be printed.
+#' @param Algorithm A Boolean indicating if simulation algorithm used should be printed.
+#' @param S.order A Boolean indicating if the number of species whose joint occupancy is computed
 #'  should be printed.
-#' @param Pt_Arch_Vals A logical indicating if character strings indicating the location of
+#' @param Pt_Arch_Vals A Boolean indicating if character strings indicating the location of
 #'  joint occupancy value of the observed data relative to the critical
 #'   values of the 95% closed confidence interval for every order (number of species), should
 #'    be printed.
-#' @param Atype A logical indicating if a character string indicating the overall archetype of
+#' @param Atype A Boolean indicating if a character string indicating the overall archetype of
 #'  joint occupancy decline should be printed.This value must be \eqn{\in \{}"A1", "A2", "A3", "A4",
 #'   "A5", "A6", "A7", "A8", "A9"\eqn{\}} or "NA". "NA" could be the combinations of two or more
 #'    of the nine expected archetypes.
-#' @param leg A logical value indicating if the legend should be added to the `m.n.plot`. This parameter
+#' @param leg A Boolean indicating if the legend should be added to the `m.n.plot`. This parameter
 #'  helps to control the appearance of plots in this function.
-#' @param lab A logical value indicating if the plot labels should be added to the `m.n.plot`. This parameter
+#' @param lab A Boolean indicating if the plot labels should be added to the `m.n.plot`. This parameter
 #'  helps to control the appearance of plots in this function.
 #'
 #' @return `Jo.eng` function returns a list containing the following outputs:
@@ -108,15 +111,15 @@
 #'    of the nine expected archetypes (see \link[msco]{Arch_schem}).}
 #' @references
 #' \enumerate{
-#'  \item{Lagat, V. K., Latombe, G. and Hui, C. (2021). *A multi-species co-occurrence
-#'  index to avoid type II errors in null model testing*. Submitted.}
+#'  \item{Lagat, V. K., Latombe, G. and Hui, C. (2021a). *A multi-species co-occurrence
+#'  index to avoid type II errors in null model testing*. DOI: `<To be added>`.}
 #'
 #'  \item{Gotelli, N. J. (2000). Null model analysis of species co-occurrence patterns.
 #'  *Ecology, 81(9)*, 2606-2621. <https://doi.org/10.1890/0012-9658(2000)081[2606:NMAOSC]2.0.CO;2>}
 #' }
 #' @examples
 #' ex.data <- read.csv(system.file("extdata", "274.csv", package = "msco"))
-#' j.en <- msco::Jo.eng(ex.data, algo="sim2", metric = "j.occ", nReps = 999,
+#' j.en <- msco::Jo.eng(ex.data, algo="sim2", metric = "raw", nReps = 999,
 #'            dig = 3, s.dplot = FALSE, All.plots = TRUE, Jo.coeff = TRUE,
 #'            my.AIC = TRUE, my.rsq = TRUE, Exp_Reg = TRUE, P.law_Reg = TRUE,
 #'            Exp_p.l_Reg = TRUE, Obs.data = FALSE, Sim.data = FALSE,
@@ -129,7 +132,7 @@
 #' @export
 #' @md
 
-Jo.eng<-function(s.data, algo="sim2", metric = "j.occ", nReps = 999, dig = 3,
+Jo.eng<-function(s.data, algo="sim2", metric = "raw", nReps = 999, dig = 3,
                      s.dplot = FALSE, All.plots = TRUE, Jo.coeff = TRUE, my.AIC = TRUE,
                      my.rsq = TRUE, Exp_Reg = TRUE, P.law_Reg = TRUE, Exp_p.l_Reg = TRUE,
                      Obs.data = FALSE, Sim.data = FALSE, Jo_val.sim = FALSE,
@@ -199,27 +202,30 @@ Jo.eng<-function(s.data, algo="sim2", metric = "j.occ", nReps = 999, dig = 3,
 
   ############### Jo metric and its SD ######################
 
-  jo.ex<-function(s.data, order){
+  jo.ex<-function(s.data, order, metric = metric){
 
     s.data <- as.matrix(s.data)
     richness <- colSums(s.data)
     p <- exp(lchoose(richness, order) - lchoose(nrow(s.data),order))
     jo.val <- sum(p)
-    return(jo.val)
+    if(metric == "raw"){
+      return(jo.val)
+    }else if(metric=="Simpson_eqn"){
+      simp.jo <- jo.val/min(rowSums(s.data))
+      return(simp.jo)
+    }else if(metric=="Sorensen_eqn"){
+      sore.jo <- jo.val/mean(rowSums(s.data))
+      return(sore.jo)
+    }else if((metric %in% c("raw", "Simpson_eqn", "Sorensen_eqn"))!=TRUE){
+      stop("Wrong option for the joint occupancy metric provided. It must either be 'raw',
+           'Simpson_eqn', or 'Sorensen_eqn'.")
+    }
   }
-  if(metric == "j.occ"){
-    j.occ=jo.ex
-  }
-  if(metric != "j.occ"){
-    stop("Metric must be multi-species joint occupancy index (see msco::j.occ).
-         Replace the metric with `j.occ' to proceed.")
-  }
-
-  jo.exps<-function(s.data, orders = 1:nrow(s.data)){
+  jo.exps<-function(s.data, orders = 1:nrow(s.data), metric = metric){
 
     jo=0
     for (i in orders) {
-      jo[i]=jo.ex(s.data, order = i)
+      jo[i]=jo.ex(s.data, order = i, metric = metric)
     }
     return(jo)
   }
@@ -230,8 +236,8 @@ Jo.eng<-function(s.data, algo="sim2", metric = "j.occ", nReps = 999, dig = 3,
     richness <- colSums(s.data)
     similarity_mat <- t(s.data) %*% s.data
     p <- exp(lchoose(richness, order) - lchoose(nrow(s.data),order))
-    covmat <- exp(lchoose(similarity_mat, order) - lchoose(nrow(s.data),
-                                                           order))
+    covmat <- exp(lchoose(similarity_mat, order) - lchoose(nrow(s.data),order))
+
     for (j in 1:ncol(s.data)) {
       for (k in 1:ncol(s.data)) {
         covmat[j, k] <- covmat[j, k] - p[j] * p[k]
@@ -271,14 +277,14 @@ Jo.eng<-function(s.data, algo="sim2", metric = "j.occ", nReps = 999, dig = 3,
   for (j in 1:nrow(s.data)) {
     for (i in 1:(nReps+1)) {
       sim.mat <- as.matrix(x[[i]])  # Select ith matrix from 'x' list
-      simulated.metric[i,j] <- jo.ex(sim.mat,order=j)
+      simulated.metric[i,j] <- jo.ex(sim.mat, order=j, metric = metric)
     }
   }
 
   Sim <- simulated.metric  # joint occupancy (diff orders) of
   # nReps simulated data
 
-  Obs <- jo.exps(s.data,1:nrow(s.data)) # joint occupancy (diff orders)
+  Obs <- jo.exps(s.data,1:nrow(s.data), metric = metric) # joint occupancy (diff orders)
   # of observed data
 
   SDs <- jo.sds(s.data, 1:nrow(s.data)) # s.d's of joint occupancy
@@ -819,7 +825,8 @@ Jo.eng<-function(s.data, algo="sim2", metric = "j.occ", nReps = 999, dig = 3,
 
   ################ Nullmod Stats ###############
   Order <- s.order
-  nmod <- as.data.frame(rbind(Order, Obs, L.L, U.L))
+  nmodd <- as.data.frame(rbind(Order, Obs, L.L, U.L))
+  nmod <- `row.names<-`(nmodd, c('Order', 'Obs', 'L.C.V', 'U.C.V'))
   if(nmod_stats==TRUE){
     jo.engine$nmod_stats <- `colnames<-`(round(nmod,5), NULL)
   }

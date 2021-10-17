@@ -110,8 +110,16 @@ Returns all the results presented in Lagat \emph{et al}. (2021b). To replicate
 to run (and output results) on a 64 bit system with 8 GB RAM and 3.60 GHz CPU.
 }
 \description{
-This function is not for general use but avails the generalised B-spline
-model results presented in Lagat \emph{et al}. (2021b).
+This function allows the replication of the results on generalised B-spline modelling, presented
+in Lagat \emph{et al}. (2021b). Executing \code{gbsm.res()} therefore gives these outputs that are saved
+as \code{.RDS} files in \code{msco}. If the codes that produced these (saved) outcomes are desired, the
+codes below are made available.
+}
+\note{
+The function \link[msco]{gbsm.res} is not for general use. We included it in this package to help
+the readers of Lagat \emph{et al}. (2021b) paper, who may want to get a deeper understanding of how the results
+presented in this paper were arrived at. It also allows deeper scrutiny of Lagat \emph{et al}. (2021b)'s
+findings.
 }
 \examples{
 \dontrun{
@@ -125,5 +133,5 @@ gbs.res$model.validation.table
 \references{
 Lagat, V. K., Latombe, G. and Hui, C. (2021b). \emph{Dissecting the effects of
 neutral encounter versus functional traits on multi-order species interactions
-and co-occurrence with generalised B-spline modelling}. Submitted.
+and co-occurrence with generalised B-spline modelling}. DOI: \verb{<To be added>}.
 }

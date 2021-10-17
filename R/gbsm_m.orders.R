@@ -1,9 +1,13 @@
 #' Predictor's contribution and model performance assessment from the results on multiple orders of joint occupancy
 #'
-#' For multiple joint occupancy orders, this function computes:
+#' This function implements the generalised B-spline model (gbsm; *sensu* Lagat et al., 2021b) for dissecting the
+#'  effects of neutral encounter versus functional traits on multi-order species interactions and cooccurrence.
+#'   Unlike \link[msco]{gbsm} that performs gbsm for a single order of species, \link[msco]{gbsm_m.orders} takes
+#'    into account multiple orders of joint occupancy. In particular: for multiple joint occupancy orders, this
+#'     function computes:
 #' * each predictor's contribution to the explained variation in joint occupancy,
 #' * the goodness-of-fit and model performance from cross-validation, and
-#' * avails the:
+#' * plots the:
 #'      + response curves,
 #'      + scatter plots (between the observed and predicted joint occupancy values),
 #'      + histograms of the joint occupancy frequency distribution, and
@@ -61,12 +65,19 @@
 #'  * `jo.orders`: &nbsp; Orders of joint occupancy used.
 #' @references
 #' \enumerate{
+#'  \item{Curry, H. B., and Schoenberg, I. J. (1988). On P&oacute;lya frequency functions IV: the
+#'   fundamental spline functions and their limits. In *IJ Schoenberg Selected Papers*
+#'    (pp. 347-383). Birkh&auml;user, Boston, MA. <https://doi.org/10.1007/978-1-4899-0433-1_17>}
+#'
+#'  \item{Hastie, T., and Tibshirani, R. (1986). Generalized additive models. *Stat. Sci. 1*(3),
+#'   297-310. <https://doi.org/10.1214/ss/1177013604>}
+#'
 #'  \item{Lagat, V. K., Latombe, G. and Hui, C. (2021a). *A multi-species co-occurrence
-#'  index to avoid type II errors in null model testing*. Submitted.}
+#'  index to avoid type II errors in null model testing*. DOI: `<To be added>`.}
 #'
 #'  \item{Lagat, V. K., Latombe, G. and Hui, C. (2021b). *Dissecting the effects of
 #'   neutral encounter versus functional traits on multi-order species interactions
-#'    and co-occurrence with generalised B-spline modelling*. Submitted.}
+#'    and co-occurrence with generalised B-spline modelling*. DOI: `<To be added>`.}
 #' }
 #' @examples
 #' \dontrun{

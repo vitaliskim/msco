@@ -7,7 +7,7 @@
 Jo.eng(
   s.data,
   algo = "sim2",
-  metric = "j.occ",
+  metric = "raw",
   nReps = 999,
   dig = 3,
   s.dplot = FALSE,
@@ -40,91 +40,92 @@ Jo.eng(
 \item{s.data}{A species-by-site presence/absence matrix with entries indicating
 occurrence (1) and non-occurrence (0) of species in a site.}
 
-\item{algo}{Simulation algorithm used. The possible options to choose from are: \code{sim1},
-\code{sim2}, \code{sim3}, \code{sim4}, \code{sim5}, \code{sim6}, \code{sim7}, \code{sim8}, and \code{sim9}, all from
-Gotelli (2000). \code{sim2} is highly recommended (see Lagat \emph{et al.,} 2021).}
+\item{algo}{Randomisation algorithm used for the comparison with the null model. The
+possible options to choose from are: \code{sim1}, \code{sim2}, \code{sim3}, \code{sim4}, \code{sim5}, \code{sim6},
+\code{sim7}, \code{sim8}, and \code{sim9}, all from Gotelli (2000). \code{sim2} is highly recommended
+(see Lagat \emph{et al.,} 2021a).}
 
-\item{metric}{Metric used to quantify the patterns in \code{s.data}. It has to be multi-species
-co-occurrence index (see \link[msco]{j.occ}).}
+\item{metric}{The type of rescaling applied to the joint occupancy metric. Available options are:
+\code{Simpson_eqn} for Simpson equivalent, \code{Sorensen_eqn} for Sorensen equivalent, and \code{raw} for the
+raw form of index without rescaling.}
 
 \item{nReps}{Number of simulations used in the null model test.}
 
 \item{dig}{The number of decimal places of the joint occupancy values (y axis) in the plots.
 The default is 3.}
 
-\item{s.dplot}{A logical value (\code{TRUE} or \code{FALSE}) indicating whether the standard deviation
+\item{s.dplot}{A Boolean indicating whether the standard deviation
 of multi-species co-occurrence index should be included in the plots of joint occupancy
 decline or not.}
 
-\item{All.plots}{A logical value indicating whether joint occupancy decline  regression
+\item{All.plots}{A Boolean indicating whether joint occupancy decline  regression
 and null model plots should be output.}
 
-\item{Jo.coeff}{A logical value indicating if coefficient estimates of the joint occupancy
-decline regression models should be output.}
+\item{Jo.coeff}{A Boolean indicating if coefficient estimates of the joint occupancy
+decline regression models should be printed.}
 
-\item{my.AIC}{A logical indicating whether Akaike Information Criterion of the joint occupancy
+\item{my.AIC}{A Boolean indicating whether Akaike Information Criterion of the joint occupancy
 decline regression models should be output or not.}
 
-\item{my.rsq}{A logical indicating whether square of correlation coefficient between the
+\item{my.rsq}{A Boolean indicating whether square of correlation coefficient between the
 observed and predicted values of joint occupancy should be output.}
 
-\item{Exp_Reg}{A logical indicating if exponential regression parametric model should be
+\item{Exp_Reg}{A Boolean indicating if exponential regression parametric model should be
 printed.}
 
-\item{P.law_Reg}{A logical indicating if power law regression parametric model should be printed.}
+\item{P.law_Reg}{A Boolean indicating if power law regression parametric model should be printed.}
 
-\item{Exp_p.l_Reg}{A logical indicating if exponential-power law regression parametric model
+\item{Exp_p.l_Reg}{A Boolean indicating if exponential-power law regression parametric model
 should be printed.}
 
-\item{Obs.data}{A logical indicating if observed/empirical data should be output.}
+\item{Obs.data}{A Boolean indicating if observed/empirical data should be output.}
 
-\item{Sim.data}{A logical indicating if simulated/random data produced using any of the
+\item{Sim.data}{A Boolean indicating if simulated/random data produced using any of the
 simulation algorithms should be output.}
 
-\item{Jo_val.sim}{A logical indicating if joint occupancy values of the
+\item{Jo_val.sim}{A Boolean indicating if joint occupancy values of the
 simulated species-by-site presence/absence matrices should be output.}
 
-\item{C.I_Jo_val.sim}{A logical indicating if 95\% confidence interval of the joint occupancy values of the
+\item{C.I_Jo_val.sim}{A Boolean indicating if 95\% confidence interval of the joint occupancy values of the
 simulated data should be printed. This interval is the area under the null model.}
 
-\item{Jo_val.obs}{A logical indicating if joint occupancy values of the
+\item{Jo_val.obs}{A Boolean indicating if joint occupancy values of the
 observed species-by-site presence/absence matrices should be output.}
 
-\item{Metric}{A logical indicating if metric used should be printed. This metric must be
-multispecies co-occurrence index (joint occupancy; see \link[msco]{j.occ}).}
+\item{Metric}{A Boolean indicating if metric used should be printed.}
 
-\item{Algorithm}{A logical indicating if simulation algorithm used should be printed.}
+\item{Algorithm}{A Boolean indicating if simulation algorithm used should be printed.}
 
-\item{S.order}{A logical indicating if the number of species whose joint occupancy is computed
+\item{S.order}{A Boolean indicating if the number of species whose joint occupancy is computed
 should be printed.}
 
-\item{nmod_stats}{A logical value indicating whether the summary
+\item{nmod_stats}{A Boolean indicating whether the summary
 statistics for the null model test should be output.}
 
-\item{Pt_Arch_Vals}{A logical indicating if character strings indicating the location of
+\item{Pt_Arch_Vals}{A Boolean indicating if character strings indicating the location of
 joint occupancy value of the observed data relative to the critical
 values of the 95\% closed confidence interval for every order (number of species), should
 be printed.}
 
-\item{Atype}{A logical indicating if a character string indicating the overall archetype of
+\item{Atype}{A Boolean indicating if a character string indicating the overall archetype of
 joint occupancy decline should be printed.This value must be \eqn{\in \{}"A1", "A2", "A3", "A4",
 "A5", "A6", "A7", "A8", "A9"\eqn{\}} or "NA". "NA" could be the combinations of two or more
 of the nine expected archetypes.}
 
-\item{p.n.plot}{A logical value indicating whether null model plot produced using the
+\item{p.n.plot}{A Boolean indicating whether null model plot produced using the
 pairwise natural metric should be output.}
 
-\item{trans}{A logical value indicating if the observed and simulated values used in
+\item{trans}{A Boolean indicating if the observed and simulated values used in
 \code{p.n.plot} should be transformed by raising them to (1/100). This can be done to
 compare \code{p.n.plot} with \code{All.plots} at a point where the order, \code{i = 2}.}
 
-\item{lab}{A logical value indicating if the plot labels should be added to the \code{m.n.plot}. This parameter
+\item{lab}{A Boolean indicating if the plot labels should be added to the \code{m.n.plot}. This parameter
 helps to control the appearance of plots in this function.}
 
-\item{leg}{A logical value indicating if the legend should be added to the \code{m.n.plot}. This parameter
+\item{leg}{A Boolean indicating if the legend should be added to the \code{m.n.plot}. This parameter
 helps to control the appearance of plots in this function.}
 
-\item{m.n.plot}{A logical value indicating whether null model plot produced using joint
+\item{m.n.plot}{A Boolean indicating whether null model plot produced using joint
 occupancy metrics should be output. The default is \code{FALSE}.}
 }
 \value{
@@ -158,25 +159,27 @@ It must be \eqn{\in \{}"A1", "A2", "A3", "A4", "A5", "A6", "A7", "A8", "A9"\eqn{
 of the nine expected archetypes (see \link[msco]{Arch_schem}).}
 }
 \description{
-A function that:
+This function is the engine behind the null model testing of species co-occurrence patterns,
+and analyses of the joint occupancy decline and the parametric forms of this decline, for
+one particular community. In particular, \link[msco]{Jo.eng}:
 \itemize{
 \item{computes the joint occupancy (i.e. the number of sites or assemblages
 harbouring multiple species simultaneously)};
 \item{performs a null model test using the same index};
 \item{fits the three regression models (exponential, power law and exponential-power law)
-to joint occupancy decline (\emph{sensu} Lagat \emph{et al.,} 2021) with order (number of species)};
+to joint occupancy decline (\emph{sensu} Lagat \emph{et al.,} 2021a) with order (number of species)};
 \item{estimates the parameter values of these models};
 \item{determines the best model among the three using AIC values};
-\item{quantifies the efficacy of the fitted models using square of correlation coefficient (\eqn{r^2})};
+\item{quantifies the performance of the fitted models using the Pearson's \eqn{r^2}};
 \item{plots the joint occupancy decline regression and null models}, and
 \item{ascertains the archetypes of the patterns of species co-occurrences (from null
-model test) from which inferences on the type of drivers structuralizing ecological
+model test) from which inferences on the type of drivers structuralising ecological
 communities can be made.}
 }
 }
 \examples{
 ex.data <- read.csv(system.file("extdata", "274.csv", package = "msco"))
-j.en <- msco::Jo.eng(ex.data, algo="sim2", metric = "j.occ", nReps = 999,
+j.en <- msco::Jo.eng(ex.data, algo="sim2", metric = "raw", nReps = 999,
            dig = 3, s.dplot = FALSE, All.plots = TRUE, Jo.coeff = TRUE,
            my.AIC = TRUE, my.rsq = TRUE, Exp_Reg = TRUE, P.law_Reg = TRUE,
            Exp_p.l_Reg = TRUE, Obs.data = FALSE, Sim.data = FALSE,
@@ -189,8 +192,8 @@ j.en
 }
 \references{
 \enumerate{
-\item{Lagat, V. K., Latombe, G. and Hui, C. (2021). \emph{A multi-species co-occurrence
-index to avoid type II errors in null model testing}. Submitted.}
+\item{Lagat, V. K., Latombe, G. and Hui, C. (2021a). \emph{A multi-species co-occurrence
+index to avoid type II errors in null model testing}. DOI: \verb{<To be added>}.}
 
 \item{Gotelli, N. J. (2000). Null model analysis of species co-occurrence patterns.
 \emph{Ecology, 81(9)}, 2606-2621. \url{https://doi.org/10.1890/0012-9658(2000)081[2606:NMAOSC]2.0.CO;2}}

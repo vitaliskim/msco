@@ -15,14 +15,14 @@ execute the following code:\preformatted{  RNGkind(sample.kind = "Rejection")
   my.files <- gtools::mixedsort(list.files(path = my.path, pattern = "*.csv"))
   Lag.res <- msco::mJo.eng(my.files,
                    m.Jo.plots = TRUE,
-                   my.Archs = FALSE,
-                   my.AICs = FALSE,
-                   my.params = FALSE,
+                   Archetypes = FALSE,
+                   AICs = FALSE,
+                   params = FALSE,
                    my.r2 = FALSE,
                    my.r2.s = TRUE,
-                   my.best.mod2 = TRUE,
-                   my.best.mod3 = TRUE,
-                   my.params_c.i = TRUE
+                   best.mod2 = TRUE,
+                   best.mod3 = TRUE,
+                   params_c.i = TRUE
                   );Lag.res
 
 }
@@ -42,8 +42,15 @@ execute the following code:\preformatted{  RNGkind(sample.kind = "Rejection")
 }
 }
 \description{
-This function is not for general use but avails the results presented
-in Lagat \emph{et al}. (2021a).
+This function allows the replication of the results presented in Lagat \emph{et al}. (2021a). Executing
+\code{Jo.res()} therefore gives these outputs that are saved as \code{.RDS} files in \code{msco}. If the codes that
+produced these (saved) outcomes are desired, the codes below are made available.
+}
+\note{
+The function \link[msco]{Jo.res} is not for general use. We included it in this package to help
+the readers of Lagat \emph{et al}. (2021a) paper, who may want to get a deeper understanding of how the results
+presented in this paper were arrived at. It also allows deeper scrutiny of Lagat \emph{et al}. (2021a)'s
+findings.
 }
 \examples{
 \dontrun{
@@ -57,5 +64,5 @@ ms.res$params_c.i
 }
 \references{
 Lagat, V. K., Latombe, G. and Hui, C. (2021a). \emph{A multi-species co-occurrence
-index to avoid type II errors in null model testing}. Submitted.
+index to avoid type II errors in null model testing}. DOI: \verb{<To be added>}.
 }

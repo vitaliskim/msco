@@ -22,19 +22,19 @@ with no initials.}
 
 \item{database}{The online database used to obtain the taxonomic names (species,
 genus and family) for a given rank (species list in this function). The options
-are "ncbi" or "itis". We used "ncbi" as default in this function.}
+are "ncbi" (default) or "itis".}
 
-\item{obs.taxa}{A logical indicating if \code{taxa.levels} should be output.}
+\item{obs.taxa}{A Boolean indicating if \code{taxa.levels} should be included in the returned list.}
 
 \item{taxa.levels}{Species taxa (i.e. a \code{data.frame} with species, genus, and family as \code{colnames}) used
 in extracting phylogenetic distance matrix between species. If supplied, \code{taxa.levels} won't be
 computed from online repositories. Taxa provision is highly recommended.}
 
-\item{Obs.data}{A logical indicating if \code{s.data} should be output.}
+\item{Obs.data}{A Boolean indicating if \code{s.data} should be included in the returned list.}
 
-\item{phy.d.mat}{A logical indicating if phylogenetic distance matrix should be output.}
+\item{phy.d.mat}{A Boolean indicating if phylogenetic distance matrix should be in the returned list.}
 
-\item{phylo.plot}{Boolean value indicating if phylogenetic tree (cluster dendrogram) should be plotted.}
+\item{phylo.plot}{Boolean value indicating if the phylogenetic tree (cluster dendrogram) should be plotted.}
 }
 \value{
 Returns a \code{list} with the following outputs:
@@ -46,13 +46,13 @@ Returns a \code{list} with the following outputs:
 \item \code{genus}:  Genus names of species in \code{s.data}.
 \item \code{family}:  Family names of species in \code{s.data}.
 }
-\item \code{p.d.matrix}:  A symmetric \code{matrix} with \code{dimnames} as species and entries indicating the
+\item \code{p.d.matrix}:  A symmetric \code{matrix} with dimension names as species and entries indicating the
 phylogenetic distance between any two of them (species).
 \item \code{phylo.plot}:  A phylogenetic tree (cluster dendrogram) of species in \code{s.data}
 }
 }
 \description{
-Given species-by-site matrix (community), this function:
+Given a species-by-site matrix (community), this function:
 \itemize{
 \item uses the \link[taxize]{tax_name} function to obtain (from the
 \href{https://www.ncbi.nlm.nih.gov/}{NCBI} or \href{https://www.itis.gov/}{ITIS} online
@@ -95,8 +95,8 @@ my.p.d.mat
 \item{Binomial nomenclature' (2020) \emph{Wikipedia}. Available at:
 \url{https://en.wikipedia.org/wiki/Binomial_nomenclature} (Accessed: 09 November 2020).}
 
-\item{Lagat, V. K., Latombe, G. and Hui, C., 2021. \emph{Dissecting the effects of
+\item{Lagat, V. K., Latombe, G. and Hui, C., 2021b. \emph{Dissecting the effects of
 neutral encounter versus functional traits on multi-order species interactions
-and co-occurrence with generalised B-spline modelling}. Submitted.}
+and co-occurrence with generalised B-spline modelling}. DOI: \verb{<To be added>}.}
 }
 }

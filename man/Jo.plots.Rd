@@ -7,7 +7,7 @@
 Jo.plots(jo_Obj)
 }
 \arguments{
-\item{jo_Obj}{A joint occupancy model object of \verb{class:} \code{jo_Obj}}
+\item{jo_Obj}{A joint occupancy model object returned by the function \link[msco]{Jo.eng}.}
 }
 \value{
 Produces a figure consisting of the following plots:
@@ -23,7 +23,7 @@ and fits the decline to exponential, power law and exponential-power law
 parametric models, respectively.
 }
 \details{
-This function provides a clear visualization of the forms of joint
+This function provides a visualization of the forms of joint
 occupancy decline and null model test. It offers information on:
 \itemize{
 \item{the outcomes of the null model test (through the appended
@@ -59,6 +59,6 @@ jplots4
 }
 }
 \references{
-Lagat, V. K., Latombe, G. and Hui, C. (2021). \emph{A multi-species co-occurrence
-index to avoid type II errors in null model testing}. Submitted.
+Lagat, V. K., Latombe, G. and Hui, C. (2021a). \emph{A multi-species co-occurrence
+index to avoid type II errors in null model testing}. DOI: \verb{<To be added>}.
 }

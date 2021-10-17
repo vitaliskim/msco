@@ -1,4 +1,4 @@
-#' A generalised B-spline modelling for a set of neutral and niche-based variables
+#' A generalised B-spline modelling for a set of neutral and trait-based variables
 #'
 #' This function implements the generalised B-spline model (*sensu* Lagat *et al.,* 2021b)
 #'  for dissecting the effects of neutral encounter versus functional traits on multi-order
@@ -10,20 +10,25 @@
 #' @param s.data A species-by-site presence/absence `data.frame` with entries indicating
 #' occurrence (1) and non-occurrence (0) of species in a site.
 #' @param t.data A `data.frame` with traits as columns and species as rows. The species must be the same as in `s.data`.
-#' @param p.d.mat A symmetric `matrix` with `dimnames` as species and entries indicating the
+#' @param p.d.mat A symmetric `matrix` with dimension names as species and entries indicating the
 #'  phylogenetic distance between any two of them (species).
 #' @param d.f Degrees of freedom for B-splines.
-#' @param order.jo Specific number of species for which the joint occupancy is computed.
+#' @param order.jo Specific number of species for which the joint occupancy is computed. To implement
+#'  generalised B-spline modelling for multiple orders, see \link[msco]{gbsm_m.orders} function.
 #' @param degree Degree of the B-splines.
 #' @param metric The type of rescaling applied to the joint occupancy metric. Available options are:
 #'  `Simpson_eqn` for Simpson equivalent, `Sorensen_eqn` for Sorensen equivalent, and `raw` for the
 #'   raw form of index without rescaling.
-#' @param n Number of samples for which the joint occupancy is computed.
+#' @param n Number of samples for which the joint occupancy is computed. These samples are non-overlapping.
+#'  I.e., sampling is done without replacement. If the total number of combinations of `i` species chosen
+#'   from the total species pool `m`, i.e. `choose(m,i)`, is less than this value (`n`), `choose(m,i)` is
+#'    used as the (maximum) number of samples one can set. Otherwise sampling without replacement is
+#'     performed to select just the `n` samples.
 #' @param b.plots Boolean value indicating if B-spline basis functions should be plotted.
 #' @param bsplines This parameter indicates if a single or all B-spline curves should be plotted.
 #'  If `b.plots=TRUE` and `bsplines="single"`, the B-spline curves for the first predictor in
-#'   `t.data` will be plotted. Any other value for `bsplines` results in the B-spline curves for
-#'    all predictors being plotted.
+#'   `t.data` will be plotted. Any other value for `bsplines` (other than `"single"`) results in the
+#'    B-spline curves for all predictors being plotted.
 #' @param response.curves A boolean value indicating if all response curves should be plotted.
 #' @param leg Boolean value indicating if the legend of the gbsm outputs should be included in the plots. This
 #'  parameter is added to help control the appearance of plots in \link[msco]{gbsm_m.orders} function.
@@ -58,11 +63,11 @@
 #'   297-310. <https://doi.org/10.1214/ss/1177013604>}
 #'
 #'  \item{Lagat, V. K., Latombe, G. and Hui, C. (2021a). *A multi-species co-occurrence
-#'  index to avoid type II errors in null model testing*. Submitted.}
+#'  index to avoid type II errors in null model testing*. DOI: `<To be added>`.}
 #'
 #'  \item{Lagat, V. K., Latombe, G. and Hui, C. (2021b). *Dissecting the effects of
 #'   neutral encounter versus functional traits on multi-order species interactions
-#'    and co-occurrence with generalised B-spline modelling*. Submitted.}
+#'    and co-occurrence with generalised B-spline modelling*. DOI: `<To be added>`.}
 #'  }
 #'
 #' @examples
@@ -93,6 +98,22 @@ gbsm <- function(s.data, t.data, p.d.mat, metric= "Simpson_eqn", d.f=4, order.jo
 
   if(class(t.data)!="data.frame"){
     t.data <- as.data.frame(t.data)
+  }
+
+  # if (length(setdiff(sapply(t.data, class), c("factor", "numeric"))) > 0) {
+  #   stop("Trait variables must be factor or numeric")
+  # }
+  if (order.jo > dim(s.data)[1]) {
+    stop("Wrong value for \"order\": it must be equal or lower than the number of species.")
+  }
+  if (!isSymmetric(p.d.mat)) {
+    stop("Distance matrix is not symmetrical")
+  }
+  if(nrow(s.data)!=nrow(t.data)){
+    stop("s.data and t.data must have the same number of rows")
+  }
+  if(nrow(s.data)!=nrow(p.d.mat)){
+    stop("s.data and p.d.mat must have the same number of rows")
   }
 
   for (i in 1:ncol(t.data)) {

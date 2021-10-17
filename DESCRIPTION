@@ -2,24 +2,26 @@ Package: msco
 Type: Package
 Title: Multi-Species Co-Occurrence Analyses 
 Version: 0.1.0
-Author: Vitalis K. Lagat [aut, cre],
-  Guillaume Latombe [ths],
-  Cang Hui [ths]
+Author: Vitalis K. Lagat [aut, cre]
+  (<https://orcid.org/0000-0002-9063-9187>),
+  Guillaume Latombe [aut, ths]
+  (<https://orcid.org/0000-0002-8589-8387>),
+  Cang Hui [aut, ths]
+  (<https://orcid.org/0000-0002-3660-8160>)
 Maintainer: Vitalis K. Lagat <vitaliskim@gmail.com>
 Description: Co-occurrence patterns are typically explored between species pairs. However, doing
- so inevitably ignore the possible higher-order interference and interactions among three or more
- species in a community. To address this, the multi-species co-occurrence (msco; joint occupancy)
- index, which calculates the number of sites jointly occupied by multiple species simultaneously,
- was recently proposed. By reckoning with possible higher-order species interactions, joint
- occupancy index can encapsulate nine possible archetypes of species co-occurrence patterns and
- avert the statistical type II error by detecting patterns that would otherwise not be detected
- by any pairwise co-occurrence metrics. To dissect the effects of neutral encounter versus
- functional traits on multi-order species interactions and co-occurrence, generalized B-spline
- model has also been proposed. The R package ''msco'' presents the implementation of joint
- occupancy index and includes a list of functions for calculating this index for different
- orders, as well as testing and visualizing species co-occurrence archetypes. This package also
- presents the implementation of the generalized B-spline model and analyses of the effects of
- neutral encounter versus functional traits on multi-order species interactions and co-occurrence.
+ so inevitably ignore the possible higher-order interference and interactions among three or
+ more species in a community. To address this, the multi-species co-occurrence (msco) index,
+ which calculates the joint occupancy, was recently proposed <DOI:to be added>. By reckoning
+ with possible higher-order species interactions, the msco index can encapsulate nine possible
+ archetypes of species co-occurrence patterns and avert the statistical type II error by
+ examining patterns that would otherwise not be detected by any pairwise co-occurrence metrics.
+ To dissect the effects of neutral encounter versus trait-based processes on multi-species
+ co-occurrence and related higher-order interactions, generalised B-spline model has also been
+ proposed <DOI: to be added>. The R package ''msco'' implements the multi-species
+ co-occurrence index and includes a list of functions for calculating this index for different
+ orders, as well as testing and visualizing species co-occurrence archetypes. This package
+ also implements the generalized B-spline model and related analyses.
 Depends: R (>= 3.5.0)
 License: GPL-3
 Imports: scales, ggplot2, dplyr, minpack.lm, cowplot, gtools, tibble, tidyr, caret,

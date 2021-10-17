@@ -1,6 +1,8 @@
 #' Prediction uncertainty
 #'
-#' This function plots the response curves with prediction error bands for all orders of joint occupancy
+#' This function plots the response curves showing the effect of the predictors (i.e. trait-based and
+#'  neutral forces) on joint occupancy as the response variable, with prediction error bands (as the
+#'   standard deviation from the mean of the response variable) for all orders of joint occupancy.
 #'
 #' @param s.data A species-by-site presence/absence `data.frame` with entries indicating
 #' occurrence (1) and non-occurrence (0) of species in a site.
@@ -26,11 +28,11 @@
 #' @references
 #' \enumerate{
 #'  \item{Lagat, V. K., Latombe, G. and Hui, C. (2021a). *A multi-species co-occurrence
-#'  index to avoid type II errors in null model testing*. Submitted.}
+#'  index to avoid type II errors in null model testing*. DOI: `<To be added>`.}
 #'
 #'  \item{Lagat, V. K., Latombe, G. and Hui, C. (2021b). *Dissecting the effects of
 #'   neutral encounter versus functional traits on multi-order species interactions
-#'    and co-occurrence with generalised B-spline modelling*. Submitted.}
+#'    and co-occurrence with generalised B-spline modelling*. DOI: `<To be added>`.}
 #' }
 #' @examples
 #' \dontrun{

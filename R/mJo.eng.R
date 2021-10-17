@@ -1,6 +1,30 @@
 #' Joint occupancy model engine for multiple communities
 #'
-#' This wrapper function is similar to \link[msco]{Jo.eng}, but it reckons with multiple communities.
+#' This function is the engine behind the null model testing of species co-occurrence patterns, and
+#'  analyses of the joint occupancy decline and the parametric forms of this decline, for multiple
+#'   communities. In particular:
+#' \itemize{
+#' \item{It performs the null model testing of species co-occurrence patterns and generates the
+#'  archetypes depicting how joint occupancy declines with the number of species (the order
+#'   of msco) based on species-by-site presence/absence `.csv` data matrices. From these archetypes,
+#'    inferences can be made according to the implemented null models};
+#'  \item{Determines the robustness of the exponential, power law and exponential-power law forms of
+#'   joint occupancy decline by computing the Pearson's \eqn{r^2} between the joint occupancy values
+#'    of the observed data and predicted data, for all orders of species};
+#'  \item{Gives a summary of the total number of communities (under each and for all archetypes) whose
+#'   forms of joint occupancy decline have \eqn{r^2 > 0.95}};
+#'  \item{Computes the AIC and Delta AIC of joint occupancy decline regression models for all communities};
+#'  \item{Computes the total number of communities:
+#'    \itemize{
+#'   \item{with exponential as the best form of joint occupancy decline than power law and vice versa;}
+#'   \item{with either of the three regression models (exponential, power law and exponential-power law)
+#'    having the best form of the joint occupancy decline;}}}
+#'  \item{Estimates the parameters of:
+#'   \enumerate{
+#'    \item{**exponential:** **\eqn{j^{\{i\}} = a \times exp(b \times i)}**;}
+#'    \item{**power law:** **\eqn{j^{\{i\}} = a \times i^b}**; and}
+#'    \item{**exponential-power law:** **\eqn{j^{\{i\}} = a \times exp(b \times i) \times i^c}**}
+#'  }}forms of joint occupancy decline, respectively, and their 95% confidence interval.}
 #'
 #'@details `mJo.eng` function is useful when analyzing multiple species-by-site presence/absence
 #'  data matrices at once. If one community matrix is analyzed, the outputs of the function
@@ -10,45 +34,168 @@
 #'  The data matrices should be saved in the working directory.
 #' @param algo Simulation algorithm used. The possible options to choose from are: `sim1`,
 #'  `sim2`, `sim3`, `sim4`, `sim5`, `sim6`, `sim7`, `sim8`, and `sim9`, all from
-#'   Gotelli (2000). `sim2` is highly recommended (see Lagat *et al.,* 2021).
-#' @param metric Metric used to quantify the patterns in `s.data`. It has to be multi-species
-#'  co-occurrence index (see \link[msco]{j.occ}).
+#'   Gotelli (2000). `sim2` is highly recommended (see Lagat *et al.,* 2021a).
+#' @param metric The type of rescaling applied to the joint occupancy metric. Available options are:
+#'  `Simpson_eqn` for Simpson equivalent, `Sorensen_eqn` for Sorensen equivalent, and `raw` for the
+#'   raw form of index without rescaling.
 #' @param nReps Number of simulations used in the null model test.
-#' @param my.Archs A logical value (`TRUE` or `FALSE`) indicating if the archetypes of the patterns
-#'  of species co-occurrences in multiple communities (\link[msco]{Archetypes}) can be output.
-#' @param my.AICs A logical indicating whether the akaike information criterion (AIC) and Delta AIC
-#'  of joint occupancy decline regression models for all communities (\link[msco]{m.AICs}) can be output.
-#' @param my.params A logical indicating whether parameter estimates of the joint occupancy decline
-#'  regression models (\link[msco]{params}) can be output.
-#' @param my.best.mod2 A logical indicating if exponential and power law regression model comparisons
-#'  (\link[msco]{best.mod2}) can be output.
-#' @param my.best.mod3 A logical  indicating if exponential, power law and exponential-power law
-#'  regression model comparisons (\link[msco]{best.mod3}) can be output.
-#' @param my.params_c.i A logical indicating if 95% C.I of the parameter estimates of the joint occupancy
-#'  decline regression models (\link[msco]{params_c.i}) can be output.
-#' @param my.r2 A logical indicating if the robustness of joint occupancy decline regression models
-#'  (\link[msco]{rsq}) should be computed and output.
-#' @param my.r2.s A logical indicating if the robustness summary values of joint occupancy decline
-#'  regression models (\link[msco]{rsq.s}) should be computed and output.
-#' @param m.Jo.plots A logical indicating whether joint occupancy parametric and null model plots for
-#'  multiple communities (\link[msco]{m.Jo.plots}) can be output.
+#' @param Archetypes A Boolean indicating if the archetypes of the patterns
+#'  of species co-occurrences in multiple communities should be included in the output.
+#' @param AICs A Boolean indicating whether the akaike information criterion (AIC) and Delta AIC
+#'  of joint occupancy decline regression models for all communities should be included in the output.
+#' @param params A Boolean indicating whether parameter estimates of the joint occupancy decline
+#'  regression models should be included in the output.
+#' @param best.mod2 A Boolean indicating if exponential and power law regression model comparisons
+#'  should be included in the output.
+#' @param best.mod3 A Boolean indicating if exponential, power law and exponential-power law
+#'  regression model comparisons should be included in the output.
+#' @param params_c.i A Boolean indicating if 95% C.I of the parameter estimates of the joint occupancy
+#'  decline regression models should be included in the output.
+#' @param my.r2 A Boolean indicating if the robustness of joint occupancy decline regression models
+#'  should be computed and output.
+#' @param my.r2.s A Boolean indicating if the robustness summary values of joint occupancy decline
+#'  regression models should be computed and output.
+#' @param m.Jo.plots A Boolean indicating whether joint occupancy parametric and null model plots for
+#'  multiple communities should be included in the output.
 #' @return `mJo.eng` function returns a list containing the following outputs:
-#' \item{`Archs`}{as for \link[msco]{Archetypes}.}
-#' \item{`all.AICs`}{as for \link[msco]{m.AICs}.}
-#' \item{`params`}{as for \link[msco]{params}.}
-#' \item{`best.mod2`}{as for \link[msco]{best.mod2}.}
-#' \item{`best.mod3`}{as for \link[msco]{best.mod3}.}
-#' \item{`params_c.i`}{as for \link[msco]{params_c.i}.}
-#' \item{`r2`}{as for \link[msco]{rsq}.}
-#' \item{`r2.s`}{as for \link[msco]{rsq.s}.}
-#' \item{`m.Jo.plots`}{as for \link[msco]{m.Jo.plots}.}
+#'
+#' $`Archs`
+#'
+#' For every community, a `list` consisting of:
+#'
+#' \itemize{
+#'   \item `$nmod_stats`: A data frame with the summary statistics for the null model test; and
+#'   \item `$Archetype`: archetypes of the patterns of species co-occurrences in ecological
+#'    communities/matrices (`my.files`). These archetypes must be \eqn{\in \{}"A1",
+#'     "A2", "A3", "A4", "A5", "A6", "A7", "A8", "A9"\eqn{\}} or "NA". "NA" could be the
+#'      combinations of two or more of the nine expected archetypes.}
+#' $`all.AICs`
+#'
+#' A `list` of `data.frame`s containig the following components:
+#' \item{`df`}{the number of parameters in each of the three (exponential, power law and
+#'     exponential-power law) joint occupancy decline regression models.}
+#' \item{`aic`}{the aic values for each of the three joint occupancy decline regression models.}
+#' \item{`delta_aic3`}{the `delta_aic` values for each of the three joint occupancy decline regression
+#'      models.}
+#' \item{`delta_aic2`}{the `delta_aic` values for exponential and power law forms of joint occupancy
+#'     decline regression models.}
+#' $`params`
+#'
+#' A `data.frame` consisting of:
+#' \item{`arch`}{the archetypes of the patterns of species co-occurrences in each of the  species-by-site
+#'     presence/absence `.csv` data matrices.}
+#' \item{`a.ex`}{the `a` parameter estimate of the exponential form of joint occupancy decline.}
+#' \item{`b.ex`}{the `b` parameter estimate of the exponential form of joint occupancy decline.}
+#' \item{`a.pl`}{the `a` parameter estimate of the power law form of joint occupancy decline.}
+#' \item{`b.pl`}{the `b` parameter estimate of the power law form of joint occupancy decline.}
+#' \item{`a.expl`}{the `a` parameter estimate of the exponential-power law form of joint occupancy decline.}
+#' \item{`b.expl`}{the `b` parameter estimate of the exponential-power law form of joint occupancy decline.}
+#' \item{`c.expl`}{the `c` parameter estimate of the exponential-power law form of joint occupancy decline.}
+#' $`best.mod2`
+#'
+#' A`table` containig the following components:
+#' \item{`n`}{the number of ecological communities represented by species-by-site
+#'      presence/absence `.csv` data matrices.}
+#' \item{`n.lwst_aic`}{the number of communities with exponential as the best
+#'     form of joint occupancy decline than power law and vice versa.}
+#' \item{`n.delta_aic`}{the number of communities whose exponential and power law forms of joint occupancy
+#'      decline have `delta_aic = 0`, respectively. this number must be equal to `n.lwst_aic`.}
+#' \item{`%`}{the percentage of `n.lwst_aic` (or `n.delta_aic`) relative to the total number of
+#'      communities (`n`) analyzed.}
+#' $`best.mod3`
+#'
+#' A `table` containig the following components:
+#' \item{`n`}{the number of ecological communities represented by species-by-site
+#'     presence/absence `.csv` data matrices.}
+#' \item{`n.lwst_aic`}{the number of communities with exponential or power law or exponential-power
+#'  law as the best form of joint occupancy decline among the three (exponential, power law and
+#'   exponential-power law) regression models.}
+#' \item{`n.delta_aic`}{the number of communities whose exponential, power law and exponential-power
+#'     law forms of joint occupancy decline, respectively, have `delta_aic = 0`. this number must be
+#'    equal to `n.lwst_aic`.}
+#' \item{`%`}{the percentage of `n.lwst_aic` (or `n.delta_aic`) relative to the total number of
+#'    communities (`n`) analyzed.}
+#' $`params_c.i`
+#'
+#' A `data.frame` consisting of:
+#' \item{`arch`}{the archetypes of the patterns of species co-occurrences in each of the  species-by-site
+#'     presence/absence `.csv` data matrices.}
+#' \item{`n`}{the number of communities under every archetype.}
+#' \item{`ex_%`}{the percentages of the number of communities (under every archetype) where
+#'     exponential form of joint occupancy decline fitted better than power law.}
+#' \item{`a.ex`}{the 95% closed confidence interval of the `a` parameter estimates of the exponential
+#'     form of joint occupancy decline, under every archetype.}
+#' \item{`b.ex`}{the 95% closed confidence interval of the `b` parameter estimates of the exponential
+#'     form of joint occupancy decline, under every archetype.}
+#' \item{`p.l_%`}{the percentages of the number of communities (under every archetype) where
+#'     power law form of joint occupancy decline fitted better than exponential.}
+#' \item{`a.pl`}{the 95% closed confidence interval of the `a` parameter estimates of the power law
+#'     form of joint occupancy decline, under every archetype.}
+#' \item{`b.pl`}{the 95% closed confidence interval of the `b` parameter estimates of the power law
+#'      form of joint occupancy decline, under every archetype.}
+#' \item{`ex.pl_%`}{the percentages of the number of communities (under every archetype) where exponential-power
+#'      law form of joint occupancy decline fitted better than both the exponential and power law forms.}
+#' \item{`a.expl`}{the 95% closed confidence interval of the `a` parameter estimates of the exponential-power law
+#'     form of joint occupancy decline, under every archetype.}
+#' \item{`b.expl`}{the 95% closed confidence interval of the `b` parameter estimates of the exponential-power law
+#'     form of joint occupancy decline, under every archetype.}
+#' \item{`c.expl`}{the 95% closed confidence interval of the `c` parameter estimates of the exponential-power law
+#'     form of joint occupancy decline, under every archetype.}
+#' $`r2`
+#'
+#' A `list` of `data.frame`s containig the following components:
+#' \item{`rsq.ex`}{\eqn{r^2} for the exponential form of joint occupancy decline.}
+#' \item{`rsq.pl`}{\eqn{r^2} for the power law form of joint occupancy decline.}
+#' \item{`rsq.ex.pl`}{\eqn{r^2} for the exponential-power law form of joint occupancy decline.}
+#' $`r2.s`
+#' * A `list` containig the following components:
+#'
+#'   $`rsq.per.Archs`
+#'
+#'   + `Archs`: Archetypes of the patterns of species co-occurrences in each
+#'     of the species-by-site presence/absence .csv data matrices.
+#'   + `n.a`: Number of communities under each archetype.
+#'   + `rsq.ex`: Number of communities under each archetype whose exponential
+#'     forms of joint occupancy decline have \eqn{r^2 > 0.95}.
+#'   + `rsq.pl`: Number of communities under each archetype whose power
+#'    law forms of joint occupancy decline have \eqn{r^2 > 0.95}.
+#'   + `rsq.ex-pl`: Number of communities under each archetype whose
+#'     exponential-power law forms of joint occupancy decline have \eqn{r^2 > 0.95}.
+#'
+#'   $`rsq.all.Communities`
+#'
+#'   + `n`: Number of all communities analyzed
+#'   + `ex`: Number of communities whose exponential forms of joint occupancy
+#'     decline have \eqn{r^2 > 0.95}
+#'   + `pl`: Number of communities whose power law forms of joint occupancy
+#'    decline have \eqn{r^2 > 0.95}
+#'   + `ex.pl`: Number of communities whose exponential-power law forms
+#'     of joint occupancy decline have \eqn{r^2 > 0.95}
+#'
+#' $`m.Jo.plots`
+#'
+#' Produces a `.pdf` file with multiple figures each consisting of the following plots:
+#'
+#' \item{(a)}{as for \link[msco]{Jo.plots}}
+#' \item{(b)}{as for \link[msco]{Jo.plots}}
+#' \item{(c)}{as for \link[msco]{Jo.plots}}
+#' \item{(d)}{as for \link[msco]{Jo.plots}}
+#' \item{(e)}{as for \link[msco]{Jo.plots}}
 #' @references
 #' \enumerate{
-#'  \item{Lagat, V. K., Latombe, G. and Hui, C. (2021). *A multi-species co-occurrence
-#'  index to avoid type II errors in null model testing*. Submitted.}
+#'  \item{Lagat, V. K., Latombe, G. and Hui, C. (2021a). *A multi-species co-occurrence
+#'  index to avoid type II errors in null model testing*. DOI: `<To be added>`.}
 #'
 #'  \item{Gotelli, N. J. (2000). Null model analysis of species co-occurrence patterns.
 #'  *Ecology, 81(9)*, 2606-2621. <https://doi.org/10.1890/0012-9658(2000)081[2606:NMAOSC]2.0.CO;2>}
+#'
+#'  \item{Pearson, K. (1895) VII. Note on regression and inheritance in the
+#'  case of two parents. *proceedings of the royal society of London,* **58**:240-242.
+#'   <https://doi.org/10.1098/rspl.1895.0041>}
+#'
+#'  \item{petrossian, g. a., and maxfield, m. (2018). an information theory approach to hypothesis testing
+#'   in criminological research. *crime science*, 7(1), 2.
+#'    <https://doi.org/10.1186/s40163-018-0077-5>}
 #'  }
 #' @examples
 #' \dontrun{
@@ -56,27 +203,27 @@
 #' my.path <- system.file("extdata", package = "msco")
 #' setwd(my.path)
 #' my.files <- gtools::mixedsort(list.files(path = my.path, pattern = "*.csv"))
-#' my.res <- msco::mJo.eng(my.files = my.files, algo = "sim2", my.Archs = TRUE,
-#'              metric = "j.occ", nReps = 999, my.AICs = FALSE, my.params = FALSE,
-#'              my.best.mod2 = FALSE, my.best.mod3 = FALSE, my.params_c.i = FALSE,
+#' my.res <- msco::mJo.eng(my.files = my.files, algo = "sim2", Archetypes = TRUE,
+#'              metric = "raw", nReps = 999, AICs = FALSE, params = FALSE,
+#'              best.mod2 = FALSE, best.mod3 = FALSE, params_c.i = FALSE,
 #'              my.r2 = FALSE, my.r2.s = FALSE, m.Jo.plots = FALSE)
-#' my.res
+#' my.res$Archs$`252.csv`
 #'
 #' my.path2 <- system.file("extdata/myCSVs", package = "msco")
 #' setwd(my.path2)
 #' my.files2 <- gtools::mixedsort(list.files(path = my.path2, pattern = "*.csv"))
-#' my.res2 <- msco::mJo.eng(my.files = my.files2[250:255], algo = "sim2", my.Archs = FALSE,
-#'               metric = "j.occ", nReps = 999, my.AICs = FALSE, my.params = TRUE,
-#'               my.best.mod2 = FALSE, my.best.mod3 = FALSE, my.params_c.i = FALSE,
+#' my.res2 <- msco::mJo.eng(my.files = my.files2[250:255], algo = "sim2", Archetypes = FALSE,
+#'               metric = "raw", nReps = 999, AICs = FALSE, params = TRUE,
+#'               best.mod2 = FALSE, best.mod3 = FALSE, params_c.i = FALSE,
 #'               my.r2 = FALSE, my.r2.s = FALSE, m.Jo.plots = FALSE)
 #' my.res2
 #'
 #' my.path2 <- system.file("extdata/myCSVs", package = "msco")
 #' setwd(my.path2)
 #' my.files2 <- gtools::mixedsort(list.files(path = my.path2, pattern = "*.csv"))
-#' my.res3 <- msco::mJo.eng(my.files = my.files2[250:255], algo = "sim2", my.Archs = FALSE,
-#'               metric = "j.occ", nReps = 999, my.AICs = FALSE, my.params = FALSE,
-#'               my.best.mod2 = FALSE, my.best.mod3 = FALSE, my.params_c.i = TRUE,
+#' my.res3 <- msco::mJo.eng(my.files = my.files2[250:255], algo = "sim2", Archetypes = FALSE,
+#'               metric = "raw", nReps = 999, AICs = FALSE, params = FALSE,
+#'               best.mod2 = FALSE, best.mod3 = FALSE, params_c.i = TRUE,
 #'               my.r2 = FALSE, my.r2.s = FALSE, m.Jo.plots = TRUE)
 #' my.res3
 #'  }
@@ -85,14 +232,14 @@
 
 mJo.eng <- function(my.files,
                       algo = "sim2",
-                      metric = "j.occ",
+                      metric = "raw",
                       nReps = 999,
-                      my.Archs = FALSE,
-                      my.AICs = FALSE,
-                      my.params = FALSE,
-                      my.best.mod2 = FALSE,
-                      my.best.mod3 = FALSE,
-                      my.params_c.i = FALSE,
+                      Archetypes = FALSE,
+                      AICs = FALSE,
+                      params = FALSE,
+                      best.mod2 = FALSE,
+                      best.mod3 = FALSE,
+                      params_c.i = FALSE,
                       my.r2 = FALSE,
                       my.r2.s = FALSE,
                       m.Jo.plots = FALSE){
@@ -104,6 +251,8 @@ mJo.eng <- function(my.files,
 
   coe <- NULL
   Archs <- list()
+  nmstats <- list()
+  nm_arch <- list()
   all.AICs <- list()
   r2 <- list()
   myfiles = lapply(my.files, utils::read.csv, header=T)
@@ -114,8 +263,10 @@ mJo.eng <- function(my.files,
   grDevices::pdf(file = paste0(system.file("ms", package = "msco"), "/mJo.plots.pdf"), paper="a4r", height = 8.27, width = 11.69)
 
   for (j in 1:length(myfiles)) {
-    coe <- Jo.eng(myfiles[[j]], algo = algo, nReps = nReps)
+    coe <- Jo.eng(myfiles[[j]], algo = algo, nReps = nReps, metric = metric)
     Archs[[j]] <- coe$Archetype ### Archetypes
+    nmstats[[j]] <- coe$nmod_stats ### StatisticsTable
+    nm_arch[[j]] <- `names<-`(list(nmstats[[j]], Archs[[j]]), c("nmod_stats", "Archetype"))
     all.AICs[[j]] <- coe$AIC ### all. AICs
     r2[[j]] <- coe$r2 ### rsq
 
@@ -128,7 +279,7 @@ mJo.eng <- function(my.files,
     param[j,] <- c(noquote(coe$Archetype),
                    round(as.numeric(cbind(coe$jo.coeff[1,1:2],
                                           coe$jo.coeff[2,1:2],
-                                          coe$jo.coeff[3,1:3])), 4)) ### params
+                                          coe$jo.coeff[3,1:3])), 4)) ### paramss
   }
   grDevices::dev.off()
 
@@ -137,8 +288,8 @@ mJo.eng <- function(my.files,
       matrix(r2[[vee]], ncol = 3)), c("rsq.ex", "rsq.pl", "rsq.ex.pl")), " ")
   }
 
-  params <- as.data.frame(matrix(param, nrow = nrow(param), ncol = ncol(param)))
-  names(params) <- c("Arch","a.ex","b.ex","a.pl","b.pl","a.expl","b.expl","c.expl")
+  paramss <- as.data.frame(matrix(param, nrow = nrow(param), ncol = ncol(param)))
+  names(paramss) <- c("Arch","a.ex","b.ex","a.pl","b.pl","a.expl","b.expl","c.expl")
 
   ###############################################################################
   ################ Exponential and power law comparison (best.mod2) #############
@@ -248,154 +399,154 @@ mJo.eng <- function(my.files,
   ### 95% closed confidence interval for all the parameter estimates ####
 
   A1a.ex <- round(matrix(as.numeric(stats::quantile(
-    as.numeric(params[,2][which(params[,1]=="A1")]), probs = c(0.025,0.975))),nrow = 1),2)
+    as.numeric(paramss[,2][which(paramss[,1]=="A1")]), probs = c(0.025,0.975))),nrow = 1),2)
   A1b.ex <- round(matrix(as.numeric(stats::quantile(
-    as.numeric(params[,3][which(params[,1]=="A1")]), probs = c(0.025,0.975))),nrow = 1),2)
+    as.numeric(paramss[,3][which(paramss[,1]=="A1")]), probs = c(0.025,0.975))),nrow = 1),2)
   A1a.pl <- round(matrix(as.numeric(stats::quantile(
-    as.numeric(params[,4][which(params[,1]=="A1")]), probs = c(0.025,0.975))),nrow = 1),2)
+    as.numeric(paramss[,4][which(paramss[,1]=="A1")]), probs = c(0.025,0.975))),nrow = 1),2)
   A1b.pl <- round(matrix(as.numeric(stats::quantile(
-    as.numeric(params[,5][which(params[,1]=="A1")]), probs = c(0.025,0.975))),nrow = 1),2)
+    as.numeric(paramss[,5][which(paramss[,1]=="A1")]), probs = c(0.025,0.975))),nrow = 1),2)
   A1a.expl <- round(matrix(as.numeric(stats::quantile(
-    as.numeric(params[,6][which(params[,1]=="A1")]), probs = c(0.025,0.975))),nrow = 1),2)
+    as.numeric(paramss[,6][which(paramss[,1]=="A1")]), probs = c(0.025,0.975))),nrow = 1),2)
   A1b.expl <- round(matrix(as.numeric(stats::quantile(
-    as.numeric(params[,7][which(params[,1]=="A1")]), probs = c(0.025,0.975))),nrow = 1),2)
+    as.numeric(paramss[,7][which(paramss[,1]=="A1")]), probs = c(0.025,0.975))),nrow = 1),2)
   A1c.expl <- round(matrix(as.numeric(stats::quantile(
-    as.numeric(params[,8][which(params[,1]=="A1")]), probs = c(0.025,0.975))),nrow = 1),2)
+    as.numeric(paramss[,8][which(paramss[,1]=="A1")]), probs = c(0.025,0.975))),nrow = 1),2)
 
   A2a.ex <- round(matrix(as.numeric(stats::quantile(
-    as.numeric(params[,2][which(params[,1]=="A2")]), probs = c(0.025,0.975))),nrow = 1),2)
+    as.numeric(paramss[,2][which(paramss[,1]=="A2")]), probs = c(0.025,0.975))),nrow = 1),2)
   A2b.ex <- round(matrix(as.numeric(stats::quantile(
-    as.numeric(params[,3][which(params[,1]=="A2")]), probs = c(0.025,0.975))),nrow = 1),2)
+    as.numeric(paramss[,3][which(paramss[,1]=="A2")]), probs = c(0.025,0.975))),nrow = 1),2)
   A2a.pl <- round(matrix(as.numeric(stats::quantile(
-    as.numeric(params[,4][which(params[,1]=="A2")]), probs = c(0.025,0.975))),nrow = 1),2)
+    as.numeric(paramss[,4][which(paramss[,1]=="A2")]), probs = c(0.025,0.975))),nrow = 1),2)
   A2b.pl <- round(matrix(as.numeric(stats::quantile(
-    as.numeric(params[,5][which(params[,1]=="A2")]), probs = c(0.025,0.975))),nrow = 1),2)
+    as.numeric(paramss[,5][which(paramss[,1]=="A2")]), probs = c(0.025,0.975))),nrow = 1),2)
   A2a.expl <- round(matrix(as.numeric(stats::quantile(
-    as.numeric(params[,6][which(params[,1]=="A2")]), probs = c(0.025,0.975))),nrow = 1),2)
+    as.numeric(paramss[,6][which(paramss[,1]=="A2")]), probs = c(0.025,0.975))),nrow = 1),2)
   A2b.expl <- round(matrix(as.numeric(stats::quantile(
-    as.numeric(params[,7][which(params[,1]=="A2")]), probs = c(0.025,0.975))),nrow = 1),2)
+    as.numeric(paramss[,7][which(paramss[,1]=="A2")]), probs = c(0.025,0.975))),nrow = 1),2)
   A2c.expl <- round(matrix(as.numeric(stats::quantile(
-    as.numeric(params[,8][which(params[,1]=="A2")]), probs = c(0.025,0.975))),nrow = 1),2)
+    as.numeric(paramss[,8][which(paramss[,1]=="A2")]), probs = c(0.025,0.975))),nrow = 1),2)
 
   A3a.ex <- round(matrix(as.numeric(stats::quantile(
-    as.numeric(params[,2][which(params[,1]=="A3")]), probs = c(0.025,0.975))),nrow = 1),2)
+    as.numeric(paramss[,2][which(paramss[,1]=="A3")]), probs = c(0.025,0.975))),nrow = 1),2)
   A3b.ex <- round(matrix(as.numeric(stats::quantile(
-    as.numeric(params[,3][which(params[,1]=="A3")]), probs = c(0.025,0.975))),nrow = 1),2)
+    as.numeric(paramss[,3][which(paramss[,1]=="A3")]), probs = c(0.025,0.975))),nrow = 1),2)
   A3a.pl <- round(matrix(as.numeric(stats::quantile(
-    as.numeric(params[,4][which(params[,1]=="A3")]), probs = c(0.025,0.975))),nrow = 1),2)
+    as.numeric(paramss[,4][which(paramss[,1]=="A3")]), probs = c(0.025,0.975))),nrow = 1),2)
   A3b.pl <- round(matrix(as.numeric(stats::quantile(
-    as.numeric(params[,5][which(params[,1]=="A3")]), probs = c(0.025,0.975))),nrow = 1),2)
+    as.numeric(paramss[,5][which(paramss[,1]=="A3")]), probs = c(0.025,0.975))),nrow = 1),2)
   A3a.expl <- round(matrix(as.numeric(stats::quantile(
-    as.numeric(params[,6][which(params[,1]=="A3")]), probs = c(0.025,0.975))),nrow = 1),2)
+    as.numeric(paramss[,6][which(paramss[,1]=="A3")]), probs = c(0.025,0.975))),nrow = 1),2)
   A3b.expl <- round(matrix(as.numeric(stats::quantile(
-    as.numeric(params[,7][which(params[,1]=="A3")]), probs = c(0.025,0.975))),nrow = 1),2)
+    as.numeric(paramss[,7][which(paramss[,1]=="A3")]), probs = c(0.025,0.975))),nrow = 1),2)
   A3c.expl <- round(matrix(as.numeric(stats::quantile(
-    as.numeric(params[,8][which(params[,1]=="A3")]), probs = c(0.025,0.975))),nrow = 1),2)
+    as.numeric(paramss[,8][which(paramss[,1]=="A3")]), probs = c(0.025,0.975))),nrow = 1),2)
 
   A4a.ex <- round(matrix(as.numeric(stats::quantile(
-    as.numeric(params[,2][which(params[,1]=="A4")]), probs = c(0.025,0.975))),nrow = 1),2)
+    as.numeric(paramss[,2][which(paramss[,1]=="A4")]), probs = c(0.025,0.975))),nrow = 1),2)
   A4b.ex <- round(matrix(as.numeric(stats::quantile(
-    as.numeric(params[,3][which(params[,1]=="A4")]), probs = c(0.025,0.975))),nrow = 1),2)
+    as.numeric(paramss[,3][which(paramss[,1]=="A4")]), probs = c(0.025,0.975))),nrow = 1),2)
   A4a.pl <- round(matrix(as.numeric(stats::quantile(
-    as.numeric(params[,4][which(params[,1]=="A4")]), probs = c(0.025,0.975))),nrow = 1),2)
+    as.numeric(paramss[,4][which(paramss[,1]=="A4")]), probs = c(0.025,0.975))),nrow = 1),2)
   A4b.pl <- round(matrix(as.numeric(stats::quantile(
-    as.numeric(params[,5][which(params[,1]=="A4")]), probs = c(0.025,0.975))),nrow = 1),2)
+    as.numeric(paramss[,5][which(paramss[,1]=="A4")]), probs = c(0.025,0.975))),nrow = 1),2)
   A4a.expl <- round(matrix(as.numeric(stats::quantile(
-    as.numeric(params[,6][which(params[,1]=="A4")]), probs = c(0.025,0.975))),nrow = 1),2)
+    as.numeric(paramss[,6][which(paramss[,1]=="A4")]), probs = c(0.025,0.975))),nrow = 1),2)
   A4b.expl <- round(matrix(as.numeric(stats::quantile(
-    as.numeric(params[,7][which(params[,1]=="A4")]), probs = c(0.025,0.975))),nrow = 1),2)
+    as.numeric(paramss[,7][which(paramss[,1]=="A4")]), probs = c(0.025,0.975))),nrow = 1),2)
   A4c.expl <- round(matrix(as.numeric(stats::quantile(
-    as.numeric(params[,8][which(params[,1]=="A4")]), probs = c(0.025,0.975))),nrow = 1),2)
+    as.numeric(paramss[,8][which(paramss[,1]=="A4")]), probs = c(0.025,0.975))),nrow = 1),2)
 
   A5a.ex <- round(matrix(as.numeric(stats::quantile(
-    as.numeric(params[,2][which(params[,1]=="A5")]), probs = c(0.025,0.975))),nrow = 1),2)
+    as.numeric(paramss[,2][which(paramss[,1]=="A5")]), probs = c(0.025,0.975))),nrow = 1),2)
   A5b.ex <- round(matrix(as.numeric(stats::quantile(
-    as.numeric(params[,3][which(params[,1]=="A5")]), probs = c(0.025,0.975))),nrow = 1),2)
+    as.numeric(paramss[,3][which(paramss[,1]=="A5")]), probs = c(0.025,0.975))),nrow = 1),2)
   A5a.pl <- round(matrix(as.numeric(stats::quantile(
-    as.numeric(params[,4][which(params[,1]=="A5")]), probs = c(0.025,0.975))),nrow = 1),2)
+    as.numeric(paramss[,4][which(paramss[,1]=="A5")]), probs = c(0.025,0.975))),nrow = 1),2)
   A5b.pl <- round(matrix(as.numeric(stats::quantile(
-    as.numeric(params[,5][which(params[,1]=="A5")]), probs = c(0.025,0.975))),nrow = 1),2)
+    as.numeric(paramss[,5][which(paramss[,1]=="A5")]), probs = c(0.025,0.975))),nrow = 1),2)
   A5a.expl <- round(matrix(as.numeric(stats::quantile(
-    as.numeric(params[,6][which(params[,1]=="A5")]), probs = c(0.025,0.975))),nrow = 1),2)
+    as.numeric(paramss[,6][which(paramss[,1]=="A5")]), probs = c(0.025,0.975))),nrow = 1),2)
   A5b.expl <- round(matrix(as.numeric(stats::quantile(
-    as.numeric(params[,7][which(params[,1]=="A5")]), probs = c(0.025,0.975))),nrow = 1),2)
+    as.numeric(paramss[,7][which(paramss[,1]=="A5")]), probs = c(0.025,0.975))),nrow = 1),2)
   A5c.expl <- round(matrix(as.numeric(stats::quantile(
-    as.numeric(params[,8][which(params[,1]=="A5")]), probs = c(0.025,0.975))),nrow = 1),2)
+    as.numeric(paramss[,8][which(paramss[,1]=="A5")]), probs = c(0.025,0.975))),nrow = 1),2)
 
   A6a.ex <- round(matrix(as.numeric(stats::quantile(
-    as.numeric(params[,2][which(params[,1]=="A6")]), probs = c(0.025,0.975))),nrow = 1),2)
+    as.numeric(paramss[,2][which(paramss[,1]=="A6")]), probs = c(0.025,0.975))),nrow = 1),2)
   A6b.ex <- round(matrix(as.numeric(stats::quantile(
-    as.numeric(params[,3][which(params[,1]=="A6")]), probs = c(0.025,0.975))),nrow = 1),2)
+    as.numeric(paramss[,3][which(paramss[,1]=="A6")]), probs = c(0.025,0.975))),nrow = 1),2)
   A6a.pl <- round(matrix(as.numeric(stats::quantile(
-    as.numeric(params[,4][which(params[,1]=="A6")]), probs = c(0.025,0.975))),nrow = 1),2)
+    as.numeric(paramss[,4][which(paramss[,1]=="A6")]), probs = c(0.025,0.975))),nrow = 1),2)
   A6b.pl <- round(matrix(as.numeric(stats::quantile(
-    as.numeric(params[,5][which(params[,1]=="A6")]), probs = c(0.025,0.975))),nrow = 1),2)
+    as.numeric(paramss[,5][which(paramss[,1]=="A6")]), probs = c(0.025,0.975))),nrow = 1),2)
   A6a.expl <- round(matrix(as.numeric(stats::quantile(
-    as.numeric(params[,6][which(params[,1]=="A6")]), probs = c(0.025,0.975))),nrow = 1),2)
+    as.numeric(paramss[,6][which(paramss[,1]=="A6")]), probs = c(0.025,0.975))),nrow = 1),2)
   A6b.expl <- round(matrix(as.numeric(stats::quantile(
-    as.numeric(params[,7][which(params[,1]=="A6")]), probs = c(0.025,0.975))),nrow = 1),2)
+    as.numeric(paramss[,7][which(paramss[,1]=="A6")]), probs = c(0.025,0.975))),nrow = 1),2)
   A6c.expl <- round(matrix(as.numeric(stats::quantile(
-    as.numeric(params[,8][which(params[,1]=="A6")]), probs = c(0.025,0.975))),nrow = 1),2)
+    as.numeric(paramss[,8][which(paramss[,1]=="A6")]), probs = c(0.025,0.975))),nrow = 1),2)
 
   A7a.ex <- round(matrix(as.numeric(stats::quantile(
-    as.numeric(params[,2][which(params[,1]=="A7")]), probs = c(0.025,0.975))),nrow = 1),2)
+    as.numeric(paramss[,2][which(paramss[,1]=="A7")]), probs = c(0.025,0.975))),nrow = 1),2)
   A7b.ex <- round(matrix(as.numeric(stats::quantile(
-    as.numeric(params[,3][which(params[,1]=="A7")]), probs = c(0.025,0.975))),nrow = 1),2)
+    as.numeric(paramss[,3][which(paramss[,1]=="A7")]), probs = c(0.025,0.975))),nrow = 1),2)
   A7a.pl <- round(matrix(as.numeric(stats::quantile(
-    as.numeric(params[,4][which(params[,1]=="A7")]), probs = c(0.025,0.975))),nrow = 1),2)
+    as.numeric(paramss[,4][which(paramss[,1]=="A7")]), probs = c(0.025,0.975))),nrow = 1),2)
   A7b.pl <- round(matrix(as.numeric(stats::quantile(
-    as.numeric(params[,5][which(params[,1]=="A7")]), probs = c(0.025,0.975))),nrow = 1),2)
+    as.numeric(paramss[,5][which(paramss[,1]=="A7")]), probs = c(0.025,0.975))),nrow = 1),2)
   A7a.expl <- round(matrix(as.numeric(stats::quantile(
-    as.numeric(params[,6][which(params[,1]=="A7")]), probs = c(0.025,0.975))),nrow = 1),2)
+    as.numeric(paramss[,6][which(paramss[,1]=="A7")]), probs = c(0.025,0.975))),nrow = 1),2)
   A7b.expl <- round(matrix(as.numeric(stats::quantile(
-    as.numeric(params[,7][which(params[,1]=="A7")]), probs = c(0.025,0.975))),nrow = 1),2)
+    as.numeric(paramss[,7][which(paramss[,1]=="A7")]), probs = c(0.025,0.975))),nrow = 1),2)
   A7c.expl <- round(matrix(as.numeric(stats::quantile(
-    as.numeric(params[,8][which(params[,1]=="A7")]), probs = c(0.025,0.975))),nrow = 1),2)
+    as.numeric(paramss[,8][which(paramss[,1]=="A7")]), probs = c(0.025,0.975))),nrow = 1),2)
 
   A8a.ex <- round(matrix(as.numeric(stats::quantile(
-    as.numeric(params[,2][which(params[,1]=="A8")]), probs = c(0.025,0.975))),nrow = 1),2)
+    as.numeric(paramss[,2][which(paramss[,1]=="A8")]), probs = c(0.025,0.975))),nrow = 1),2)
   A8b.ex <- round(matrix(as.numeric(stats::quantile(
-    as.numeric(params[,3][which(params[,1]=="A8")]), probs = c(0.025,0.975))),nrow = 1),2)
+    as.numeric(paramss[,3][which(paramss[,1]=="A8")]), probs = c(0.025,0.975))),nrow = 1),2)
   A8a.pl <- round(matrix(as.numeric(stats::quantile(
-    as.numeric(params[,4][which(params[,1]=="A8")]), probs = c(0.025,0.975))),nrow = 1),2)
+    as.numeric(paramss[,4][which(paramss[,1]=="A8")]), probs = c(0.025,0.975))),nrow = 1),2)
   A8b.pl <- round(matrix(as.numeric(stats::quantile(
-    as.numeric(params[,5][which(params[,1]=="A8")]), probs = c(0.025,0.975))),nrow = 1),2)
+    as.numeric(paramss[,5][which(paramss[,1]=="A8")]), probs = c(0.025,0.975))),nrow = 1),2)
   A8a.expl <- round(matrix(as.numeric(stats::quantile(
-    as.numeric(params[,6][which(params[,1]=="A8")]), probs = c(0.025,0.975))),nrow = 1),2)
+    as.numeric(paramss[,6][which(paramss[,1]=="A8")]), probs = c(0.025,0.975))),nrow = 1),2)
   A8b.expl <- round(matrix(as.numeric(stats::quantile(
-    as.numeric(params[,7][which(params[,1]=="A8")]), probs = c(0.025,0.975))),nrow = 1),2)
+    as.numeric(paramss[,7][which(paramss[,1]=="A8")]), probs = c(0.025,0.975))),nrow = 1),2)
   A8c.expl <- round(matrix(as.numeric(stats::quantile(
-    as.numeric(params[,8][which(params[,1]=="A8")]), probs = c(0.025,0.975))),nrow = 1),2)
+    as.numeric(paramss[,8][which(paramss[,1]=="A8")]), probs = c(0.025,0.975))),nrow = 1),2)
 
   A9a.ex <- round(matrix(as.numeric(stats::quantile(
-    as.numeric(params[,2][which(params[,1]=="A9")]), probs = c(0.025,0.975))),nrow = 1),2)
+    as.numeric(paramss[,2][which(paramss[,1]=="A9")]), probs = c(0.025,0.975))),nrow = 1),2)
   A9b.ex <- round(matrix(as.numeric(stats::quantile(
-    as.numeric(params[,3][which(params[,1]=="A9")]), probs = c(0.025,0.975))),nrow = 1),2)
+    as.numeric(paramss[,3][which(paramss[,1]=="A9")]), probs = c(0.025,0.975))),nrow = 1),2)
   A9a.pl <- round(matrix(as.numeric(stats::quantile(
-    as.numeric(params[,4][which(params[,1]=="A9")]), probs = c(0.025,0.975))),nrow = 1),2)
+    as.numeric(paramss[,4][which(paramss[,1]=="A9")]), probs = c(0.025,0.975))),nrow = 1),2)
   A9b.pl <- round(matrix(as.numeric(stats::quantile(
-    as.numeric(params[,5][which(params[,1]=="A9")]), probs = c(0.025,0.975))),nrow = 1),2)
+    as.numeric(paramss[,5][which(paramss[,1]=="A9")]), probs = c(0.025,0.975))),nrow = 1),2)
   A9a.expl <- round(matrix(as.numeric(stats::quantile(
-    as.numeric(params[,6][which(params[,1]=="A9")]), probs = c(0.025,0.975))),nrow = 1),2)
+    as.numeric(paramss[,6][which(paramss[,1]=="A9")]), probs = c(0.025,0.975))),nrow = 1),2)
   A9b.expl <- round(matrix(as.numeric(stats::quantile(
-    as.numeric(params[,7][which(params[,1]=="A9")]), probs = c(0.025,0.975))),nrow = 1),2)
+    as.numeric(paramss[,7][which(paramss[,1]=="A9")]), probs = c(0.025,0.975))),nrow = 1),2)
   A9c.expl <- round(matrix(as.numeric(stats::quantile(
-    as.numeric(params[,8][which(params[,1]=="A9")]), probs = c(0.025,0.975))),nrow = 1),2)
+    as.numeric(paramss[,8][which(paramss[,1]=="A9")]), probs = c(0.025,0.975))),nrow = 1),2)
 
   naa.ex <- round(matrix(as.numeric(stats::quantile(
-    as.numeric(params[,2][which(params[,1]=="NA")]), probs = c(0.025,0.975))),nrow = 1),2)
+    as.numeric(paramss[,2][which(paramss[,1]=="NA")]), probs = c(0.025,0.975))),nrow = 1),2)
   nab.ex <- round(matrix(as.numeric(stats::quantile(
-    as.numeric(params[,3][which(params[,1]=="NA")]), probs = c(0.025,0.975))),nrow = 1),2)
+    as.numeric(paramss[,3][which(paramss[,1]=="NA")]), probs = c(0.025,0.975))),nrow = 1),2)
   naa.pl <- round(matrix(as.numeric(stats::quantile(
-    as.numeric(params[,4][which(params[,1]=="NA")]), probs = c(0.025,0.975))),nrow = 1),2)
+    as.numeric(paramss[,4][which(paramss[,1]=="NA")]), probs = c(0.025,0.975))),nrow = 1),2)
   nab.pl <- round(matrix(as.numeric(stats::quantile(
-    as.numeric(params[,5][which(params[,1]=="NA")]), probs = c(0.025,0.975))),nrow = 1),2)
+    as.numeric(paramss[,5][which(paramss[,1]=="NA")]), probs = c(0.025,0.975))),nrow = 1),2)
   naa.expl <- round(matrix(as.numeric(stats::quantile(
-    as.numeric(params[,6][which(params[,1]=="NA")]), probs = c(0.025,0.975))),nrow = 1),2)
+    as.numeric(paramss[,6][which(paramss[,1]=="NA")]), probs = c(0.025,0.975))),nrow = 1),2)
   nab.expl <- round(matrix(as.numeric(stats::quantile(
-    as.numeric(params[,7][which(params[,1]=="NA")]), probs = c(0.025,0.975))),nrow = 1),2)
+    as.numeric(paramss[,7][which(paramss[,1]=="NA")]), probs = c(0.025,0.975))),nrow = 1),2)
   nac.expl <- round(matrix(as.numeric(stats::quantile(
-    as.numeric(params[,8][which(params[,1]=="NA")]), probs = c(0.025,0.975))),nrow = 1),2)
+    as.numeric(paramss[,8][which(paramss[,1]=="NA")]), probs = c(0.025,0.975))),nrow = 1),2)
 
   arche <- noquote(matrix(c("A1","A2","A3","A4","A5","A6","A7","A8","A9",
                             "NA"),ncol=1))
@@ -452,11 +603,11 @@ mJo.eng <- function(my.files,
                   naa.expl[,2],nab.expl[,1],nab.expl[,2],nac.expl[,1],
                   nac.expl[,2]),ncol = 14)
 
-  N <- matrix(c(length(which(params[,1]=="A1")),length(which(params[,1]=="A2")),
-                length(which(params[,1]=="A3")),length(which(params[,1]=="A4")),
-                length(which(params[,1]=="A5")),length(which(params[,1]=="A6")),
-                length(which(params[,1]=="A7")),length(which(params[,1]=="A8")),
-                length(which(params[,1]=="A9")),length(which(params[,1]=="NA"))),
+  N <- matrix(c(length(which(paramss[,1]=="A1")),length(which(paramss[,1]=="A2")),
+                length(which(paramss[,1]=="A3")),length(which(paramss[,1]=="A4")),
+                length(which(paramss[,1]=="A5")),length(which(paramss[,1]=="A6")),
+                length(which(paramss[,1]=="A7")),length(which(paramss[,1]=="A8")),
+                length(which(paramss[,1]=="A9")),length(which(paramss[,1]=="NA"))),
               nrow = 10,ncol = 1)
 
   PARAMSS <- rbind(a1,a2,a3,a4,a5,a6,a7,a8,a9,na2)
@@ -473,13 +624,13 @@ mJo.eng <- function(my.files,
 
   ###################################  A1  ########################################
 
-  if(length(which(params[,1]=="A1"))==0){
+  if(length(which(paramss[,1]=="A1"))==0){
     ex.a1_percent <- NA
     pl.a1_percent <- NA
     ex.pl.a1_percent <- NA
 
-  }else if(length(which(params[,1]=="A1"))!=0){
-    AICs.a1 <- all.AICs[which(params[,1]=="A1")]
+  }else if(length(which(paramss[,1]=="A1"))!=0){
+    AICs.a1 <- all.AICs[which(paramss[,1]=="A1")]
     ex.a1 <- c()
     pl.a1 <- c()
     ex.pl.a1 <- c()
@@ -497,21 +648,21 @@ mJo.eng <- function(my.files,
       }
     }
 
-    ex.a1_percent <- ((length(which(ex.a1=="ex.a1")))/length(which(params[,1]=="A1")))*100
-    pl.a1_percent <- ((length(which(pl.a1=="pl.a1")))/length(which(params[,1]=="A1")))*100
+    ex.a1_percent <- ((length(which(ex.a1=="ex.a1")))/length(which(paramss[,1]=="A1")))*100
+    pl.a1_percent <- ((length(which(pl.a1=="pl.a1")))/length(which(paramss[,1]=="A1")))*100
     ex.pl.a1_percent <- ((length(which(ex.pl.a1=="ex.pl.a1")))/length(which(
-      params[,1]=="A1")))*100
+      paramss[,1]=="A1")))*100
   }
 
   #########################################  A2  #########################################
 
-  if(length(which(params[,1]=="A2"))==0){
+  if(length(which(paramss[,1]=="A2"))==0){
     ex.a2_percent <- NA
     pl.a2_percent <- NA
     ex.pl.a2_percent <- NA
 
-  }else if(length(which(params[,1]=="A2"))!=0){
-    AICs.a2 <- all.AICs[which(params[,1]=="A2")]
+  }else if(length(which(paramss[,1]=="A2"))!=0){
+    AICs.a2 <- all.AICs[which(paramss[,1]=="A2")]
     ex.a2 <- c()
     pl.a2 <- c()
     ex.pl.a2 <- c()
@@ -529,21 +680,21 @@ mJo.eng <- function(my.files,
       }
     }
 
-    ex.a2_percent <- ((length(which(ex.a2=="ex.a2")))/length(which(params[,1]=="A2")))*100
-    pl.a2_percent <- ((length(which(pl.a2=="pl.a2")))/length(which(params[,1]=="A2")))*100
+    ex.a2_percent <- ((length(which(ex.a2=="ex.a2")))/length(which(paramss[,1]=="A2")))*100
+    pl.a2_percent <- ((length(which(pl.a2=="pl.a2")))/length(which(paramss[,1]=="A2")))*100
     ex.pl.a2_percent <- ((length(which(ex.pl.a2=="ex.pl.a2")))/length(which(
-      params[,1]=="A2")))*100
+      paramss[,1]=="A2")))*100
   }
 
   ##################################  A3  #########################################
 
-  if(length(which(params[,1]=="A3"))==0){
+  if(length(which(paramss[,1]=="A3"))==0){
     ex.a3_percent <- NA
     pl.a3_percent <- NA
     ex.pl.a3_percent <- NA
 
-  }else if(length(which(params[,1]=="A3"))!=0){
-    AICs.a3 <- all.AICs[which(params[,1]=="A3")]
+  }else if(length(which(paramss[,1]=="A3"))!=0){
+    AICs.a3 <- all.AICs[which(paramss[,1]=="A3")]
     ex.a3 <- c()
     pl.a3 <- c()
     ex.pl.a3 <- c()
@@ -561,21 +712,21 @@ mJo.eng <- function(my.files,
       }
     }
 
-    ex.a3_percent <- ((length(which(ex.a3=="ex.a3")))/length(which(params[,1]=="A3")))*100
-    pl.a3_percent <- ((length(which(pl.a3=="pl.a3")))/length(which(params[,1]=="A3")))*100
+    ex.a3_percent <- ((length(which(ex.a3=="ex.a3")))/length(which(paramss[,1]=="A3")))*100
+    pl.a3_percent <- ((length(which(pl.a3=="pl.a3")))/length(which(paramss[,1]=="A3")))*100
     ex.pl.a3_percent <- ((length(which(ex.pl.a3=="ex.pl.a3")))/length(which(
-      params[,1]=="A3")))*100
+      paramss[,1]=="A3")))*100
   }
 
   ##################################  A4  #########################################
 
-  if(length(which(params[,1]=="A4"))==0){
+  if(length(which(paramss[,1]=="A4"))==0){
     ex.a4_percent <- NA
     pl.a4_percent <- NA
     ex.pl.a4_percent <- NA
 
-  }else if(length(which(params[,1]=="A4"))!=0){
-    AICs.a4 <- all.AICs[which(params[,1]=="A4")]
+  }else if(length(which(paramss[,1]=="A4"))!=0){
+    AICs.a4 <- all.AICs[which(paramss[,1]=="A4")]
     ex.a4 <- c()
     pl.a4 <- c()
     ex.pl.a4 <- c()
@@ -593,21 +744,21 @@ mJo.eng <- function(my.files,
       }
     }
 
-    ex.a4_percent <- ((length(which(ex.a4=="ex.a4")))/length(which(params[,1]=="A4")))*100
-    pl.a4_percent <- ((length(which(pl.a4=="pl.a4")))/length(which(params[,1]=="A4")))*100
+    ex.a4_percent <- ((length(which(ex.a4=="ex.a4")))/length(which(paramss[,1]=="A4")))*100
+    pl.a4_percent <- ((length(which(pl.a4=="pl.a4")))/length(which(paramss[,1]=="A4")))*100
     ex.pl.a4_percent <- ((length(which(ex.pl.a4=="ex.pl.a4")))/length(which(
-      params[,1]=="A4")))*100
+      paramss[,1]=="A4")))*100
   }
 
   #########################################  A5  #########################################
 
-  if(length(which(params[,1]=="A5"))==0){
+  if(length(which(paramss[,1]=="A5"))==0){
     ex.a5_percent <- NA
     pl.a5_percent <- NA
     ex.pl.a5_percent <- NA
 
-  }else if(length(which(params[,1]=="A5"))!=0){
-    AICs.a5 <- all.AICs[which(params[,1]=="A5")]
+  }else if(length(which(paramss[,1]=="A5"))!=0){
+    AICs.a5 <- all.AICs[which(paramss[,1]=="A5")]
     ex.a5 <- c()
     pl.a5 <- c()
     ex.pl.a5 <- c()
@@ -625,21 +776,21 @@ mJo.eng <- function(my.files,
       }
     }
 
-    ex.a5_percent <- ((length(which(ex.a5=="ex.a5")))/length(which(params[,1]=="A5")))*100
-    pl.a5_percent <- ((length(which(pl.a5=="pl.a5")))/length(which(params[,1]=="A5")))*100
+    ex.a5_percent <- ((length(which(ex.a5=="ex.a5")))/length(which(paramss[,1]=="A5")))*100
+    pl.a5_percent <- ((length(which(pl.a5=="pl.a5")))/length(which(paramss[,1]=="A5")))*100
     ex.pl.a5_percent <- ((length(which(ex.pl.a5=="ex.pl.a5")))/length(
-      which(params[,1]=="A5")))*100
+      which(paramss[,1]=="A5")))*100
   }
 
   #########################################  A6  #########################################
 
-  if(length(which(params[,1]=="A6"))==0){
+  if(length(which(paramss[,1]=="A6"))==0){
     ex.a6_percent <- NA
     pl.a6_percent <- NA
     ex.pl.a6_percent <- NA
 
-  }else if(length(which(params[,1]=="A6"))!=0){
-    AICs.a6 <- all.AICs[which(params[,1]=="A6")]
+  }else if(length(which(paramss[,1]=="A6"))!=0){
+    AICs.a6 <- all.AICs[which(paramss[,1]=="A6")]
     ex.a6 <- c()
     pl.a6 <- c()
     ex.pl.a6 <- c()
@@ -657,21 +808,21 @@ mJo.eng <- function(my.files,
       }
     }
 
-    ex.a6_percent <- ((length(which(ex.a6=="ex.a6")))/length(which(params[,1]=="A6")))*100
-    pl.a6_percent <- ((length(which(pl.a6=="pl.a6")))/length(which(params[,1]=="A6")))*100
+    ex.a6_percent <- ((length(which(ex.a6=="ex.a6")))/length(which(paramss[,1]=="A6")))*100
+    pl.a6_percent <- ((length(which(pl.a6=="pl.a6")))/length(which(paramss[,1]=="A6")))*100
     ex.pl.a6_percent <- ((length(which(ex.pl.a6=="ex.pl.a6")))/length(which(
-      params[,1]=="A6")))*100
+      paramss[,1]=="A6")))*100
   }
 
   #########################################  A7  #########################################
 
-  if(length(which(params[,1]=="A7"))==0){
+  if(length(which(paramss[,1]=="A7"))==0){
     ex.a7_percent <- NA
     pl.a7_percent <- NA
     ex.pl.a7_percent <- NA
 
-  }else if(length(which(params[,1]=="A7"))!=0){
-    AICs.a7 <- all.AICs[which(params[,1]=="A7")]
+  }else if(length(which(paramss[,1]=="A7"))!=0){
+    AICs.a7 <- all.AICs[which(paramss[,1]=="A7")]
     ex.a7 <- c()
     pl.a7 <- c()
     ex.pl.a7 <- c()
@@ -689,21 +840,21 @@ mJo.eng <- function(my.files,
       }
     }
 
-    ex.a7_percent <- ((length(which(ex.a7=="ex.a7")))/length(which(params[,1]=="A7")))*100
-    pl.a7_percent <- ((length(which(pl.a7=="pl.a7")))/length(which(params[,1]=="A7")))*100
+    ex.a7_percent <- ((length(which(ex.a7=="ex.a7")))/length(which(paramss[,1]=="A7")))*100
+    pl.a7_percent <- ((length(which(pl.a7=="pl.a7")))/length(which(paramss[,1]=="A7")))*100
     ex.pl.a7_percent <- ((length(which(ex.pl.a7=="ex.pl.a7")))/length(which(
-      params[,1]=="A7")))*100
+      paramss[,1]=="A7")))*100
   }
 
   ##########################################  A8  #########################################
 
-  if(length(which(params[,1]=="A8"))==0){
+  if(length(which(paramss[,1]=="A8"))==0){
     ex.a8_percent <- NA
     pl.a8_percent <- NA
     ex.pl.a8_percent <- NA
 
-  }else if(length(which(params[,1]=="A8"))!=0){
-    AICs.a8 <- all.AICs[which(params[,1]=="A8")]
+  }else if(length(which(paramss[,1]=="A8"))!=0){
+    AICs.a8 <- all.AICs[which(paramss[,1]=="A8")]
     ex.a8 <- c()
     pl.a8 <- c()
     ex.pl.a8 <- c()
@@ -721,21 +872,21 @@ mJo.eng <- function(my.files,
       }
     }
 
-    ex.a8_percent <- ((length(which(ex.a8=="ex.a8")))/length(which(params[,1]=="A8")))*100
-    pl.a8_percent <- ((length(which(pl.a8=="pl.a8")))/length(which(params[,1]=="A8")))*100
+    ex.a8_percent <- ((length(which(ex.a8=="ex.a8")))/length(which(paramss[,1]=="A8")))*100
+    pl.a8_percent <- ((length(which(pl.a8=="pl.a8")))/length(which(paramss[,1]=="A8")))*100
     ex.pl.a8_percent <- ((length(which(ex.pl.a8=="ex.pl.a8")))/length(which(
-      params[,1]=="A8")))*100
+      paramss[,1]=="A8")))*100
   }
 
   #########################################  A9  #########################################
 
-  if(length(which(params[,1]=="A9"))==0){
+  if(length(which(paramss[,1]=="A9"))==0){
     ex.a9_percent <- NA
     pl.a9_percent <- NA
     ex.pl.a9_percent <- NA
 
-  }else if(length(which(params[,1]=="A9"))!=0){
-    AICs.a9 <- all.AICs[which(params[,1]=="A9")]
+  }else if(length(which(paramss[,1]=="A9"))!=0){
+    AICs.a9 <- all.AICs[which(paramss[,1]=="A9")]
     ex.a9 <- c()
     pl.a9 <- c()
     ex.pl.a9 <- c()
@@ -753,21 +904,21 @@ mJo.eng <- function(my.files,
       }
     }
 
-    ex.a9_percent <- ((length(which(ex.a9=="ex.a9")))/length(which(params[,1]=="A9")))*100
-    pl.a9_percent <- ((length(which(pl.a9=="pl.a9")))/length(which(params[,1]=="A9")))*100
+    ex.a9_percent <- ((length(which(ex.a9=="ex.a9")))/length(which(paramss[,1]=="A9")))*100
+    pl.a9_percent <- ((length(which(pl.a9=="pl.a9")))/length(which(paramss[,1]=="A9")))*100
     ex.pl.a9_percent <- ((length(which(ex.pl.a9=="ex.pl.a9")))/length(which(
-      params[,1]=="A9")))*100
+      paramss[,1]=="A9")))*100
   }
 
   ############################################  NA  ######################################
 
-  if(length(which(params[,1]=="NA"))==0){
+  if(length(which(paramss[,1]=="NA"))==0){
     ex.na_percent <- NA
     pl.na_percent <- NA
     ex.pl.na_percent <- NA
 
-  }else if(length(which(params[,1]=="NA"))!=0){
-    AICs.na <- all.AICs[which(params[,1]=="NA")]
+  }else if(length(which(paramss[,1]=="NA"))!=0){
+    AICs.na <- all.AICs[which(paramss[,1]=="NA")]
     ex.na <- c()
     pl.na <- c()
     ex.pl.na <- c()
@@ -785,10 +936,10 @@ mJo.eng <- function(my.files,
       }
     }
 
-    ex.na_percent <- ((length(which(ex.na=="ex.na")))/length(which(params[,1]=="NA")))*100
-    pl.na_percent <- ((length(which(pl.na=="pl.na")))/length(which(params[,1]=="NA")))*100
+    ex.na_percent <- ((length(which(ex.na=="ex.na")))/length(which(paramss[,1]=="NA")))*100
+    pl.na_percent <- ((length(which(pl.na=="pl.na")))/length(which(paramss[,1]=="NA")))*100
     ex.pl.na_percent <- ((length(which(ex.pl.na=="ex.pl.na")))/length(
-      which(params[,1]=="NA")))*100
+      which(paramss[,1]=="NA")))*100
 
   }
   ########################################################################################
@@ -1219,15 +1370,11 @@ mJo.eng <- function(my.files,
   if(m.Jo.plots == TRUE){
     myres$m.Jo.plots <- base::system(paste0('open "', paste0(system.file("ms", package = "msco"), "/mJo.plots.pdf"), '"'))
   }
-  if(my.Archs == TRUE){
-    myres$Archs <- `colnames<-`(data.frame(matrix(
-      unlist(Archs), ncol=length(Archs))), my.files)
+  if(Archetypes == TRUE){
+    myres$Archs <- `names<-`(nm_arch, my.files)
   }
-  if(my.AICs == TRUE){
+  if(AICs == TRUE){
     myres$all.AICs <- `names<-`(all.AICs, my.files)
-  }
-  if(my.params == TRUE){
-    myres$params <- params
   }
   if(my.r2 == TRUE){
     myres$r2 <- `names<-`(r2, my.files)
@@ -1235,16 +1382,18 @@ mJo.eng <- function(my.files,
   if(my.r2.s == TRUE){
     myres$r2.s <- r2.s
   }
-  if(my.best.mod2 == TRUE){
+  if(best.mod2 == TRUE){
     myres$best.mod2 <- both.models
   }
-  if(my.best.mod3 == TRUE){
+  if(best.mod3 == TRUE){
     myres$best.mod3 <- three.models
   }
-  if(my.params_c.i == TRUE){
+  if(params == TRUE){
+    myres$params <- paramss
+  }
+  if(params_c.i == TRUE){
     myres$params_c.i <- paras_c.i
   }
-
 
   return(myres)
 }

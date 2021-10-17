@@ -1,7 +1,7 @@
-#' A generalised B-spline model evaluation using Cross-validation approaches
+#' Cross validation of the generalised B-spline model
 #'
 #' This function implements four different cross-validation techniques to evaluate the
-#'  predictive ability of the generalised B-spline model (*sensu* Lagat *et al.,* 2021a).
+#'  predictive ability of the generalised B-spline model (*sensu* Lagat *et al.,* 2021b).
 #'   The four different techniques implemented are:
 #'  * validation set approach;
 #'  * k -fold;
@@ -10,18 +10,18 @@
 #'
 #' The k-fold cross-validation approach is highly recommended due to its computational
 #'  efficiency and an acceptable bias-variance trade-off, subject to the value of `k`
-#'  chosen to be either 5 or 10 (Lagat *et al.,* 2021a). For more details on the other
-#'   cross-validation approaches, see Lagat *et al.* (2021b).
+#'  chosen to be either 5 or 10 (Lagat *et al.,* 2021b). For more details on the other
+#'   cross-validation approaches, see Lagat *et al.* (2021c).
 #'
 #' @param gbsm_obj An object of `class` `"gbsm"` (i.e., assigned to \link[msco]{gbsm} function).
 #' @param type The type of the cross-validation approach used. It must be
 #'  \eqn{\in \{}"validation.set", "k-fold", "LOOCV", "repeated.k-fold" \eqn{\}}
-#' @param p The percentage of data used in training the model. The value is used if the
+#' @param p The percentage (in decimal form) of data used in training the model. The value is used if the
 #' cross-validation approach implemented is "validation.set".
 #' @param k The value of `k` used in both "k-fold" and "repeated.k-fold" types of
 #'  cross-validation. This value represents the number of subsets or groups that a
 #'   given sample of data is to be split into. A value of 5 or 10 is used in practice,
-#'    as it leads to an ideal bias-variance trade-off (Lagat *et al.,* 2021a).
+#'    as it leads to an ideal bias-variance trade-off (Lagat *et al.,* 2021b).
 #' @param k_fold.repeats The number of replicates used in "repeated.k-fold" type of
 #'  cross-validation.
 #' @return Depending on the type of cross-validation approach implemented, the `cross_valid`
@@ -37,13 +37,20 @@
 #' @references
 #' \enumerate{
 #'
-#'  \item{Lagat, V. K., Latombe, G. and Hui, C. (2021a). *Dissecting the effects of
-#'   neutral encounter versus functional traits on multi-order species interactions
-#'    and co-occurrence with generalised B-spline modelling*. Submitted.}
+#'  \item{Fushiki, T. (2011). Estimation of prediction error by using K-fold cross-validation.
+#'   *Stat. Comput.* **21**, 137-146. <https://doi.org/10.1007/s11222-009-9153-8>}
 #'
-#'  \item{Lagat, V. K., Latombe, G. and Hui, C. (2021b). *`msco`: an R software package
+#'  \item{Lagat, V. K., Latombe, G. and Hui, C. (2021b). *Dissecting the effects of
+#'   neutral encounter versus functional traits on multi-order species interactions
+#'    and co-occurrence with generalised B-spline modelling*. DOI: `<To be added>`.}
+#'
+#'  \item{Lagat, V. K., Latombe, G. and Hui, C. (2021c). *`msco`: an R software package
 #'   for null model testing of multi-species interactions and interference with
-#'    covariates*. Submitted.}
+#'    covariates*. DOI: `<To be added>`.}
+#'
+#'  \item{Pearson, K. (1895) VII. Note on regression and inheritance in the
+#'  case of two parents. *proceedings of the royal society of London,* **58**:240-242.
+#'   <https://doi.org/10.1098/rspl.1895.0041>}
 #'  }
 #'
 #' @examples

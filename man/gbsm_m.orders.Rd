@@ -96,11 +96,15 @@ joint occupancy, for different orders.
 }
 }
 \description{
-For multiple joint occupancy orders, this function computes:
+This function implements the generalised B-spline model (gbsm; \emph{sensu} Lagat et al., 2021b) for dissecting the
+effects of neutral encounter versus functional traits on multi-order species interactions and cooccurrence.
+Unlike \link[msco]{gbsm} that performs gbsm for a single order of species, \link[msco]{gbsm_m.orders} takes
+into account multiple orders of joint occupancy. In particular: for multiple joint occupancy orders, this
+function computes:
 \itemize{
 \item each predictor's contribution to the explained variation in joint occupancy,
 \item the goodness-of-fit and model performance from cross-validation, and
-\item avails the:
+\item plots the:
 \itemize{
 \item response curves,
 \item scatter plots (between the observed and predicted joint occupancy values),
@@ -161,11 +165,18 @@ For multiple joint occupancy orders, this function computes:
 }
 \references{
 \enumerate{
+\item{Curry, H. B., and Schoenberg, I. J. (1988). On Pólya frequency functions IV: the
+fundamental spline functions and their limits. In \emph{IJ Schoenberg Selected Papers}
+(pp. 347-383). Birkhäuser, Boston, MA. \url{https://doi.org/10.1007/978-1-4899-0433-1_17}}
+
+\item{Hastie, T., and Tibshirani, R. (1986). Generalized additive models. \emph{Stat. Sci. 1}(3),
+297-310. \url{https://doi.org/10.1214/ss/1177013604}}
+
 \item{Lagat, V. K., Latombe, G. and Hui, C. (2021a). \emph{A multi-species co-occurrence
-index to avoid type II errors in null model testing}. Submitted.}
+index to avoid type II errors in null model testing}. DOI: \verb{<To be added>}.}
 
 \item{Lagat, V. K., Latombe, G. and Hui, C. (2021b). \emph{Dissecting the effects of
 neutral encounter versus functional traits on multi-order species interactions
-and co-occurrence with generalised B-spline modelling}. Submitted.}
+and co-occurrence with generalised B-spline modelling}. DOI: \verb{<To be added>}.}
 }
 }
