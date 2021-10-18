@@ -171,6 +171,7 @@ Jo.plots <- function(jo_Obj){
 j.occ<-function(s.data, order, metric = "raw"){
 
   s.data <- as.matrix(s.data)
+  s.data <- s.data[rowSums(s.data) > 0, ] ## Remove rows with no species
   richness <- colSums(s.data)
   p <- exp(lchoose(richness, order) - lchoose(nrow(s.data),order))
   jo.val <- sum(p)

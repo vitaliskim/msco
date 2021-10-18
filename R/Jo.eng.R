@@ -143,6 +143,7 @@ Jo.eng<-function(s.data, algo="sim2", metric = "raw", nReps = 999, dig = 3,
   if (!is.matrix(s.data)) {
     s.data <- as.matrix(s.data)
   }
+  s.data <- s.data[rowSums(s.data) > 0, ] ## Remove rows with no species
 
   ######### Algorithms ##############
 
