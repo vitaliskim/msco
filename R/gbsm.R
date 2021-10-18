@@ -106,9 +106,9 @@ gbsm <- function(s.data, t.data, p.d.mat, metric= "Simpson_eqn", d.f=4, order.jo
   if (order.jo > dim(s.data)[1]) {
     stop("Wrong value for \"order\": it must be equal or lower than the number of species.")
   }
-  if (!isSymmetric(p.d.mat)) {
-    stop("Distance matrix is not symmetrical")
-  }
+  # if (!isSymmetric(p.d.mat)) {
+  #   stop("Distance matrix is not symmetrical")
+  # }
   if(nrow(s.data)!=nrow(t.data)){
     stop("s.data and t.data must have the same number of rows")
   }
