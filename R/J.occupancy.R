@@ -530,7 +530,7 @@ gbsm.res <- function(){
 #'
 #'   ```
 #'
-#' * __Fig. 3__, execute the following code:
+#' * __Fig. 4__, execute the following code:
 #'
 #'   ```
 #'    RNGkind(sample.kind = "Rejection")

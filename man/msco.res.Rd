@@ -52,7 +52,7 @@ Returns all the results presented in Lagat \emph{et al}. (2021c). To replicate
   "/aJo.plots.pdf"), '"'))
 
 }
-\item \strong{Fig. 3}, execute the following code:\preformatted{ RNGkind(sample.kind = "Rejection")
+\item \strong{Fig. 4}, execute the following code:\preformatted{ RNGkind(sample.kind = "Rejection")
  set.seed(14)
  grDevices::pdf(file = paste0(system.file("ms", package = "msco"),
   "/real.arch.plots2.pdf"), paper = "a4r", height = 8.27, width = 11.69)
