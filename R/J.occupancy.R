@@ -267,6 +267,8 @@ j.occs<-function(s.data, orders = 1:nrow(s.data), metric = "raw"){
 #'    setwd(my.path)
 #'    my.files <- gtools::mixedsort(list.files(path = my.path, pattern = "*.csv"))
 #'    Lag.res <- msco::mJo.eng(my.files,
+#'                     algo = "sim2",
+#'                     metric = "raw",
 #'                     m.Jo.plots = TRUE,
 #'                     Archetypes = FALSE,
 #'                     AICs = FALSE,

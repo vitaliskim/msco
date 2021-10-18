@@ -70,81 +70,81 @@ For every community, a \code{list} consisting of:
 
 \itemize{
 \item \verb{$nmod_stats}: A data frame with the summary statistics for the null model test; and
-\item \verb{$Archetype}: archetypes of the patterns of species co-occurrences in ecological
+\item \verb{$Archetype}: Archetypes of the patterns of species co-occurrences in ecological
 communities/matrices (\code{my.files}). These archetypes must be \eqn{\in \{}"A1",
 "A2", "A3", "A4", "A5", "A6", "A7", "A8", "A9"\eqn{\}} or "NA". "NA" could be the
 combinations of two or more of the nine expected archetypes.}
 $\code{all.AICs}
 
 A \code{list} of \code{data.frame}s containig the following components:
-\item{\code{df}}{the number of parameters in each of the three (exponential, power law and
+\item{\code{df}}{The number of parameters in each of the three (exponential, power law and
 exponential-power law) joint occupancy decline regression models.}
-\item{\code{aic}}{the aic values for each of the three joint occupancy decline regression models.}
-\item{\code{delta_aic3}}{the \code{delta_aic} values for each of the three joint occupancy decline regression
+\item{\code{aic}}{The aic values for each of the three joint occupancy decline regression models.}
+\item{\code{delta_aic3}}{The \code{delta_aic} values for each of the three joint occupancy decline regression
 models.}
-\item{\code{delta_aic2}}{the \code{delta_aic} values for exponential and power law forms of joint occupancy
+\item{\code{delta_aic2}}{The \code{delta_aic} values for exponential and power law forms of joint occupancy
 decline regression models.}
 $\code{params}
 
 A \code{data.frame} consisting of:
-\item{\code{arch}}{the archetypes of the patterns of species co-occurrences in each of the  species-by-site
+\item{\code{arch}}{The archetypes of the patterns of species co-occurrences in each of the  species-by-site
 presence/absence \code{.csv} data matrices.}
-\item{\code{a.ex}}{the \code{a} parameter estimate of the exponential form of joint occupancy decline.}
-\item{\code{b.ex}}{the \code{b} parameter estimate of the exponential form of joint occupancy decline.}
-\item{\code{a.pl}}{the \code{a} parameter estimate of the power law form of joint occupancy decline.}
-\item{\code{b.pl}}{the \code{b} parameter estimate of the power law form of joint occupancy decline.}
-\item{\code{a.expl}}{the \code{a} parameter estimate of the exponential-power law form of joint occupancy decline.}
-\item{\code{b.expl}}{the \code{b} parameter estimate of the exponential-power law form of joint occupancy decline.}
-\item{\code{c.expl}}{the \code{c} parameter estimate of the exponential-power law form of joint occupancy decline.}
+\item{\code{a.ex}}{The \code{a} parameter estimate of the exponential form of joint occupancy decline.}
+\item{\code{b.ex}}{The \code{b} parameter estimate of the exponential form of joint occupancy decline.}
+\item{\code{a.pl}}{The \code{a} parameter estimate of the power law form of joint occupancy decline.}
+\item{\code{b.pl}}{The \code{b} parameter estimate of the power law form of joint occupancy decline.}
+\item{\code{a.expl}}{The \code{a} parameter estimate of the exponential-power law form of joint occupancy decline.}
+\item{\code{b.expl}}{The \code{b} parameter estimate of the exponential-power law form of joint occupancy decline.}
+\item{\code{c.expl}}{The \code{c} parameter estimate of the exponential-power law form of joint occupancy decline.}
 $\code{best.mod2}
 
 A\code{table} containig the following components:
-\item{\code{n}}{the number of ecological communities represented by species-by-site
+\item{\code{n}}{The number of ecological communities represented by species-by-site
 presence/absence \code{.csv} data matrices.}
-\item{\code{n.lwst_aic}}{the number of communities with exponential as the best
-form of joint occupancy decline than power law and vice versa.}
-\item{\code{n.delta_aic}}{the number of communities whose exponential and power law forms of joint occupancy
-decline have \code{delta_aic = 0}, respectively. this number must be equal to \code{n.lwst_aic}.}
-\item{\verb{\%}}{the percentage of \code{n.lwst_aic} (or \code{n.delta_aic}) relative to the total number of
+\item{\code{n.lwst_aic}}{The number of communities with exponential as the best
+form of joint occupancy decline than power law.}
+\item{\code{n.delta_aic}}{The number of communities whose exponential and power law forms of joint occupancy
+decline have \code{delta_aic = 0}, respectively. This number must be equal to \code{n.lwst_aic}.}
+\item{\verb{\%}}{The percentage of \code{n.lwst_aic} (or \code{n.delta_aic}) relative to the total number of
 communities (\code{n}) analyzed.}
 $\code{best.mod3}
 
 A \code{table} containig the following components:
-\item{\code{n}}{the number of ecological communities represented by species-by-site
+\item{\code{n}}{The number of ecological communities represented by species-by-site
 presence/absence \code{.csv} data matrices.}
-\item{\code{n.lwst_aic}}{the number of communities with exponential or power law or exponential-power
+\item{\code{n.lwst_aic}}{The number of communities with exponential or power law or exponential-power
 law as the best form of joint occupancy decline among the three (exponential, power law and
 exponential-power law) regression models.}
-\item{\code{n.delta_aic}}{the number of communities whose exponential, power law and exponential-power
-law forms of joint occupancy decline, respectively, have \code{delta_aic = 0}. this number must be
+\item{\code{n.delta_aic}}{The number of communities whose exponential, power law and exponential-power
+law forms of joint occupancy decline, respectively, have \code{delta_aic = 0}. This number must be
 equal to \code{n.lwst_aic}.}
-\item{\verb{\%}}{the percentage of \code{n.lwst_aic} (or \code{n.delta_aic}) relative to the total number of
+\item{\verb{\%}}{The percentage of \code{n.lwst_aic} (or \code{n.delta_aic}) relative to the total number of
 communities (\code{n}) analyzed.}
 $\code{params_c.i}
 
 A \code{data.frame} consisting of:
-\item{\code{arch}}{the archetypes of the patterns of species co-occurrences in each of the  species-by-site
+\item{\code{arch}}{The archetypes of the patterns of species co-occurrences in each of the  species-by-site
 presence/absence \code{.csv} data matrices.}
-\item{\code{n}}{the number of communities under every archetype.}
-\item{\verb{ex_\%}}{the percentages of the number of communities (under every archetype) where
+\item{\code{n}}{The number of communities under every archetype.}
+\item{\verb{ex_\%}}{The percentages of the number of communities (under every archetype) where
 exponential form of joint occupancy decline fitted better than power law.}
-\item{\code{a.ex}}{the 95\% closed confidence interval of the \code{a} parameter estimates of the exponential
+\item{\code{a.ex}}{The 95\% closed confidence interval of the \code{a} parameter estimates of the exponential
 form of joint occupancy decline, under every archetype.}
-\item{\code{b.ex}}{the 95\% closed confidence interval of the \code{b} parameter estimates of the exponential
+\item{\code{b.ex}}{The 95\% closed confidence interval of the \code{b} parameter estimates of the exponential
 form of joint occupancy decline, under every archetype.}
-\item{\verb{p.l_\%}}{the percentages of the number of communities (under every archetype) where
+\item{\verb{p.l_\%}}{The percentages of the number of communities (under every archetype) where
 power law form of joint occupancy decline fitted better than exponential.}
-\item{\code{a.pl}}{the 95\% closed confidence interval of the \code{a} parameter estimates of the power law
+\item{\code{a.pl}}{The 95\% closed confidence interval of the \code{a} parameter estimates of the power law
 form of joint occupancy decline, under every archetype.}
-\item{\code{b.pl}}{the 95\% closed confidence interval of the \code{b} parameter estimates of the power law
+\item{\code{b.pl}}{The 95\% closed confidence interval of the \code{b} parameter estimates of the power law
 form of joint occupancy decline, under every archetype.}
-\item{\verb{ex.pl_\%}}{the percentages of the number of communities (under every archetype) where exponential-power
+\item{\verb{ex.pl_\%}}{The percentages of the number of communities (under every archetype) where exponential-power
 law form of joint occupancy decline fitted better than both the exponential and power law forms.}
-\item{\code{a.expl}}{the 95\% closed confidence interval of the \code{a} parameter estimates of the exponential-power law
+\item{\code{a.expl}}{The 95\% closed confidence interval of the \code{a} parameter estimates of the exponential-power law
 form of joint occupancy decline, under every archetype.}
-\item{\code{b.expl}}{the 95\% closed confidence interval of the \code{b} parameter estimates of the exponential-power law
+\item{\code{b.expl}}{The 95\% closed confidence interval of the \code{b} parameter estimates of the exponential-power law
 form of joint occupancy decline, under every archetype.}
-\item{\code{c.expl}}{the 95\% closed confidence interval of the \code{c} parameter estimates of the exponential-power law
+\item{\code{c.expl}}{The 95\% closed confidence interval of the \code{c} parameter estimates of the exponential-power law
 form of joint occupancy decline, under every archetype.}
 $\code{r2}
 
