@@ -492,7 +492,7 @@ gbsm.res <- function(){
 #'    ex.data <- read.csv(system.file("extdata", "251.csv", package = "msco"))
 #'    j.en <- msco::Jo.eng(ex.data,
 #'                algo = "sim2",
-#'                metric = "j.occ",
+#'                metric = "raw",
 #'                nReps = 999,
 #'                dig = 3,
 #'                s.dplot = FALSE,
