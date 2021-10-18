@@ -6,7 +6,7 @@
 
 nullmod_archs <- function(){
   a1 <- utils::read.csv(system.file("extdata/myCSVs", "133.csv", package = "msco"))
-  j.en1 <- Jo.eng(a1, algo="sim2", metric = "j.occ", nReps = 999,
+  j.en1 <- Jo.eng(a1, algo="sim2", metric = "raw", nReps = 999,
                   dig = 3, s.dplot = FALSE, All.plots = FALSE, Jo.coeff = FALSE,
                   my.AIC = FALSE, my.rsq = FALSE, Exp_Reg = FALSE, P.law_Reg = FALSE,
                   Exp_p.l_Reg = FALSE, Obs.data = FALSE, Sim.data = FALSE,
@@ -16,7 +16,7 @@ nullmod_archs <- function(){
                   p.n.plot = FALSE, trans = FALSE, lab=FALSE, leg=FALSE, m.n.plot = TRUE)
 
   a2 <- utils::read.csv(system.file("extdata/myCSVs", "226.csv", package = "msco"))
-  j.en2 <- Jo.eng(a2, algo="sim2", metric = "j.occ", nReps = 999,
+  j.en2 <- Jo.eng(a2, algo="sim2", metric = "raw", nReps = 999,
                   dig = 3, s.dplot = FALSE, All.plots = FALSE, Jo.coeff = FALSE,
                   my.AIC = FALSE, my.rsq = FALSE, Exp_Reg = FALSE, P.law_Reg = FALSE,
                   Exp_p.l_Reg = FALSE, Obs.data = FALSE, Sim.data = FALSE,
@@ -26,7 +26,7 @@ nullmod_archs <- function(){
                   p.n.plot = FALSE, trans = FALSE, lab=FALSE, leg=FALSE, m.n.plot = TRUE)
 
   a5 <- utils::read.csv(system.file("extdata/myCSVs", "108.csv", package = "msco"))
-  j.en5 <- Jo.eng(a5, algo="sim2", metric = "j.occ", nReps = 999,
+  j.en5 <- Jo.eng(a5, algo="sim2", metric = "raw", nReps = 999,
                   dig = 3, s.dplot = FALSE, All.plots = FALSE, Jo.coeff = FALSE,
                   my.AIC = FALSE, my.rsq = FALSE, Exp_Reg = FALSE, P.law_Reg = FALSE,
                   Exp_p.l_Reg = FALSE, Obs.data = FALSE, Sim.data = FALSE,
@@ -36,7 +36,7 @@ nullmod_archs <- function(){
                   p.n.plot = FALSE, trans = FALSE, lab=FALSE, leg=FALSE, m.n.plot = TRUE)
 
   a9 <- utils::read.csv(system.file("extdata/myCSVs", "274.csv", package = "msco"))
-  j.en9 <- Jo.eng(a9, algo="sim2", metric = "j.occ", nReps = 999,
+  j.en9 <- Jo.eng(a9, algo="sim2", metric = "raw", nReps = 999,
                   dig = 3, s.dplot = FALSE, All.plots = FALSE, Jo.coeff = FALSE,
                   my.AIC = FALSE, my.rsq = FALSE, Exp_Reg = FALSE, P.law_Reg = FALSE,
                   Exp_p.l_Reg = FALSE, Obs.data = FALSE, Sim.data = FALSE,
@@ -46,7 +46,7 @@ nullmod_archs <- function(){
                   p.n.plot = FALSE, trans = FALSE, lab=FALSE, leg=FALSE, m.n.plot = TRUE)
 
   a4 <- utils::read.csv(system.file("extdata/myCSVs", "251.csv", package = "msco"))
-  j.en4 <- Jo.eng(a4, algo="sim2", metric = "j.occ", nReps = 999,
+  j.en4 <- Jo.eng(a4, algo="sim2", metric = "raw", nReps = 999,
                   dig = 3, s.dplot = FALSE, All.plots = FALSE, Jo.coeff = FALSE,
                   my.AIC = FALSE, my.rsq = FALSE, Exp_Reg = FALSE, P.law_Reg = FALSE,
                   Exp_p.l_Reg = FALSE, Obs.data = FALSE, Sim.data = FALSE,
