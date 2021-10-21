@@ -445,10 +445,11 @@ Jo.eng<-function(s.data, algo="sim2", metric = "raw", nReps = 999, dig = 3,
 
   ##################### (a) joint occupancy decline ############################
 
-  p1 <- ggplot2::ggplot(ldtf, ggplot2::aes(x=s.order, y=lObs))+
+  jod <- data.frame(s.order,lObs)
+  jod <- jod[stats::complete.cases(jod),]
+  p1 <- ggplot2::ggplot(jod, ggplot2::aes(x=s.order, y=lObs))+
     ggplot2::theme_grey() +
-    ggplot2::geom_point(ggplot2::aes(y = lObs),
-                        shape = 1) +
+    ggplot2::geom_point(ggplot2::aes(y = lObs), shape = 1) +
     ggplot2::xlab("")+
     ggplot2::ylab("") +
     ggplot2::scale_x_continuous(
