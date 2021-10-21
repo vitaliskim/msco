@@ -347,8 +347,7 @@ Jo.eng<-function(s.data, algo="sim2", metric = "raw", nReps = 999, dig = 3,
   lL.L <- ldtf$lL.L
   lU.L <- ldtf$lU.L
 
-  nullmod.plot <- ggplot2::ggplot(ldtf, ggplot2::aes(x=s.order,
-                                                     y=lObs)) +
+  nullmod.plot <- ggplot2::ggplot(ldtf, ggplot2::aes(x=s.order, y=lObs)) +
     ggplot2::theme_grey() +
     ggplot2::geom_point(ggplot2::aes(y = lObs, colour="Observed"),
                         shape = 1) +
@@ -445,8 +444,13 @@ Jo.eng<-function(s.data, algo="sim2", metric = "raw", nReps = 999, dig = 3,
 
   ##################### (a) joint occupancy decline ############################
 
+  lObs <- log10(Obs)
   jod <- data.frame(s.order,lObs)
+  jod <- do.call(data.frame, lapply(jod, function(x){
+    replace(x, is.infinite(x) | is.na(x), NA)}))
   jod <- jod[stats::complete.cases(jod),]
+  # lObs <- jod$lObs
+  # s.order <- jod$s.order
   p1 <- ggplot2::ggplot(jod, ggplot2::aes(x=s.order, y=lObs))+
     ggplot2::theme_grey() +
     ggplot2::geom_point(ggplot2::aes(y = lObs), shape = 1) +
@@ -466,13 +470,12 @@ Jo.eng<-function(s.data, algo="sim2", metric = "raw", nReps = 999, dig = 3,
 
     upper.sd <- Obs + SDs
     lower.sd <- Obs - SDs
-    dtf.sd <- data.frame(Obs, SDs, L.L, U.L, upper.sd, lower.sd)
+    dtf.sd <- data.frame(Obs, upper.sd, lower.sd)
     dtfl.sd <- dtf.sd
     ldtf.sd <- data.frame(s.order, dtfl.sd)
     ldtf.sd <- do.call(data.frame, lapply(ldtf.sd, function(x){
       replace(x, is.infinite(x) | is.na(x), NA)}))
-    colnames(ldtf.sd) <- c("s.order.sd", "lObs", "lSDs", "lL.L", "lU.L",
-                           "lupper.sd","llower.sd")
+    colnames(ldtf.sd) <- c("s.order.sd", "lObs", "lupper.sd", "llower.sd")
 
     ldtf.sd <- ldtf.sd[stats::complete.cases(ldtf.sd),]
 
@@ -486,8 +489,7 @@ Jo.eng<-function(s.data, algo="sim2", metric = "raw", nReps = 999, dig = 3,
 
     p1 <- ggplot2::ggplot(ldtf.sd, ggplot2::aes(x=s.order.sd, y=lObs.sd))+
       ggplot2::theme_grey() +
-      ggplot2::geom_point(ggplot2::aes(y = lObs.sd),
-                          shape = 1) +
+      ggplot2::geom_point(ggplot2::aes(y = lObs.sd), shape = 1) +
       ggplot2::geom_line(ggplot2::aes(y = lupper.sd), size=0.1) +
       ggplot2::geom_line(ggplot2::aes(y = llower.sd), size=0.1) +
 
@@ -507,15 +509,17 @@ Jo.eng<-function(s.data, algo="sim2", metric = "raw", nReps = 999, dig = 3,
 
   ##################### (b) Exponential regression #############################
 
-  fm <- stats::lm(lObs ~ s.order, na.action = stats::na.omit)
+  fm <- stats::lm(jod$lObs ~ jod$s.order, na.action = stats::na.omit)
   jo.exp <- suppressWarnings(minpack.lm::nlsLM(Obs ~ p * exp(q * s.order),
                                                start =list(p=exp(stats::coef(fm)[1]), q=stats::coef(fm)[2])))
   pred.exp <- log10(stats::predict(jo.exp, data.frame(s.order)))
   pred.exp[is.infinite(pred.exp)]<-NA
-  ldtf2 <- data.frame(s.order,lObs, pred.exp)
-  ldtf2 <- ldtf2[stats::complete.cases(ldtf2),]
+  lObs <- log10(Obs)
+  lObs[is.infinite(lObs)]<-NA
+  jode <- data.frame(s.order, lObs, pred.exp)
+  jode <- jode[stats::complete.cases(jode),]
 
-  p2 <- ggplot2::ggplot(ldtf2, ggplot2::aes(x=s.order, y=lObs)) +
+  p2 <- ggplot2::ggplot(jode, ggplot2::aes(x=s.order, y=lObs)) +
     ggplot2::theme_grey() +
     ggplot2::geom_point(ggplot2::aes(y = lObs, colour="Observed"), shape = 1) +
     ggplot2::geom_line(ggplot2::aes(y = pred.exp, colour="Predicted"),
@@ -535,16 +539,18 @@ Jo.eng<-function(s.data, algo="sim2", metric = "raw", nReps = 999, dig = 3,
 
   ##################### (c) Power-law regression ##############################
 
-  ls.order = log10(s.order)
-  fmp <- stats::lm(lObs ~ ls.order, na.action = stats::na.omit)
+  ls.order = log10(jod$s.order)
+  fmp <- stats::lm(jod$lObs ~ ls.order, na.action = stats::na.omit)
   jo.pl <- suppressWarnings(minpack.lm::nlsLM(Obs ~ m * (s.order)^n,
                                               start =list(m=1, n=stats::coef(fmp)[2])))
   pred.pl <- log10(stats::predict(jo.pl, data.frame(s.order)))
   pred.pl[is.infinite(pred.pl)]<-NA
-  ldtf3 <- data.frame(s.order,lObs, pred.pl)
-  ldtf3 <- ldtf3[stats::complete.cases(ldtf3),]
+  lObs <- log10(Obs)
+  lObs[is.infinite(lObs)]<-NA
+  jodpl <- data.frame(s.order,lObs, pred.pl)
+  jodpl <- jodpl[stats::complete.cases(jodpl),]
 
-  p3 <- ggplot2::ggplot(ldtf3, ggplot2::aes(x=s.order, y=lObs)) +
+  p3 <- ggplot2::ggplot(jodpl, ggplot2::aes(x=s.order, y=lObs)) +
     ggplot2::theme_grey() +
     ggplot2::geom_point(ggplot2::aes(y = lObs, colour="Observed"),
                         shape = 1) +
@@ -570,10 +576,13 @@ Jo.eng<-function(s.data, algo="sim2", metric = "raw", nReps = 999, dig = 3,
   jo.exp.pl <- suppressWarnings(minpack.lm::nlsLM(Obs~a*exp(b*s.order)*s.order^c,
                                                   start=list(a=1, b=0, c=0)))
   pred.exp.pl <- log10(stats::predict(jo.exp.pl, data.frame(s.order)))
-  ldtf4 <- data.frame(s.order,lObs, pred.exp.pl)
-  ldtf4 <- ldtf4[stats::complete.cases(ldtf4),]
+  pred.exp.pl[is.infinite(pred.exp.pl)]<-NA
+  lObs <- log10(Obs)
+  lObs[is.infinite(lObs)]<-NA
+  jodepl <- data.frame(s.order,lObs, pred.exp.pl)
+  jodepl <- jodepl[stats::complete.cases(jodepl),]
 
-  p4 <- ggplot2::ggplot(ldtf4, ggplot2::aes(x=s.order, y=lObs)) +
+  p4 <- ggplot2::ggplot(jodepl, ggplot2::aes(x=s.order, y=lObs)) +
     ggplot2::theme_grey() +
     ggplot2::geom_point(ggplot2::aes(y = lObs, colour="Observed"), shape = 1) +
     ggplot2::geom_line(ggplot2::aes(y = pred.exp.pl, colour="Predicted"),
