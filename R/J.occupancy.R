@@ -263,7 +263,7 @@ j.occs<-function(s.data, orders = 1:nrow(s.data), metric = "raw"){
 #'
 #'  ```
 #'    RNGkind(sample.kind = "Rejection")
-#'    set.seed(14)
+#'    set.seed(39)
 #'    my.path <- system.file("extdata/myCSVs", package = "msco")
 #'    setwd(my.path)
 #'    my.files <- gtools::mixedsort(list.files(path = my.path, pattern = "*.csv"))
@@ -288,14 +288,24 @@ j.occs<-function(s.data, orders = 1:nrow(s.data), metric = "raw"){
 #'
 #'  * __Fig. 3__ can be replicated using:
 #'  ```
-#'   RNGkind(sample.kind = "Rejection")
-#'   set.seed(14)
 #'   path <- system.file("ms", package = "msco")
 #'   grDevices::pdf(file = paste0(path, "/real.arch.plots.pdf"),
 #'    paper = "a4r", height = 8.27, width = 11.69)
 #'   msco:::nullmod_archs()
 #'   grDevices::dev.off()
 #'   system(paste0('open "', paste0(path, "/real.arch.plots.pdf"), '"'))
+#'  ```
+#'  * __Fig. S1__ can be replicated using:
+#'  ```
+#'  my.path <- system.file("extdata/myCSVs", package = "msco")
+#'  setwd(my.path)
+#'  my.files <- gtools::mixedsort(list.files(path = my.path, pattern = "*.csv"))
+#'  grDevices::pdf(file = paste0(system.file("ms", package = "msco"), "/richness_cv.archs.plots.pdf"),
+#'   height = 5, width = 5)
+#'  richn.cv <- msco:::richness.variances(my.files)
+#'  grDevices::dev.off()
+#'  system(paste0('open "', paste0(system.file("ms", package = "msco"),
+#'   "/richness_cv.archs.plots.pdf"), '"'))
 #'  ```
 #'
 #' @references Lagat, V. K., Latombe, G. and Hui, C. (2021a). *A multi-species co-occurrence
