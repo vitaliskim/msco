@@ -1,7 +1,3 @@
-# my.path <- system.file("extdata/myCSVs", package = "msco")
-# setwd(my.path)
-# my.files <- gtools::mixedsort(list.files(path = my.path, pattern = "*.csv"))
-
 richness.variances <- function(my.files, Boxplot=TRUE){
   myfiles = lapply(my.files, utils::read.csv, header=T)
   richness_cv <- c()
@@ -9,7 +5,7 @@ richness.variances <- function(my.files, Boxplot=TRUE){
   community_archs <- list()
   richness_cv_archs <- list()
   RNGkind(sample.kind = "Rejection")
-  set.seed(14)
+  set.seed(39)
   for (j in 1:length(myfiles)) {
     coe <- msco::Jo.eng(myfiles[[j]], nReps = 999)
     Archs[[j]] <- coe$Archetype ### Archetypes
@@ -69,8 +65,6 @@ return(richn)
 # my.path <- system.file("extdata/myCSVs", package = "msco")
 # setwd(my.path)
 # my.files <- gtools::mixedsort(list.files(path = my.path, pattern = "*.csv"))
-# RNGkind(sample.kind = "Rejection")
-# set.seed(14)
 # grDevices::pdf(file = paste0(system.file("ms", package = "msco"), "/richness_cv.archs.plots.pdf"), height = 5, width = 5)
 # richn.cv <- msco:::richness.variances(my.files)
 # grDevices::dev.off()
