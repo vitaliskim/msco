@@ -45,12 +45,8 @@ execute the following code:\preformatted{  RNGkind(sample.kind = "Rejection")
 }\preformatted{my.path <- system.file("extdata/myCSVs", package = "msco")
 setwd(my.path)
 my.files <- gtools::mixedsort(list.files(path = my.path, pattern = "*.csv"))
-grDevices::pdf(file = paste0(system.file("ms", package = "msco"), "/richness_cv.archs.plots.pdf"),
- height = 5, width = 5)
 richn.cv <- msco:::richness.variances(my.files)
-grDevices::dev.off()
-system(paste0('open "', paste0(system.file("ms", package = "msco"),
- "/richness_cv.archs.plots.pdf"), '"'))
+
 }
 }
 \description{
