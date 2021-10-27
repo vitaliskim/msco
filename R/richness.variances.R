@@ -65,9 +65,9 @@ return(richn)
 # my.path <- system.file("extdata/myCSVs", package = "msco")
 # setwd(my.path)
 # my.files <- gtools::mixedsort(list.files(path = my.path, pattern = "*.csv"))
-# grDevices::pdf(file = paste0(system.file("ms", package = "msco"), "/richness_cv.archs.plots.pdf"), height = 5, width = 5)
+# grDevices::pdf(file = paste0(my.path, "/richns_cv.archs.pdf"), paper = "a4r", height = 5, width = 5)
 # richn.cv <- msco:::richness.variances(my.files)
 # grDevices::dev.off()
-# system(paste0('open "', paste0(system.file("ms", package = "msco"), "/richness_cv.archs.plots.pdf"), '"'))
+# system(paste0('open "', paste0(my.path, "/richns_cv.archs.pdf"), '"'))
 # et <- Sys.time();et-st
 
