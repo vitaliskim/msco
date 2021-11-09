@@ -117,7 +117,7 @@ ms.res$nmod_stats ## Table 2
 \references{
 \enumerate{
 \item{Lagat, V. K., Latombe, G. and Hui, C. (2021a). \emph{A multi-species co-occurrence
-index to avoid type II errors in null model testing. bioRxiv.} DOI: \verb{<To be added>}.}
+index to avoid type II errors in null model testing}. DOI: \verb{<To be added>}.}
 
 \item{Lagat, V. K., Latombe, G. and Hui, C. (2021b). \emph{Dissecting the effects of
 neutral encounter versus functional traits on multi-order species interactions
