@@ -69,7 +69,7 @@ Returns all the results presented in Lagat \emph{et al}. (2021c). To replicate
  t.data <- get(load("t.data.csv")) #Species-by-trait matrix
  p.d.mat <- get(load("p.d.mat.csv")) #Species-by-species phylogenetic distance matrix
  RNGkind(sample.kind = "Rejection")
- set.seed(0)
+ set.seed(1)
  gb.res <- msco::gbsm_m.orders(s.data,
              t.data,
              p.d.mat,
@@ -115,7 +115,7 @@ ms.res$nmod_stats ## Table 2
 \references{
 \enumerate{
 \item{Lagat, V. K., Latombe, G. and Hui, C. (2021a). \emph{A multi-species co-occurrence
-index to avoid type II errors in null model testing}. DOI: \verb{<To be added>}.}
+index to avoid type II errors in null model testing. bioRxiv.} \verb{<https://doi.org/10.1101/2021.11.03.467033>}}
 
 \item{Lagat, V. K., Latombe, G. and Hui, C. (2021b). \emph{Dissecting the effects of
 neutral encounter versus functional traits on multi-order species interactions

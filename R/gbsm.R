@@ -120,36 +120,36 @@ gbsm <- function(s.data, t.data, p.d.mat, metric= "Simpson_eqn", d.f=4, order.jo
     t.data[, i] <- (t.data[, i] - min(t.data[, i]))/(max(t.data[, i])-min(t.data[, i]))
   }
 
-  #### Compute the B-splines of the original trait variables (t.data) to get bt.data
-  bt.data <- matrix(NA, nrow(t.data), (ncol(t.data) * d.f))
+  #### Compute the B-splines of the original trait variables (t.data) to get bs.traits
+  bs.traits <- matrix(NA, nrow(t.data), (ncol(t.data) * d.f))
   for (j in 1:ncol(t.data)) {
     for (i in 1:d.f) {
-      bt.data[,(j - 1) * d.f + i] <- splines2::bSpline(t.data[,j], d.f=d.f, degree=degree, intercept = TRUE)[,i]
+      bs.traits[,(j - 1) * d.f + i] <- splines2::bSpline(t.data[,j], d.f=d.f, degree=degree, intercept = TRUE)[,i]
     }
   }
-  bt.data <- data.frame(bt.data)
+  bs.traits <- data.frame(bs.traits)
 
-  ## Assign names to bt.data
-  for (i in 1:(ncol(bt.data)/d.f)) {
+  ## Assign names to bs.traits
+  for (i in 1:(ncol(bs.traits)/d.f)) {
     for (j in 1:d.f) {
-      names(bt.data)[(i - 1) * d.f + j] <- paste(names(t.data)[i], j, sep = "")
+      names(bs.traits)[(i - 1) * d.f + j] <- paste(names(t.data)[i], j, sep = "")
     }
   }
-  bt.data <- `rownames<-`(bt.data, rownames(t.data))
+  bs.traits <- `rownames<-`(bs.traits, rownames(t.data))
 
-  ## Compute the differences on transformed values (bt.data) using SD, to get t.mat. Simultaneously compute p.dist and encounter rate
+  ## Compute the differences on the values transformed using b-splines (bs.traits) using SD, to get bs.traits.diff. Simultaneously compute p.dist and encounter rate
   order <- 1:nrow(s.data) ## Possible joint occupancy orders
   sn <- dim(s.data)[1] ## Total number of species
   ncom <- choose(sn,order.jo) ## Total number of the combinations of "order.jo" species chosen from sn
 
   if(ncom > n){ ## Use MCMC to sample n species combinations if the total combinations > the chosen sample size, n.
     jo <- rep(NA, n)
-    t.mat <- matrix(NA, nrow = n, ncol = ncol(bt.data))
+    bs.traits.diff <- matrix(NA, nrow = n, ncol = ncol(bs.traits))
     erate <- rep(NA, n)
     p.dist <- rep(NA, n)
     for (j in 1:n) {
       sam <- sample(1:sn, order.jo, replace = FALSE)
-      t.mat[j,] <- apply(bt.data[sam,], 2, stats::sd)
+      bs.traits.diff[j,] <- apply(bs.traits[sam,], 2, stats::sd)
 
       #### jo values for chosen combination of species
       if(metric=="raw"){
@@ -175,12 +175,12 @@ gbsm <- function(s.data, t.data, p.d.mat, metric= "Simpson_eqn", d.f=4, order.jo
     }
   }else{ ## Otherwise use the combinations as they are without sampling n of them.
     jo <- rep(NA, ncom)
-    t.mat <- matrix(NA, nrow = ncom, ncol = ncol(bt.data))
+    bs.traits.diff <- matrix(NA, nrow = ncom, ncol = ncol(bs.traits))
     erate <- rep(NA, ncom)
     p.dist <- rep(NA, ncom)
     com <- utils::combn(sn, order.jo)
     for (j in 1:ncom) {
-      t.mat[j,] <- apply(bt.data[com[,j],], 2, stats::sd)
+      bs.traits.diff[j,] <- apply(bs.traits[com[,j],], 2, stats::sd)
 
       #### jo values for chosen combination of species
       if(metric=="raw"){
@@ -206,27 +206,31 @@ gbsm <- function(s.data, t.data, p.d.mat, metric= "Simpson_eqn", d.f=4, order.jo
       stop("Wrong option for the joint occupancy metric provided. It must either be 'raw', 'Simpson_eqn', or 'Sorensen_eqn'.")
     }
   }
+  ## Assign bs.traits.diff (trait differences of B-splines of t.data) column names
+  bs.traits.diff <- `colnames<-`(bs.traits.diff, colnames(bs.traits))
+  bs.traits.diff <- data.frame(bs.traits.diff)
 
+  ## Rescale p.dist & erate to be in [0,1]
   p.dist <- (p.dist-min(p.dist))/(max(p.dist)-min(p.dist))
   erate <- (erate-min(erate))/(max(erate)-min(erate))
 
   ## B-splines of p.dist & erate
-  bt.erate <- matrix(NA, nrow=length(erate), ncol=d.f)
-  bt.p.dist <- matrix(NA, nrow=length(p.dist), ncol=d.f)
+  bs.erate <- matrix(NA, nrow=length(erate), ncol=d.f)
+  bs.p.dist <- matrix(NA, nrow=length(p.dist), ncol=d.f)
   for (i in 1:d.f) {
-    bt.erate[,i] <- splines2::bSpline(erate, d.f=d.f, degree=degree, intercept = TRUE)[,i]
-    bt.p.dist[,i] <- splines2::bSpline(p.dist, d.f=d.f, degree=degree, intercept = TRUE)[,i]
+    bs.erate[,i] <- splines2::bSpline(erate, d.f=d.f, degree=degree, intercept = TRUE)[,i]
+    bs.p.dist[,i] <- splines2::bSpline(p.dist, d.f=d.f, degree=degree, intercept = TRUE)[,i]
   }
-  bt.erate <- data.frame(bt.erate)
-  bt.p.dist <- data.frame(bt.p.dist)
+  bs.erate <- data.frame(bs.erate)
+  bs.p.dist <- data.frame(bs.p.dist)
 
-  ## Assign names to bt.erate & bt.p.dist
+  ## Assign names to bs.erate & bs.p.dist
   for (j in 1:d.f) {
-    names(bt.erate)[j] <- paste("E.rate", j, sep = "")
-    names(bt.p.dist)[j] <- paste("p.dist", j, sep = "")
+    names(bs.erate)[j] <- paste("E.rate", j, sep = "")
+    names(bs.p.dist)[j] <- paste("p.dist", j, sep = "")
   }
 
-  ### Transform the trait variables (t.data) to fill the gaps in the data for smooth plotting
+  ### Transform the trait variables (t.data) to fill the gaps in the data for smooth plotting using seq
   ff <- c()
   tt <- c()
   if(ncom > n){
@@ -235,67 +239,67 @@ gbsm <- function(s.data, t.data, p.d.mat, metric= "Simpson_eqn", d.f=4, order.jo
     myn <- ncom
   }
 
-  t.trans <- matrix(NA, nrow = myn, ncol = ncol(t.data))
+  t.data.trans <- matrix(NA, nrow = myn, ncol = ncol(t.data))
   for (j in 1:ncol(t.data)) {
-    t.trans[,j] <- seq(from = range(t.data[,j])[1], to = range(t.data[,j])[2], length.out = myn)
+    t.data.trans[,j] <- seq(from = range(t.data[,j])[1], to = range(t.data[,j])[2], length.out = myn)
   }
-  t.trans <- `names<-`(data.frame(t.trans), names(t.data))
+  t.data.trans <- `names<-`(data.frame(t.data.trans), names(t.data))
 
-  #### Compute the B-splines of the transformed trait variables (t.trans) to get bt.trans
-  bt.trans <- matrix(NA, nrow(t.trans), (ncol(t.trans) * d.f))
-  for (j in 1:ncol(t.trans)) {
+  #### Compute the B-splines of the transformed trait variables (t.data.trans) to get bs.traits.trans
+  bs.traits.trans <- matrix(NA, nrow(t.data.trans), (ncol(t.data.trans) * d.f))
+  for (j in 1:ncol(t.data.trans)) {
     for (i in 1:d.f) {
-      bt.trans[,(j - 1) * d.f + i] <- splines2::bSpline(t.trans[,j], d.f=d.f, degree=degree, intercept = TRUE)[,i]
+      bs.traits.trans[,(j - 1) * d.f + i] <- splines2::bSpline(t.data.trans[,j], d.f=d.f, degree=degree, intercept = TRUE)[,i]
     }
   }
-  bt.trans <- data.frame(bt.trans)
+  bs.traits.trans <- data.frame(bs.traits.trans)
 
-  ## Assign names to bt.trans
-  for (i in 1:(ncol(bt.trans)/d.f)) {
+  ## Assign names to bs.traits.trans
+  for (i in 1:(ncol(bs.traits.trans)/d.f)) {
     for (j in 1:d.f) {
-      names(bt.trans)[(i - 1) * d.f + j] <- paste(names(t.trans)[i], j, sep = "")
+      names(bs.traits.trans)[(i - 1) * d.f + j] <- paste(names(t.data.trans)[i], j, sep = "")
     }
   }
 
-  ### Transform the p.dist & erate variables to fill the gaps in the data for smooth plotting
-  pd.trans <- seq(from = range(p.dist)[1], to = range(p.dist)[2], length.out = myn)
-  e.trans <- seq(from = range(erate)[1], to = range(erate)[2], length.out = myn)
+  ### Transform the p.dist & erate variables to fill the gaps in the data for smooth plotting using seq
+  p.dist.trans <- seq(from = range(p.dist)[1], to = range(p.dist)[2], length.out = myn)
+  erate.trans <- seq(from = range(erate)[1], to = range(erate)[2], length.out = myn)
 
-  ### Compute the B-splines of the transformed p.dist & erate variables (pd.trans & e.trans) to get bt.pdtrans & bt.etrans
-  bt.etrans <- matrix(NA, nrow=myn, ncol=d.f)
-  bt.pdtrans <- matrix(NA, nrow=myn, ncol=d.f)
+  ### Compute the B-splines of the transformed p.dist & erate variables (p.dist.trans & erate.trans) to get bs.p.dist.trans & bs.erate.trans
+  bs.erate.trans <- matrix(NA, nrow=myn, ncol=d.f)
+  bs.p.dist.trans <- matrix(NA, nrow=myn, ncol=d.f)
   for (i in 1:d.f) {
-    bt.etrans[,i] <- splines2::bSpline(e.trans, d.f=d.f, degree=degree, intercept = TRUE)[,i]
-    bt.pdtrans[,i] <- splines2::bSpline(pd.trans, d.f=d.f, degree=degree, intercept = TRUE)[,i]
+    bs.erate.trans[,i] <- splines2::bSpline(erate.trans, d.f=d.f, degree=degree, intercept = TRUE)[,i]
+    bs.p.dist.trans[,i] <- splines2::bSpline(p.dist.trans, d.f=d.f, degree=degree, intercept = TRUE)[,i]
   }
-  bt.etrans <- data.frame(bt.etrans)
-  bt.pdtrans <- data.frame(bt.pdtrans)
+  bs.erate.trans <- data.frame(bs.erate.trans)
+  bs.p.dist.trans <- data.frame(bs.p.dist.trans)
 
-  ## Assign names to bt.etrans and bt.pdtrans
+  ## Assign names to bs.erate.trans and bs.p.dist.trans
   for (j in 1:d.f) {
-    names(bt.etrans)[j] <- paste("E.rate", j, sep = "")
-    names(bt.pdtrans)[j] <- paste("p.dist", j, sep = "")
+    names(bs.erate.trans)[j] <- paste("E.rate", j, sep = "")
+    names(bs.p.dist.trans)[j] <- paste("p.dist", j, sep = "")
   }
 
-  ## Transformed values of all variables (t.trans) and their B-splines (bt.trans)
-  bt.trans <- cbind(bt.trans, bt.pdtrans, bt.etrans)
-  t.transs <- cbind(t.trans, pd.trans, e.trans)
-  names(t.transs) <- c(names(t.trans), "P.dist", "E.rate")
-  t.trans <- t.transs
+  ## Transformed values of all variables (trans.variables) and their B-splines (bs.variables.trans)
+  bs.variables.trans <- cbind(bs.traits.trans, bs.p.dist.trans, bs.erate.trans)
+  trans.variables <- cbind(t.data.trans, p.dist.trans, erate.trans)
+  names(trans.variables) <- c(names(t.data.trans), "P.dist", "E.rate")
+
 
   #### Plot to see if the correct B-spline plots are output
   if(b.plots==TRUE){
     cols <- rep(c("red","blue","black","green"), 8*d.f)
     if(bsplines=="single"){
       grDevices::pdf(file = paste0(system.file("ms", package = "msco"), "/B-splines.curves_single.predictor.pdf"), height = 5, width = 5)
-      plot(x=t.trans[,1], y=bt.trans[,(1+((1-1)*d.f))], type = "l", lty=1, lwd=2, col=cols[1], ylim=c(0,max(bt.trans[,(1+((1-1)*d.f))])),
-           xlab = "Trait variable", ylab = "B-spline curves", main = paste(names(t.trans)[1]))
+      plot(x=trans.variables[,1], y=bs.variables.trans[,(1+((1-1)*d.f))], type = "l", lty=1, lwd=2, col=cols[1], ylim=c(0,max(bs.variables.trans[,(1+((1-1)*d.f))])),
+           xlab = "Trait variable", ylab = "B-spline curves", main = paste(names(trans.variables)[1]))
 
       for(i in 2:4){
-        graphics::lines(t.trans[,1], bt.trans[,i], col=cols[i], lwd=2, lty = i)
+        graphics::lines(trans.variables[,1], bs.variables.trans[,i], col=cols[i], lwd=2, lty = i)
       }
       for (i in 1:4) {
-        graphics::points(t.data[,1], bt.data[,i], col=cols[i], pch=match(cols[i], cols))
+        graphics::points(t.data[,1], bs.traits[,i], col=cols[i], pch=match(cols[i], cols))
       }
       graphics::text(0.1, 0.95, expression(paste(B["0,4"])), font=2)
       graphics::text(0.35, 0.52, expression(paste(B["1,4"])), font=2)
@@ -309,24 +313,24 @@ gbsm <- function(s.data, t.data, p.d.mat, metric= "Simpson_eqn", d.f=4, order.jo
       graphics::par(mar=c(4,4,2,0.5)+.1)
       graphics::par(mfcol=c(ceiling(((ncol(t.data)+2)/2)), 2))
 
-      for (v.index in 1:ncol(t.trans)) {
-        plot(x=t.trans[,v.index], y=bt.trans[,(1+((v.index-1)*d.f))], type = "l", lty=1, lwd=2, col=cols[1], ylim=c(0,max(bt.trans[,(1+((v.index-1)*d.f))])),
-             xlab = "Trait variable", ylab = "B-spline curves", main = paste(names(t.trans)[v.index]))
+      for (v.index in 1:ncol(trans.variables)) {
+        plot(x=trans.variables[,v.index], y=bs.variables.trans[,(1+((v.index-1)*d.f))], type = "l", lty=1, lwd=2, col=cols[1], ylim=c(0,max(bs.variables.trans[,(1+((v.index-1)*d.f))])),
+             xlab = "Trait variable", ylab = "B-spline curves", main = paste(names(trans.variables)[v.index]))
 
         for(i in (((v.index-1)*d.f)+2):(((v.index-1)*d.f)+d.f)){
-          graphics::lines(t.trans[,v.index], bt.trans[,i], col=cols[i], lwd=2, lty = i)
+          graphics::lines(trans.variables[,v.index], bs.variables.trans[,i], col=cols[i], lwd=2, lty = i)
         }
         if(v.index < ncol(t.data) | v.index==ncol(t.data)){
           for (i in (1+((v.index-1)*d.f)):(((v.index-1)*d.f)+d.f)) {
-            graphics::points(t.data[,v.index], bt.data[,i], col=cols[i], pch=match(cols[i], cols))
+            graphics::points(t.data[,v.index], bs.traits[,i], col=cols[i], pch=match(cols[i], cols))
           }
         }else if(v.index==(ncol(t.data)+1)){
           for (i in 1:d.f) {
-            graphics::points(p.dist, bt.p.dist[,i], col=cols[i], pch=match(cols[i], cols))
+            graphics::points(p.dist, bs.p.dist[,i], col=cols[i], pch=match(cols[i], cols))
           }
         }else if(v.index==(ncol(t.data)+2)){
           for (i in 1:d.f) {
-            graphics::points(erate, bt.erate[,i], col=cols[i], pch=match(cols[i], cols))
+            graphics::points(erate, bs.erate[,i], col=cols[i], pch=match(cols[i], cols))
           }
         }
         graphics::text(0.13, 0.9, expression(paste(B["0,4"])), font=2)
@@ -340,9 +344,9 @@ gbsm <- function(s.data, t.data, p.d.mat, metric= "Simpson_eqn", d.f=4, order.jo
   }
 
   ## Confirm if the plot of the sum of the B-splines is constant at y=1
-  # plot(t.data[,1], rowSums(bt.data[, seq(1,ncol(bt.data),d.f)[1]:seq(d.f,ncol(bt.data),d.f)[1]]), col=cols[1])
-  # for (i in 2:((ncol(bt.data))/d.f)) {
-  #   points(t.data[,i], rowSums(bt.data[, seq(1,ncol(bt.data),d.f)[i]:seq(d.f,ncol(bt.data),d.f)[i]]), col=cols[i])
+  # plot(t.data[,1], rowSums(bs.traits[, seq(1,ncol(bs.traits),d.f)[1]:seq(d.f,ncol(bs.traits),d.f)[1]]), col=cols[1])
+  # for (i in 2:((ncol(bs.traits))/d.f)) {
+  #   points(t.data[,i], rowSums(bs.traits[, seq(1,ncol(bs.traits),d.f)[i]:seq(d.f,ncol(bs.traits),d.f)[i]]), col=cols[i])
   # }
 
   ######################################################################################################################
@@ -353,30 +357,28 @@ gbsm <- function(s.data, t.data, p.d.mat, metric= "Simpson_eqn", d.f=4, order.jo
   ############################### B-spline regression (start) ##########################################################
   ######################################################################################################################
 
-  ## Assign t.mat (trait differences of B-splines of t.data) column names
-  t.mat <- `colnames<-`(t.mat, colnames(bt.data))
-  t.mat <- data.frame(t.mat)
+  ## Combine bs.traits.diff, bs.p.dist (b-splines of p.dist) and bs.erate (b-splines of erate)
+  bs.variables.diff <- cbind(bs.traits.diff, bs.p.dist, bs.erate)
 
-  ## Combine t.mat, p. distance and encounter rate
-  t.mat <- cbind(t.mat, bt.p.dist, bt.erate)
-
-  ## Rescale Xi values to be in [0,1] interval for raw jo
+  ## Rescale jo values to be in [0,1] interval for raw jo (required for binomial regression)
   if(metric=="raw"){
     jo <- (jo-min(jo))/(max(jo)-min(jo))
   }
 
-  ## Perform regression between Xi and t.mat to get the regression coefficients
-  t.mat <- data.frame(t.mat)
-  model <- suppressWarnings(glm2::glm2(jo ~ ., family=stats::binomial(link="log"), data = t.mat, start = start))
+  ## Perform regression between jo and bs.variables.diff to get the regression coefficients
+  bs.variables.diff <- data.frame(bs.variables.diff)
+  model <- suppressWarnings(glm2::glm2(jo ~ ., family=stats::binomial(link="log"), data = bs.variables.diff, start = start))
+  # (This model is the same as log(jo) = b0 + b1X1 + b2X2 + ... + bnXn)
   mysum <- summary(model)
 
   ##### Variance explained
-  # pred.jo <- stats::predict(model, newdata = t.mat, type = "response", se = TRUE)
-  pred.jo <- suppressWarnings(stats::predict.glm(model, newdata = t.mat, type = "response"))
-  var.expd2 <- (stats::cor(jo, pred.jo))^2
+  # pred.jo <- stats::predict(model, newdata = bs.variables.diff, type = "response", se = TRUE)
+  pred.jo <- suppressWarnings(stats::predict.glm(model, newdata = bs.variables.diff, type = "response"))
+  pred.jo <- as.numeric(pred.jo)
+  var.expd2 <- (stats::cor(jo, exp(pred.jo)))^2
 
   if(scat.plot==TRUE){
-    plot(jo, pred.jo, xlab="Joint occupancy", ylab="Predicted J. occ")
+    plot(jo, exp(pred.jo), xlab="Joint occupancy", ylab="Predicted J. occ")
   }
 
 
@@ -390,115 +392,117 @@ gbsm <- function(s.data, t.data, p.d.mat, metric= "Simpson_eqn", d.f=4, order.jo
   ############# Weighted sum of responses  ############################
   #####################################################################
 
-  ########## t.data
+  ## Product of the Coeffs with originally bspline-transformed variables
 
-  ## Product of the Coeffs with originally transformed matrix (bt.data)
-  ott.mat <- matrix(NA, nrow=nrow(bt.data), ncol=ncol(bt.data))
-  ct <- coeff[1:dim(bt.data)[2]]
-  for (i in 1:ncol(bt.data)) {
-    ott.mat[,i] <- ct[i]*bt.data[,i]
+  #Let J_pred = log(jo) = b0 + b1X1+b2X2+...+bnXn
+
+  ########## traits (t.data)
+  J_preds.traits <- matrix(NA, nrow=nrow(bs.traits), ncol=ncol(bs.traits))
+  coeff.traits <- coeff[1:dim(bs.traits)[2]]
+  for (i in 1:ncol(bs.traits)) {
+    J_preds.traits[,i] <- coeff.traits[i]*bs.traits[,i] + intercept/((dim(t.data)[2]+2)*d.f)
   }
-  ott.mat <- `names<-`(data.frame(ott.mat), names(bt.data))
-  ## Sum "d.f" columns per variable (from ott.mat) to get "ofdata"
-  names(ott.mat) <- gsub("[[:digit:]]", "", names(ott.mat))
-  ofdata <- t(rowsum(t(ott.mat), group = colnames(ott.mat), na.rm = T, reorder=FALSE))
+  J_preds.traits <- `names<-`(data.frame(J_preds.traits), names(bs.traits))
+  ## Sum "d.f" columns per variable (from J_preds.traits) to get "J_preds.traits.fin"
+  names(J_preds.traits) <- gsub("[[:digit:]]", "", names(J_preds.traits))
+  J_preds.traits.fin <- t(rowsum(t(J_preds.traits), group = colnames(J_preds.traits), na.rm = T, reorder=FALSE))
 
   ########## p.dist
-  ott.dis <- matrix(NA, nrow=nrow(bt.p.dist), ncol=ncol(bt.p.dist))
-  cdis <- coeff[(dim(bt.data)[2]+1):(dim(bt.data)[2]+d.f)]
-
-  for (i in 1:ncol(bt.p.dist)) {
-    ott.dis[,i] <- cdis[i]*bt.p.dist[,i]
+  J_preds.p.d <- matrix(NA, nrow=nrow(bs.p.dist), ncol=ncol(bs.p.dist))
+  coeff.p.d <- coeff[(dim(bs.traits)[2]+1):(dim(bs.traits)[2]+d.f)]
+  for (i in 1:ncol(bs.p.dist)) {
+    J_preds.p.d[,i] <- coeff.p.d[i]*bs.p.dist[,i] + intercept/((dim(t.data)[2]+2)*d.f)
   }
-  ott.dis <- `names<-`(data.frame(ott.dis), names(bt.p.dist))
-  ## Sum "d.f" columns per variable (from ott.dis) to get "ofdist"
-  names(ott.dis) <- gsub("[[:digit:]]", "", names(ott.dis))
-  ofdist <- t(rowsum(t(ott.dis), group = colnames(ott.dis), na.rm = TRUE, reorder=FALSE))
+  J_preds.p.d <- `names<-`(data.frame(J_preds.p.d), names(bs.p.dist))
+  ## Sum "d.f" columns per variable (from J_preds.p.d) to get "J_preds.p.d.fin"
+  names(J_preds.p.d) <- gsub("[[:digit:]]", "", names(J_preds.p.d))
+  J_preds.p.d.fin <- t(rowsum(t(J_preds.p.d), group = colnames(J_preds.p.d), na.rm = TRUE, reorder=FALSE))
 
   ########## E.rate
-  ott.rat <- matrix(NA, nrow=nrow(bt.erate), ncol=ncol(bt.erate))
-  ce <- coeff[(dim(bt.data)[2]+d.f+1):(dim(t.mat)[2])]
-  for (i in 1:ncol(bt.erate)) {
-    ott.rat[,i] <- ce[i]*bt.erate[,i]
+  J_preds.er <- matrix(NA, nrow=nrow(bs.erate), ncol=ncol(bs.erate))
+  coeff.er <- coeff[(dim(bs.traits)[2]+d.f+1):(dim(bs.variables.diff)[2])]
+  for (i in 1:ncol(bs.erate)) {
+    J_preds.er[,i] <- coeff.er[i]*bs.erate[,i] + intercept/((dim(t.data)[2]+2)*d.f)
   }
-  ott.rat <- `names<-`(data.frame(ott.rat), names(bt.erate))
-  ## Sum "d.f" columns per variable (from ott.mat) to get "ofdata"
-  names(ott.rat) <- gsub("[[:digit:]]", "", names(ott.rat))
-  ofrate <- t(rowsum(t(ott.rat), group = colnames(ott.rat), na.rm = TRUE, reorder=FALSE))
+  J_preds.er <- `names<-`(data.frame(J_preds.er), names(bs.erate))
+  ## Sum "d.f" columns per variable (from J_preds.er) to get "J_preds.er.fin"
+  names(J_preds.er) <- gsub("[[:digit:]]", "", names(J_preds.er))
+  J_preds.er.fin <- t(rowsum(t(J_preds.er), group = colnames(J_preds.er), na.rm = TRUE, reorder=FALSE))
 
 
   #############################################################################
-  ############# Weighted sum of transformed (using seq) responses #############
+  ############# Weighted sum of seq-transformed responses #############
   #############################################################################
 
-
-  coeff <- c(ct, cdis, ce)
-  ott.trans <- matrix(NA, nrow=nrow(bt.trans), ncol=ncol(bt.trans))
-  for (i in 1:ncol(bt.trans)) {
-    ott.trans[,i] <- coeff[i]*bt.trans[,i]
+  ##Product of coefficients with variables
+  coeff.variables <- c(coeff.traits, coeff.p.d, coeff.er)
+  J_preds.trans <- matrix(NA, nrow=nrow(bs.variables.trans), ncol=ncol(bs.variables.trans))
+  for (i in 1:ncol(bs.variables.trans)) {
+    J_preds.trans[,i] <- coeff.variables[i]*bs.variables.trans[,i] + intercept/((dim(t.data)[2]+2)*d.f)
   }
-  ott.trans <- `names<-`(data.frame(ott.trans), names(bt.trans))
-  ## Sum "d.f" columns per variable (from ott.trans) to get "oftrans"
-  names(ott.trans) <- gsub("[[:digit:]]", "", names(ott.trans))
-  oftrans <- t(rowsum(t(ott.trans), group = colnames(ott.trans), na.rm = TRUE, reorder=FALSE))
+  J_preds.trans <- `names<-`(data.frame(J_preds.trans), names(bs.variables.trans))
+  ## Sum "d.f" columns per variable (from J_preds.trans) to get "J_preds.trans.fin"
+  names(J_preds.trans) <- gsub("[[:digit:]]", "", names(J_preds.trans))
+  J_preds.trans.fin <- t(rowsum(t(J_preds.trans), group = colnames(J_preds.trans), na.rm = TRUE, reorder=FALSE))
+
 
   ####### Plots
 
   if(response.curves==TRUE){
     cols <- c("red","blue","black","green", "orange", "brown", "purple")
-    limits <- range(oftrans)
+    limits <- range(J_preds.trans.fin)
     llim <- limits[1]
     ulim <- limits[2]
     if(leg==0){
-      plot(x=t.trans[,1], y=oftrans[,1], type = "l", lty=1, lwd=1.5, col=cols[1], ylim=c(llim, ulim),
+      plot(x=trans.variables[,1], y=J_preds.trans.fin[,1], type = "l", lty=1, lwd=1.5, col=cols[1], ylim=c(llim, ulim),
            xlab = "Rescaled Range", ylab = "Effect on J. occ.", main = noquote(paste("Order",order.jo)), cex=0.8, pch=1)
-      for(i in 2:ncol(t.trans)){
-        graphics::lines(t.trans[,i], oftrans[,i], col=cols[i], lwd=1.5, lty=i, cex=0.8, pch=i)
+      for(i in 2:ncol(trans.variables)){
+        graphics::lines(trans.variables[,i], J_preds.trans.fin[,i], col=cols[i], lwd=1.5, lty=i, cex=0.8, pch=i)
       }
       for(i in 1:ncol(t.data)){
-        graphics::points(t.data[,i], ofdata[,i], col=cols[i], lwd=1, lty=i, cex=0.7, pch=i)
+        graphics::points(t.data[,i], J_preds.traits.fin[,i], col=cols[i], lwd=1, lty=i, cex=0.7, pch=i)
       }
-      graphics::points(p.dist, ofdist, col=cols[(ncol(t.data)+1)], lwd=1, pch=10, cex=0.6)
-      graphics::points(erate, ofrate, col=cols[(ncol(t.data)+2)], lwd=1, pch=18, cex=0.7)
+      graphics::points(p.dist, J_preds.p.d.fin, col=cols[(ncol(t.data)+1)], lwd=1, pch=10, cex=0.6)
+      graphics::points(erate, J_preds.er.fin, col=cols[(ncol(t.data)+2)], lwd=1, pch=18, cex=0.7)
     }else if(leg==1){
-      plot(x=t.trans[,1], y=oftrans[,1], type = "l", lty=1, lwd=1.5, col=cols[1], ylim=c(llim, (ulim + 0.2)),
+      plot(x=trans.variables[,1], y=J_preds.trans.fin[,1], type = "l", lty=1, lwd=1.5, col=cols[1], ylim=c(llim, (ulim + 0.2)),
            xlab = "Rescaled Range", ylab = "Effect on J. occ.", main = noquote(paste("Order",order.jo)), cex=0.8, pch=1)
-      for(i in 2:ncol(t.trans)){
-        graphics::lines(t.trans[,i], oftrans[,i], col=cols[i], lwd=1.5, lty=i, cex=0.8, pch=i)
+      for(i in 2:ncol(trans.variables)){
+        graphics::lines(trans.variables[,i], J_preds.trans.fin[,i], col=cols[i], lwd=1.5, lty=i, cex=0.8, pch=i)
       }
       for(i in 1:ncol(t.data)){
-        graphics::points(t.data[,i], ofdata[,i], col=cols[i], lwd=1, lty=i, cex=0.7, pch=i)
+        graphics::points(t.data[,i], J_preds.traits.fin[,i], col=cols[i], lwd=1, lty=i, cex=0.7, pch=i)
       }
-      graphics::points(p.dist, ofdist, col=cols[(ncol(t.data)+1)], lwd=1, pch=10, cex=0.6)
-      graphics::points(erate, ofrate, col=cols[(ncol(t.data)+2)], lwd=1, pch=18, cex=0.7)
-      graphics::legend("top", legend = names(t.trans), col = cols, lty=1:ncol(t.trans), lwd=1.5,
+      graphics::points(p.dist, J_preds.p.d.fin, col=cols[(ncol(t.data)+1)], lwd=1, pch=10, cex=0.6)
+      graphics::points(erate, J_preds.er.fin, col=cols[(ncol(t.data)+2)], lwd=1, pch=18, cex=0.7)
+      graphics::legend("top", legend = names(trans.variables), col = cols, lty=1:ncol(trans.variables), lwd=1.5,
                        pch = 1:(length(t.data)+2), bty = "n", cex = 0.8, ncol = 2)
 
     }else if(leg==2){
-      plot(x=t.trans[,1], y=oftrans[,1], type = "l", lty=1, lwd=1.5, col=cols[1], ylim=c(llim, (ulim + 2)),
+      plot(x=trans.variables[,1], y=J_preds.trans.fin[,1], type = "l", lty=1, lwd=1.5, col=cols[1], ylim=c(llim, (ulim + 2)),
            xlab = "Rescaled Range", ylab = "Effect on J. occ.", main = noquote(paste("Order",order.jo)), cex=0.8, pch=1)
-      for(i in 2:ncol(t.trans)){
-        graphics::lines(t.trans[,i], oftrans[,i], col=cols[i], lwd=1.5, lty=i, cex=0.8, pch=i)
+      for(i in 2:ncol(trans.variables)){
+        graphics::lines(trans.variables[,i], J_preds.trans.fin[,i], col=cols[i], lwd=1.5, lty=i, cex=0.8, pch=i)
       }
       for(i in 1:ncol(t.data)){
-        graphics::points(t.data[,i], ofdata[,i], col=cols[i], lwd=1, lty=i, cex=0.7, pch=i)
+        graphics::points(t.data[,i], J_preds.traits.fin[,i], col=cols[i], lwd=1, lty=i, cex=0.7, pch=i)
       }
-      graphics::points(p.dist, ofdist, col=cols[(ncol(t.data)+1)], lwd=1, pch=10, cex=0.6)
-      graphics::points(erate, ofrate, col=cols[(ncol(t.data)+2)], lwd=1, pch=18, cex=0.7)
-      graphics::legend("top", legend = names(t.trans), col = cols, lty=1:ncol(t.trans), lwd=1.5,
+      graphics::points(p.dist, J_preds.p.d.fin, col=cols[(ncol(t.data)+1)], lwd=1, pch=10, cex=0.6)
+      graphics::points(erate, J_preds.er.fin, col=cols[(ncol(t.data)+2)], lwd=1, pch=18, cex=0.7)
+      graphics::legend("top", legend = names(trans.variables), col = cols, lty=1:ncol(trans.variables), lwd=1.5,
                        pch = 1:(length(t.data)+2), bty = "n", cex = 0.8, ncol = 2)
     }
   }
 
   gbs <- list()
-  gbs$Predictors <- t.trans
-  gbs$Responses <- as.data.frame(oftrans)
+  gbs$Predictors <- trans.variables
+  gbs$Responses <- as.data.frame(J_preds.trans.fin)
   gbs$order.jo <- order.jo
   gbs$coeff <- coeff
   gbs$glm_obj <- model
   gbs$j.occs <- jo
   gbs$pred.j.occs <- pred.jo
-  gbs$bs_pred <- t.mat
+  gbs$bs_pred <- bs.variables.diff
   gbs$start <- start
   gbs$var.expld <- var.expd2
   gbs$summary <- mysum

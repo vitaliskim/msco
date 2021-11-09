@@ -328,7 +328,7 @@ Jo.res <- function(){
   # saveRDS(j.en, file = paste0(system.file("ms", package="msco"), "/jo.res.RDS"))
   # res.plo <- Biobase::openPDF(system.file("ms", "jo.plots.pdf", package = "msco"))
   system(paste0('open "', paste0(system.file("ms", package = "msco"), "/real.arch.plots.pdf"), '"'))
-  system(paste0('open "', paste0(system.file("ms", package = "msco"), "/m.Jo.plots.pdf"), '"'))
+  # system(paste0('open "', paste0(system.file("ms", package = "msco"), "/m.Jo.plots.pdf"), '"'))
 
   return(res)
 }
@@ -358,7 +358,7 @@ Jo.res <- function(){
 #'    t.data <- get(load("t.data.csv")) ##Species-by-trait matrix
 #'    p.d.mat <- get(load("p.d.mat.csv")) ##Species-by-species phylogenetic distance matrix
 #'    RNGkind(sample.kind = "Rejection")
-#'    set.seed(0)
+#'    set.seed(1)
 #'    gb.res <- msco::gbsm_m.orders(s.data,
 #'                t.data,
 #'                p.d.mat,
@@ -567,7 +567,7 @@ gbsm.res <- function(){
 #'    t.data <- get(load("t.data.csv")) #Species-by-trait matrix
 #'    p.d.mat <- get(load("p.d.mat.csv")) #Species-by-species phylogenetic distance matrix
 #'    RNGkind(sample.kind = "Rejection")
-#'    set.seed(0)
+#'    set.seed(1)
 #'    gb.res <- msco::gbsm_m.orders(s.data,
 #'                t.data,
 #'                p.d.mat,
@@ -591,7 +591,7 @@ gbsm.res <- function(){
 #' @references
 #' \enumerate{
 #' \item{Lagat, V. K., Latombe, G. and Hui, C. (2021a). *A multi-species co-occurrence
-#'  index to avoid type II errors in null model testing*. DOI: `<To be added>`.}
+#'  index to avoid type II errors in null model testing. bioRxiv.* `<https://doi.org/10.1101/2021.11.03.467033>`}
 #'
 #'  \item{Lagat, V. K., Latombe, G. and Hui, C. (2021b). *Dissecting the effects of
 #'   neutral encounter versus functional traits on multi-order species interactions

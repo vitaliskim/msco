@@ -174,9 +174,9 @@ gbsm_m.orders <- function(s.data, t.data, p.d.mat, metric="Simpson_eqn", orders,
                                                     start = seq(-0.1, 0, length.out=ncol(data)+1)))
 
       contbn_table$predictor[j] <- unique(names(`names<-`(bs_pred,gsub("[[:digit:]]", "", names(bs_pred)))))[j]
-      contbn_table$var.expld_M2[j] <- stats::cor(j.occs, suppressWarnings(stats::predict.glm(pred.cont[[j]],
+      contbn_table$var.expld_M2[j] <- stats::cor(j.occs, exp(as.numeric(suppressWarnings(stats::predict.glm(pred.cont[[j]],
                                                                                              newdata = data,
-                                                                                             type = "response")))^2
+                                                                                             type = "response")))))^2
       contbn_table$var.expld_M1[j] <- gof
       contbn_table$contribution[j] <- (contbn_table$var.expld_M1[j] - contbn_table$var.expld_M2[j])/(contbn_table$var.expld_M1[j])
     }
@@ -206,7 +206,7 @@ gbsm_m.orders <- function(s.data, t.data, p.d.mat, metric="Simpson_eqn", orders,
     graphics::par(mar=c(5,5,4,1)+.1)
     graphics::par(mfrow=c((length(orders)+1)/2,2))
     for (kv in orders) {
-      plot(mss[[kv]]$j.occs, mss[[kv]]$pred.j.occs, xlab="J. occupancy", ylab="Predicted J.occ",
+      plot(mss[[kv]]$j.occs, exp(mss[[kv]]$pred.j.occs), xlab="J. occupancy", ylab="Predicted J.occ",
            main = noquote(paste("Order", kv)))
     }
   }
