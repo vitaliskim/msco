@@ -43,7 +43,9 @@ Returns all the results presented in Lagat \emph{et al}. (2021c). To replicate
              trans = FALSE,
              m.n.plot = FALSE)
 
- j.en$nmod_stats ## Table 2
+ j.en$jo.coeff ## Table 1
+ j.en$AIC; j.en$r2 ## Table 2
+ j.en$nmod_stats ## Table 3
  grDevices::pdf(file = paste0(system.file("ms", package = "msco"),
   "/aJo.plots.pdf"), paper = "a4r", height = 8.27, width = 11.69)
  j.en$all.plots
