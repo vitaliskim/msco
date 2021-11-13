@@ -74,7 +74,8 @@ function and log link function.}
 \item{\code{coeff}}{Coefficients of the generalized linear model used.}
 \item{\code{glm_obj}}{Generalized linear model used.}
 \item{\code{j.occs}}{Observed joint occupancies.}
-\item{\code{pred.j.occs}}{Predicted joint occupancies.}
+\item{\code{jo.p}}{Observed joint occupancy proportions.}
+\item{\code{pred.jo.p}}{Predicted joint occupancy proportions.}
 \item{\code{bs_pred}}{B-spline-transformed \code{Predictors}.}
 \item{\code{start}}{Starting values for the generalized linear model used.}
 \item{\code{var.expld}}{Amount of variation in joint occupancy explained by the \code{Predictors}. I.e.,

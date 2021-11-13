@@ -45,7 +45,8 @@
 #' \item{`coeff`}{Coefficients of the generalized linear model used.}
 #' \item{`glm_obj`}{Generalized linear model used.}
 #' \item{`j.occs`}{Observed joint occupancies.}
-#' \item{`pred.j.occs`}{Predicted joint occupancies.}
+#' \item{`jo.p`}{Observed joint occupancy proportions.}
+#' \item{`pred.jo.p`}{Predicted joint occupancy proportions.}
 #' \item{`bs_pred`}{B-spline-transformed `Predictors`.}
 #' \item{`start`}{Starting values for the generalized linear model used.}
 #' \item{`var.expld`}{Amount of variation in joint occupancy explained by the `Predictors`. I.e.,
@@ -140,6 +141,7 @@ gbsm <- function(s.data, t.data, p.d.mat, metric= "Simpson_eqn", d.f=4, order.jo
   ## Compute the differences on the values transformed using b-splines (bs.traits) using SD, to get bs.traits.diff. Simultaneously compute p.dist and encounter rate
   order <- 1:nrow(s.data) ## Possible joint occupancy orders
   sn <- dim(s.data)[1] ## Total number of species
+  N <- dim(s.data)[2] ## Total number of sites
   ncom <- choose(sn,order.jo) ## Total number of the combinations of "order.jo" species chosen from sn
 
   if(ncom > n){ ## Use MCMC to sample n species combinations if the total combinations > the chosen sample size, n.
@@ -153,7 +155,7 @@ gbsm <- function(s.data, t.data, p.d.mat, metric= "Simpson_eqn", d.f=4, order.jo
 
       #### jo values for chosen combination of species
       if(metric=="raw"){
-        jo[j] <- msco::j.occ(s.data[sam,], order = order.jo)$jo.val
+        jo[j] <- (msco::j.occ(s.data[sam,], order = order.jo)$jo.val)
       }else if(metric=="Simpson_eqn"){
         jo[j] <- (msco::j.occ(s.data[sam,], order = order.jo)$jo.val)/min(rowSums(s.data[sam,]))
       }else if(metric=="Sorensen_eqn"){
@@ -168,7 +170,7 @@ gbsm <- function(s.data, t.data, p.d.mat, metric= "Simpson_eqn", d.f=4, order.jo
       for (i in 1:nsam) {
         er[i] <- rowSums(s.data[sam[i],])
       }
-      erate[j] <- (prod(er))/((ncol(s.data))^nsam)
+      erate[j] <- (prod(er))/(N^nsam)
     }
     if((metric %in% c("raw", "Simpson_eqn", "Sorensen_eqn"))!=TRUE){
       stop("Wrong option for the joint occupancy metric provided. It must either be 'raw', 'Simpson_eqn', or 'Sorensen_eqn'.")
@@ -184,7 +186,7 @@ gbsm <- function(s.data, t.data, p.d.mat, metric= "Simpson_eqn", d.f=4, order.jo
 
       #### jo values for chosen combination of species
       if(metric=="raw"){
-        jo[j] <- msco::j.occ(s.data[com[,j],], order = order.jo)$jo.val
+        jo[j] <- (msco::j.occ(s.data[com[,j],], order = order.jo)$jo.val)
       }else if(metric=="Simpson_eqn"){
         jo[j] <- (msco::j.occ(s.data[com[,j],], order = order.jo)$jo.val)/min(rowSums(s.data[com[,j],]))
       }else if(metric=="Sorensen_eqn"){
@@ -200,12 +202,13 @@ gbsm <- function(s.data, t.data, p.d.mat, metric= "Simpson_eqn", d.f=4, order.jo
       for (i in 1:nsam) {
         er[i] <- rowSums(s.data[com[,j][i],])
       }
-      erate[j] <- (prod(er))/((ncol(s.data))^nsam)
+      erate[j] <- (prod(er))/(N^nsam)
     }
     if((metric %in% c("raw", "Simpson_eqn", "Sorensen_eqn"))!=TRUE){
       stop("Wrong option for the joint occupancy metric provided. It must either be 'raw', 'Simpson_eqn', or 'Sorensen_eqn'.")
     }
   }
+  jo.p <- jo/N
   ## Assign bs.traits.diff (trait differences of B-splines of t.data) column names
   bs.traits.diff <- `colnames<-`(bs.traits.diff, colnames(bs.traits))
   bs.traits.diff <- data.frame(bs.traits.diff)
@@ -360,25 +363,25 @@ gbsm <- function(s.data, t.data, p.d.mat, metric= "Simpson_eqn", d.f=4, order.jo
   ## Combine bs.traits.diff, bs.p.dist (b-splines of p.dist) and bs.erate (b-splines of erate)
   bs.variables.diff <- cbind(bs.traits.diff, bs.p.dist, bs.erate)
 
-  ## Rescale jo values to be in [0,1] interval for raw jo (required for binomial regression)
-  if(metric=="raw"){
-    jo <- (jo-min(jo))/(max(jo)-min(jo))
-  }
+  # ## Rescale jo values to be in [0,1] interval for raw jo (required for binomial regression)
+  # if(metric=="raw"){
+  #   jo <- (jo-min(jo))/(max(jo)-min(jo))
+  # }
 
   ## Perform regression between jo and bs.variables.diff to get the regression coefficients
   bs.variables.diff <- data.frame(bs.variables.diff)
-  model <- suppressWarnings(glm2::glm2(jo ~ ., family=stats::binomial(link="log"), data = bs.variables.diff, start = start))
-  # (This model is the same as log(jo) = b0 + b1X1 + b2X2 + ... + bnXn)
+  model <- suppressWarnings(glm2::glm2(jo.p ~ ., family=stats::binomial(link="log"), data = bs.variables.diff, start = start))
+  # (This model is the same as log(jo.p) = b0 + b1X1 + b2X2 + ... + bnXn)
   mysum <- summary(model)
 
   ##### Variance explained
-  # pred.jo <- stats::predict(model, newdata = bs.variables.diff, type = "response", se = TRUE)
-  pred.jo <- suppressWarnings(stats::predict.glm(model, newdata = bs.variables.diff, type = "response"))
-  pred.jo <- as.numeric(pred.jo)
-  var.expd2 <- (stats::cor(jo, exp(pred.jo)))^2
+  # pred.jo.p <- stats::predict(model, newdata = bs.variables.diff, type = "response", se = TRUE)
+  pred.jo.p <- suppressWarnings(stats::predict.glm(model, newdata = bs.variables.diff, type = "response"))
+  pred.jo.p <- as.numeric(pred.jo.p)
+  var.expd2 <- (stats::cor(jo.p, pred.jo.p))^2
 
   if(scat.plot==TRUE){
-    plot(jo, exp(pred.jo), xlab="Joint occupancy", ylab="Predicted J. occ")
+    plot(jo, (pred.jo.p*N), xlab="Joint occupancy", ylab="Predicted J. occ")
   }
 
 
@@ -394,7 +397,7 @@ gbsm <- function(s.data, t.data, p.d.mat, metric= "Simpson_eqn", d.f=4, order.jo
 
   ## Product of the Coeffs with originally bspline-transformed variables
 
-  #Let J_pred = log(jo) = b0 + b1X1+b2X2+...+bnXn
+  #Let J_pred = log(jo.p) = b0 + b1X1+b2X2+...+bnXn
 
   ########## traits (t.data)
   J_preds.traits <- matrix(NA, nrow=nrow(bs.traits), ncol=ncol(bs.traits))
@@ -500,8 +503,12 @@ gbsm <- function(s.data, t.data, p.d.mat, metric= "Simpson_eqn", d.f=4, order.jo
   gbs$order.jo <- order.jo
   gbs$coeff <- coeff
   gbs$glm_obj <- model
+  # if(metric=="raw"){
+  #   gbs$j.occs <- jo*N
+  # }else{}
   gbs$j.occs <- jo
-  gbs$pred.j.occs <- pred.jo
+  gbs$jo.p <- jo.p
+  gbs$pred.jo.p <- pred.jo.p
   gbs$bs_pred <- bs.variables.diff
   gbs$start <- start
   gbs$var.expld <- var.expd2

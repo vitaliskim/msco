@@ -147,6 +147,7 @@ gbsm_m.orders <- function(s.data, t.data, p.d.mat, metric="Simpson_eqn", orders,
   cvalid <- list()
   cvalid_TEs <- matrix(NA, nrow = length(orders), ncol = 3)
   order.names <- c()
+  N <- ncol(s.data)
   for (i in orders) {
     contbn_table <- `names<-`(data.frame(rep(NA, ncol(t.data)+2), rep(NA, ncol(t.data)+2), rep(NA,ncol(t.data)+2),
                                          rep(NA,ncol(t.data)+2)), c("predictor", "var.expld_M1", "var.expld_M2",
@@ -156,6 +157,7 @@ gbsm_m.orders <- function(s.data, t.data, p.d.mat, metric="Simpson_eqn", orders,
                      response.curves=response.curves, scat.plot=FALSE, leg = 0, start = start)
     bs_pred <- mss[[i]]$bs_pred
     j.occs <- mss[[i]]$j.occs
+    jo.p <- mss[[i]]$jo.p
     gof <- mss[[i]]$var.expld
 
     ## Cross-validation
@@ -170,13 +172,13 @@ gbsm_m.orders <- function(s.data, t.data, p.d.mat, metric="Simpson_eqn", orders,
     for(j in 1:(ncol(t.data)+2)){
       data <- bs_pred[, -which(names(`names<-`(bs_pred,gsub("[[:digit:]]", "", names(bs_pred)))) %in% c(unique(
         names(`names<-`(bs_pred,gsub("[[:digit:]]", "", names(bs_pred)))))[j]))]
-      pred.cont[[j]] <- suppressWarnings(glm2::glm2(j.occs ~ ., family=stats::binomial(link="log"), data = data,
+      pred.cont[[j]] <- suppressWarnings(glm2::glm2(jo.p ~ ., family=stats::binomial(link="log"), data = data,
                                                     start = seq(-0.1, 0, length.out=ncol(data)+1)))
 
       contbn_table$predictor[j] <- unique(names(`names<-`(bs_pred,gsub("[[:digit:]]", "", names(bs_pred)))))[j]
-      contbn_table$var.expld_M2[j] <- stats::cor(j.occs, exp(as.numeric(suppressWarnings(stats::predict.glm(pred.cont[[j]],
+      contbn_table$var.expld_M2[j] <- stats::cor(jo.p, as.numeric(suppressWarnings(stats::predict.glm(pred.cont[[j]],
                                                                                              newdata = data,
-                                                                                             type = "response")))))^2
+                                                                                             type = "response"))))^2
       contbn_table$var.expld_M1[j] <- gof
       contbn_table$contribution[j] <- (contbn_table$var.expld_M1[j] - contbn_table$var.expld_M2[j])/(contbn_table$var.expld_M1[j])
     }
@@ -206,7 +208,7 @@ gbsm_m.orders <- function(s.data, t.data, p.d.mat, metric="Simpson_eqn", orders,
     graphics::par(mar=c(5,5,4,1)+.1)
     graphics::par(mfrow=c((length(orders)+1)/2,2))
     for (kv in orders) {
-      plot(mss[[kv]]$j.occs, exp(mss[[kv]]$pred.j.occs), xlab="J. occupancy", ylab="Predicted J.occ",
+      plot(mss[[kv]]$j.occs, (mss[[kv]]$pred.jo.p*N), xlab="J. occupancy", ylab="Predicted J.occ",
            main = noquote(paste("Order", kv)))
     }
   }
