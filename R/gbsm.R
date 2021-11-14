@@ -100,10 +100,6 @@ gbsm <- function(s.data, t.data, p.d.mat, metric= "Simpson_eqn", d.f=4, order.jo
   if(class(t.data)!="data.frame"){
     t.data <- as.data.frame(t.data)
   }
-
-  # if (length(setdiff(sapply(t.data, class), c("factor", "numeric"))) > 0) {
-  #   stop("Trait variables must be factor or numeric")
-  # }
   if (order.jo > dim(s.data)[1]) {
     stop("Wrong value for \"order\": it must be equal or lower than the number of species.")
   }
@@ -363,11 +359,6 @@ gbsm <- function(s.data, t.data, p.d.mat, metric= "Simpson_eqn", d.f=4, order.jo
   ## Combine bs.traits.diff, bs.p.dist (b-splines of p.dist) and bs.erate (b-splines of erate)
   bs.variables.diff <- cbind(bs.traits.diff, bs.p.dist, bs.erate)
 
-  # ## Rescale jo values to be in [0,1] interval for raw jo (required for binomial regression)
-  # if(metric=="raw"){
-  #   jo <- (jo-min(jo))/(max(jo)-min(jo))
-  # }
-
   ## Perform regression between jo and bs.variables.diff to get the regression coefficients
   bs.variables.diff <- data.frame(bs.variables.diff)
   model <- suppressWarnings(glm2::glm2(jo.p ~ ., family=stats::binomial(link="log"), data = bs.variables.diff, start = start))
@@ -406,7 +397,8 @@ gbsm <- function(s.data, t.data, p.d.mat, metric= "Simpson_eqn", d.f=4, order.jo
     J_preds.traits[,i] <- coeff.traits[i]*bs.traits[,i] + intercept/((dim(t.data)[2]+2)*d.f)
   }
   J_preds.traits <- `names<-`(data.frame(J_preds.traits), names(bs.traits))
-  ## Sum "d.f" columns per variable (from J_preds.traits) to get "J_preds.traits.fin"
+
+  # Sum "d.f" columns per variable (from J_preds.traits) to get "J_preds.traits.fin"
   names(J_preds.traits) <- gsub("[[:digit:]]", "", names(J_preds.traits))
   J_preds.traits.fin <- t(rowsum(t(J_preds.traits), group = colnames(J_preds.traits), na.rm = T, reorder=FALSE))
 
@@ -417,7 +409,8 @@ gbsm <- function(s.data, t.data, p.d.mat, metric= "Simpson_eqn", d.f=4, order.jo
     J_preds.p.d[,i] <- coeff.p.d[i]*bs.p.dist[,i] + intercept/((dim(t.data)[2]+2)*d.f)
   }
   J_preds.p.d <- `names<-`(data.frame(J_preds.p.d), names(bs.p.dist))
-  ## Sum "d.f" columns per variable (from J_preds.p.d) to get "J_preds.p.d.fin"
+
+  # Sum "d.f" columns per variable (from J_preds.p.d) to get "J_preds.p.d.fin"
   names(J_preds.p.d) <- gsub("[[:digit:]]", "", names(J_preds.p.d))
   J_preds.p.d.fin <- t(rowsum(t(J_preds.p.d), group = colnames(J_preds.p.d), na.rm = TRUE, reorder=FALSE))
 
@@ -428,7 +421,8 @@ gbsm <- function(s.data, t.data, p.d.mat, metric= "Simpson_eqn", d.f=4, order.jo
     J_preds.er[,i] <- coeff.er[i]*bs.erate[,i] + intercept/((dim(t.data)[2]+2)*d.f)
   }
   J_preds.er <- `names<-`(data.frame(J_preds.er), names(bs.erate))
-  ## Sum "d.f" columns per variable (from J_preds.er) to get "J_preds.er.fin"
+
+  # Sum "d.f" columns per variable (from J_preds.er) to get "J_preds.er.fin"
   names(J_preds.er) <- gsub("[[:digit:]]", "", names(J_preds.er))
   J_preds.er.fin <- t(rowsum(t(J_preds.er), group = colnames(J_preds.er), na.rm = TRUE, reorder=FALSE))
 
@@ -503,9 +497,6 @@ gbsm <- function(s.data, t.data, p.d.mat, metric= "Simpson_eqn", d.f=4, order.jo
   gbs$order.jo <- order.jo
   gbs$coeff <- coeff
   gbs$glm_obj <- model
-  # if(metric=="raw"){
-  #   gbs$j.occs <- jo*N
-  # }else{}
   gbs$j.occs <- jo
   gbs$jo.p <- jo.p
   gbs$pred.jo.p <- pred.jo.p
