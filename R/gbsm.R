@@ -145,6 +145,7 @@ gbsm <- function(s.data, t.data, p.d.mat, metric= "Simpson_eqn", d.f=4, order.jo
     bs.traits.diff <- matrix(NA, nrow = n, ncol = ncol(bs.traits))
     erate <- rep(NA, n)
     p.dist <- rep(NA, n)
+
     for (j in 1:n) {
       sam <- sample(1:sn, order.jo, replace = FALSE)
       bs.traits.diff[j,] <- apply(bs.traits[sam,], 2, stats::sd)
@@ -205,29 +206,32 @@ gbsm <- function(s.data, t.data, p.d.mat, metric= "Simpson_eqn", d.f=4, order.jo
     }
   }
   jo.p <- jo/N
+
+  ## Rescale p.dist to be in [0,1]
+  p.dist<- (p.dist - min(p.dist))/(max(p.dist)-min(p.dist))
+
   ## Assign bs.traits.diff (trait differences of B-splines of t.data) column names
   bs.traits.diff <- `colnames<-`(bs.traits.diff, colnames(bs.traits))
   bs.traits.diff <- data.frame(bs.traits.diff)
 
-  ## Rescale p.dist & erate to be in [0,1]
-  p.dist <- (p.dist-min(p.dist))/(max(p.dist)-min(p.dist))
-  erate <- (erate-min(erate))/(max(erate)-min(erate))
-
   ## B-splines of p.dist & erate
+  bs.p.dist <- matrix(NA, nrow=n, ncol=d.f)
   bs.erate <- matrix(NA, nrow=length(erate), ncol=d.f)
-  bs.p.dist <- matrix(NA, nrow=length(p.dist), ncol=d.f)
   for (i in 1:d.f) {
-    bs.erate[,i] <- splines2::bSpline(erate, d.f=d.f, degree=degree, intercept = TRUE)[,i]
     bs.p.dist[,i] <- splines2::bSpline(p.dist, d.f=d.f, degree=degree, intercept = TRUE)[,i]
+    bs.erate[,i] <- splines2::bSpline(erate, d.f=d.f, degree=degree, intercept = TRUE)[,i]
   }
-  bs.erate <- data.frame(bs.erate)
   bs.p.dist <- data.frame(bs.p.dist)
+  bs.erate <- data.frame(bs.erate)
 
-  ## Assign names to bs.erate & bs.p.dist
+  ## Assign names to bs.erate
   for (j in 1:d.f) {
     names(bs.erate)[j] <- paste("E.rate", j, sep = "")
     names(bs.p.dist)[j] <- paste("p.dist", j, sep = "")
   }
+  ## Rescale p.dist to be in [0,1]
+  erate <- (erate - min(erate))/(max(erate)-min(erate))
+
 
   ### Transform the trait variables (t.data) to fill the gaps in the data for smooth plotting using seq
   ff <- c()
