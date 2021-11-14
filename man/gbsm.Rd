@@ -84,8 +84,8 @@ it is the Pearson's \strong{\eqn{r^2}} between the observed and predicted values
 }
 \description{
 This function implements the generalised B-spline model (\emph{sensu} Lagat \emph{et al.,} 2021b)
-for dissecting the effects of neutral encounter versus functional traits on multi-order
-species interactions and co-occurrence. Generalized linear model
+for dissecting the effects of random encounter versus functional trait mismatching on
+multi-species co-occurrence and interference. Generalized linear model
 (\emph{sensu} Hastie and Tibshirani, 1986) with binomial variance distribution and log link
 functions employed, with predictors transformed using a linear combination of B-splines
 (\emph{sensu} Curry and Schoenberg, 1988).
@@ -124,8 +124,8 @@ fundamental spline functions and their limits. In \emph{IJ Schoenberg Selected P
 \item{Lagat, V. K., Latombe, G. and Hui, C. (2021a). \emph{A multi-species co-occurrence
 index to avoid type II errors in null model testing}. DOI: \verb{<To be added>}.}
 
-\item{Lagat, V. K., Latombe, G. and Hui, C. (2021b). \emph{Dissecting the effects of
-neutral encounter versus functional traits on multi-order species interactions
-and co-occurrence with generalised B-spline modelling}. DOI: \verb{<To be added>}.}
+\item{Lagat, V. K., Latombe, G. and Hui, C. (2021b). \emph{Dissecting the effects of random
+encounter versus functional trait mismatching on multi-species co-occurrence and
+interference with generalised B-spline modelling}. DOI: \verb{<To be added>}.}
 }
 }

@@ -453,9 +453,9 @@ Jo.res <- function(){
 #'   (with prediction uncertainty plot taking 6 minutes alone). It took 7.3895 minutes
 #'    to run (and output results) on a 64 bit system with 8 GB RAM and 3.60 GHz CPU.
 #'
-#' @references Lagat, V. K., Latombe, G. and Hui, C. (2021b). *Dissecting the effects of
-#'   neutral encounter versus functional traits on multi-order species interactions
-#'    and co-occurrence with generalised B-spline modelling*. DOI: `<To be added>`.
+#' @references Lagat, V. K., Latombe, G. and Hui, C. (2021b). *Dissecting the effects
+#'  of random encounter versus functional trait mismatching on multi-species
+#'   co-occurrence and interference with generalised B-spline modelling*. DOI: `<To be added>`.
 #'
 #' @examples
 #' \dontrun{
@@ -595,9 +595,9 @@ gbsm.res <- function(){
 #' \item{Lagat, V. K., Latombe, G. and Hui, C. (2021a). *A multi-species co-occurrence
 #'  index to avoid type II errors in null model testing*. DOI: `<To be added>`.}
 #'
-#'  \item{Lagat, V. K., Latombe, G. and Hui, C. (2021b). *Dissecting the effects of
-#'   neutral encounter versus functional traits on multi-order species interactions
-#'    and co-occurrence with generalised B-spline modelling*. DOI: `<To be added>`.}
+#'  \item{Lagat, V. K., Latombe, G. and Hui, C. (2021b). *Dissecting the effects of random
+#'   encounter versus functional trait mismatching on multi-species co-occurrence and
+#'    interference with generalised B-spline modelling*. DOI: `<To be added>`.}
 #'
 #'   \item{Lagat, V. K., Latombe, G. and Hui, C. (2021c). *`msco`: an R software package
 #'   for null model testing of multi-species interactions and interference with

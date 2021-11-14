@@ -1,7 +1,7 @@
 #' Predictor's contribution and model performance assessment from the results on multiple orders of joint occupancy
 #'
 #' This function implements the generalised B-spline model (gbsm; *sensu* Lagat et al., 2021b) for dissecting the
-#'  effects of neutral encounter versus functional traits on multi-order species interactions and cooccurrence.
+#'  effects of random encounter versus functional trait mismatching on multi-species co-occurrence and interference.
 #'   Unlike \link[msco]{gbsm} that performs gbsm for a single order of species, \link[msco]{gbsm_m.orders} takes
 #'    into account multiple orders of joint occupancy. In particular: for multiple joint occupancy orders, this
 #'     function computes:
@@ -75,9 +75,9 @@
 #'  \item{Lagat, V. K., Latombe, G. and Hui, C. (2021a). *A multi-species co-occurrence
 #'  index to avoid type II errors in null model testing*. DOI: `<To be added>`.}
 #'
-#'  \item{Lagat, V. K., Latombe, G. and Hui, C. (2021b). *Dissecting the effects of
-#'   neutral encounter versus functional traits on multi-order species interactions
-#'    and co-occurrence with generalised B-spline modelling*. DOI: `<To be added>`.}
+#'  \item{Lagat, V. K., Latombe, G. and Hui, C. (2021b). *Dissecting the effects of random
+#'   encounter versus functional trait mismatching on multi-species co-occurrence and
+#'    interference with generalised B-spline modelling*. DOI: `<To be added>`.}
 #' }
 #' @examples
 #' \dontrun{

@@ -1,8 +1,8 @@
 #' A generalised B-spline modelling for a set of neutral and trait-based variables
 #'
 #' This function implements the generalised B-spline model (*sensu* Lagat *et al.,* 2021b)
-#'  for dissecting the effects of neutral encounter versus functional traits on multi-order
-#'   species interactions and co-occurrence. Generalized linear model
+#'  for dissecting the effects of random encounter versus functional trait mismatching on
+#'   multi-species co-occurrence and interference. Generalized linear model
 #'   (*sensu* Hastie and Tibshirani, 1986) with binomial variance distribution and log link
 #'    functions employed, with predictors transformed using a linear combination of B-splines
 #'     (*sensu* Curry and Schoenberg, 1988).
@@ -66,9 +66,9 @@
 #'  \item{Lagat, V. K., Latombe, G. and Hui, C. (2021a). *A multi-species co-occurrence
 #'  index to avoid type II errors in null model testing*. DOI: `<To be added>`.}
 #'
-#'  \item{Lagat, V. K., Latombe, G. and Hui, C. (2021b). *Dissecting the effects of
-#'   neutral encounter versus functional traits on multi-order species interactions
-#'    and co-occurrence with generalised B-spline modelling*. DOI: `<To be added>`.}
+#'  \item{Lagat, V. K., Latombe, G. and Hui, C. (2021b). *Dissecting the effects of random
+#'  encounter versus functional trait mismatching on multi-species co-occurrence and
+#'   interference with generalised B-spline modelling*. DOI: `<To be added>`.}
 #'  }
 #'
 #' @examples

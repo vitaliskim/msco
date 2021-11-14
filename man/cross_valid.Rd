@@ -89,9 +89,9 @@ repeated.kfold
 \item{Fushiki, T. (2011). Estimation of prediction error by using K-fold cross-validation.
 \emph{Stat. Comput.} \strong{21}, 137-146. \url{https://doi.org/10.1007/s11222-009-9153-8}}
 
-\item{Lagat, V. K., Latombe, G. and Hui, C. (2021b). \emph{Dissecting the effects of
-neutral encounter versus functional traits on multi-order species interactions
-and co-occurrence with generalised B-spline modelling}. DOI: \verb{<To be added>}.}
+\item{Lagat, V. K., Latombe, G. and Hui, C. (2021b). \emph{Dissecting the effects of random
+encounter versus functional trait mismatching on multi-species co-occurrence and
+interference with generalised B-spline modelling}. DOI: \verb{<To be added>}.}
 
 \item{Lagat, V. K., Latombe, G. and Hui, C. (2021c). \emph{\code{msco}: an R software package
 for null model testing of multi-species interactions and interference with

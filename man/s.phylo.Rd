@@ -96,8 +96,8 @@ my.p.d.mat
 \item{Binomial nomenclature' (2020) \emph{Wikipedia}. Available at:
 \url{https://en.wikipedia.org/wiki/Binomial_nomenclature} (Accessed: 09 November 2020).}
 
-\item{Lagat, V. K., Latombe, G. and Hui, C., 2021b. \emph{Dissecting the effects of
-neutral encounter versus functional traits on multi-order species interactions
-and co-occurrence with generalised B-spline modelling}. DOI: \verb{<To be added>}.}
+\item{Lagat, V. K., Latombe, G. and Hui, C., 2021b. \emph{Dissecting the effects of random
+encounter versus functional trait mismatching on multi-species co-occurrence and
+interference with generalised B-spline modelling}. DOI: \verb{<To be added>}.}
 }
 }
