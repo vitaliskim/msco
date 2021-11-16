@@ -150,7 +150,7 @@ gbsm <- function(s.data, t.data, p.d.mat, metric= "Simpson_eqn", d.f=4, order.jo
 
       #### jo values for chosen combination of species
       if(metric=="raw"){
-        jo[j] <- (msco::j.occ(s.data[sam,], order = order.jo)$jo.val)/N
+        jo[j] <- (msco::j.occ(s.data[sam,], order = order.jo)$jo.val)
       }else if(metric=="Simpson_eqn"){
         jo[j] <- (msco::j.occ(s.data[sam,], order = order.jo)$jo.val)/min(rowSums(s.data[sam,]))
       }else if(metric=="Sorensen_eqn"){
@@ -181,7 +181,7 @@ gbsm <- function(s.data, t.data, p.d.mat, metric= "Simpson_eqn", d.f=4, order.jo
 
       #### jo values for chosen combination of species
       if(metric=="raw"){
-        jo[j] <- (msco::j.occ(s.data[com[,j],], order = order.jo)$jo.val)/N
+        jo[j] <- (msco::j.occ(s.data[com[,j],], order = order.jo)$jo.val)
       }else if(metric=="Simpson_eqn"){
         jo[j] <- (msco::j.occ(s.data[com[,j],], order = order.jo)$jo.val)/min(rowSums(s.data[com[,j],]))
       }else if(metric=="Sorensen_eqn"){
@@ -204,6 +204,9 @@ gbsm <- function(s.data, t.data, p.d.mat, metric= "Simpson_eqn", d.f=4, order.jo
     }
   }
 
+  if(metric=="raw"){
+    jo <- jo/N
+  }
   ## Rescale p.dist to be in [0,1]
   p.dist<- (p.dist - min(p.dist))/(max(p.dist)-min(p.dist))
 
