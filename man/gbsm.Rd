@@ -32,7 +32,7 @@ phylogenetic distance between any two of them (species).}
 
 \item{metric}{The type of rescaling applied to the joint occupancy metric. Available options are:
 \code{Simpson_eqn} for Simpson equivalent, \code{Sorensen_eqn} for Sorensen equivalent, and \code{raw} for the
-raw form of index without rescaling.}
+raw form of the metric rescaled by dividing by the total number of sites, N.}
 
 \item{d.f}{Degrees of freedom for B-splines.}
 
@@ -73,9 +73,7 @@ distribution function and log link function.}
 function and log link function.}
 \item{\code{coeff}}{Coefficients of the generalized linear model used.}
 \item{\code{glm_obj}}{Generalized linear model used.}
-\item{\code{j.occs}}{Observed joint occupancies.}
-\item{\code{jo.p}}{Observed joint occupancy proportions.}
-\item{\code{pred.jo.p}}{Predicted joint occupancy proportions.}
+\item{\code{j.occs}}{Rescaled observed joint occupancies. See \code{metric}above.}
 \item{\code{bs_pred}}{B-spline-transformed \code{Predictors}.}
 \item{\code{start}}{Starting values for the generalized linear model used.}
 \item{\code{var.expld}}{Amount of variation in joint occupancy explained by the \code{Predictors}. I.e.,

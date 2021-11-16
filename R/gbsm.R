@@ -44,7 +44,7 @@
 #'  function and log link function.}
 #' \item{`coeff`}{Coefficients of the generalized linear model used.}
 #' \item{`glm_obj`}{Generalized linear model used.}
-#' \item{`j.occs`}{Rescaled observed joint occupancies. See `metric` above.}
+#' \item{`j.occs`}{Rescaled observed joint occupancies. See `metric`above.}
 #' \item{`bs_pred`}{B-spline-transformed `Predictors`.}
 #' \item{`start`}{Starting values for the generalized linear model used.}
 #' \item{`var.expld`}{Amount of variation in joint occupancy explained by the `Predictors`. I.e.,
