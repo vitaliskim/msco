@@ -90,7 +90,7 @@ Returns all the results presented in Lagat \emph{et al}. (2021b). To replicate
   t.data <- get(load("t.data.csv")) ##Species-by-trait matrix
   p.d.mat <- get(load("p.d.mat.csv")) ##Species-by-species phylogenetic distance matrix
   RNGkind(sample.kind = "Rejection")
-  set.seed(1)
+  set.seed(4)
   pe <- msco::pred.error.bands(s.data,
                       t.data,
                       p.d.mat,

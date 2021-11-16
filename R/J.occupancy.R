@@ -435,7 +435,7 @@ Jo.res <- function(){
 #'        t.data <- get(load("t.data.csv")) ##Species-by-trait matrix
 #'        p.d.mat <- get(load("p.d.mat.csv")) ##Species-by-species phylogenetic distance matrix
 #'        RNGkind(sample.kind = "Rejection")
-#'        set.seed(1)
+#'        set.seed(4)
 #'        pe <- msco::pred.error.bands(s.data,
 #'                            t.data,
 #'                            p.d.mat,
