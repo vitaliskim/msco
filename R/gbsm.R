@@ -18,7 +18,7 @@
 #' @param degree Degree of the B-splines.
 #' @param metric The type of rescaling applied to the joint occupancy metric. Available options are:
 #'  `Simpson_eqn` for Simpson equivalent, `Sorensen_eqn` for Sorensen equivalent, and `raw` for the
-#'   raw form of index without rescaling.
+#'   raw form of the metric rescaled by dividing by the total number of sites, N.
 #' @param n Number of samples for which the joint occupancy is computed. These samples are non-overlapping.
 #'  I.e., sampling is done without replacement. If the total number of combinations of `i` species chosen
 #'   from the total species pool `m`, i.e. `choose(m,i)`, is less than this value (`n`), `choose(m,i)` is
@@ -44,9 +44,7 @@
 #'  function and log link function.}
 #' \item{`coeff`}{Coefficients of the generalized linear model used.}
 #' \item{`glm_obj`}{Generalized linear model used.}
-#' \item{`j.occs`}{Observed joint occupancies.}
-#' \item{`jo.p`}{Observed joint occupancy proportions.}
-#' \item{`pred.jo.p`}{Predicted joint occupancy proportions.}
+#' \item{`j.occs`}{Rescaled observed joint occupancies. See `metric` above.}
 #' \item{`bs_pred`}{B-spline-transformed `Predictors`.}
 #' \item{`start`}{Starting values for the generalized linear model used.}
 #' \item{`var.expld`}{Amount of variation in joint occupancy explained by the `Predictors`. I.e.,
@@ -152,7 +150,7 @@ gbsm <- function(s.data, t.data, p.d.mat, metric= "Simpson_eqn", d.f=4, order.jo
 
       #### jo values for chosen combination of species
       if(metric=="raw"){
-        jo[j] <- (msco::j.occ(s.data[sam,], order = order.jo)$jo.val)
+        jo[j] <- (msco::j.occ(s.data[sam,], order = order.jo)$jo.val)/N
       }else if(metric=="Simpson_eqn"){
         jo[j] <- (msco::j.occ(s.data[sam,], order = order.jo)$jo.val)/min(rowSums(s.data[sam,]))
       }else if(metric=="Sorensen_eqn"){
@@ -183,7 +181,7 @@ gbsm <- function(s.data, t.data, p.d.mat, metric= "Simpson_eqn", d.f=4, order.jo
 
       #### jo values for chosen combination of species
       if(metric=="raw"){
-        jo[j] <- (msco::j.occ(s.data[com[,j],], order = order.jo)$jo.val)
+        jo[j] <- (msco::j.occ(s.data[com[,j],], order = order.jo)$jo.val)/N
       }else if(metric=="Simpson_eqn"){
         jo[j] <- (msco::j.occ(s.data[com[,j],], order = order.jo)$jo.val)/min(rowSums(s.data[com[,j],]))
       }else if(metric=="Sorensen_eqn"){
@@ -205,7 +203,6 @@ gbsm <- function(s.data, t.data, p.d.mat, metric= "Simpson_eqn", d.f=4, order.jo
       stop("Wrong option for the joint occupancy metric provided. It must either be 'raw', 'Simpson_eqn', or 'Sorensen_eqn'.")
     }
   }
-  jo.p <- jo/N
 
   ## Rescale p.dist to be in [0,1]
   p.dist<- (p.dist - min(p.dist))/(max(p.dist)-min(p.dist))
@@ -365,18 +362,18 @@ gbsm <- function(s.data, t.data, p.d.mat, metric= "Simpson_eqn", d.f=4, order.jo
 
   ## Perform regression between jo and bs.variables.diff to get the regression coefficients
   bs.variables.diff <- data.frame(bs.variables.diff)
-  model <- suppressWarnings(glm2::glm2(jo.p ~ ., family=stats::binomial(link="log"), data = bs.variables.diff, start = start))
-  # (This model is the same as log(jo.p) = b0 + b1X1 + b2X2 + ... + bnXn)
+  model <- suppressWarnings(glm2::glm2(jo ~ ., family=stats::binomial(link="log"), data = bs.variables.diff, start = start))
+  # (This model is the same as log(jo) = b0 + b1X1 + b2X2 + ... + bnXn)
   mysum <- summary(model)
 
   ##### Variance explained
-  # pred.jo.p <- stats::predict(model, newdata = bs.variables.diff, type = "response", se = TRUE)
-  pred.jo.p <- suppressWarnings(stats::predict.glm(model, newdata = bs.variables.diff, type = "response"))
-  pred.jo.p <- as.numeric(pred.jo.p)
-  var.expd2 <- (stats::cor(jo.p, pred.jo.p))^2
+  # pred.jo <- stats::predict(model, newdata = bs.variables.diff, type = "response", se = TRUE)
+  pred.jo <- suppressWarnings(stats::predict.glm(model, newdata = bs.variables.diff, type = "response"))
+  pred.jo <- as.numeric(pred.jo)
+  var.expd2 <- (stats::cor(jo, pred.jo))^2
 
   if(scat.plot==TRUE){
-    plot(jo, (pred.jo.p*N), xlab="Joint occupancy", ylab="Predicted J. occ")
+    plot(jo, pred.jo, xlab="Joint occupancy", ylab="Predicted J. occ")
   }
 
 
@@ -392,7 +389,7 @@ gbsm <- function(s.data, t.data, p.d.mat, metric= "Simpson_eqn", d.f=4, order.jo
 
   ## Product of the Coeffs with originally bspline-transformed variables
 
-  #Let J_pred = log(jo.p) = b0 + b1X1+b2X2+...+bnXn
+  #Let J_pred = log(jo) = b0 + b1X1+b2X2+...+bnXn
 
   ########## traits (t.data)
   J_preds.traits <- matrix(NA, nrow=nrow(bs.traits), ncol=ncol(bs.traits))
@@ -502,8 +499,7 @@ gbsm <- function(s.data, t.data, p.d.mat, metric= "Simpson_eqn", d.f=4, order.jo
   gbs$coeff <- coeff
   gbs$glm_obj <- model
   gbs$j.occs <- jo
-  gbs$jo.p <- jo.p
-  gbs$pred.jo.p <- pred.jo.p
+  gbs$pred.j.occs <- pred.jo
   gbs$bs_pred <- bs.variables.diff
   gbs$start <- start
   gbs$var.expld <- var.expd2
