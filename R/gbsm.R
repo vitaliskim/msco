@@ -20,6 +20,8 @@
 #'  `Simpson_eqn` for Simpson equivalent, `Sorensen_eqn` for Sorensen equivalent, `raw_prop` for the
 #'   raw form of the metric rescaled by dividing by the total number of sites, N, and `raw` for the
 #'    raw form of the metric without rescaling.
+#'  @param gbsm.model The model used if the `raw` form of the metric is choosen. Availbale options are `"poisson"`
+#'   for Poisson GLM or `"nb"` for negative binomial GLM. Other metric types strictly uses binomial GLM.
 #' @param n Number of samples for which the joint occupancy is computed. These samples are non-overlapping.
 #'  I.e., sampling is done without replacement. If the total number of combinations of `i` species chosen
 #'   from the total species pool `m`, i.e. `choose(m,i)`, is less than this value (`n`), `choose(m,i)` is
@@ -78,7 +80,7 @@
 #'  t.data <- get(load("t.data.csv")) ## Species-by-trait matrix
 #'  p.d.mat <- get(load("p.d.mat.csv")) ## Species-by-species phylogenetic distance matrix
 #'
-#'  my.gbsm <- msco::gbsm(s.data, t.data, p.d.mat, metric = "Simpson_eqn",
+#'  my.gbsm <- msco::gbsm(s.data, t.data, p.d.mat, metric = "Simpson_eqn", gbsm.model,
 #'   d.f=4, order.jo=3, degree=3, n=1000, b.plots=TRUE, scat.plot=TRUE,
 #'    bsplines="single", response.curves=TRUE, leg=1,
 #'     start=seq(-0.1, 0, length.out=(ncol(t.data)+2)*4+1))
@@ -94,7 +96,7 @@
 #' @md
 
 gbsm <- function(s.data, t.data, p.d.mat, metric= "Simpson_eqn", d.f=4, order.jo=3, degree=3, n=1000, b.plots=TRUE,
-                 bsplines="single", scat.plot=TRUE, response.curves=TRUE, leg=1, start=seq(-0.1, 0, length.out=(ncol(t.data)+2)*4+1)){
+                 bsplines="single", gbsm.model, scat.plot=TRUE, response.curves=TRUE, leg=1, start=seq(-0.1, 0, length.out=(ncol(t.data)+2)*4+1)){
 
   if(class(t.data)!="data.frame"){
     t.data <- as.data.frame(t.data)
@@ -365,9 +367,13 @@ gbsm <- function(s.data, t.data, p.d.mat, metric= "Simpson_eqn", d.f=4, order.jo
   bs.variables.diff <- data.frame(bs.variables.diff)
   if((metric %in% c("raw_prop", "Simpson_eqn", "Sorensen_eqn"))==TRUE){
     model <- suppressWarnings(glm2::glm2(jo ~ ., family=stats::binomial(link="log"), data = bs.variables.diff, start = start))
-  }else if(metric=="raw" & (metric %in% c("raw_prop", "Simpson_eqn", "Sorensen_eqn"))!=TRUE){
+  }else if(metric=="raw" & (metric %in% c("raw_prop", "Simpson_eqn", "Sorensen_eqn"))!=TRUE & gbsm.model=="poisson"){
     model <- suppressWarnings(glm2::glm2(jo ~ ., family=stats::poisson(link="log"), data = bs.variables.diff, start = start))
-  }else{stop("Wrong metric option choosen!")}
+  }else if(metric=="raw" & (metric %in% c("raw_prop", "Simpson_eqn", "Sorensen_eqn"))!=TRUE & gbsm.model=="nb"){
+    model <- suppressWarnings(MASS::glm.nb(jo ~ ., link = log, data = bs.variables.diff, start = start))
+  }else if(metric=="raw" & (metric %in% c("raw_prop", "Simpson_eqn", "Sorensen_eqn"))!=TRUE & (gbsm.model %in% c("poisson", "nb"))!=TRUE){
+    stop("Wrong 'gbsm.model' used for 'raw' version of joint occupancy. It must either be 'poisson' or 'nb'.")
+  }
 
   # (This model is the same as log(jo) = b0 + b1X1 + b2X2 + ... + bnXn)
   mysum <- summary(model)

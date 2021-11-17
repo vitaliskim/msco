@@ -16,6 +16,7 @@ gbsm_m.orders(
   k = 5,
   p = 0.8,
   type = "k-fold",
+  gbsm.model,
   scat.plots = FALSE,
   response.curves = TRUE,
   j.occs.distrbn = FALSE,
@@ -124,7 +125,7 @@ function computes:
 
  RNGkind(sample.kind = "Rejection")
  set.seed(0)
- jp <- msco::gbsm_m.orders(s.data, t.data, p.d.mat,
+ jp <- msco::gbsm_m.orders(s.data, t.data, p.d.mat, gbsm.model,
   metric="Simpson_eqn", orders = c(3:5, 8, 10, 15, 20), d.f=4,
    degree=3, n=1000, k=5, p=0.8, type="k-fold", scat.plots=TRUE,
     response.curves=TRUE, j.occs.distrbn=TRUE, mp.plots=TRUE,
@@ -137,7 +138,7 @@ function computes:
  ## Close the open plots.gbsm.pdf file before running the 2nd example
  RNGkind(sample.kind = "Rejection")
  set.seed(0)
- jp2 <- msco::gbsm_m.orders(s.data, t.data, p.d.mat,
+ jp2 <- msco::gbsm_m.orders(s.data, t.data, p.d.mat, gbsm.model,
   metric="Sorensen_eqn", orders = c(3:5, 8, 10, 15, 20), d.f=4,
    degree=3, n=1000, k=5, p=0.8, type="k-fold", scat.plots=TRUE,
     response.curves=TRUE, j.occs.distrbn=TRUE, mp.plots=TRUE,
@@ -150,8 +151,8 @@ function computes:
 ## Close the open plots.gbsm.pdf file before running the 3rd example
  RNGkind(sample.kind = "Rejection")
  set.seed(0)
- jp3 <- msco::gbsm_m.orders(s.data, t.data, p.d.mat,
-  metric="raw", orders = c(3:5, 8, 10, 15, 20), d.f=4,
+ jp3 <- msco::gbsm_m.orders(s.data, t.data, p.d.mat, gbsm.model,
+  metric="raw_prop", orders = c(3:5, 8, 10, 15, 20), d.f=4,
    degree=3, n=1000, k=5, p=0.8, type="k-fold", scat.plots=TRUE,
     response.curves=TRUE, j.occs.distrbn=TRUE, mp.plots=TRUE,
      start=seq(-0.1, 0, length.out=(ncol(t.data)+2)*4+1))
@@ -159,6 +160,19 @@ function computes:
  jp3$contbn_table[[1]]
  jp3$model.validation.table
  jp3$jo.orders
+
+## Close the open plots.gbsm.pdf file before running the 3rd example
+ RNGkind(sample.kind = "Rejection")
+ set.seed(0)
+ jp4 <- msco::gbsm_m.orders(s.data, t.data, p.d.mat, gbsm.model="nb",
+  metric="raw_prop", orders = c(3:5, 8, 10, 15, 20), d.f=4,
+   degree=3, n=1000, k=5, p=0.8, type="k-fold", scat.plots=TRUE,
+    response.curves=TRUE, j.occs.distrbn=TRUE, mp.plots=TRUE,
+     start=seq(-0.1, 0, length.out=(ncol(t.data)+2)*4+1))
+
+ jp4$contbn_table[[1]]
+ jp4$model.validation.table
+ jp4$jo.orders
 
  }
 

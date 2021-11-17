@@ -90,7 +90,7 @@
 #'
 #'  RNGkind(sample.kind = "Rejection")
 #'  set.seed(0)
-#'  jp <- msco::gbsm_m.orders(s.data, t.data, p.d.mat,
+#'  jp <- msco::gbsm_m.orders(s.data, t.data, p.d.mat, gbsm.model,
 #'   metric="Simpson_eqn", orders = c(3:5, 8, 10, 15, 20), d.f=4,
 #'    degree=3, n=1000, k=5, p=0.8, type="k-fold", scat.plots=TRUE,
 #'     response.curves=TRUE, j.occs.distrbn=TRUE, mp.plots=TRUE,
@@ -103,7 +103,7 @@
 #'  ## Close the open plots.gbsm.pdf file before running the 2nd example
 #'  RNGkind(sample.kind = "Rejection")
 #'  set.seed(0)
-#'  jp2 <- msco::gbsm_m.orders(s.data, t.data, p.d.mat,
+#'  jp2 <- msco::gbsm_m.orders(s.data, t.data, p.d.mat, gbsm.model,
 #'   metric="Sorensen_eqn", orders = c(3:5, 8, 10, 15, 20), d.f=4,
 #'    degree=3, n=1000, k=5, p=0.8, type="k-fold", scat.plots=TRUE,
 #'     response.curves=TRUE, j.occs.distrbn=TRUE, mp.plots=TRUE,
@@ -116,8 +116,8 @@
 #' ## Close the open plots.gbsm.pdf file before running the 3rd example
 #'  RNGkind(sample.kind = "Rejection")
 #'  set.seed(0)
-#'  jp3 <- msco::gbsm_m.orders(s.data, t.data, p.d.mat,
-#'   metric="raw", orders = c(3:5, 8, 10, 15, 20), d.f=4,
+#'  jp3 <- msco::gbsm_m.orders(s.data, t.data, p.d.mat, gbsm.model,
+#'   metric="raw_prop", orders = c(3:5, 8, 10, 15, 20), d.f=4,
 #'    degree=3, n=1000, k=5, p=0.8, type="k-fold", scat.plots=TRUE,
 #'     response.curves=TRUE, j.occs.distrbn=TRUE, mp.plots=TRUE,
 #'      start=seq(-0.1, 0, length.out=(ncol(t.data)+2)*4+1))
@@ -126,12 +126,25 @@
 #'  jp3$model.validation.table
 #'  jp3$jo.orders
 #'
+#' ## Close the open plots.gbsm.pdf file before running the 3rd example
+#'  RNGkind(sample.kind = "Rejection")
+#'  set.seed(0)
+#'  jp4 <- msco::gbsm_m.orders(s.data, t.data, p.d.mat, gbsm.model="nb",
+#'   metric="raw_prop", orders = c(3:5, 8, 10, 15, 20), d.f=4,
+#'    degree=3, n=1000, k=5, p=0.8, type="k-fold", scat.plots=TRUE,
+#'     response.curves=TRUE, j.occs.distrbn=TRUE, mp.plots=TRUE,
+#'      start=seq(-0.1, 0, length.out=(ncol(t.data)+2)*4+1))
+#'
+#'  jp4$contbn_table[[1]]
+#'  jp4$model.validation.table
+#'  jp4$jo.orders
+#'
 #'  }
 #'
 #' @export
 #' @md
 
-gbsm_m.orders <- function(s.data, t.data, p.d.mat, metric="Simpson_eqn", orders, d.f=4, degree=3, n=1000, k=5, p=0.8, type="k-fold",
+gbsm_m.orders <- function(s.data, t.data, p.d.mat, metric="Simpson_eqn", orders, d.f=4, degree=3, n=1000, k=5, p=0.8, type="k-fold", gbsm.model,
                           scat.plots=FALSE, response.curves=TRUE, j.occs.distrbn=FALSE, mp.plots=FALSE, start=seq(-0.1, 0, length.out=(ncol(t.data)+2)*4+1)){
 
   grDevices::pdf(file = paste0(system.file("ms", package = "msco"), "/plots.gbsm.pdf"), height = 8.27, width = 4)
@@ -154,7 +167,7 @@ gbsm_m.orders <- function(s.data, t.data, p.d.mat, metric="Simpson_eqn", orders,
                                                                     "contribution"))
     pred.cont <- list()
     mss[[i]] <- gbsm(s.data, t.data, p.d.mat, d.f=d.f, metric=metric, order.jo=i, degree=degree, n=n, b.plots=FALSE,
-                     response.curves=response.curves, scat.plot=FALSE, leg = 0, start = start)
+                     gbsm.model = gbsm.model, response.curves=response.curves, scat.plot=FALSE, leg = 0, start = start)
     bs_pred <- mss[[i]]$bs_pred
     j.occs <- mss[[i]]$j.occs
     gof <- mss[[i]]$var.expld
@@ -175,11 +188,14 @@ gbsm_m.orders <- function(s.data, t.data, p.d.mat, metric="Simpson_eqn", orders,
       if((metric %in% c("raw_prop", "Simpson_eqn", "Sorensen_eqn"))==TRUE){
         pred.cont[[j]] <- suppressWarnings(glm2::glm2(j.occs ~ ., family=stats::binomial(link="log"), data = data,
                                                       start = seq(-0.1, 0, length.out=ncol(data)+1)))
-      }else if(metric=="raw" & (metric %in% c("raw_prop", "Simpson_eqn", "Sorensen_eqn"))!=TRUE){
+      }else if(metric=="raw" & (metric %in% c("raw_prop", "Simpson_eqn", "Sorensen_eqn"))!=TRUE & gbsm.model=="poisson"){
         pred.cont[[j]] <- suppressWarnings(glm2::glm2(j.occs ~ ., family=stats::poisson(link="log"), data = data,
                                                       start = seq(-0.1, 0, length.out=ncol(data)+1)))
-      }else{stop("Wrong metric option choosen!")}
-
+      }else if(metric=="raw" & (metric %in% c("raw_prop", "Simpson_eqn", "Sorensen_eqn"))!=TRUE & gbsm.model=="nb"){
+        pred.cont[[j]] <- suppressWarnings(MASS::glm.nb(j.occs ~ ., link = log, data = data, start = seq(-0.1, 0, length.out=ncol(data)+1)))
+      }else  if(metric=="raw" & (metric %in% c("raw_prop", "Simpson_eqn", "Sorensen_eqn"))!=TRUE & (gbsm.model %in% c("poisson", "nb"))!=TRUE){
+        stop("Wrong gbsm.model used for 'raw' version of joint occupancy. It must either be 'poisson' or 'nb'.")
+      }
 
       contbn_table$predictor[j] <- unique(names(`names<-`(bs_pred,gsub("[[:digit:]]", "", names(bs_pred)))))[j]
       contbn_table$var.expld_M2[j] <- stats::cor(j.occs, as.numeric(suppressWarnings(stats::predict.glm(pred.cont[[j]],
@@ -232,8 +248,9 @@ gbsm_m.orders <- function(s.data, t.data, p.d.mat, metric="Simpson_eqn", orders,
           graphics::hist(mss[[kl]]$j.occs, xlab="J. occupancy", ylab="Frequency", main = noquote(paste("Order", kl)),
                          xlim=c(0,1), breaks=seq(0, 1, 0.1))
         }else if(metric=="raw"){
-          graphics::hist(mss[[kl]]$j.occs, xlab="J. occupancy", ylab="Frequency", main = noquote(paste("Order", kl)),
-                         xlim=c(0,1), breaks=range(mss[[kl]]$j.occs))
+          graphics::hist((mss[[kl]]$j.occs-min(mss[[kl]]$j.occs))/(max(mss[[kl]]$j.occs)-min(mss[[kl]]$j.occs)),
+                         xlab="J. occupancy", ylab="Frequency", main = noquote(paste("Order", kl)),
+                         xlim=c(0,1), breaks=seq(0, 1, 0.1))
         }
       }
     }
@@ -295,7 +312,7 @@ gbsm_m.orders <- function(s.data, t.data, p.d.mat, metric="Simpson_eqn", orders,
                    xlab = "Rsquared_cv", ylab = "Rsquared_gf")
     graphics::points(GoFs, cvalid_rsq, lwd=2, col=cols[3])
     graphics::mtext("(b)", side = 3, adj = -0.2, line = 1.5, cex = 1.2, font = 2)
-    graphics::text(0.25, (max(mod4.val)-0.05), paste("mp", "", "=", "", round(((stats::cor(GoFs, cvalid_rsq))^2)*100, 1),"%"), font=2)
+    graphics::text(0.27, (max(mod4.val)-0.05), paste("mp", "", "=", "", round(((stats::cor(GoFs, cvalid_rsq))^2)*100, 1),"%"), font=2)
 
   }
   grDevices::dev.off()

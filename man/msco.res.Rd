@@ -76,6 +76,7 @@ Returns all the results presented in Lagat \emph{et al}. (2021c). To replicate
              t.data,
              p.d.mat,
              metric = "Simpson_eqn",
+             gbsm.model,
              orders = c(3:5, 8, 10, 15, 20),
              d.f = 4,
              degree = 3,

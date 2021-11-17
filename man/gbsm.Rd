@@ -15,6 +15,7 @@ gbsm(
   n = 1000,
   b.plots = TRUE,
   bsplines = "single",
+  gbsm.model,
   scat.plot = TRUE,
   response.curves = TRUE,
   leg = 1,
@@ -33,7 +34,9 @@ phylogenetic distance between any two of them (species).}
 \item{metric}{The type of rescaling applied to the joint occupancy metric. Available options are:
 \code{Simpson_eqn} for Simpson equivalent, \code{Sorensen_eqn} for Sorensen equivalent, \code{raw_prop} for the
 raw form of the metric rescaled by dividing by the total number of sites, N, and \code{raw} for the
-raw form of the metric without rescaling.}
+raw form of the metric without rescaling.
+@param gbsm.model The model used if the \code{raw} form of the metric is choosen. Availbale options are \code{"poisson"}
+for Poisson GLM or \code{"nb"} for negative binomial GLM. Other metric types strictly uses binomial GLM.}
 
 \item{d.f}{Degrees of freedom for B-splines.}
 
@@ -97,7 +100,7 @@ functions employed, with predictors transformed using a linear combination of B-
  t.data <- get(load("t.data.csv")) ## Species-by-trait matrix
  p.d.mat <- get(load("p.d.mat.csv")) ## Species-by-species phylogenetic distance matrix
 
- my.gbsm <- msco::gbsm(s.data, t.data, p.d.mat, metric = "Simpson_eqn",
+ my.gbsm <- msco::gbsm(s.data, t.data, p.d.mat, metric = "Simpson_eqn", gbsm.model,
   d.f=4, order.jo=3, degree=3, n=1000, b.plots=TRUE, scat.plot=TRUE,
    bsplines="single", response.curves=TRUE, leg=1,
     start=seq(-0.1, 0, length.out=(ncol(t.data)+2)*4+1))

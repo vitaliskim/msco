@@ -16,6 +16,7 @@
 #' @param n As for \link[msco]{gbsm_m.orders}.
 #' @param d.f As for \link[msco]{gbsm_m.orders}.
 #' @param metric As for \link[msco]{gbsm_m.orders}.
+#' @param gbsm.model As for \link[msco]{gbsm_m.orders}.
 #' @param simm Number of Monte Carlo simulations performed
 #'
 #' @return `pred.error.bands` function returns:
@@ -43,9 +44,9 @@
 #'  p.d.mat <- get(load("p.d.mat.csv")) ## Species-by-species phylogenetic distance matrix
 #'
 #'  RNGkind(sample.kind = "Rejection")
-#'  set.seed(0)
+#'  set.seed(4)
 #'  pe <- msco::pred.error.bands(s.data, t.data, p.d.mat, metric="Simpson_eqn", d.f=4, simm=10,
-#'   orders = c(2:5, 8, 10, 15), degree=3, n=1000,
+#'   orders = c(2:5, 8, 10, 15), degree=3, n=1000, gbsm.model,
 #'    start=seq(-0.1, 0, length.out=(ncol(t.data)+2)*4+1))
 #'
 #'  pe$predictors$`order 2`
@@ -65,7 +66,7 @@
 #' @export
 #' @md
 
-pred.error.bands <- function(s.data, t.data, p.d.mat, metric="Simpson_eqn", d.f=4, simm=10, orders, degree=3, n=1000, start=seq(-0.1, 0, length.out=(ncol(t.data)+2)*4+1)){
+pred.error.bands <- function(s.data, t.data, p.d.mat, metric="Simpson_eqn", gbsm.model, d.f=4, simm=10, orders, degree=3, n=1000, start=seq(-0.1, 0, length.out=(ncol(t.data)+2)*4+1)){
 
   grDevices::pdf(file = paste0(system.file("ms", package = "msco"), "/pred.error.bands.pdf"), paper="a4r", height = 8.27, width = 11.69)
   graphics::par(mar=c(4,4,2,0.5)+.1)
