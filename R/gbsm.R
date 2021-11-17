@@ -17,8 +17,9 @@
 #'  generalised B-spline modelling for multiple orders, see \link[msco]{gbsm_m.orders} function.
 #' @param degree Degree of the B-splines.
 #' @param metric The type of rescaling applied to the joint occupancy metric. Available options are:
-#'  `Simpson_eqn` for Simpson equivalent, `Sorensen_eqn` for Sorensen equivalent, and `raw` for the
-#'   raw form of the metric rescaled by dividing by the total number of sites, N.
+#'  `Simpson_eqn` for Simpson equivalent, `Sorensen_eqn` for Sorensen equivalent, `raw_prop` for the
+#'   raw form of the metric rescaled by dividing by the total number of sites, N, and `raw` for the
+#'    raw form of the metric without rescaling.
 #' @param n Number of samples for which the joint occupancy is computed. These samples are non-overlapping.
 #'  I.e., sampling is done without replacement. If the total number of combinations of `i` species chosen
 #'   from the total species pool `m`, i.e. `choose(m,i)`, is less than this value (`n`), `choose(m,i)` is
@@ -167,9 +168,6 @@ gbsm <- function(s.data, t.data, p.d.mat, metric= "Simpson_eqn", d.f=4, order.jo
       }
       erate[j] <- (prod(er))/(N^nsam)
     }
-    if((metric %in% c("raw", "Simpson_eqn", "Sorensen_eqn"))!=TRUE){
-      stop("Wrong option for the joint occupancy metric provided. It must either be 'raw', 'Simpson_eqn', or 'Sorensen_eqn'.")
-    }
   }else{ ## Otherwise use the combinations as they are without sampling n of them.
     jo <- rep(NA, ncom)
     bs.traits.diff <- matrix(NA, nrow = ncom, ncol = ncol(bs.traits))
@@ -199,13 +197,13 @@ gbsm <- function(s.data, t.data, p.d.mat, metric= "Simpson_eqn", d.f=4, order.jo
       }
       erate[j] <- (prod(er))/(N^nsam)
     }
-    if((metric %in% c("raw", "Simpson_eqn", "Sorensen_eqn"))!=TRUE){
-      stop("Wrong option for the joint occupancy metric provided. It must either be 'raw', 'Simpson_eqn', or 'Sorensen_eqn'.")
-    }
   }
 
-  if(metric=="raw"){
+  if(metric=="raw_prop"){
     jo <- jo/N
+  }
+  if((metric %in% c("raw", "raw_prop", "Simpson_eqn", "Sorensen_eqn"))!=TRUE){
+    stop("Wrong option for the joint occupancy metric provided. It must either be 'raw', 'raw_prop', 'Simpson_eqn', or 'Sorensen_eqn'.")
   }
   ## Rescale p.dist to be in [0,1]
   p.dist<- (p.dist - min(p.dist))/(max(p.dist)-min(p.dist))
@@ -365,7 +363,12 @@ gbsm <- function(s.data, t.data, p.d.mat, metric= "Simpson_eqn", d.f=4, order.jo
 
   ## Perform regression between jo and bs.variables.diff to get the regression coefficients
   bs.variables.diff <- data.frame(bs.variables.diff)
-  model <- suppressWarnings(glm2::glm2(jo ~ ., family=stats::binomial(link="log"), data = bs.variables.diff, start = start))
+  if((metric %in% c("raw_prop", "Simpson_eqn", "Sorensen_eqn"))==TRUE){
+    model <- suppressWarnings(glm2::glm2(jo ~ ., family=stats::binomial(link="log"), data = bs.variables.diff, start = start))
+  }else if(metric=="raw"){
+    model <- suppressWarnings(glm2::glm2(jo ~ ., family=stats::poisson(link="log"), data = bs.variables.diff, start = start))
+  }
+
   # (This model is the same as log(jo) = b0 + b1X1 + b2X2 + ... + bnXn)
   mysum <- summary(model)
 

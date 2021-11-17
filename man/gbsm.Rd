@@ -31,8 +31,9 @@ occurrence (1) and non-occurrence (0) of species in a site.}
 phylogenetic distance between any two of them (species).}
 
 \item{metric}{The type of rescaling applied to the joint occupancy metric. Available options are:
-\code{Simpson_eqn} for Simpson equivalent, \code{Sorensen_eqn} for Sorensen equivalent, and \code{raw} for the
-raw form of the metric rescaled by dividing by the total number of sites, N.}
+\code{Simpson_eqn} for Simpson equivalent, \code{Sorensen_eqn} for Sorensen equivalent, \code{raw_prop} for the
+raw form of the metric rescaled by dividing by the total number of sites, N, and \code{raw} for the
+raw form of the metric without rescaling.}
 
 \item{d.f}{Degrees of freedom for B-splines.}
 
