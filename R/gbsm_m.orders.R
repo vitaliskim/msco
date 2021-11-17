@@ -171,8 +171,15 @@ gbsm_m.orders <- function(s.data, t.data, p.d.mat, metric="Simpson_eqn", orders,
     for(j in 1:(ncol(t.data)+2)){
       data <- bs_pred[, -which(names(`names<-`(bs_pred,gsub("[[:digit:]]", "", names(bs_pred)))) %in% c(unique(
         names(`names<-`(bs_pred,gsub("[[:digit:]]", "", names(bs_pred)))))[j]))]
-      pred.cont[[j]] <- suppressWarnings(glm2::glm2(j.occs ~ ., family=stats::binomial(link="log"), data = data,
-                                                    start = seq(-0.1, 0, length.out=ncol(data)+1)))
+
+      if((metric %in% c("raw_prop", "Simpson_eqn", "Sorensen_eqn"))==TRUE){
+        pred.cont[[j]] <- suppressWarnings(glm2::glm2(j.occs ~ ., family=stats::binomial(link="log"), data = data,
+                                                      start = seq(-0.1, 0, length.out=ncol(data)+1)))
+      }else if(metric=="raw" & (metric %in% c("raw_prop", "Simpson_eqn", "Sorensen_eqn"))!=TRUE){
+        pred.cont[[j]] <- suppressWarnings(glm2::glm2(j.occs ~ ., family=stats::poisson(link="log"), data = data,
+                                                      start = seq(-0.1, 0, length.out=ncol(data)+1)))
+      }else{stop("Wrong metric option choosen!")}
+
 
       contbn_table$predictor[j] <- unique(names(`names<-`(bs_pred,gsub("[[:digit:]]", "", names(bs_pred)))))[j]
       contbn_table$var.expld_M2[j] <- stats::cor(j.occs, as.numeric(suppressWarnings(stats::predict.glm(pred.cont[[j]],

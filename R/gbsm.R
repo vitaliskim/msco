@@ -365,9 +365,9 @@ gbsm <- function(s.data, t.data, p.d.mat, metric= "Simpson_eqn", d.f=4, order.jo
   bs.variables.diff <- data.frame(bs.variables.diff)
   if((metric %in% c("raw_prop", "Simpson_eqn", "Sorensen_eqn"))==TRUE){
     model <- suppressWarnings(glm2::glm2(jo ~ ., family=stats::binomial(link="log"), data = bs.variables.diff, start = start))
-  }else if(metric=="raw"){
+  }else if(metric=="raw" & (metric %in% c("raw_prop", "Simpson_eqn", "Sorensen_eqn"))!=TRUE){
     model <- suppressWarnings(glm2::glm2(jo ~ ., family=stats::poisson(link="log"), data = bs.variables.diff, start = start))
-  }
+  }else{stop("Wrong metric option choosen!")}
 
   # (This model is the same as log(jo) = b0 + b1X1 + b2X2 + ... + bnXn)
   mysum <- summary(model)
