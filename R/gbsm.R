@@ -20,7 +20,7 @@
 #'  `Simpson_eqn` for Simpson equivalent, `Sorensen_eqn` for Sorensen equivalent, `raw_prop` for the
 #'   raw form of the metric rescaled by dividing by the total number of sites, N, and `raw` for the
 #'    raw form of the metric without rescaling.
-#'  @param gbsm.model The model used if the `raw` form of the metric is choosen. Availbale options are `"poisson"`
+#' @param gbsm.model The model used if the `raw` form of the metric is choosen. Availbale options are `"poisson"`
 #'   for Poisson GLM or `"nb"` for negative binomial GLM. Other metric types strictly uses binomial GLM.
 #' @param n Number of samples for which the joint occupancy is computed. These samples are non-overlapping.
 #'  I.e., sampling is done without replacement. If the total number of combinations of `i` species chosen
