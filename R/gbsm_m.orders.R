@@ -140,6 +140,19 @@
 #'  jp4$model.validation.table
 #'  jp4$jo.orders
 #'
+#' ## Close the open plots.gbsm.pdf file before running the 3rd example
+#'  RNGkind(sample.kind = "Rejection")
+#'  set.seed(1)
+#'  jp5 <- msco::gbsm_m.orders(s.data, t.data, p.d.mat, gbsm.model="poisson",
+#'   metric="raw", orders = c(3:5, 8, 10, 15, 20), d.f=4,
+#'    degree=3, n=1000, k=5, p=0.8, type="k-fold", scat.plots=TRUE,
+#'     response.curves=TRUE, j.occs.distrbn=TRUE, mp.plots=TRUE,
+#'      start=seq(-0.1, 0, length.out=(ncol(t.data)+2)*4+1))
+#'
+#'  jp5$contbn_table[[1]]
+#'  jp5$model.validation.table
+#'  jp5$jo.orders
+#'
 #'  }
 #'
 #' @export
