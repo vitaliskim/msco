@@ -34,9 +34,7 @@ phylogenetic distance between any two of them (species).}
 \item{metric}{The type of rescaling applied to the joint occupancy metric. Available options are:
 \code{Simpson_eqn} for Simpson equivalent, \code{Sorensen_eqn} for Sorensen equivalent, \code{raw_prop} for the
 raw form of the metric rescaled by dividing by the total number of sites, N, and \code{raw} for the
-raw form of the metric without rescaling.
-@param gbsm.model The model used if the \code{raw} form of the metric is choosen. Availbale options are \code{"poisson"}
-for Poisson GLM or \code{"nb"} for negative binomial GLM. Other metric types strictly uses binomial GLM.}
+raw form of the metric without rescaling.}
 
 \item{d.f}{Degrees of freedom for B-splines.}
 
@@ -57,6 +55,9 @@ performed to select just the \code{n} samples.}
 If \code{b.plots=TRUE} and \code{bsplines="single"}, the B-spline curves for the first predictor in
 \code{t.data} will be plotted. Any other value for \code{bsplines} (other than \code{"single"}) results in the
 B-spline curves for all predictors being plotted.}
+
+\item{gbsm.model}{The model used if the \code{raw} form of the metric is choosen. Availbale options are \code{"poisson"}
+for Poisson GLM or \code{"nb"} for negative binomial GLM. Other metric types strictly uses binomial GLM.}
 
 \item{scat.plot}{Boolean value indicating if scatter plots between joint occupancy and its predicted
 values should be plotted.}
