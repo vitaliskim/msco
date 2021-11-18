@@ -17,6 +17,7 @@
 #' @param degree As for \link[msco]{gbsm}.
 #' @param n As for \link[msco]{gbsm}.
 #' @param metric As for \link[msco]{gbsm}.
+#' @param gbsm.model As for \link[msco]{gbsm}.
 #' @param d.f As for \link[msco]{gbsm}.
 #' @param k As for \link[msco]{cross_valid}.
 #' @param p As for \link[msco]{cross_valid}.

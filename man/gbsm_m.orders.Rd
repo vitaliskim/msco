@@ -50,6 +50,8 @@ phylogenetic distance between any two of them (species).}
 
 \item{type}{As for \link[msco]{cross_valid}.}
 
+\item{gbsm.model}{As for \link[msco]{gbsm}.}
+
 \item{scat.plots}{Boolean value indicating if scatter plots between joint occupancy and its predicted
 values should be plotted.}
 
