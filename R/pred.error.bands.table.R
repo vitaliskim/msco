@@ -1,14 +1,15 @@
 
-pred.error.bands.table <- function(s.data, t.data, p.d.mat, metric="Simpson_eqn", gbsm.model, d.f=4, simm=50, order.jo=2, degree=3, n=1000, start=seq(-0.1, 0, length.out=(ncol(t.data)+2)*4+1)){
+pred.error.bands.table <- function(s.data, t.data, p.d.mat, metric="Simpson_eqn", d.f=4, simm=50, order.jo=2,
+                                   degree=3, n=1000, start=seq(-0.1, 0, length.out=(ncol(t.data)+2)*4+1)){
 
-  predictors <- msco::gbsm(s.data, t.data, p.d.mat, metric, gbsm.model, d.f=d.f, order.jo, degree, n, b.plots=FALSE,
-                              scat.plot=FALSE, response.curves=FALSE, leg=1, start)$Predictors
+  predictors <- msco::gbsm(s.data, t.data, p.d.mat, metric = metric, d.f=d.f, order.jo=order.jo,
+                           degree=degree, n=n, b.plots=FALSE, scat.plot=FALSE, response.curves=FALSE, leg=1, start=start)$Predictors
 
   simm_respns.table <- `names<-`(as.data.frame(matrix(NA, nrow = nrow(predictors), ncol = (ncol(t.data)+2)*simm)), rep(c(names(t.data), "P.dist", "E.rate"),simm))
 
   for (ki in 1:simm) {
-    responses <- msco::gbsm(s.data, t.data, p.d.mat, metric, gbsm.model, d.f=d.f, order.jo, degree, n, b.plots=FALSE,
-                               scat.plot=FALSE, response.curves=FALSE, leg=1, start)$Responses
+    responses <- msco::gbsm(s.data, t.data, p.d.mat, metric = metric, gbsm.model=gbsm.model, d.f=d.f, order.jo=order.jo,
+                            degree=degree, n=n, b.plots=FALSE, scat.plot=FALSE, response.curves=FALSE, leg=1, start=start)$Responses
 
     simm_respns.table[,(1+(ki-1)*5):(5+(ki-1)*5)] <- responses
 
