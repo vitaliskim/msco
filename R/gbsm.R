@@ -152,12 +152,13 @@ gbsm <- function(s.data, t.data, p.d.mat, metric= "Simpson_eqn", d.f=4, order.jo
       bs.traits.diff[j,] <- apply(bs.traits[sam,], 2, stats::sd)
 
       #### jo values for chosen combination of species
+      jo[j] <- (msco::j.occ(s.data[sam,], order = order.jo)$jo.val)
       if(metric=="raw"){
-        jo[j] <- (msco::j.occ(s.data[sam,], order = order.jo)$jo.val)
+        jo[j] <- jo[j]
       }else if(metric=="Simpson_eqn"){
-        jo[j] <- (msco::j.occ(s.data[sam,], order = order.jo)$jo.val)/min(rowSums(s.data[sam,]))
+        jo[j] <- jo[j]/min(rowSums(s.data[sam,]))
       }else if(metric=="Sorensen_eqn"){
-        jo[j] <- (msco::j.occ(s.data[sam,], order = order.jo)$jo.val)/mean(rowSums(s.data[sam,]))
+        jo[j] <- jo[j]/mean(rowSums(s.data[sam,]))
       }
       ## p.dist
       p.dist[j] <- mean(p.d.mat[t(utils::combn(sort(sam), 2))])
