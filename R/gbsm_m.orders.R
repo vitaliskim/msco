@@ -143,7 +143,7 @@
 #' ## Close the open plots.gbsm.pdf file before running the 3rd example
 #'  RNGkind(sample.kind = "Rejection")
 #'  set.seed(1)
-#'  jp5 <- msco::gbsm_m.orders(s.data, t.data, p.d.mat, gbsm.model="poisson",
+#'  jp5 <- msco::gbsm_m.orders(s.data, t.data, p.d.mat, gbsm.model="quasipoisson",
 #'   metric="raw", orders = c(3:5, 8, 10, 15, 20), d.f=4,
 #'    degree=3, n=1000, k=5, p=0.8, type="k-fold", scat.plots=TRUE,
 #'     response.curves=TRUE, j.occs.distrbn=TRUE, mp.plots=TRUE,
@@ -180,8 +180,13 @@ gbsm_m.orders <- function(s.data, t.data, p.d.mat, metric="Simpson_eqn", orders,
                                          rep(NA,ncol(t.data)+2)), c("predictor", "var.expld_M1", "var.expld_M2",
                                                                     "contribution"))
     pred.cont <- list()
-    mss[[i]] <- gbsm(s.data, t.data, p.d.mat, d.f=d.f, metric=metric, order.jo=i, degree=degree, n=n, b.plots=FALSE,
-                     gbsm.model = gbsm.model, response.curves=response.curves, scat.plot=FALSE, leg = 0, start = start)
+    if((which(orders==i)%%2) == 0){
+      mss[[i]] <- gbsm(s.data, t.data, p.d.mat, d.f=d.f, metric=metric, order.jo=i, degree=degree, n=n, b.plots=FALSE,
+                       gbsm.model = gbsm.model, response.curves=response.curves, ylabel=FALSE, scat.plot=FALSE, leg = 0, start = start)
+    }else{
+      mss[[i]] <- gbsm(s.data, t.data, p.d.mat, d.f=d.f, metric=metric, order.jo=i, degree=degree, n=n, b.plots=FALSE,
+                       gbsm.model = gbsm.model, response.curves=response.curves, ylabel=TRUE, scat.plot=FALSE, leg = 0, start = start)
+    }
     bs_pred <- mss[[i]]$bs_pred
     j.occs <- mss[[i]]$j.occs
     gof <- mss[[i]]$var.expld
@@ -200,15 +205,15 @@ gbsm_m.orders <- function(s.data, t.data, p.d.mat, metric="Simpson_eqn", orders,
         names(`names<-`(bs_pred,gsub("[[:digit:]]", "", names(bs_pred)))))[j]))]
 
       if((metric %in% c("raw_prop", "Simpson_eqn", "Sorensen_eqn"))==TRUE){
-        pred.cont[[j]] <- suppressWarnings(glm2::glm2(j.occs ~ ., family=stats::binomial(link="log"), data = data,
+        pred.cont[[j]] <- suppressWarnings(glm2::glm2(j.occs ~ ., family=stats::quasibinomial(link="log"), data = data,
                                                       start = seq(-0.1, 0, length.out=ncol(data)+1)))
-      }else if(metric=="raw" & (metric %in% c("raw_prop", "Simpson_eqn", "Sorensen_eqn"))!=TRUE & gbsm.model=="poisson"){
-        pred.cont[[j]] <- suppressWarnings(glm2::glm2(j.occs ~ ., family=stats::poisson(link="log"), data = data,
+      }else if(metric=="raw" & (metric %in% c("raw_prop", "Simpson_eqn", "Sorensen_eqn"))!=TRUE & gbsm.model=="quasipoisson"){
+        pred.cont[[j]] <- suppressWarnings(glm2::glm2(j.occs ~ ., family=stats::quasipoisson(link="log"), data = data,
                                                       start = seq(-0.1, 0, length.out=ncol(data)+1)))
       }else if(metric=="raw" & (metric %in% c("raw_prop", "Simpson_eqn", "Sorensen_eqn"))!=TRUE & gbsm.model=="nb"){
         pred.cont[[j]] <- suppressWarnings(MASS::glm.nb(j.occs ~ ., link = log, data = data, start = seq(-0.1, 0, length.out=ncol(data)+1)))
-      }else  if(metric=="raw" & (metric %in% c("raw_prop", "Simpson_eqn", "Sorensen_eqn"))!=TRUE & (gbsm.model %in% c("poisson", "nb"))!=TRUE){
-        stop("Wrong gbsm.model used for 'raw' version of joint occupancy. It must either be 'poisson' or 'nb'.")
+      }else  if(metric=="raw" & (metric %in% c("raw_prop", "Simpson_eqn", "Sorensen_eqn"))!=TRUE & (gbsm.model %in% c("quasipoisson", "nb"))!=TRUE){
+        stop("Wrong gbsm.model used for 'raw' version of joint occupancy. It must either be 'quasipoisson' or 'nb'.")
       }
 
       contbn_table$predictor[j] <- unique(names(`names<-`(bs_pred,gsub("[[:digit:]]", "", names(bs_pred)))))[j]
@@ -244,8 +249,13 @@ gbsm_m.orders <- function(s.data, t.data, p.d.mat, metric="Simpson_eqn", orders,
     graphics::par(mar=c(5,5,4,1)+.1)
     graphics::par(mfrow=c((length(orders)+1)/2,2))
     for (kv in orders) {
-      plot(mss[[kv]]$j.occs, (mss[[kv]]$pred.j.occs), xlab="J. occupancy", ylab="Predicted J.occ",
-           main = noquote(paste("Order", kv)))
+      if((which(orders==kv)%%2) == 0){
+        plot(mss[[kv]]$j.occs, (mss[[kv]]$pred.j.occs), xlab="J. occupancy", ylab=" ",
+             main = noquote(paste("Order", kv)))
+      }else{
+        plot(mss[[kv]]$j.occs, (mss[[kv]]$pred.j.occs), xlab="J. occupancy", ylab="Predicted J.occ",
+             main = noquote(paste("Order", kv)))
+      }
     }
   }
   if(j.occs.distrbn==TRUE){
@@ -259,12 +269,24 @@ gbsm_m.orders <- function(s.data, t.data, p.d.mat, metric="Simpson_eqn", orders,
                        xlim=c(0,1), breaks=seq(0, 1, 0.1))
       }else{
         if(metric!="raw"){
-          graphics::hist(mss[[kl]]$j.occs, xlab="J. occupancy", ylab="Frequency", main = noquote(paste("Order", kl)),
-                         xlim=c(0,1), breaks=seq(0, 1, 0.1))
+          if((which(orders==kl)%%2) == 0){
+            graphics::hist(mss[[kl]]$j.occs, xlab="J. occupancy", ylab="Frequency", main = noquote(paste("Order", kl)),
+                           xlim=c(0,1), breaks=seq(0, 1, 0.1))
+          }else{
+            graphics::hist(mss[[kl]]$j.occs, xlab="J. occupancy", ylab=" ", main = noquote(paste("Order", kl)),
+                           xlim=c(0,1), breaks=seq(0, 1, 0.1))
+          }
         }else if(metric=="raw"){
-          graphics::hist((mss[[kl]]$j.occs-min(mss[[kl]]$j.occs))/(max(mss[[kl]]$j.occs)-min(mss[[kl]]$j.occs)),
-                         xlab="J. occupancy", ylab="Frequency", main = noquote(paste("Order", kl)),
-                         xlim=c(0,1), breaks=seq(0, 1, 0.1))
+          if((which(orders==kl)%%2) == 0){
+            graphics::hist((mss[[kl]]$j.occs-min(mss[[kl]]$j.occs))/(max(mss[[kl]]$j.occs)-min(mss[[kl]]$j.occs)),
+                           xlab="J. occupancy", ylab=" ", main = noquote(paste("Order", kl)),
+                           xlim=c(0,1), breaks=seq(0, 1, 0.1))
+          }else{
+            graphics::hist((mss[[kl]]$j.occs-min(mss[[kl]]$j.occs))/(max(mss[[kl]]$j.occs)-min(mss[[kl]]$j.occs)),
+                           xlab="J. occupancy", ylab="Frequency", main = noquote(paste("Order", kl)),
+                           xlim=c(0,1), breaks=seq(0, 1, 0.1))
+          }
+
         }
       }
     }

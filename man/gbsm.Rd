@@ -18,6 +18,7 @@ gbsm(
   gbsm.model,
   scat.plot = TRUE,
   response.curves = TRUE,
+  ylabel = TRUE,
   leg = 1,
   start = seq(-0.1, 0, length.out = (ncol(t.data) + 2) * 4 + 1)
 )
@@ -56,13 +57,16 @@ If \code{b.plots=TRUE} and \code{bsplines="single"}, the B-spline curves for the
 \code{t.data} will be plotted. Any other value for \code{bsplines} (other than \code{"single"}) results in the
 B-spline curves for all predictors being plotted.}
 
-\item{gbsm.model}{The model used if the \code{raw} form of the metric is choosen. Availbale options are \code{"poisson"}
-for Poisson GLM or \code{"nb"} for negative binomial GLM. Other metric types strictly uses binomial GLM.}
+\item{gbsm.model}{The model used if the \code{raw} form of the metric is choosen. Availbale options are \code{"quasipoisson"}
+for quasipoisson GLM or \code{"nb"} for negative binomial GLM. Other metric types strictly uses binomial GLM.}
 
 \item{scat.plot}{Boolean value indicating if scatter plots between joint occupancy and its predicted
 values should be plotted.}
 
 \item{response.curves}{A boolean value indicating if all response curves should be plotted.}
+
+\item{ylabel}{Boolean value indicating if the y label should be included in the response curves. This
+parameter is added to help control the appearance of plots in \link[msco]{gbsm_m.orders} function.}
 
 \item{leg}{Boolean value indicating if the legend of the gbsm outputs should be included in the plots. This
 parameter is added to help control the appearance of plots in \link[msco]{gbsm_m.orders} function.}

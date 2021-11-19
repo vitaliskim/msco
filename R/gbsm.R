@@ -20,8 +20,8 @@
 #'  `Simpson_eqn` for Simpson equivalent, `Sorensen_eqn` for Sorensen equivalent, `raw_prop` for the
 #'   raw form of the metric rescaled by dividing by the total number of sites, N, and `raw` for the
 #'    raw form of the metric without rescaling.
-#' @param gbsm.model The model used if the `raw` form of the metric is choosen. Availbale options are `"poisson"`
-#'   for Poisson GLM or `"nb"` for negative binomial GLM. Other metric types strictly uses binomial GLM.
+#' @param gbsm.model The model used if the `raw` form of the metric is choosen. Availbale options are `"quasipoisson"`
+#'   for quasipoisson GLM or `"nb"` for negative binomial GLM. Other metric types strictly uses binomial GLM.
 #' @param n Number of samples for which the joint occupancy is computed. These samples are non-overlapping.
 #'  I.e., sampling is done without replacement. If the total number of combinations of `i` species chosen
 #'   from the total species pool `m`, i.e. `choose(m,i)`, is less than this value (`n`), `choose(m,i)` is
@@ -34,6 +34,8 @@
 #'    B-spline curves for all predictors being plotted.
 #' @param response.curves A boolean value indicating if all response curves should be plotted.
 #' @param leg Boolean value indicating if the legend of the gbsm outputs should be included in the plots. This
+#'  parameter is added to help control the appearance of plots in \link[msco]{gbsm_m.orders} function.
+#' @param ylabel Boolean value indicating if the y label should be included in the response curves. This
 #'  parameter is added to help control the appearance of plots in \link[msco]{gbsm_m.orders} function.
 #' @param scat.plot Boolean value indicating if scatter plots between joint occupancy and its predicted
 #'  values should be plotted.
@@ -96,7 +98,8 @@
 #' @md
 
 gbsm <- function(s.data, t.data, p.d.mat, metric= "Simpson_eqn", d.f=4, order.jo=3, degree=3, n=1000, b.plots=TRUE,
-                 bsplines="single", gbsm.model, scat.plot=TRUE, response.curves=TRUE, leg=1, start=seq(-0.1, 0, length.out=(ncol(t.data)+2)*4+1)){
+                 bsplines="single", gbsm.model, scat.plot=TRUE, response.curves=TRUE, ylabel=TRUE, leg=1,
+                 start=seq(-0.1, 0, length.out=(ncol(t.data)+2)*4+1)){
 
   if(class(t.data)!="data.frame"){
     t.data <- as.data.frame(t.data)
@@ -367,13 +370,13 @@ gbsm <- function(s.data, t.data, p.d.mat, metric= "Simpson_eqn", d.f=4, order.jo
   ## Perform regression between jo and bs.variables.diff to get the regression coefficients
   bs.variables.diff <- data.frame(bs.variables.diff)
   if((metric %in% c("raw_prop", "Simpson_eqn", "Sorensen_eqn"))==TRUE){
-    model <- suppressWarnings(glm2::glm2(jo ~ ., family=stats::binomial(link="log"), data = bs.variables.diff, start = start))
-  }else if(metric=="raw" & (metric %in% c("raw_prop", "Simpson_eqn", "Sorensen_eqn"))!=TRUE & gbsm.model=="poisson"){
-    model <- suppressWarnings(glm2::glm2(jo ~ ., family=stats::poisson(link="log"), data = bs.variables.diff, start = start))
+    model <- suppressWarnings(glm2::glm2(jo ~ ., family=stats::quasibinomial(link="log"), data = bs.variables.diff, start = start))
+  }else if(metric=="raw" & (metric %in% c("raw_prop", "Simpson_eqn", "Sorensen_eqn"))!=TRUE & gbsm.model=="quasipoisson"){
+    model <- suppressWarnings(glm2::glm2(jo ~ ., family=stats::quasipoisson(link="log"), data = bs.variables.diff, start = start))
   }else if(metric=="raw" & (metric %in% c("raw_prop", "Simpson_eqn", "Sorensen_eqn"))!=TRUE & gbsm.model=="nb"){
     model <- suppressWarnings(MASS::glm.nb(jo ~ ., link = log, data = bs.variables.diff, start = start))
-  }else if(metric=="raw" & (metric %in% c("raw_prop", "Simpson_eqn", "Sorensen_eqn"))!=TRUE & (gbsm.model %in% c("poisson", "nb"))!=TRUE){
-    stop("Wrong 'gbsm.model' used for 'raw' version of joint occupancy. It must either be 'poisson' or 'nb'.")
+  }else if(metric=="raw" & (metric %in% c("raw_prop", "Simpson_eqn", "Sorensen_eqn"))!=TRUE & (gbsm.model %in% c("quasipoisson", "nb"))!=TRUE){
+    stop("Wrong 'gbsm.model' used for 'raw' version of joint occupancy. It must either be 'quasipoisson' or 'nb'.")
   }
 
   # (This model is the same as log(jo) = b0 + b1X1 + b2X2 + ... + bnXn)
@@ -464,44 +467,86 @@ gbsm <- function(s.data, t.data, p.d.mat, metric= "Simpson_eqn", d.f=4, order.jo
     limits <- range(J_preds.trans.fin)
     llim <- limits[1]
     ulim <- limits[2]
-    if(leg==0){
-      plot(x=trans.variables[,1], y=J_preds.trans.fin[,1], type = "l", lty=1, lwd=1.5, col=cols[1], ylim=c(llim, ulim),
-           xlab = "Rescaled Range", ylab = "Effect on J. occ.", main = noquote(paste("Order",order.jo)), cex=0.8, pch=1)
-      for(i in 2:ncol(trans.variables)){
-        graphics::lines(trans.variables[,i], J_preds.trans.fin[,i], col=cols[i], lwd=1.5, lty=i, cex=0.8, pch=i)
-      }
-      for(i in 1:ncol(t.data)){
-        graphics::points(t.data[,i], J_preds.traits.fin[,i], col=cols[i], lwd=1, lty=i, cex=0.7, pch=i)
-      }
-      graphics::points(p.dist, J_preds.p.d.fin, col=cols[(ncol(t.data)+1)], lwd=1, pch=10, cex=0.6)
-      graphics::points(erate, J_preds.er.fin, col=cols[(ncol(t.data)+2)], lwd=1, pch=18, cex=0.7)
-    }else if(leg==1){
-      plot(x=trans.variables[,1], y=J_preds.trans.fin[,1], type = "l", lty=1, lwd=1.5, col=cols[1], ylim=c(llim, (ulim + 0.2)),
-           xlab = "Rescaled Range", ylab = "Effect on J. occ.", main = noquote(paste("Order",order.jo)), cex=0.8, pch=1)
-      for(i in 2:ncol(trans.variables)){
-        graphics::lines(trans.variables[,i], J_preds.trans.fin[,i], col=cols[i], lwd=1.5, lty=i, cex=0.8, pch=i)
-      }
-      for(i in 1:ncol(t.data)){
-        graphics::points(t.data[,i], J_preds.traits.fin[,i], col=cols[i], lwd=1, lty=i, cex=0.7, pch=i)
-      }
-      graphics::points(p.dist, J_preds.p.d.fin, col=cols[(ncol(t.data)+1)], lwd=1, pch=10, cex=0.6)
-      graphics::points(erate, J_preds.er.fin, col=cols[(ncol(t.data)+2)], lwd=1, pch=18, cex=0.7)
-      graphics::legend("top", legend = names(trans.variables), col = cols, lty=1:ncol(trans.variables), lwd=1.5,
-                       pch = 1:(length(t.data)+2), bty = "n", cex = 0.8, ncol = 2)
+    if(ylabel==TRUE){
+      if(leg==0){
+        plot(x=trans.variables[,1], y=J_preds.trans.fin[,1], type = "l", lty=1, lwd=1.5, col=cols[1], ylim=c(llim, ulim),
+             xlab = "Rescaled Range", ylab = "Effect on J. occ.", main = noquote(paste("Order",order.jo)), cex=0.8, pch=1)
+        for(i in 2:ncol(trans.variables)){
+          graphics::lines(trans.variables[,i], J_preds.trans.fin[,i], col=cols[i], lwd=1.5, lty=i, cex=0.8, pch=i)
+        }
+        for(i in 1:ncol(t.data)){
+          graphics::points(t.data[,i], J_preds.traits.fin[,i], col=cols[i], lwd=1, lty=i, cex=0.7, pch=i)
+        }
+        graphics::points(p.dist, J_preds.p.d.fin, col=cols[(ncol(t.data)+1)], lwd=1, pch=10, cex=0.6)
+        graphics::points(erate, J_preds.er.fin, col=cols[(ncol(t.data)+2)], lwd=1, pch=18, cex=0.7)
+      }else if(leg==1){
+        plot(x=trans.variables[,1], y=J_preds.trans.fin[,1], type = "l", lty=1, lwd=1.5, col=cols[1], ylim=c(llim, (ulim + 0.2)),
+             xlab = "Rescaled Range", ylab = "Effect on J. occ.", main = noquote(paste("Order",order.jo)), cex=0.8, pch=1)
+        for(i in 2:ncol(trans.variables)){
+          graphics::lines(trans.variables[,i], J_preds.trans.fin[,i], col=cols[i], lwd=1.5, lty=i, cex=0.8, pch=i)
+        }
+        for(i in 1:ncol(t.data)){
+          graphics::points(t.data[,i], J_preds.traits.fin[,i], col=cols[i], lwd=1, lty=i, cex=0.7, pch=i)
+        }
+        graphics::points(p.dist, J_preds.p.d.fin, col=cols[(ncol(t.data)+1)], lwd=1, pch=10, cex=0.6)
+        graphics::points(erate, J_preds.er.fin, col=cols[(ncol(t.data)+2)], lwd=1, pch=18, cex=0.7)
+        graphics::legend("top", legend = names(trans.variables), col = cols, lty=1:ncol(trans.variables), lwd=1.5,
+                         pch = 1:(length(t.data)+2), bty = "n", cex = 0.8, ncol = 2)
 
-    }else if(leg==2){
-      plot(x=trans.variables[,1], y=J_preds.trans.fin[,1], type = "l", lty=1, lwd=1.5, col=cols[1], ylim=c(llim, (ulim + 2)),
-           xlab = "Rescaled Range", ylab = "Effect on J. occ.", main = noquote(paste("Order",order.jo)), cex=0.8, pch=1)
-      for(i in 2:ncol(trans.variables)){
-        graphics::lines(trans.variables[,i], J_preds.trans.fin[,i], col=cols[i], lwd=1.5, lty=i, cex=0.8, pch=i)
+      }else if(leg==2){
+        plot(x=trans.variables[,1], y=J_preds.trans.fin[,1], type = "l", lty=1, lwd=1.5, col=cols[1], ylim=c(llim, (ulim + 2)),
+             xlab = "Rescaled Range", ylab = "Effect on J. occ.", main = noquote(paste("Order",order.jo)), cex=0.8, pch=1)
+        for(i in 2:ncol(trans.variables)){
+          graphics::lines(trans.variables[,i], J_preds.trans.fin[,i], col=cols[i], lwd=1.5, lty=i, cex=0.8, pch=i)
+        }
+        for(i in 1:ncol(t.data)){
+          graphics::points(t.data[,i], J_preds.traits.fin[,i], col=cols[i], lwd=1, lty=i, cex=0.7, pch=i)
+        }
+        graphics::points(p.dist, J_preds.p.d.fin, col=cols[(ncol(t.data)+1)], lwd=1, pch=10, cex=0.6)
+        graphics::points(erate, J_preds.er.fin, col=cols[(ncol(t.data)+2)], lwd=1, pch=18, cex=0.7)
+        graphics::legend("top", legend = names(trans.variables), col = cols, lty=1:ncol(trans.variables), lwd=1.5,
+                         pch = 1:(length(t.data)+2), bty = "n", cex = 0.8, ncol = 2)
       }
-      for(i in 1:ncol(t.data)){
-        graphics::points(t.data[,i], J_preds.traits.fin[,i], col=cols[i], lwd=1, lty=i, cex=0.7, pch=i)
+    }else{
+      if(leg==0){
+        plot(x=trans.variables[,1], y=J_preds.trans.fin[,1], type = "l", lty=1, lwd=1.5, col=cols[1], ylim=c(llim, ulim),
+             xlab = "Rescaled Range", ylab = " ", main = noquote(paste("Order",order.jo)), cex=0.8, pch=1)
+        for(i in 2:ncol(trans.variables)){
+          graphics::lines(trans.variables[,i], J_preds.trans.fin[,i], col=cols[i], lwd=1.5, lty=i, cex=0.8, pch=i)
+        }
+        for(i in 1:ncol(t.data)){
+          graphics::points(t.data[,i], J_preds.traits.fin[,i], col=cols[i], lwd=1, lty=i, cex=0.7, pch=i)
+        }
+        graphics::points(p.dist, J_preds.p.d.fin, col=cols[(ncol(t.data)+1)], lwd=1, pch=10, cex=0.6)
+        graphics::points(erate, J_preds.er.fin, col=cols[(ncol(t.data)+2)], lwd=1, pch=18, cex=0.7)
+      }else if(leg==1){
+        plot(x=trans.variables[,1], y=J_preds.trans.fin[,1], type = "l", lty=1, lwd=1.5, col=cols[1], ylim=c(llim, (ulim + 0.2)),
+             xlab = "Rescaled Range", ylab = " ", main = noquote(paste("Order",order.jo)), cex=0.8, pch=1)
+        for(i in 2:ncol(trans.variables)){
+          graphics::lines(trans.variables[,i], J_preds.trans.fin[,i], col=cols[i], lwd=1.5, lty=i, cex=0.8, pch=i)
+        }
+        for(i in 1:ncol(t.data)){
+          graphics::points(t.data[,i], J_preds.traits.fin[,i], col=cols[i], lwd=1, lty=i, cex=0.7, pch=i)
+        }
+        graphics::points(p.dist, J_preds.p.d.fin, col=cols[(ncol(t.data)+1)], lwd=1, pch=10, cex=0.6)
+        graphics::points(erate, J_preds.er.fin, col=cols[(ncol(t.data)+2)], lwd=1, pch=18, cex=0.7)
+        graphics::legend("top", legend = names(trans.variables), col = cols, lty=1:ncol(trans.variables), lwd=1.5,
+                         pch = 1:(length(t.data)+2), bty = "n", cex = 0.8, ncol = 2)
+
+      }else if(leg==2){
+        plot(x=trans.variables[,1], y=J_preds.trans.fin[,1], type = "l", lty=1, lwd=1.5, col=cols[1], ylim=c(llim, (ulim + 2)),
+             xlab = "Rescaled Range", ylab = " ", main = noquote(paste("Order",order.jo)), cex=0.8, pch=1)
+        for(i in 2:ncol(trans.variables)){
+          graphics::lines(trans.variables[,i], J_preds.trans.fin[,i], col=cols[i], lwd=1.5, lty=i, cex=0.8, pch=i)
+        }
+        for(i in 1:ncol(t.data)){
+          graphics::points(t.data[,i], J_preds.traits.fin[,i], col=cols[i], lwd=1, lty=i, cex=0.7, pch=i)
+        }
+        graphics::points(p.dist, J_preds.p.d.fin, col=cols[(ncol(t.data)+1)], lwd=1, pch=10, cex=0.6)
+        graphics::points(erate, J_preds.er.fin, col=cols[(ncol(t.data)+2)], lwd=1, pch=18, cex=0.7)
+        graphics::legend("top", legend = names(trans.variables), col = cols, lty=1:ncol(trans.variables), lwd=1.5,
+                         pch = 1:(length(t.data)+2), bty = "n", cex = 0.8, ncol = 2)
       }
-      graphics::points(p.dist, J_preds.p.d.fin, col=cols[(ncol(t.data)+1)], lwd=1, pch=10, cex=0.6)
-      graphics::points(erate, J_preds.er.fin, col=cols[(ncol(t.data)+2)], lwd=1, pch=18, cex=0.7)
-      graphics::legend("top", legend = names(trans.variables), col = cols, lty=1:ncol(trans.variables), lwd=1.5,
-                       pch = 1:(length(t.data)+2), bty = "n", cex = 0.8, ncol = 2)
     }
   }
 
