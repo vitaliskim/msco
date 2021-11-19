@@ -348,7 +348,7 @@ gbsm_m.orders <- function(s.data, t.data, p.d.mat, metric="Simpson_eqn", orders,
                    xlab = "Rsquared_cv", ylab = "Rsquared_gf")
     graphics::points(GoFs, cvalid_rsq, lwd=2, col=cols[3])
     graphics::mtext("(b)", side = 3, adj = -0.2, line = 1.5, cex = 1.2, font = 2)
-    graphics::text(0.27, (max(mod4.val)-0.05), paste("mp", "", "=", "", round(((stats::cor(GoFs, cvalid_rsq))^2)*100, 1),"%"), font=2)
+    graphics::text(0.29, (max(mod4.val)-0.05), paste("mp", "", "=", "", round(((stats::cor(GoFs, cvalid_rsq))^2)*100, 1),"%"), font=2)
 
   }
   grDevices::dev.off()
