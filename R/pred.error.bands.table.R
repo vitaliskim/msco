@@ -8,7 +8,7 @@ pred.error.bands.table <- function(s.data, t.data, p.d.mat, metric="Simpson_eqn"
   simm_respns.table <- `names<-`(as.data.frame(matrix(NA, nrow = nrow(predictors), ncol = (ncol(t.data)+2)*simm)), rep(c(names(t.data), "P.dist", "E.rate"),simm))
 
   for (ki in 1:simm) {
-    responses <- msco::gbsm(s.data, t.data, p.d.mat, metric = metric, gbsm.model=gbsm.model, d.f=d.f, order.jo=order.jo,
+    responses <- msco::gbsm(s.data, t.data, p.d.mat, metric = metric, d.f=d.f, order.jo=order.jo,
                             degree=degree, n=n, b.plots=FALSE, scat.plot=FALSE, response.curves=FALSE, leg=1, start=start)$Responses
 
     simm_respns.table[,(1+(ki-1)*5):(5+(ki-1)*5)] <- responses
