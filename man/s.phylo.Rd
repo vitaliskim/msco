@@ -52,7 +52,7 @@ phylogenetic distance between any two of them (species).
 }
 }
 \description{
-This  function generates the phylogeney of species and plots the phylogenetic tree. In
+This  function generates the phylogeny of species and plots the phylogenetic tree. In
 particular, given a species-by-site matrix (community), \link[msco]{s.phylo}:
 \itemize{
 \item uses the \link[taxize]{tax_name} function to obtain (from the

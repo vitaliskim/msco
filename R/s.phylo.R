@@ -1,6 +1,6 @@
 #' Species phylogeny generator
 #'
-#' This  function generates the phylogeney of species and plots the phylogenetic tree. In
+#' This  function generates the phylogeny of species and plots the phylogenetic tree. In
 #'  particular, given a species-by-site matrix (community), \link[msco]{s.phylo}:
 #' * uses the \link[taxize]{tax_name} function to obtain (from the
 #'  [NCBI](https://www.ncbi.nlm.nih.gov/) or [ITIS](https://www.itis.gov/) online
