@@ -270,10 +270,10 @@ gbsm_m.orders <- function(s.data, t.data, p.d.mat, metric="Simpson_eqn", orders,
       }else{
         if(metric!="raw"){
           if((which(orders==kl)%%2) == 0){
-            graphics::hist(mss[[kl]]$j.occs, xlab="J. occupancy", ylab=" ", main = noquote(paste("Order", kl)),
+            graphics::hist(mss[[kl]]$j.occs, xlab="J. occupancy", ylab="Frequency", main = noquote(paste("Order", kl)),
                            xlim=c(0,1), breaks=seq(0, 1, 0.1))
           }else{
-            graphics::hist(mss[[kl]]$j.occs, xlab="J. occupancy", ylab="Frequency", main = noquote(paste("Order", kl)),
+            graphics::hist(mss[[kl]]$j.occs, xlab="J. occupancy", ylab=" ", main = noquote(paste("Order", kl)),
                            xlim=c(0,1), breaks=seq(0, 1, 0.1))
           }
         }else if(metric=="raw"){
