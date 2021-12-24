@@ -47,27 +47,20 @@ richness.variances <- function(my.files, Boxplot=TRUE){
   for (i in 1:length(community_archs)) {
     community_archs[[i]] <- community_archs[[i]][stats::complete.cases(community_archs[[i]])]
     richness_cv_archs[[i]] <- richness_cv_archs[[i]][stats::complete.cases(richness_cv_archs[[i]])]
-    # richness_cv_archs[[i]] <- richness_var_arc/max(richness_var_arc)
   }
   richn <- list()
   richn$community_archs <- community_archs
   richn$richness_cv_archs <- richness_cv_archs
-  # grDevices::pdf(file = paste0(system.file("ms", package = "msco"), "/richness_cv.archs.plots.pdf"), height = 5, width = 5)
   if(Boxplot==TRUE){
   graphics::boxplot(richness_cv_archs[-which(names(richness_cv_archs)=="NA")],
                                        xlab="Archetypes", ylab="Richness coefficient of variation")
   }
-  # grDevices::dev.off()
-  # system(paste0('open "', paste0(system.file("ms", package = "msco"), "/richness_cv.archs.plots.pdf"), '"'))
 return(richn)
 }
 # st <- Sys.time()
 # my.path <- system.file("extdata/myCSVs", package = "msco")
 # setwd(my.path)
 # my.files <- gtools::mixedsort(list.files(path = my.path, pattern = "*.csv"))
-# grDevices::pdf(file = paste0(my.path, "/richns_cv.archs.pdf"), paper = "a4r", height = 5, width = 5)
 # richn.cv <- msco:::richness.variances(my.files)
-# grDevices::dev.off()
-# system(paste0('open "', paste0(my.path, "/richns_cv.archs.pdf"), '"'))
 # et <- Sys.time();et-st
 

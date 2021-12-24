@@ -46,22 +46,14 @@ Returns all the results presented in Lagat \emph{et al}. (2021c). To replicate
  j.en$jo.coeff ## Table 1
  j.en$AIC; j.en$r2 ## Table 2
  j.en$nmod_stats ## Table 3
- grDevices::pdf(file = paste0(system.file("ms", package = "msco"),
-  "/aJo.plots.pdf"), paper = "a4r", height = 8.27, width = 11.69)
+ grDevices::dev.new()
  j.en$all.plots
- grDevices::dev.off()
- system(paste0('open "', paste0(system.file("ms", package = "msco"), ## Fig. 2
-  "/aJo.plots.pdf"), '"'))
 
 }
 \item \strong{Fig. 4}, execute the following code:\preformatted{ RNGkind(sample.kind = "Rejection")
  set.seed(14)
- grDevices::pdf(file = paste0(system.file("ms", package = "msco"),
-  "/real.arch.plots2.pdf"), paper = "a4r", height = 8.27, width = 11.69)
+ grDevices::dev.new()
  msco:::nullmod_archs2()
- grDevices::dev.off()
- system(paste0('open "', paste0(system.file("ms", package = "msco"),
-  "/real.arch.plots2.pdf"), '"'))
 
 }
 \item \strong{Fig. 5}, execute the following code:\preformatted{

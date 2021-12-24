@@ -470,7 +470,7 @@ gbsm <- function(s.data, t.data, p.d.mat, metric= "Simpson_eqn", d.f=4, order.jo
     if(ylabel==TRUE){
       if(leg==0){
         plot(x=trans.variables[,1], y=J_preds.trans.fin[,1], type = "l", lty=1, lwd=1.5, col=cols[1], ylim=c(llim, ulim),
-             xlab = "Rescaled Range", ylab = "Effect on J. occ.", main = noquote(paste("Order",order.jo)), cex=0.8, pch=1)
+             xlab = "Predictor value", ylab = "Wtd pred. value", main = noquote(paste("Order",order.jo)), cex=0.8, pch=1)
         for(i in 2:ncol(trans.variables)){
           graphics::lines(trans.variables[,i], J_preds.trans.fin[,i], col=cols[i], lwd=1.5, lty=i, cex=0.8, pch=i)
         }
@@ -481,7 +481,7 @@ gbsm <- function(s.data, t.data, p.d.mat, metric= "Simpson_eqn", d.f=4, order.jo
         graphics::points(erate, J_preds.er.fin, col=cols[(ncol(t.data)+2)], lwd=1, pch=18, cex=0.7)
       }else if(leg==1){
         plot(x=trans.variables[,1], y=J_preds.trans.fin[,1], type = "l", lty=1, lwd=1.5, col=cols[1], ylim=c(llim, (ulim + 0.2)),
-             xlab = "Rescaled Range", ylab = "Effect on J. occ.", main = noquote(paste("Order",order.jo)), cex=0.8, pch=1)
+             xlab = "Predictor value", ylab = "Wtd pred. value", main = noquote(paste("Order",order.jo)), cex=0.8, pch=1)
         for(i in 2:ncol(trans.variables)){
           graphics::lines(trans.variables[,i], J_preds.trans.fin[,i], col=cols[i], lwd=1.5, lty=i, cex=0.8, pch=i)
         }
@@ -495,7 +495,7 @@ gbsm <- function(s.data, t.data, p.d.mat, metric= "Simpson_eqn", d.f=4, order.jo
 
       }else if(leg==2){
         plot(x=trans.variables[,1], y=J_preds.trans.fin[,1], type = "l", lty=1, lwd=1.5, col=cols[1], ylim=c(llim, (ulim + 2)),
-             xlab = "Rescaled Range", ylab = "Effect on J. occ.", main = noquote(paste("Order",order.jo)), cex=0.8, pch=1)
+             xlab = "Predictor value", ylab = "Wtd pred. value", main = noquote(paste("Order",order.jo)), cex=0.8, pch=1)
         for(i in 2:ncol(trans.variables)){
           graphics::lines(trans.variables[,i], J_preds.trans.fin[,i], col=cols[i], lwd=1.5, lty=i, cex=0.8, pch=i)
         }
@@ -510,7 +510,7 @@ gbsm <- function(s.data, t.data, p.d.mat, metric= "Simpson_eqn", d.f=4, order.jo
     }else{
       if(leg==0){
         plot(x=trans.variables[,1], y=J_preds.trans.fin[,1], type = "l", lty=1, lwd=1.5, col=cols[1], ylim=c(llim, ulim),
-             xlab = "Rescaled Range", ylab = " ", main = noquote(paste("Order",order.jo)), cex=0.8, pch=1)
+             xlab = "Predictor value", ylab = " ", main = noquote(paste("Order",order.jo)), cex=0.8, pch=1)
         for(i in 2:ncol(trans.variables)){
           graphics::lines(trans.variables[,i], J_preds.trans.fin[,i], col=cols[i], lwd=1.5, lty=i, cex=0.8, pch=i)
         }
@@ -521,7 +521,7 @@ gbsm <- function(s.data, t.data, p.d.mat, metric= "Simpson_eqn", d.f=4, order.jo
         graphics::points(erate, J_preds.er.fin, col=cols[(ncol(t.data)+2)], lwd=1, pch=18, cex=0.7)
       }else if(leg==1){
         plot(x=trans.variables[,1], y=J_preds.trans.fin[,1], type = "l", lty=1, lwd=1.5, col=cols[1], ylim=c(llim, (ulim + 0.2)),
-             xlab = "Rescaled Range", ylab = " ", main = noquote(paste("Order",order.jo)), cex=0.8, pch=1)
+             xlab = "Predictor value", ylab = " ", main = noquote(paste("Order",order.jo)), cex=0.8, pch=1)
         for(i in 2:ncol(trans.variables)){
           graphics::lines(trans.variables[,i], J_preds.trans.fin[,i], col=cols[i], lwd=1.5, lty=i, cex=0.8, pch=i)
         }
@@ -535,7 +535,7 @@ gbsm <- function(s.data, t.data, p.d.mat, metric= "Simpson_eqn", d.f=4, order.jo
 
       }else if(leg==2){
         plot(x=trans.variables[,1], y=J_preds.trans.fin[,1], type = "l", lty=1, lwd=1.5, col=cols[1], ylim=c(llim, (ulim + 2)),
-             xlab = "Rescaled Range", ylab = " ", main = noquote(paste("Order",order.jo)), cex=0.8, pch=1)
+             xlab = "Predictor value", ylab = " ", main = noquote(paste("Order",order.jo)), cex=0.8, pch=1)
         for(i in 2:ncol(trans.variables)){
           graphics::lines(trans.variables[,i], J_preds.trans.fin[,i], col=cols[i], lwd=1.5, lty=i, cex=0.8, pch=i)
         }

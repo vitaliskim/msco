@@ -90,15 +90,16 @@ pred.error.bands <- function(s.data, t.data, p.d.mat, metric="Simpson_eqn", gbsm
       Responses_stats[[i]] <- response_stats
 
 
-      graphics::plot(predictors[,1], response_stats[, (1+(1-1)*2)], type= "l", main=paste("Order", i), lwd=2, ylab = expression(bold("Effect on J. Occ")), xlab = noquote(names(predictors)[1]),
-                     ylim=range((response_stats[,(1+(1-1)*2)] - response_stats[,(2+(1-1)*2)]), (response_stats[,(1+(1-1)*2)] + response_stats[,(2+(1-1)*2)])))
+      graphics::plot(predictors[,1], response_stats[, (1+(1-1)*2)], type= "l", main=paste("Order", i), lwd=2, ylab = paste("Wtd", noquote(names(predictors)[1])),
+                     xlab = noquote(names(predictors)[1]), ylim=range((response_stats[,(1+(1-1)*2)] - response_stats[,(2+(1-1)*2)]),
+                                                                      (response_stats[,(1+(1-1)*2)] + response_stats[,(2+(1-1)*2)])))
 
       graphics::polygon(c(rev(predictors[,1]), predictors[,1]), c(rev((response_stats[,(1+(1-1)*2)] - response_stats[,(2+(1-1)*2)])),
                                                                   (response_stats[,(1+(1-1)*2)] + response_stats[,(2+(1-1)*2)])), col = 'grey80', border = NA)
       graphics::lines(predictors[,1], response_stats[, (1+(1-1)*2)], type= "l", lwd=2)
 
       for (v in 2:ncol(predictors)) {
-        graphics::plot(predictors[,v], response_stats[, (1+(v-1)*2)], type= "l", lwd=2, ylab = expression(bold("Effect on J. Occ")), xlab = noquote(names(predictors)[v]),
+        graphics::plot(predictors[,v], response_stats[, (1+(v-1)*2)], type= "l", lwd=2, ylab = paste("Wtd", noquote(names(predictors)[v])), xlab = noquote(names(predictors)[v]),
                        ylim=range((response_stats[,(1+(v-1)*2)] - response_stats[,(2+(v-1)*2)]), (response_stats[,(1+(v-1)*2)] + response_stats[,(2+(v-1)*2)])))
 
         graphics::polygon(c(rev(predictors[,v]), predictors[,v]), c(rev((response_stats[,(1+(v-1)*2)] - response_stats[,(2+(v-1)*2)])),
@@ -135,7 +136,6 @@ pred.error.bands <- function(s.data, t.data, p.d.mat, metric="Simpson_eqn", gbsm
     }
   }
   grDevices::dev.off()
-  base::system(paste0('open "', paste0(system.file("ms", package = "msco"), "/pred.error.bands.pdf"), '"'))
 
   order.names <- order.names[stats::complete.cases(order.names)]
   Predictors <- Predictors[!sapply(Predictors,is.null)]
@@ -146,6 +146,7 @@ pred.error.bands <- function(s.data, t.data, p.d.mat, metric="Simpson_eqn", gbsm
   peb$predictors <- `names<-`(Predictors, order.names)
   peb$responses <- `names<-`(Responses, order.names)
   peb$responses.sim_stats <- `names<-`(Responses_stats, order.names)
+  peb$Pred.error.bands <- print(noquote("Check msco's 'inst/ms' directory in your R library for a 'pred.error.bands.pdf' file."))
   return(peb)
 }
 

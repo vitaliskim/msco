@@ -16,7 +16,6 @@ execute the following code:\preformatted{  RNGkind(sample.kind = "Rejection")
   Lag.res <- msco::mJo.eng(my.files,
                    algo = "sim2",
                    metric = "raw",
-                   m.Jo.plots = TRUE,
                    Archetypes = FALSE,
                    AICs = FALSE,
                    params = FALSE,
@@ -33,22 +32,17 @@ execute the following code:\preformatted{  RNGkind(sample.kind = "Rejection")
 (and output results) on a 64 bit system with 8 GB RAM and 3.60 GHz CPU.
 \itemize{
 \item \strong{Fig. 3} can be replicated using:
-}\preformatted{ path <- system.file("ms", package = "msco")
- grDevices::pdf(file = paste0(path, "/real.arch.plots.pdf"),
-  paper = "a4r", height = 8.27, width = 11.69)
+}\preformatted{ grDevices::dev.new()
  msco:::nullmod_archs()
- grDevices::dev.off()
- system(paste0('open "', paste0(path, "/real.arch.plots.pdf"), '"'))
+
 }
 \itemize{
 \item \strong{Fig. S1} can be replicated using:
 }\preformatted{my.path <- system.file("extdata/myCSVs", package = "msco")
 setwd(my.path)
 my.files <- gtools::mixedsort(list.files(path = my.path, pattern = "*.csv"))
-grDevices::pdf(file = paste0(my.path, "/richns_cv.archs.pdf"), height = 5, width = 5)
-richn.cv <- msco:::richness.variances(my.files)
-grDevices::dev.off()
-system(paste0('open "', paste0(my.path, "/richns_cv.archs.pdf"), '"'))
+grDevices::dev.new()
+msco:::richness.variances(my.files)
 
 }
 }

@@ -36,4 +36,3 @@ pred.error.bands.table <- function(s.data, t.data, p.d.mat, metric="Simpson_eqn"
   prr$responses <- responses
   return(prr)
 }
-

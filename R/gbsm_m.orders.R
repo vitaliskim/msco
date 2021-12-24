@@ -352,7 +352,6 @@ gbsm_m.orders <- function(s.data, t.data, p.d.mat, metric="Simpson_eqn", orders,
 
   }
   grDevices::dev.off()
-  base::system(paste0('open "', paste0(system.file("ms", package = "msco"), "/plots.gbsm.pdf"), '"'))
 
   m.orders <- list()
   m.orders$contbn_table <- contbn_tablee
@@ -362,16 +361,6 @@ gbsm_m.orders <- function(s.data, t.data, p.d.mat, metric="Simpson_eqn", orders,
   m.orders$n <- n
   m.orders$degree <- degree
   m.orders$jo.orders <- orders
+  m.orders$gbsm.plots <- print(noquote("Check msco's 'inst/ms' directory in your R library for a 'plots.gbsm.pdf' file."))
   return(m.orders)
 }
-# set.seed(0)
-# m0n <- msco::gbsm_m.orders(s.data, t.data, p.d.mat, metric="Simpson_eqn", orders=c(2:5, 8, 10, 15), d.f=4, degree=3, n=1000, k=5, p=0.8, type="k-fold",
-#                            scat.plots=TRUE, response.curves=TRUE, j.occs.distrbn=TRUE, mp.plots=TRUE)
-
-# set.seed(0)
-# m0n <- msco::gbsm_m.orders(s.data, t.data, p.d.mat, metric="Sorensen_eqn", orders=c(2:5, 8, 10, 15), d.f=4, degree=3, n=1000, k=5, p=0.8, type="k-fold",
-#                            scat.plots=TRUE, response.curves=TRUE, j.occs.distrbn=TRUE, mp.plots=TRUE)
-#
-# set.seed(0)
-# m0n <- msco::gbsm_m.orders(s.data, t.data, p.d.mat, metric="raw", orders=c(2:5, 8, 10, 15), d.f=4, degree=3, n=1000, k=5, p=0.8, type="k-fold",
-#                            scat.plots=TRUE, response.curves=TRUE, j.occs.distrbn=TRUE, mp.plots=TRUE)

@@ -79,17 +79,7 @@ nullmod_archs <- function(){
 
 
 
-  all.plots <- cowplot::ggdraw() +
-    # cowplot::draw_plot(j.en1$m.n.plot, x = 0.05, y = 0.50, width = .22, height = .5)+
-    # cowplot::draw_plot(j.en2$m.n.plot, x = 0.25, y = 0.50, width = .22, height = .5)+
-    # cowplot::draw_plot(j.en5$m.n.plot, x = 0.05, y = 0.05, width = .22, height = .5)+
-    # cowplot::draw_plot(j.en9$m.n.plot, x = 0.25, y = 0.05, width = .22, height = .5)+
-    # cowplot::draw_plot(j.en4$m.n.plot, x = 0.45, y = 0.00, width = 0.42, height = 1)+
-    # cowplot::draw_plot_label(label = c(j.en1$Archetype, j.en2$Archetype, j.en5$Archetype,
-    #                                    j.en9$Archetype, j.en4$Archetype),
-    #                          size = 12, x = c(0.23, 0.43, 0.23, 0.43, 0.83),
-    #                          y = c(0.95, 0.95, 0.5, 0.5, 0.95)) +
-
+  all_plots <- cowplot::ggdraw() +
     cowplot::draw_plot(j.en1$m.n.plot, x = 0.05, y = 0.50, width = .27, height = .5)+
     cowplot::draw_plot(j.en2$m.n.plot, x = 0.32, y = 0.50, width = .27, height = .5)+
     cowplot::draw_plot(j.en4$m.n.plot, x = 0.59, y = 0.50, width = .27, height = .5)+
@@ -112,17 +102,9 @@ nullmod_archs <- function(){
 
     cowplot::draw_image(system.file("logos", "key2.nm.jpg", package = "msco"),
                         x=0.42, y=0.07,scale = 0.15)
-  return(all.plots)
+  return(all_plots)
 }
 # st <- Sys.time()
 # RNGkind(sample.kind = "Rejection")
-# set.seed(14)
-# grDevices::pdf(file = paste0(system.file("ms", package = "msco"), "/real.arch.plots.pdf"), paper="a4r", height = 8.27, width = 11.69)
 # msco:::nullmod_archs()
-# grDevices::dev.off()
-# system(paste0('open "', paste0(system.file("ms", package = "msco"), "/real.arch.plots.pdf"), '"'))
 # et <- Sys.time();et-st
-#
-# RNGkind(sample.kind = "Rejection")
-# set.seed(39)
-# nullmod_archs()

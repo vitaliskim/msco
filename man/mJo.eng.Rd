@@ -16,8 +16,7 @@ mJo.eng(
   best.mod3 = FALSE,
   params_c.i = FALSE,
   my.r2 = FALSE,
-  my.r2.s = FALSE,
-  m.Jo.plots = FALSE
+  my.r2.s = FALSE
 )
 }
 \arguments{
@@ -57,9 +56,6 @@ should be computed and output.}
 
 \item{my.r2.s}{A Boolean indicating if the robustness summary values of joint occupancy decline
 regression models should be computed and output.}
-
-\item{m.Jo.plots}{A Boolean indicating whether joint occupancy parametric and null model plots for
-multiple communities should be included in the output.}
 }
 \value{
 \code{mJo.eng} function returns a list containing the following outputs:
@@ -232,7 +228,7 @@ my.files <- gtools::mixedsort(list.files(path = my.path, pattern = "*.csv"))
 my.res <- msco::mJo.eng(my.files = my.files, algo = "sim2", Archetypes = TRUE,
              metric = "raw", nReps = 999, AICs = FALSE, params = FALSE,
              best.mod2 = FALSE, best.mod3 = FALSE, params_c.i = FALSE,
-             my.r2 = FALSE, my.r2.s = FALSE, m.Jo.plots = FALSE)
+             my.r2 = FALSE, my.r2.s = FALSE)
 my.res$Archs$`252.csv`
 
 my.path2 <- system.file("extdata/myCSVs", package = "msco")
@@ -241,7 +237,7 @@ my.files2 <- gtools::mixedsort(list.files(path = my.path2, pattern = "*.csv"))
 my.res2 <- msco::mJo.eng(my.files = my.files2[250:255], algo = "sim2", Archetypes = FALSE,
               metric = "raw", nReps = 999, AICs = FALSE, params = TRUE,
               best.mod2 = FALSE, best.mod3 = FALSE, params_c.i = FALSE,
-              my.r2 = FALSE, my.r2.s = FALSE, m.Jo.plots = FALSE)
+              my.r2 = FALSE, my.r2.s = FALSE)
 my.res2
 
 my.path2 <- system.file("extdata/myCSVs", package = "msco")
@@ -250,7 +246,7 @@ my.files2 <- gtools::mixedsort(list.files(path = my.path2, pattern = "*.csv"))
 my.res3 <- msco::mJo.eng(my.files = my.files2[250:255], algo = "sim2", Archetypes = FALSE,
               metric = "raw", nReps = 999, AICs = FALSE, params = FALSE,
               best.mod2 = FALSE, best.mod3 = FALSE, params_c.i = TRUE,
-              my.r2 = FALSE, my.r2.s = FALSE, m.Jo.plots = TRUE)
+              my.r2 = FALSE, my.r2.s = FALSE)
 my.res3
  }
 }

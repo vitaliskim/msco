@@ -55,8 +55,6 @@
 #'  should be computed and output.
 #' @param my.r2.s A Boolean indicating if the robustness summary values of joint occupancy decline
 #'  regression models should be computed and output.
-#' @param m.Jo.plots A Boolean indicating whether joint occupancy parametric and null model plots for
-#'  multiple communities should be included in the output.
 #' @return `mJo.eng` function returns a list containing the following outputs:
 #'
 #' $`Archs`
@@ -206,7 +204,7 @@
 #' my.res <- msco::mJo.eng(my.files = my.files, algo = "sim2", Archetypes = TRUE,
 #'              metric = "raw", nReps = 999, AICs = FALSE, params = FALSE,
 #'              best.mod2 = FALSE, best.mod3 = FALSE, params_c.i = FALSE,
-#'              my.r2 = FALSE, my.r2.s = FALSE, m.Jo.plots = FALSE)
+#'              my.r2 = FALSE, my.r2.s = FALSE)
 #' my.res$Archs$`252.csv`
 #'
 #' my.path2 <- system.file("extdata/myCSVs", package = "msco")
@@ -215,7 +213,7 @@
 #' my.res2 <- msco::mJo.eng(my.files = my.files2[250:255], algo = "sim2", Archetypes = FALSE,
 #'               metric = "raw", nReps = 999, AICs = FALSE, params = TRUE,
 #'               best.mod2 = FALSE, best.mod3 = FALSE, params_c.i = FALSE,
-#'               my.r2 = FALSE, my.r2.s = FALSE, m.Jo.plots = FALSE)
+#'               my.r2 = FALSE, my.r2.s = FALSE)
 #' my.res2
 #'
 #' my.path2 <- system.file("extdata/myCSVs", package = "msco")
@@ -224,7 +222,7 @@
 #' my.res3 <- msco::mJo.eng(my.files = my.files2[250:255], algo = "sim2", Archetypes = FALSE,
 #'               metric = "raw", nReps = 999, AICs = FALSE, params = FALSE,
 #'               best.mod2 = FALSE, best.mod3 = FALSE, params_c.i = TRUE,
-#'               my.r2 = FALSE, my.r2.s = FALSE, m.Jo.plots = TRUE)
+#'               my.r2 = FALSE, my.r2.s = FALSE)
 #' my.res3
 #'  }
 #' @export
@@ -241,8 +239,7 @@ mJo.eng <- function(my.files,
                       best.mod3 = FALSE,
                       params_c.i = FALSE,
                       my.r2 = FALSE,
-                      my.r2.s = FALSE,
-                      m.Jo.plots = FALSE){
+                      my.r2.s = FALSE){
 
   if(length(gtools::mixedsort(list.files(path = getwd(), pattern = "*.csv")))==0){
     stop("No \`.csv\` binary matrices in your working directory. The \"my.files\" file path
@@ -257,7 +254,6 @@ mJo.eng <- function(my.files,
   r2 <- list()
   myfiles = lapply(my.files, utils::read.csv, header=T)
   param <- matrix(NA, ncol = 8, nrow = length(myfiles))
-
 
 
   grDevices::pdf(file = paste0(system.file("ms", package = "msco"), "/mJo.plots.pdf"), paper="a4r", height = 8.27, width = 11.69)
@@ -1367,9 +1363,6 @@ mJo.eng <- function(my.files,
   ####################################### END ######################################################
 
   myres <-list()
-  if(m.Jo.plots == TRUE){
-    myres$m.Jo.plots <- base::system(paste0('open "', paste0(system.file("ms", package = "msco"), "/mJo.plots.pdf"), '"'))
-  }
   if(Archetypes == TRUE){
     myres$Archs <- `names<-`(nm_arch, my.files)
   }
@@ -1394,7 +1387,9 @@ mJo.eng <- function(my.files,
   if(params_c.i == TRUE){
     myres$params_c.i <- paras_c.i
   }
+  myres$m.Jo.plots <- print(noquote("Check msco's 'inst/ms' directory in your R directory for a 'm.Jo.plots.pdf' file."))
 
   return(myres)
+
 }
 

@@ -79,10 +79,7 @@
 #' @md
 
 Arch_schem <- function(){
-  schem <- system(paste0('open "', paste0(system.file("ms", package = "msco"), "/Schematic_archetype_figures.pdf"), '"'))
-  # magick::image_scale(magick::image_read(system.file(
-    # "logos", "arcfig.png", package = "msco")),"597.4x514!")
-  return(schem)
+  print(noquote("Check msco's 'inst/schem' directory in your R library for a 'Schematic_archetype_figures.pdf' file."))
 }
 
 #' Joint occupancy parametric and null model plots
@@ -270,7 +267,6 @@ j.occs<-function(s.data, orders = 1:nrow(s.data), metric = "raw"){
 #'    Lag.res <- msco::mJo.eng(my.files,
 #'                     algo = "sim2",
 #'                     metric = "raw",
-#'                     m.Jo.plots = TRUE,
 #'                     Archetypes = FALSE,
 #'                     AICs = FALSE,
 #'                     params = FALSE,
@@ -288,22 +284,17 @@ j.occs<-function(s.data, orders = 1:nrow(s.data), metric = "raw"){
 #'
 #'  * __Fig. 3__ can be replicated using:
 #'  ```
-#'   path <- system.file("ms", package = "msco")
-#'   grDevices::pdf(file = paste0(path, "/real.arch.plots.pdf"),
-#'    paper = "a4r", height = 8.27, width = 11.69)
+#'   grDevices::dev.new()
 #'   msco:::nullmod_archs()
-#'   grDevices::dev.off()
-#'   system(paste0('open "', paste0(path, "/real.arch.plots.pdf"), '"'))
+#'
 #'  ```
 #'  * __Fig. S1__ can be replicated using:
 #'  ```
 #'  my.path <- system.file("extdata/myCSVs", package = "msco")
 #'  setwd(my.path)
 #'  my.files <- gtools::mixedsort(list.files(path = my.path, pattern = "*.csv"))
-#'  grDevices::pdf(file = paste0(my.path, "/richns_cv.archs.pdf"), height = 5, width = 5)
-#'  richn.cv <- msco:::richness.variances(my.files)
-#'  grDevices::dev.off()
-#'  system(paste0('open "', paste0(my.path, "/richns_cv.archs.pdf"), '"'))
+#'  grDevices::dev.new()
+#'  msco:::richness.variances(my.files)
 #'
 #'  ```
 #'
@@ -324,11 +315,7 @@ j.occs<-function(s.data, orders = 1:nrow(s.data), metric = "raw"){
 
 Jo.res <- function(){
   res <- readRDS(system.file("ms", "jo.res.RDS", package = "msco"))
-  # saveRDS(j.en, file = paste0(system.file("ms", package="msco"), "/jo.res.RDS"))
-  # res.plo <- Biobase::openPDF(system.file("ms", "jo.plots.pdf", package = "msco"))
-  system(paste0('open "', paste0(system.file("ms", package = "msco"), "/real.arch.plots.pdf"), '"'))
-  # system(paste0('open "', paste0(system.file("ms", package = "msco"), "/m.Jo.plots.pdf"), '"'))
-
+  print(nullmod_archs())
   return(res)
 }
 
@@ -472,14 +459,7 @@ Jo.res <- function(){
 
 gbsm.res <- function(){
   gres <- readRDS(system.file("ms", "gbsm.res.RDS", package = "msco"))
-  # Biobase::openPDF(system.file("ms", "gbsm.plots.pdf", package = "msco"))
-  system(paste0('open "', paste0(system.file("ms", package = "msco"), "/gbsm.plots.pdf"), '"'))
-  # Biobase::openPDF(system.file("ms", "Cluster.Dendrogram.pdf", package = "msco"))
-  # Biobase::openPDF(system.file("ms", "B-splines.curves.pdf", package = "msco"))
-  # Biobase::openPDF(system.file("ms", "pred.error.bands.pdf", package = "msco"))
-  # Biobase::openPDF(system.file("ms", "gbsm.plots.pdf", package = "msco"))
-  # saveRDS(gb.res, file = paste0(system.file("ms", package = "msco"), "/gbsm.res.RDS"))
-
+  # system(paste0('open "', paste0(system.file("ms", package = "msco"), "/gbsm.plots.pdf"), '"'))
   return(gres)
 }
 
@@ -538,12 +518,8 @@ gbsm.res <- function(){
 #'    j.en$jo.coeff ## Table 1
 #'    j.en$AIC; j.en$r2 ## Table 2
 #'    j.en$nmod_stats ## Table 3
-#'    grDevices::pdf(file = paste0(system.file("ms", package = "msco"),
-#'     "/aJo.plots.pdf"), paper = "a4r", height = 8.27, width = 11.69)
+#'    grDevices::dev.new()
 #'    j.en$all.plots
-#'    grDevices::dev.off()
-#'    system(paste0('open "', paste0(system.file("ms", package = "msco"), ## Fig. 2
-#'     "/aJo.plots.pdf"), '"'))
 #'
 #'   ```
 #'
@@ -552,12 +528,8 @@ gbsm.res <- function(){
 #'   ```
 #'    RNGkind(sample.kind = "Rejection")
 #'    set.seed(14)
-#'    grDevices::pdf(file = paste0(system.file("ms", package = "msco"),
-#'     "/real.arch.plots2.pdf"), paper = "a4r", height = 8.27, width = 11.69)
+#'    grDevices::dev.new()
 #'    msco:::nullmod_archs2()
-#'    grDevices::dev.off()
-#'    system(paste0('open "', paste0(system.file("ms", package = "msco"),
-#'     "/real.arch.plots2.pdf"), '"'))
 #'
 #'   ```
 #'
@@ -620,7 +592,7 @@ gbsm.res <- function(){
 
 msco.res <- function(){
   mres <- readRDS(system.file("ms", "msco.res.RDS", package = "msco"))
-  system(paste0('open "', paste0(system.file("ms", package = "msco"), "/msco.illus.plots.pdf"), '"'))
+  # system(paste0('open "', paste0(system.file("ms", package = "msco"), "/msco.illus.plots.pdf"), '"'))
   # saveRDS(j.en, file = paste0(system.file("ms", package="msco"), "/msco.res.RDS"))
 
   return(mres)
