@@ -31,9 +31,10 @@
 #'  \item{Lagat, V. K., Latombe, G. and Hui, C. (2021a). *A multi-species co-occurrence
 #'  index to avoid type II errors in null model testing*. DOI: `<To be added>`.}
 #'
-#'  \item{Lagat, V. K., Latombe, G. and Hui, C. (2021b). *Dissecting the effects of
-#'   neutral encounter versus functional traits on multi-order species interactions
-#'    and co-occurrence with generalised B-spline modelling*. DOI: `<To be added>`.}
+#'  \item{Lagat, V. K., Latombe, G. and Hui, C. (2021b). *Dissecting the effects of random
+#'  encounter versus functional trait mismatching on multi-species co-occurrence and
+#'   interference with generalised B-spline modelling*. DOI: `<To be added>`.}
+#'
 #' }
 #' @examples
 #' \dontrun{
