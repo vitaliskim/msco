@@ -314,7 +314,7 @@ gbsm <- function(s.data, t.data, p.d.mat, metric= "Simpson_eqn", d.f=4, order.jo
       graphics::text(0.9, 0.95, expression(paste(B["3,4"])), font=2)
 
       grDevices::dev.off()
-      base::system(paste0('open "', paste0(system.file("ms", package = "msco"), "/B-splines.curves_single.predictor.pdf"), '"'))
+      print(noquote("Check msco's 'inst/ms' directory in your R library for a 'B-splines.curves_single.predictor.pdf' file."))
     }else{
       grDevices::pdf(file = paste0(system.file("ms", package = "msco"), "/B-splines.curves_all.predictors.pdf"), height = 8.27, width = 6)
       graphics::par(mar=c(4,4,2,0.5)+.1)
@@ -346,7 +346,7 @@ gbsm <- function(s.data, t.data, p.d.mat, metric= "Simpson_eqn", d.f=4, order.jo
         graphics::text(0.87, 0.9, expression(paste(B["3,4"])), font=2)
       }
       grDevices::dev.off()
-      base::system(paste0('open "', paste0(system.file("ms", package = "msco"), "/B-splines.curves_all.predictors.pdf"), '"'))
+      print(noquote("Check msco's 'inst/ms' directory in your R library for a 'B-splines.curves_all.predictors.pdf' file."))
     }
   }
 
