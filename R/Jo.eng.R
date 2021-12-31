@@ -782,7 +782,7 @@ Jo.eng<-function(s.data, algo="sim2", metric = "raw", nReps = 999, dig = 3,
 
   ## Pairwise null model plot
   if(p.n.plot==TRUE){
-    jo.engine$p.n.plot <- print(noquote("Check msco's 'inst/ms' directory in your R directory for a 'pairwise.nm.plot.pdf' file."))
+    jo.engine$p.n.plot <- print(noquote("Check msco's 'ms' folder in your R version's directory for a 'pairwise.nm.plot.pdf' file."))
   }
 
   jo.engine$"#################  REGRESSION ANALYSES  ###############" <- noquote('')

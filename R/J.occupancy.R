@@ -79,7 +79,7 @@
 #' @md
 
 Arch_schem <- function(){
-  print(noquote("Check msco's 'inst/schem' directory in your R library for a 'Schematic_archetype_figures.pdf' file."))
+  print(noquote("Check msco's 'schem' folder in your R version's directory for a 'Schematic_archetype_figures.pdf' file."))
 }
 
 #' Joint occupancy parametric and null model plots

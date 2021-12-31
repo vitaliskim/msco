@@ -93,8 +93,9 @@ standard deviation from the mean of the response variable) for all orders of joi
 \item{Lagat, V. K., Latombe, G. and Hui, C. (2021a). \emph{A multi-species co-occurrence
 index to avoid type II errors in null model testing}. DOI: \verb{<To be added>}.}
 
-\item{Lagat, V. K., Latombe, G. and Hui, C. (2021b). \emph{Dissecting the effects of
-neutral encounter versus functional traits on multi-order species interactions
-and co-occurrence with generalised B-spline modelling}. DOI: \verb{<To be added>}.}
+\item{Lagat, V. K., Latombe, G. and Hui, C. (2021b). \emph{Dissecting the effects of random
+encounter versus functional trait mismatching on multi-species co-occurrence and
+interference with generalised B-spline modelling}. DOI: \verb{<To be added>}.}
+
 }
 }

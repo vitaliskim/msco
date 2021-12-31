@@ -147,7 +147,7 @@ pred.error.bands <- function(s.data, t.data, p.d.mat, metric="Simpson_eqn", gbsm
   peb$predictors <- `names<-`(Predictors, order.names)
   peb$responses <- `names<-`(Responses, order.names)
   peb$responses.sim_stats <- `names<-`(Responses_stats, order.names)
-  peb$Pred.error.bands <- print(noquote("Check msco's 'inst/ms' directory in your R library for a 'pred.error.bands.pdf' file."))
+  peb$Pred.error.bands <- print(noquote("Check msco's 'ms' folder in your R version's directory for a 'pred.error.bands.pdf' file."))
   return(peb)
 }
 

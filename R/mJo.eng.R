@@ -1387,7 +1387,7 @@ mJo.eng <- function(my.files,
   if(params_c.i == TRUE){
     myres$params_c.i <- paras_c.i
   }
-  myres$m.Jo.plots <- print(noquote("Check msco's 'inst/ms' directory in your R directory for a 'm.Jo.plots.pdf' file."))
+  myres$m.Jo.plots <- print(noquote("Check msco's 'ms' folder in your R version's directory for a 'm.Jo.plots.pdf' file."))
 
   return(myres)
 

@@ -129,7 +129,7 @@ s.phylo <- function(s.data, database = "ncbi", obs.taxa=TRUE, taxa.levels = NULL
     graphics::plot(dend, ylab = "Phylogenetic distance", main = "Cluster Dendrogram")
     # phylo.vee$phylo.plot <- grDevices::recordPlot()
     grDevices::dev.off()
-    print(noquote("Check msco's 'inst/ms' directory in your R library for a 'Phylogenetic.tree.pdf' file."))
+    print(noquote("Check msco's 'ms' folder in your R version's directory for a 'Phylogenetic.tree.pdf' file."))
   }
 
   return(phylo.vee)

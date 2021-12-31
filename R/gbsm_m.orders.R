@@ -361,6 +361,6 @@ gbsm_m.orders <- function(s.data, t.data, p.d.mat, metric="Simpson_eqn", orders,
   m.orders$n <- n
   m.orders$degree <- degree
   m.orders$jo.orders <- orders
-  m.orders$gbsm.plots <- print(noquote("Check msco's 'inst/ms' directory in your R library for a 'plots.gbsm.pdf' file."))
+  m.orders$gbsm.plots <- print(noquote("Check msco's 'ms' folder in your R version's directory for a 'plots.gbsm.pdf' file."))
   return(m.orders)
 }
