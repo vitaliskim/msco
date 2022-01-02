@@ -262,8 +262,7 @@ index to avoid type II errors in null model testing}. DOI: \verb{<To be added>}.
 case of two parents. \emph{proceedings of the royal society of London,} \strong{58}:240-242.
 \url{https://doi.org/10.1098/rspl.1895.0041}}
 
-\item{petrossian, g. a., and maxfield, m. (2018). an information theory approach to hypothesis testing
-in criminological research. \emph{crime science}, 7(1), 2.
-\url{https://doi.org/10.1186/s40163-018-0077-5}}
+\item{Petrossian, G.A., Maxfield, M (2018). An information theory approach to hypothesis testing in
+criminological research. \emph{crime science} 7(1), 2. \url{https://doi.org/10.1186/s40163-018-0077-5}}
 }
 }
