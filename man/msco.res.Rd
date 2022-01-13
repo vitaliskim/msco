@@ -80,7 +80,7 @@ Returns all the results presented in Lagat \emph{et al}. (2021c). To replicate
              response.curves = TRUE,
              j.occs.distrbn = FALSE,
              mp.plots = FALSE,
-             start = seq(-0.1, 0, length.out=(ncol(t.data)+2)*4+1)
+             start.range=c(-0.1,0)
            )
 
 

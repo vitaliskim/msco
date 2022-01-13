@@ -192,7 +192,7 @@
 #'   <https://doi.org/10.1098/rspl.1895.0041>}
 #'
 #'  \item{Petrossian, G.A., Maxfield, M (2018). An information theory approach to hypothesis testing in
-#'   criminological research. *crime science* 7(1), 2. <https://doi.org/10.1186/s40163-018-0077-5>}
+#'   criminological research. *crime science,* 7(1), 2. <https://doi.org/10.1186/s40163-018-0077-5>}
 #'  }
 #' @examples
 #' \dontrun{

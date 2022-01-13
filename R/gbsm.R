@@ -29,9 +29,9 @@
 #'     performed to select just the `n` samples.
 #' @param b.plots Boolean value indicating if B-spline basis functions should be plotted.
 #' @param bsplines This parameter indicates if a single or all B-spline curves should be plotted.
-#'  If `b.plots=TRUE` and `bsplines="single"`, the B-spline curves for the first predictor in
-#'   `t.data` will be plotted. Any other value for `bsplines` (other than `"single"`) results in the
-#'    B-spline curves for all predictors being plotted.
+#'  If `b.plots=TRUE` and `bsplines="single"`, the B-splines for the first predictor (labelled, ` "Trait variable" `)
+#'   in `t.data` will be plotted. Any other value for `bsplines` (other than `"single"`) results in the
+#'    B-splines for all predictors being plotted.
 #' @param response.curves A boolean value indicating if all response curves should be plotted.
 #' @param leg Boolean value indicating if the legend of the gbsm outputs should be included in the plots. This
 #'  parameter is added to help control the appearance of plots in \link[msco]{gbsm_m.orders} function.
@@ -39,7 +39,7 @@
 #'  parameter is added to help control the appearance of plots in \link[msco]{gbsm_m.orders} function.
 #' @param scat.plot Boolean value indicating if scatter plots between joint occupancy and its predicted
 #'  values should be plotted.
-#' @param start Starting values for glm regression.
+#' @param start.range Range of starting values for glm regression.
 #'
 #' @return `gbsm` function returns a list containing the following outputs:
 #' \item{`order.jo`}{Order of joint occupancy}
@@ -51,7 +51,6 @@
 #' \item{`glm_obj`}{Generalized linear model used.}
 #' \item{`j.occs`}{Rescaled observed joint occupancies. See `metric`above.}
 #' \item{`bs_pred`}{B-spline-transformed `Predictors`.}
-#' \item{`start`}{Starting values for the generalized linear model used.}
 #' \item{`var.expld`}{Amount of variation in joint occupancy explained by the `Predictors`. I.e.,
 #'  it is the Pearson's **\eqn{r^2}** between the observed and predicted values of joint occupancy.}
 #' \item{`summary`}{summary of the regression results}
@@ -84,8 +83,7 @@
 #'
 #'  my.gbsm <- msco::gbsm(s.data, t.data, p.d.mat, metric = "Simpson_eqn", gbsm.model,
 #'   d.f=4, order.jo=3, degree=3, n=1000, b.plots=TRUE, scat.plot=TRUE,
-#'    bsplines="single", response.curves=TRUE, leg=1,
-#'     start=seq(-0.1, 0, length.out=(ncol(t.data)+2)*4+1))
+#'    bsplines="single", response.curves=TRUE, leg=1, start.range=c(-0.1,0))
 #'
 #'  my.gbsm$bs_pred
 #'  my.gbsm$Predictors
@@ -98,8 +96,7 @@
 #' @md
 
 gbsm <- function(s.data, t.data, p.d.mat, metric= "Simpson_eqn", d.f=4, order.jo=3, degree=3, n=1000, b.plots=TRUE,
-                 bsplines="single", gbsm.model, scat.plot=TRUE, response.curves=TRUE, ylabel=TRUE, leg=1,
-                 start=seq(-0.1, 0, length.out=(ncol(t.data)+2)*4+1)){
+                 bsplines="single", gbsm.model, scat.plot=TRUE, response.curves=TRUE, ylabel=TRUE, leg=1, start.range=c(-0.1,0)){
 
   if(class(t.data)!="data.frame"){
     t.data <- as.data.frame(t.data)
@@ -300,7 +297,7 @@ gbsm <- function(s.data, t.data, p.d.mat, metric= "Simpson_eqn", d.f=4, order.jo
     if(bsplines=="single"){
       grDevices::pdf(file = paste0(system.file("ms", package = "msco"), "/B-splines.curves_single.predictor.pdf"), height = 5, width = 5)
       plot(x=trans.variables[,1], y=bs.variables.trans[,(1+((1-1)*d.f))], type = "l", lty=1, lwd=2, col=cols[1], ylim=c(0,max(bs.variables.trans[,(1+((1-1)*d.f))])),
-           xlab = "Trait variable", ylab = "B-spline curves", main = paste(names(trans.variables)[1]))
+           xlab = "Trait value", ylab = "B-splines", main = "Trait variable")
 
       for(i in 2:4){
         graphics::lines(trans.variables[,1], bs.variables.trans[,i], col=cols[i], lwd=2, lty = i)
@@ -322,7 +319,7 @@ gbsm <- function(s.data, t.data, p.d.mat, metric= "Simpson_eqn", d.f=4, order.jo
 
       for (v.index in 1:ncol(trans.variables)) {
         plot(x=trans.variables[,v.index], y=bs.variables.trans[,(1+((v.index-1)*d.f))], type = "l", lty=1, lwd=2, col=cols[1], ylim=c(0,max(bs.variables.trans[,(1+((v.index-1)*d.f))])),
-             xlab = "Trait variable", ylab = "B-spline curves", main = paste(names(trans.variables)[v.index]))
+             xlab = "Trait value", ylab = "B-splines", main = paste(names(trans.variables)[v.index]))
 
         for(i in (((v.index-1)*d.f)+2):(((v.index-1)*d.f)+d.f)){
           graphics::lines(trans.variables[,v.index], bs.variables.trans[,i], col=cols[i], lwd=2, lty = i)
@@ -370,16 +367,18 @@ gbsm <- function(s.data, t.data, p.d.mat, metric= "Simpson_eqn", d.f=4, order.jo
   ## Perform regression between jo and bs.variables.diff to get the regression coefficients
   bs.variables.diff <- data.frame(bs.variables.diff)
   if((metric %in% c("raw_prop", "Simpson_eqn", "Sorensen_eqn"))==TRUE){
-    model <- suppressWarnings(glm2::glm2(jo ~ ., family=stats::quasibinomial(link="log"), data = bs.variables.diff, start = start))
+    model <- suppressWarnings(glm2::glm2(jo ~ ., family=stats::quasibinomial(link="log"), data = bs.variables.diff,
+                                         start = seq(start.range[1], start.range[2], length.out=(ncol(bs.variables.diff))+1)))
   }else if(metric=="raw" & (metric %in% c("raw_prop", "Simpson_eqn", "Sorensen_eqn"))!=TRUE & gbsm.model=="quasipoisson"){
-    model <- suppressWarnings(glm2::glm2(jo ~ ., family=stats::quasipoisson(link="log"), data = bs.variables.diff, start = start))
+    model <- suppressWarnings(glm2::glm2(jo ~ ., family=stats::quasipoisson(link="log"), data = bs.variables.diff,
+                                         start = seq(start.range[1], start.range[2], length.out=(ncol(bs.variables.diff))+1)))
   }else if(metric=="raw" & (metric %in% c("raw_prop", "Simpson_eqn", "Sorensen_eqn"))!=TRUE & gbsm.model=="nb"){
-    model <- suppressWarnings(MASS::glm.nb(jo ~ ., link = log, data = bs.variables.diff, start = start))
+    model <- suppressWarnings(MASS::glm.nb(jo ~ ., link = log, data = bs.variables.diff,
+                                           start = seq(start.range[1], start.range[2], length.out=(ncol(bs.variables.diff))+1)))
   }else if(metric=="raw" & (metric %in% c("raw_prop", "Simpson_eqn", "Sorensen_eqn"))!=TRUE & (gbsm.model %in% c("quasipoisson", "nb"))!=TRUE){
     stop("Wrong 'gbsm.model' used for 'raw' version of joint occupancy. It must either be 'quasipoisson' or 'nb'.")
   }
 
-  # (This model is the same as log(jo) = b0 + b1X1 + b2X2 + ... + bnXn)
   mysum <- summary(model)
 
   ##### Variance explained
@@ -402,10 +401,6 @@ gbsm <- function(s.data, t.data, p.d.mat, metric= "Simpson_eqn", d.f=4, order.jo
   #####################################################################
   ############# Weighted sum of responses  ############################
   #####################################################################
-
-  ## Product of the Coeffs with originally bspline-transformed variables
-
-  #Let J_pred = log(jo) = b0 + b1X1+b2X2+...+bnXn
 
   ########## traits (t.data)
   J_preds.traits <- matrix(NA, nrow=nrow(bs.traits), ncol=ncol(bs.traits))
@@ -445,7 +440,7 @@ gbsm <- function(s.data, t.data, p.d.mat, metric= "Simpson_eqn", d.f=4, order.jo
 
 
   #############################################################################
-  ############# Weighted sum of seq-transformed responses #############
+  ############# Weighted sum of seq-transformed responses #####################
   #############################################################################
 
   ##Product of coefficients with variables
@@ -559,7 +554,7 @@ gbsm <- function(s.data, t.data, p.d.mat, metric= "Simpson_eqn", d.f=4, order.jo
   gbs$j.occs <- jo
   gbs$pred.j.occs <- pred.jo
   gbs$bs_pred <- bs.variables.diff
-  gbs$start <- start
+  gbs$start.range <- start.range
   gbs$var.expld <- var.expd2
   gbs$summary <- mysum
   class(gbs) <- "gbsm"

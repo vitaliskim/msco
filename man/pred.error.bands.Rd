@@ -15,7 +15,7 @@ pred.error.bands(
   orders,
   degree = 3,
   n = 1000,
-  start = seq(-0.1, 0, length.out = (ncol(t.data) + 2) * 4 + 1)
+  start.range = c(-0.1, 0)
 )
 }
 \arguments{
@@ -42,7 +42,7 @@ phylogenetic distance between any two of them (species).}
 
 \item{n}{As for \link[msco]{gbsm_m.orders}.}
 
-\item{start}{As for \link[msco]{gbsm_m.orders}.}
+\item{start.range}{As for \link[msco]{gbsm_m.orders}.}
 }
 \value{
 \code{pred.error.bands} function returns:
@@ -71,7 +71,7 @@ standard deviation from the mean of the response variable) for all orders of joi
  set.seed(4)
  pe <- msco::pred.error.bands(s.data, t.data, p.d.mat, metric="Simpson_eqn", d.f=4, simm=10,
   orders = c(2:5, 8, 10, 15), degree=3, n=1000, gbsm.model,
-   start=seq(-0.1, 0, length.out=(ncol(t.data)+2)*4+1))
+   start.range=c(-0.1,0))
 
  pe$predictors$`order 2`
  pe$responses$`order 2`

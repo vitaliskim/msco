@@ -20,7 +20,7 @@ gbsm(
   response.curves = TRUE,
   ylabel = TRUE,
   leg = 1,
-  start = seq(-0.1, 0, length.out = (ncol(t.data) + 2) * 4 + 1)
+  start.range = c(-0.1, 0)
 )
 }
 \arguments{
@@ -53,9 +53,9 @@ performed to select just the \code{n} samples.}
 \item{b.plots}{Boolean value indicating if B-spline basis functions should be plotted.}
 
 \item{bsplines}{This parameter indicates if a single or all B-spline curves should be plotted.
-If \code{b.plots=TRUE} and \code{bsplines="single"}, the B-spline curves for the first predictor in
-\code{t.data} will be plotted. Any other value for \code{bsplines} (other than \code{"single"}) results in the
-B-spline curves for all predictors being plotted.}
+If \code{b.plots=TRUE} and \code{bsplines="single"}, the B-splines for the first predictor (labelled, \code{"Trait variable"})
+in \code{t.data} will be plotted. Any other value for \code{bsplines} (other than \code{"single"}) results in the
+B-splines for all predictors being plotted.}
 
 \item{gbsm.model}{The model used if the \code{raw} form of the metric is choosen. Availbale options are \code{"quasipoisson"}
 for quasipoisson GLM or \code{"nb"} for negative binomial GLM. Other metric types strictly uses binomial GLM.}
@@ -71,7 +71,7 @@ parameter is added to help control the appearance of plots in \link[msco]{gbsm_m
 \item{leg}{Boolean value indicating if the legend of the gbsm outputs should be included in the plots. This
 parameter is added to help control the appearance of plots in \link[msco]{gbsm_m.orders} function.}
 
-\item{start}{Starting values for glm regression.}
+\item{start.range}{Range of starting values for glm regression.}
 }
 \value{
 \code{gbsm} function returns a list containing the following outputs:
@@ -84,7 +84,6 @@ function and log link function.}
 \item{\code{glm_obj}}{Generalized linear model used.}
 \item{\code{j.occs}}{Rescaled observed joint occupancies. See \code{metric}above.}
 \item{\code{bs_pred}}{B-spline-transformed \code{Predictors}.}
-\item{\code{start}}{Starting values for the generalized linear model used.}
 \item{\code{var.expld}}{Amount of variation in joint occupancy explained by the \code{Predictors}. I.e.,
 it is the Pearson's \strong{\eqn{r^2}} between the observed and predicted values of joint occupancy.}
 \item{\code{summary}}{summary of the regression results}
@@ -107,8 +106,7 @@ functions employed, with predictors transformed using a linear combination of B-
 
  my.gbsm <- msco::gbsm(s.data, t.data, p.d.mat, metric = "Simpson_eqn", gbsm.model,
   d.f=4, order.jo=3, degree=3, n=1000, b.plots=TRUE, scat.plot=TRUE,
-   bsplines="single", response.curves=TRUE, leg=1,
-    start=seq(-0.1, 0, length.out=(ncol(t.data)+2)*4+1))
+   bsplines="single", response.curves=TRUE, leg=1, start.range=c(-0.1,0))
 
  my.gbsm$bs_pred
  my.gbsm$Predictors

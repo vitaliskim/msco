@@ -21,7 +21,7 @@ gbsm_m.orders(
   response.curves = TRUE,
   j.occs.distrbn = FALSE,
   mp.plots = FALSE,
-  start = seq(-0.1, 0, length.out = (ncol(t.data) + 2) * 4 + 1)
+  start.range = c(-0.1, 0)
 )
 }
 \arguments{
@@ -63,7 +63,7 @@ observed joint occupancy should be output.}
 
 \item{mp.plots}{A boolean value indicating if the model performance plots should be output.}
 
-\item{start}{As for \link[msco]{gbsm}.}
+\item{start.range}{As for \link[msco]{gbsm}}
 }
 \value{
 \code{gbsm_m.orders} function returns a list containing the following outputs:
@@ -131,7 +131,7 @@ function computes:
   metric="Simpson_eqn", orders = c(3:5, 8, 10, 15, 20), d.f=4,
    degree=3, n=1000, k=5, p=0.8, type="k-fold", scat.plots=TRUE,
     response.curves=TRUE, j.occs.distrbn=TRUE, mp.plots=TRUE,
-     start=seq(-0.1, 0, length.out=(ncol(t.data)+2)*4+1))
+     start.range=c(-0.1,0))
 
  jp$contbn_table[[1]]
  jp$model.validation.table
@@ -144,7 +144,7 @@ function computes:
   metric="Sorensen_eqn", orders = c(3:5, 8, 10, 15, 20), d.f=4,
    degree=3, n=1000, k=5, p=0.8, type="k-fold", scat.plots=TRUE,
     response.curves=TRUE, j.occs.distrbn=TRUE, mp.plots=TRUE,
-     start=seq(-0.1, 0, length.out=(ncol(t.data)+2)*4+1))
+     start.range=c(-0.1,0))
 
  jp2$contbn_table[[1]]
  jp2$model.validation.table
@@ -157,7 +157,7 @@ function computes:
   metric="raw_prop", orders = c(3:5, 8, 10, 15, 20), d.f=4,
    degree=3, n=1000, k=5, p=0.8, type="k-fold", scat.plots=TRUE,
     response.curves=TRUE, j.occs.distrbn=TRUE, mp.plots=TRUE,
-     start=seq(-0.1, 0, length.out=(ncol(t.data)+2)*4+1))
+    start.range=c(-0.1,0))
 
  jp3$contbn_table[[1]]
  jp3$model.validation.table
@@ -170,7 +170,7 @@ function computes:
   metric="raw", orders = c(3:5, 8, 10, 15, 20), d.f=4,
    degree=3, n=1000, k=5, p=0.8, type="k-fold", scat.plots=TRUE,
     response.curves=TRUE, j.occs.distrbn=TRUE, mp.plots=TRUE,
-     start=seq(-0.1, 0, length.out=(ncol(t.data)+2)*4+1))
+    start.range=c(-0.1,0))
 
  jp4$contbn_table[[1]]
  jp4$model.validation.table
@@ -183,7 +183,7 @@ function computes:
   metric="raw", orders = c(3:5, 8, 10, 15, 20), d.f=4,
    degree=3, n=1000, k=5, p=0.8, type="k-fold", scat.plots=TRUE,
     response.curves=TRUE, j.occs.distrbn=TRUE, mp.plots=TRUE,
-     start=seq(-0.1, 0, length.out=(ncol(t.data)+2)*4+1))
+    start.range=c(-0.1,0))
 
  jp5$contbn_table[[1]]
  jp5$model.validation.table

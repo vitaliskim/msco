@@ -361,7 +361,7 @@ Jo.res <- function(){
 #'                response.curves = TRUE,
 #'                j.occs.distrbn = TRUE,
 #'                mp.plots = TRUE,
-#'                start = seq(-0.1, 0, length.out=(ncol(t.data)+2)*4+1)
+#'                start.range=c(-0.1,0)
 #'              )
 #'
 #'    gb.res$contbn_table$`order 3`  ## Table 1
@@ -411,7 +411,7 @@ Jo.res <- function(){
 #'                          scat.plot = FALSE,
 #'                          response.curves = FALSE,
 #'                          leg = 1,
-#'                          start = seq(-0.1, 0, length.out=(ncol(t.data)+2)*4+1)
+#'                          start.range=c(-0.1,0)
 #'                        )
 #'
 #'      ```
@@ -434,7 +434,7 @@ Jo.res <- function(){
 #'                            orders = c(2:5, 8, 10, 15),
 #'                            degree = 3,
 #'                            n = 1000,
-#'                            start = seq(-0.1, 0, length.out=(ncol(t.data)+2)*4+1)
+#'                            start.range=c(-0.1,0)
 #'                          )
 #'      ```
 #'
@@ -560,7 +560,7 @@ gbsm.res <- function(){
 #'                response.curves = TRUE,
 #'                j.occs.distrbn = FALSE,
 #'                mp.plots = FALSE,
-#'                start = seq(-0.1, 0, length.out=(ncol(t.data)+2)*4+1)
+#'                start.range=c(-0.1,0)
 #'              )
 #'
 #'

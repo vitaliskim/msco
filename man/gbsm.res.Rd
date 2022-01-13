@@ -33,7 +33,7 @@ Returns all the results presented in Lagat \emph{et al}. (2021b). To replicate
              response.curves = TRUE,
              j.occs.distrbn = TRUE,
              mp.plots = TRUE,
-             start = seq(-0.1, 0, length.out=(ncol(t.data)+2)*4+1)
+             start.range=c(-0.1,0)
            )
 
  gb.res$contbn_table$`order 3`  ## Table 1
@@ -80,7 +80,7 @@ Returns all the results presented in Lagat \emph{et al}. (2021b). To replicate
                     scat.plot = FALSE,
                     response.curves = FALSE,
                     leg = 1,
-                    start = seq(-0.1, 0, length.out=(ncol(t.data)+2)*4+1)
+                    start.range=c(-0.1,0)
                   )
 
 }
@@ -103,7 +103,7 @@ Returns all the results presented in Lagat \emph{et al}. (2021b). To replicate
                       orders = c(2:5, 8, 10, 15),
                       degree = 3,
                       n = 1000,
-                      start = seq(-0.1, 0, length.out=(ncol(t.data)+2)*4+1)
+                      start.range=c(-0.1,0)
                     )
 }
 }

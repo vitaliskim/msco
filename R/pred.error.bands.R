@@ -12,7 +12,7 @@
 #'  phylogenetic distance between any two of them (species).
 #' @param orders As for \link[msco]{gbsm_m.orders}
 #' @param degree As for \link[msco]{gbsm_m.orders}.
-#' @param start As for \link[msco]{gbsm_m.orders}.
+#' @param start.range As for \link[msco]{gbsm_m.orders}.
 #' @param n As for \link[msco]{gbsm_m.orders}.
 #' @param d.f As for \link[msco]{gbsm_m.orders}.
 #' @param metric As for \link[msco]{gbsm_m.orders}.
@@ -48,7 +48,7 @@
 #'  set.seed(4)
 #'  pe <- msco::pred.error.bands(s.data, t.data, p.d.mat, metric="Simpson_eqn", d.f=4, simm=10,
 #'   orders = c(2:5, 8, 10, 15), degree=3, n=1000, gbsm.model,
-#'    start=seq(-0.1, 0, length.out=(ncol(t.data)+2)*4+1))
+#'    start.range=c(-0.1,0))
 #'
 #'  pe$predictors$`order 2`
 #'  pe$responses$`order 2`
@@ -67,7 +67,7 @@
 #' @export
 #' @md
 
-pred.error.bands <- function(s.data, t.data, p.d.mat, metric="Simpson_eqn", gbsm.model, d.f=4, simm=10, orders, degree=3, n=1000, start=seq(-0.1, 0, length.out=(ncol(t.data)+2)*4+1)){
+pred.error.bands <- function(s.data, t.data, p.d.mat, metric="Simpson_eqn", gbsm.model, d.f=4, simm=10, orders, degree=3, n=1000, start.range=c(-0.1,0)){
 
   grDevices::pdf(file = paste0(system.file("ms", package = "msco"), "/pred.error.bands.pdf"), paper="a4r", height = 8.27, width = 11.69)
   graphics::par(mar=c(4,4,2,0.5)+.1)
@@ -79,7 +79,7 @@ pred.error.bands <- function(s.data, t.data, p.d.mat, metric="Simpson_eqn", gbsm
   order.names <- c()
   for (i in orders) {
     if(i==2){
-      pr <- pred.error.bands.table(s.data, t.data, p.d.mat, metric, d.f, simm, order.jo=i, degree, n, start)
+      pr <- pred.error.bands.table(s.data, t.data, p.d.mat, metric, d.f, simm, order.jo=i, degree, n, start.range)
       predictors <- pr$predictors
       responses <- pr$responses
       response_stats <- pr$respns_dispn.table
@@ -108,7 +108,7 @@ pred.error.bands <- function(s.data, t.data, p.d.mat, metric="Simpson_eqn", gbsm
         graphics::lines(predictors[,v], response_stats[, (1+(v-1)*2)], type= "l", lwd=2)
       }
     }else{
-      pr <- pred.error.bands.table(s.data, t.data, p.d.mat, metric, d.f, simm, order.jo=i, degree, n, start)
+      pr <- pred.error.bands.table(s.data, t.data, p.d.mat, metric, d.f, simm, order.jo=i, degree, n, start.range)
       responses <- pr$responses
       predictors <- pr$predictors
       response_stats <- pr$respns_dispn.table
