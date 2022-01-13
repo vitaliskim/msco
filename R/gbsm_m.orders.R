@@ -35,7 +35,9 @@
 #' @param j.occs.distrbn A boolean value indicating if the histograms of the frequency distribution of
 #'  observed joint occupancy should be output.
 #' @param mp.plots A boolean value indicating if the model performance plots should be output.
-#' @param start.range As for \link[msco]{gbsm}
+#' @param start.range As for \link[msco]{gbsm}.
+#' @param max.vif As for \link[msco]{gbsm}.
+#' @param max.vif2 As for \link[msco]{gbsm}.
 #' @return
 #' `gbsm_m.orders` function returns a list containing the following outputs:
 #'  * `jo.orders`: &nbsp; A set of joint occupancy orders.
@@ -64,6 +66,9 @@
 #'  * `n`: &nbsp; As for \link[msco]{gbsm}.
 #'  * `degree`: &nbsp; As for \link[msco]{gbsm}.
 #'  * `jo.orders`: &nbsp; Orders of joint occupancy used.
+#'  * `Original.VIFs` As for \link[msco]{gbsm} (different orders).
+#'  * `Intermediate.VIFs` As for \link[msco]{gbsm} (different orders).
+#'  * `Final.VIFs` As for \link[msco]{gbsm} (different orders).
 #' @references
 #' \enumerate{
 #'  \item{Curry, H. B., and Schoenberg, I. J. (1988). On P&oacute;lya frequency functions IV: the
@@ -95,7 +100,7 @@
 #'   metric="Simpson_eqn", orders = c(3:5, 8, 10, 15, 20), d.f=4,
 #'    degree=3, n=1000, k=5, p=0.8, type="k-fold", scat.plots=TRUE,
 #'     response.curves=TRUE, j.occs.distrbn=TRUE, mp.plots=TRUE,
-#'      start.range=c(-0.1,0))
+#'      max.vif, max.vif2, start.range=c(-0.1,0))
 #'
 #'  jp$contbn_table[[1]]
 #'  jp$model.validation.table
@@ -108,7 +113,7 @@
 #'   metric="Sorensen_eqn", orders = c(3:5, 8, 10, 15, 20), d.f=4,
 #'    degree=3, n=1000, k=5, p=0.8, type="k-fold", scat.plots=TRUE,
 #'     response.curves=TRUE, j.occs.distrbn=TRUE, mp.plots=TRUE,
-#'      start.range=c(-0.1,0))
+#'      max.vif, max.vif2, start.range=c(-0.1,0))
 #'
 #'  jp2$contbn_table[[1]]
 #'  jp2$model.validation.table
@@ -121,7 +126,7 @@
 #'   metric="raw_prop", orders = c(3:5, 8, 10, 15, 20), d.f=4,
 #'    degree=3, n=1000, k=5, p=0.8, type="k-fold", scat.plots=TRUE,
 #'     response.curves=TRUE, j.occs.distrbn=TRUE, mp.plots=TRUE,
-#'     start.range=c(-0.1,0))
+#'     max.vif, max.vif2, start.range=c(-0.1,0))
 #'
 #'  jp3$contbn_table[[1]]
 #'  jp3$model.validation.table
@@ -134,7 +139,7 @@
 #'   metric="raw", orders = c(3:5, 8, 10, 15, 20), d.f=4,
 #'    degree=3, n=1000, k=5, p=0.8, type="k-fold", scat.plots=TRUE,
 #'     response.curves=TRUE, j.occs.distrbn=TRUE, mp.plots=TRUE,
-#'     start.range=c(-0.1,0))
+#'     max.vif, max.vif2, start.range=c(-0.1,0))
 #'
 #'  jp4$contbn_table[[1]]
 #'  jp4$model.validation.table
@@ -147,7 +152,7 @@
 #'   metric="raw", orders = c(3:5, 8, 10, 15, 20), d.f=4,
 #'    degree=3, n=1000, k=5, p=0.8, type="k-fold", scat.plots=TRUE,
 #'     response.curves=TRUE, j.occs.distrbn=TRUE, mp.plots=TRUE,
-#'     start.range=c(-0.1,0))
+#'     max.vif, max.vif2, start.range=c(-0.1,0))
 #'
 #'  jp5$contbn_table[[1]]
 #'  jp5$model.validation.table
@@ -158,8 +163,9 @@
 #' @export
 #' @md
 
-gbsm_m.orders <- function(s.data, t.data, p.d.mat, metric="Simpson_eqn", orders, d.f=4, degree=3, n=1000, k=5, p=0.8, type="k-fold", gbsm.model,
-                          scat.plots=FALSE, response.curves=TRUE, j.occs.distrbn=FALSE, mp.plots=FALSE, start.range=c(-0.1,0)){
+gbsm_m.orders <- function(s.data, t.data, p.d.mat, metric="Simpson_eqn", orders, d.f=4, degree=3, n=1000, k=5,
+                          p=0.8, type="k-fold", gbsm.model, scat.plots=FALSE, response.curves=TRUE,
+                          j.occs.distrbn=FALSE, mp.plots=FALSE, max.vif=20, max.vif2=10, start.range=c(-0.1,0)){
 
   grDevices::pdf(file = paste0(system.file("ms", package = "msco"), "/plots.gbsm.pdf"), height = 8.27, width = 4)
   graphics::par(mar=c(5,5,4,1)+.1)
@@ -174,24 +180,31 @@ gbsm_m.orders <- function(s.data, t.data, p.d.mat, metric="Simpson_eqn", orders,
   cvalid <- list()
   cvalid_TEs <- matrix(NA, nrow = length(orders), ncol = 3)
   order.names <- c()
+  Original.VIFs <- list()
+  Final.VIFs <- list()
+  Intermediate.VIFs <- list()
   N <- ncol(s.data)
   for (i in orders) {
-    contbn_table <- `names<-`(data.frame(rep(NA, ncol(t.data)+2), rep(NA, ncol(t.data)+2), rep(NA,ncol(t.data)+2),
-                                         rep(NA,ncol(t.data)+2)), c("predictor", "var.expld_M1", "var.expld_M2",
-                                                                    "contribution"))
+
     pred.cont <- list()
     if((which(orders==i)%%2) == 0){
       mss[[i]] <- gbsm(s.data, t.data, p.d.mat, d.f=d.f, metric=metric, order.jo=i, degree=degree, n=n, b.plots=FALSE,
                        gbsm.model = gbsm.model, response.curves=response.curves, ylabel=FALSE, scat.plot=FALSE, leg = 0,
-                       start.range=start.range)
+                       max.vif=max.vif, max.vif2=max.vif2, start.range=start.range)
     }else{
       mss[[i]] <- gbsm(s.data, t.data, p.d.mat, d.f=d.f, metric=metric, order.jo=i, degree=degree, n=n, b.plots=FALSE,
                        gbsm.model = gbsm.model, response.curves=response.curves, ylabel=TRUE, scat.plot=FALSE, leg = 0,
-                       start.range=start.range)
+                       max.vif=max.vif, max.vif2=max.vif2, start.range=start.range)
     }
     bs_pred <- mss[[i]]$bs_pred
     j.occs <- mss[[i]]$j.occs
     gof <- mss[[i]]$var.expld
+    Predictors <- mss[[i]]$Predictors
+
+    contbn_table <- `names<-`(data.frame(rep(NA, ncol(Predictors)), rep(NA, ncol(Predictors)), rep(NA,ncol(Predictors)),
+                                         rep(NA,ncol(Predictors))), c("predictor", "var.expld_M1", "var.expld_M2",
+                                                                      "contribution"))
+
 
     ## Cross-validation
     if(type=="validation.set"){
@@ -202,9 +215,9 @@ gbsm_m.orders <- function(s.data, t.data, p.d.mat, metric="Simpson_eqn", orders,
 
 
     ### Predictor contribution
-    for(j in 1:(ncol(t.data)+2)){
-      data <- bs_pred[, -which(names(`names<-`(bs_pred,gsub("[[:digit:]]", "", names(bs_pred)))) %in% c(unique(
-        names(`names<-`(bs_pred,gsub("[[:digit:]]", "", names(bs_pred)))))[j]))]
+    for(j in 1:ncol(Predictors)){
+      data <- as.data.frame(bs_pred[, -which(names(`names<-`(bs_pred,gsub("[[:digit:]]", "", names(bs_pred)))) %in% c(unique(
+        names(`names<-`(bs_pred,gsub("[[:digit:]]", "", names(bs_pred)))))[j]))])
 
       if((metric %in% c("raw_prop", "Simpson_eqn", "Sorensen_eqn"))==TRUE){
         pred.cont[[j]] <- suppressWarnings(glm2::glm2(j.occs ~ ., family=stats::quasibinomial(link="log"), data = data,
@@ -231,11 +244,23 @@ gbsm_m.orders <- function(s.data, t.data, p.d.mat, metric="Simpson_eqn", orders,
     vars2[i] <- gof
 
     order.names[i] <- paste("order", i)
+
+    Original.VIFs[[i]] <- mss[[i]]$Original.VIFs
+    Intermediate.VIFs[[i]] <- mss[[i]]$Intermediate.VIFs
+    Final.VIFs[[i]] <- mss[[i]]$Final.VIFs
+
   }
 
   order.names <- order.names[stats::complete.cases(order.names)]
   contbn_tablee <- contbn_tablee[!sapply(contbn_tablee,is.null)]
   contbn_tablee <- `names<-`(contbn_tablee, order.names)
+
+  Original.VIFs <- Original.VIFs[!sapply(Original.VIFs,is.null)]
+  Original.VIFs <- `names<-`(Original.VIFs, order.names)
+  Intermediate.VIFs <- Intermediate.VIFs[!sapply(Intermediate.VIFs,is.null)]
+  Intermediate.VIFs <- `names<-`(Intermediate.VIFs, order.names)
+  Final.VIFs <- Final.VIFs[!sapply(Final.VIFs,is.null)]
+  Final.VIFs <- `names<-`(Final.VIFs, order.names)
 
   if(response.curves==TRUE){
     graphics::plot.new()
@@ -365,6 +390,9 @@ gbsm_m.orders <- function(s.data, t.data, p.d.mat, metric="Simpson_eqn", orders,
   m.orders$n <- n
   m.orders$degree <- degree
   m.orders$jo.orders <- orders
+  m.orders$Original.VIFs <- Original.VIFs
+  m.orders$Intermediate.VIFs <- Intermediate.VIFs
+  m.orders$Final.VIFs <- Final.VIFs
   m.orders$gbsm.plots <- print(noquote("Check msco's 'ms' folder in your R version's directory for a 'plots.gbsm.pdf' file."))
   return(m.orders)
 }

@@ -33,11 +33,16 @@ Returns all the results presented in Lagat \emph{et al}. (2021b). To replicate
              response.curves = TRUE,
              j.occs.distrbn = TRUE,
              mp.plots = TRUE,
+             max.vif = 10,
+             max.vif2 = 3,
              start.range=c(-0.1,0)
            )
 
  gb.res$contbn_table$`order 3`  ## Table 1
  gb.res$model.validation.table  ## Table S1
+ gb.res$Original.VIFs$`order 3`
+ gb.res$Intermediate.VIFs$`order 3`
+ gb.res$Final.VIFs$`order 3`
 
 
 }
@@ -80,6 +85,8 @@ Returns all the results presented in Lagat \emph{et al}. (2021b). To replicate
                     scat.plot = FALSE,
                     response.curves = FALSE,
                     leg = 1,
+                    max.vif,
+                    max.vif2,
                     start.range=c(-0.1,0)
                   )
 
@@ -130,6 +137,9 @@ findings.
 gbs.res <- msco::gbsm.res()
 gbs.res$contbn_table$`order 3`
 gbs.res$model.validation.table
+gb.res$Original.VIFs$`order 3`
+gb.res$Intermediate.VIFs$`order 3`
+gb.res$Final.VIFs$`order 3`
 
 }
 }

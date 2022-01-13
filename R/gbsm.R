@@ -40,6 +40,12 @@
 #' @param scat.plot Boolean value indicating if scatter plots between joint occupancy and its predicted
 #'  values should be plotted.
 #' @param start.range Range of starting values for glm regression.
+#' @param max.vif This value can be varied to have an intermediate GBSM model (based on GLM) with  certain `VIF`
+#'  values. Any predictor variable (from the original model) with `VIF` greater than this value is removed.
+#'   This can be repeated until an ideal `VIF` of less or equal to a desired value is achieved.
+#' @param max.vif2 This value can be varied to have a final GBSM model (based on GLM) with certain `VIF`
+#'  values much less than `max.vif`. Any predictor variable (from the intermediate model) with `VIF` greater than
+#'   this value is removed. This can be repeated until an ideal `VIF` of less or equal to to a desired value is achieved.
 #'
 #' @return `gbsm` function returns a list containing the following outputs:
 #' \item{`order.jo`}{Order of joint occupancy}
@@ -53,6 +59,9 @@
 #' \item{`bs_pred`}{B-spline-transformed `Predictors`.}
 #' \item{`var.expld`}{Amount of variation in joint occupancy explained by the `Predictors`. I.e.,
 #'  it is the Pearson's **\eqn{r^2}** between the observed and predicted values of joint occupancy.}
+#' \item{`Original.VIFs`}{Variance inflation factors from the original GBSM model (before removing covariates exceeding `max.vif`).}
+#' \item{`Intermediate.VIFs`}{Variance inflation factors from the intermediate GBSM model (after removing the 1st set of covariates exceeding `max.vif`).}
+#' \item{`Final.VIFs`}{Variance inflation factors from the final GBSM model (after removing the 2nd set of covariates exceeding `max.vif2`).}
 #' \item{`summary`}{summary of the regression results}
 #'
 #' @references
@@ -83,7 +92,7 @@
 #'
 #'  my.gbsm <- msco::gbsm(s.data, t.data, p.d.mat, metric = "Simpson_eqn", gbsm.model,
 #'   d.f=4, order.jo=3, degree=3, n=1000, b.plots=TRUE, scat.plot=TRUE,
-#'    bsplines="single", response.curves=TRUE, leg=1, start.range=c(-0.1,0))
+#'    bsplines="single", response.curves=TRUE, leg=1, max.vif, max.vif2, start.range=c(-0.1,0))
 #'
 #'  my.gbsm$bs_pred
 #'  my.gbsm$Predictors
@@ -96,7 +105,8 @@
 #' @md
 
 gbsm <- function(s.data, t.data, p.d.mat, metric= "Simpson_eqn", d.f=4, order.jo=3, degree=3, n=1000, b.plots=TRUE,
-                 bsplines="single", gbsm.model, scat.plot=TRUE, response.curves=TRUE, ylabel=TRUE, leg=1, start.range=c(-0.1,0)){
+                 bsplines="single", gbsm.model, scat.plot=TRUE, response.curves=TRUE, ylabel=TRUE, leg=1, max.vif = 20,
+                 max.vif2 = 10, start.range=c(-0.1,0)){
 
   if(class(t.data)!="data.frame"){
     t.data <- as.data.frame(t.data)
@@ -288,7 +298,7 @@ gbsm <- function(s.data, t.data, p.d.mat, metric= "Simpson_eqn", d.f=4, order.jo
   ## Transformed values of all variables (trans.variables) and their B-splines (bs.variables.trans)
   bs.variables.trans <- cbind(bs.traits.trans, bs.p.dist.trans, bs.erate.trans)
   trans.variables <- cbind(t.data.trans, p.dist.trans, erate.trans)
-  names(trans.variables) <- c(names(t.data.trans), "P.dist", "E.rate")
+  names(trans.variables) <- c(names(t.data.trans), "p.dist", "E.rate")
 
 
   #### Plot to see if the correct B-spline plots are output
@@ -379,6 +389,77 @@ gbsm <- function(s.data, t.data, p.d.mat, metric= "Simpson_eqn", d.f=4, order.jo
     stop("Wrong 'gbsm.model' used for 'raw' version of joint occupancy. It must either be 'quasipoisson' or 'nb'.")
   }
 
+  ## Remove perfectly collinear variables and perform the regression again using the new data
+  if(length(which(is.na(model$coefficients)==TRUE))!=0){
+    bs.variables.diff <- bs.variables.diff[,-which(is.na(model$coefficients[-1])==TRUE)]
+    bs.variables.diff <- data.frame(bs.variables.diff)
+    # start <- start[-which(is.na(model1$coefficients)==TRUE)]
+    if((metric %in% c("raw_prop", "Simpson_eqn", "Sorensen_eqn"))==TRUE){
+      model <- suppressWarnings(glm2::glm2(jo ~ ., family=stats::quasibinomial(link="log"), data = bs.variables.diff,
+                                            start = seq(start.range[1], start.range[2], length.out=(ncol(bs.variables.diff))+1)))
+    }else if(metric=="raw" & (metric %in% c("raw_prop", "Simpson_eqn", "Sorensen_eqn"))!=TRUE & gbsm.model=="quasipoisson"){
+      model <- suppressWarnings(glm2::glm2(jo ~ ., family=stats::quasipoisson(link="log"), data = bs.variables.diff,
+                                            start = seq(start.range[1], start.range[2], length.out=(ncol(bs.variables.diff))+1)))
+    }else if(metric=="raw" & (metric %in% c("raw_prop", "Simpson_eqn", "Sorensen_eqn"))!=TRUE & gbsm.model=="nb"){
+      model <- suppressWarnings(MASS::glm.nb(jo ~ ., link = log, data = bs.variables.diff,
+                                              start = seq(start.range[1], start.range[2], length.out=(ncol(bs.variables.diff))+1)))
+    }else if(metric=="raw" & (metric %in% c("raw_prop", "Simpson_eqn", "Sorensen_eqn"))!=TRUE & (gbsm.model %in% c("quasipoisson", "nb"))!=TRUE){
+      stop("Wrong 'gbsm.model' used for 'raw' version of joint occupancy. It must either be 'quasipoisson' or 'nb'.")
+    }
+  }
+  Original.VIFs <- car::vif(model)
+
+  ## Remove variables with VIF>max.vif and perform the regression again using the new data
+  if(length(model$coefficients)<2){
+    stop("Cannot compute the VIF of the model because the model contains fewer than 2 terms. Consider using a different dataset, or increase your 'max.vif' value.")
+  }else if(length(model$coefficients)>=2 & length(which(car::vif(model)>=max.vif))!=0){
+    bs.variables.diff <- bs.variables.diff[,names(trunc(car::vif(model)[-which(car::vif(model)>=max.vif)]))]
+    bs.variables.diff <- data.frame(bs.variables.diff)
+    if(ncol(bs.variables.diff)==0){
+      stop("No covariates for the model. Consider increasing the 'max.vif' value to avoid all covariates being removed, or use a different dataset of covariates.")
+    }else if(ncol(bs.variables.diff)>0){
+      if((metric %in% c("raw_prop", "Simpson_eqn", "Sorensen_eqn"))==TRUE){
+        model <- suppressWarnings(glm2::glm2(jo ~ ., family=stats::quasibinomial(link="log"), data = bs.variables.diff,
+                                             start = seq(start.range[1], start.range[2], length.out=(ncol(bs.variables.diff))+1)))
+      }else if(metric=="raw" & (metric %in% c("raw_prop", "Simpson_eqn", "Sorensen_eqn"))!=TRUE & gbsm.model=="quasipoisson"){
+        model <- suppressWarnings(glm2::glm2(jo ~ ., family=stats::quasipoisson(link="log"), data = bs.variables.diff,
+                                             start = seq(start.range[1], start.range[2], length.out=(ncol(bs.variables.diff))+1)))
+      }else if(metric=="raw" & (metric %in% c("raw_prop", "Simpson_eqn", "Sorensen_eqn"))!=TRUE & gbsm.model=="nb"){
+        model <- suppressWarnings(MASS::glm.nb(jo ~ ., link = log, data = bs.variables.diff,
+                                               start = seq(start.range[1], start.range[2], length.out=(ncol(bs.variables.diff))+1)))
+      }else if(metric=="raw" & (metric %in% c("raw_prop", "Simpson_eqn", "Sorensen_eqn"))!=TRUE & (gbsm.model %in% c("quasipoisson", "nb"))!=TRUE){
+        stop("Wrong 'gbsm.model' used for 'raw' version of joint occupancy. It must either be 'quasipoisson' or 'nb'.")
+      }
+    }
+  }
+  Intermediate.VIFs <- car::vif(model)
+
+  ## Remove variables with VIF>max.vif2 and perform the regression again using the new data
+  if(length(model$coefficients)<2){
+    stop("Cannot compute the VIF of the model because the model contains fewer than 2 terms. Consider using a different dataset, or increase your 'max.vif2' value.")
+  }else if(length(model$coefficients)>=2 & length(which(car::vif(model)>=max.vif2))!=0){
+    bs.variables.diff <- bs.variables.diff[,names(trunc(car::vif(model)[-which(car::vif(model)>=max.vif2)]))]
+    bs.variables.diff <- data.frame(bs.variables.diff)
+    if(ncol(bs.variables.diff)==0){
+      stop("No covariates for the model. Consider increasing the 'max.vif2' value to avoid all covariates being removed, or use a different dataset of covariates.")
+    }else if(ncol(bs.variables.diff)>0){
+      if((metric %in% c("raw_prop", "Simpson_eqn", "Sorensen_eqn"))==TRUE){
+        model <- suppressWarnings(glm2::glm2(jo ~ ., family=stats::quasibinomial(link="log"), data = bs.variables.diff,
+                                             start = seq(start.range[1], start.range[2], length.out=(ncol(bs.variables.diff))+1)))
+      }else if(metric=="raw" & (metric %in% c("raw_prop", "Simpson_eqn", "Sorensen_eqn"))!=TRUE & gbsm.model=="quasipoisson"){
+        model <- suppressWarnings(glm2::glm2(jo ~ ., family=stats::quasipoisson(link="log"), data = bs.variables.diff,
+                                             start = seq(start.range[1], start.range[2], length.out=(ncol(bs.variables.diff))+1)))
+      }else if(metric=="raw" & (metric %in% c("raw_prop", "Simpson_eqn", "Sorensen_eqn"))!=TRUE & gbsm.model=="nb"){
+        model <- suppressWarnings(MASS::glm.nb(jo ~ ., link = log, data = bs.variables.diff,
+                                               start = seq(start.range[1], start.range[2], length.out=(ncol(bs.variables.diff))+1)))
+      }else if(metric=="raw" & (metric %in% c("raw_prop", "Simpson_eqn", "Sorensen_eqn"))!=TRUE & (gbsm.model %in% c("quasipoisson", "nb"))!=TRUE){
+        stop("Wrong 'gbsm.model' used for 'raw' version of joint occupancy. It must either be 'quasipoisson' or 'nb'.")
+      }
+    }
+  }
+
+  Final.VIFs <- car::vif(model)
+
   mysum <- summary(model)
 
   ##### Variance explained
@@ -395,7 +476,6 @@ gbsm <- function(s.data, t.data, p.d.mat, metric= "Simpson_eqn", d.f=4, order.jo
   ## Obtain the regression coefficients excluding the intercept
 
   coeff <- model$coefficients[-1]
-  coeff[which(is.na(coeff)==TRUE)] <- 0
   intercept <- model$coefficients[1]
 
   #####################################################################
@@ -403,56 +483,94 @@ gbsm <- function(s.data, t.data, p.d.mat, metric= "Simpson_eqn", d.f=4, order.jo
   #####################################################################
 
   ########## traits (t.data)
-  J_preds.traits <- matrix(NA, nrow=nrow(bs.traits), ncol=ncol(bs.traits))
+  bs.traits <- `names<-`(data.frame(as.matrix(bs.traits[, which(names(bs.traits) %in% names(coeff))],
+                                                nrow=nrow(bs.traits))), names(bs.traits)[which(names(bs.traits) %in% names(coeff))])
   coeff.traits <- coeff[1:dim(bs.traits)[2]]
-  for (i in 1:ncol(bs.traits)) {
-    J_preds.traits[,i] <- coeff.traits[i]*bs.traits[,i] + intercept/((dim(t.data)[2]+2)*d.f)
-  }
-  J_preds.traits <- `names<-`(data.frame(J_preds.traits), names(bs.traits))
 
-  # Sum "d.f" columns per variable (from J_preds.traits) to get "J_preds.traits.fin"
-  names(J_preds.traits) <- gsub("[[:digit:]]", "", names(J_preds.traits))
-  J_preds.traits.fin <- t(rowsum(t(J_preds.traits), group = colnames(J_preds.traits), na.rm = T, reorder=FALSE))
+  if(ncol(bs.traits)>0){
+    J_preds.traits <- matrix(NA, nrow=nrow(bs.traits), ncol=ncol(bs.traits))
+    for (i in 1:ncol(bs.traits)) {
+      J_preds.traits[,i] <- coeff.traits[i]*bs.traits[,i] + intercept/(length(coeff))
+    }
+    J_preds.traits <- `names<-`(data.frame(J_preds.traits), names(bs.traits))
+
+    # Sum columns per variable (from J_preds.traits) to get "J_preds.traits.fin"
+    names(J_preds.traits) <- gsub("[[:digit:]]", "", names(J_preds.traits))
+    J_preds.traits.fin <- t(rowsum(t(J_preds.traits), group = colnames(J_preds.traits), na.rm = T, reorder=FALSE))
+  }else if(ncol(bs.traits)==0){
+    J_preds.traits.fin <- NULL
+  }
 
   ########## p.dist
-  J_preds.p.d <- matrix(NA, nrow=nrow(bs.p.dist), ncol=ncol(bs.p.dist))
-  coeff.p.d <- coeff[(dim(bs.traits)[2]+1):(dim(bs.traits)[2]+d.f)]
-  for (i in 1:ncol(bs.p.dist)) {
-    J_preds.p.d[,i] <- coeff.p.d[i]*bs.p.dist[,i] + intercept/((dim(t.data)[2]+2)*d.f)
-  }
-  J_preds.p.d <- `names<-`(data.frame(J_preds.p.d), names(bs.p.dist))
 
-  # Sum "d.f" columns per variable (from J_preds.p.d) to get "J_preds.p.d.fin"
-  names(J_preds.p.d) <- gsub("[[:digit:]]", "", names(J_preds.p.d))
-  J_preds.p.d.fin <- t(rowsum(t(J_preds.p.d), group = colnames(J_preds.p.d), na.rm = TRUE, reorder=FALSE))
+  bs.p.dist <- `names<-`(data.frame(as.matrix(bs.p.dist[, which(names(bs.p.dist) %in% names(coeff))],
+                                                nrow=nrow(bs.p.dist))), names(bs.p.dist)[which(names(bs.p.dist) %in% names(coeff))])
+  coeff.p.d <- coeff[(dim(bs.traits)[2]+1):(dim(bs.traits)[2]+ncol(bs.p.dist))]
+
+  if(ncol(bs.p.dist)>0){
+    J_preds.p.d <- matrix(NA, nrow=nrow(bs.p.dist), ncol=ncol(bs.p.dist))
+    for (i in 1:ncol(bs.p.dist)) {
+      J_preds.p.d[,i] <- coeff.p.d[i]*bs.p.dist[,i] + intercept/(length(coeff))
+    }
+    J_preds.p.d <- `names<-`(data.frame(J_preds.p.d), names(bs.p.dist))
+
+    # Sum columns per variable (from J_preds.p.d) to get "J_preds.p.d.fin"
+    names(J_preds.p.d) <- gsub("[[:digit:]]", "", names(J_preds.p.d))
+    J_preds.p.d.fin <- t(rowsum(t(J_preds.p.d), group = colnames(J_preds.p.d), na.rm = TRUE, reorder=FALSE))
+  }else if(ncol(bs.p.dist)==0){
+    J_preds.p.d.fin <- NULL
+  }
 
   ########## E.rate
-  J_preds.er <- matrix(NA, nrow=nrow(bs.erate), ncol=ncol(bs.erate))
-  coeff.er <- coeff[(dim(bs.traits)[2]+d.f+1):(dim(bs.variables.diff)[2])]
-  for (i in 1:ncol(bs.erate)) {
-    J_preds.er[,i] <- coeff.er[i]*bs.erate[,i] + intercept/((dim(t.data)[2]+2)*d.f)
+
+  bs.erate <- `names<-`(data.frame(as.matrix(bs.erate[, which(names(bs.erate) %in% names(coeff))],
+                                               nrow=nrow(bs.erate))), names(bs.erate)[which(names(bs.erate) %in% names(coeff))])
+  coeff.er <- coeff[(dim(bs.traits)[2]+ncol(bs.p.dist)+1):(dim(bs.variables.diff)[2])]
+
+  if(ncol(bs.erate)>0){
+    J_preds.er <- matrix(NA, nrow=nrow(bs.erate), ncol=ncol(bs.erate))
+    for (i in 1:ncol(bs.erate)) {
+      J_preds.er[,i] <- coeff.er[i]*bs.erate[,i] + intercept/(length(coeff))
+    }
+    J_preds.er <- `names<-`(data.frame(J_preds.er), names(bs.erate))
+
+    # Sum columns per variable (from J_preds.er) to get "J_preds.er.fin"
+    names(J_preds.er) <- gsub("[[:digit:]]", "", names(J_preds.er))
+    J_preds.er.fin <- t(rowsum(t(J_preds.er), group = colnames(J_preds.er), na.rm = TRUE, reorder=FALSE))
+  }else if(ncol(bs.erate)==0){
+    J_preds.er.fin <- NULL
   }
-  J_preds.er <- `names<-`(data.frame(J_preds.er), names(bs.erate))
-
-  # Sum "d.f" columns per variable (from J_preds.er) to get "J_preds.er.fin"
-  names(J_preds.er) <- gsub("[[:digit:]]", "", names(J_preds.er))
-  J_preds.er.fin <- t(rowsum(t(J_preds.er), group = colnames(J_preds.er), na.rm = TRUE, reorder=FALSE))
-
 
   #############################################################################
   ############# Weighted sum of seq-transformed responses #####################
   #############################################################################
 
   ##Product of coefficients with variables
+
   coeff.variables <- c(coeff.traits, coeff.p.d, coeff.er)
-  J_preds.trans <- matrix(NA, nrow=nrow(bs.variables.trans), ncol=ncol(bs.variables.trans))
-  for (i in 1:ncol(bs.variables.trans)) {
-    J_preds.trans[,i] <- coeff.variables[i]*bs.variables.trans[,i] + intercept/((dim(t.data)[2]+2)*d.f)
+  bs.variables.trans <- `names<-`(data.frame(as.matrix(bs.variables.trans[, which(names(bs.variables.trans) %in% names(coeff))],
+                                                         nrow=nrow(bs.variables.trans))), names(bs.variables.trans)[which(names(bs.variables.trans) %in% names(coeff))])
+
+  if(ncol(bs.variables.trans)>0){
+    J_preds.trans <- matrix(NA, nrow=nrow(bs.variables.trans), ncol=ncol(bs.variables.trans))
+    for (i in 1:ncol(bs.variables.trans)) {
+      J_preds.trans[,i] <- coeff.variables[i]*bs.variables.trans[,i] + intercept/(dim(bs.variables.diff)[2])
+    }
+    J_preds.trans <- `names<-`(data.frame(J_preds.trans), names(bs.variables.trans))
+    ## Sum columns per variable (from J_preds.trans) to get "J_preds.trans.fin"
+    names(J_preds.trans) <- gsub("[[:digit:]]", "", names(J_preds.trans))
+    J_preds.trans.fin <- t(rowsum(t(J_preds.trans), group = colnames(J_preds.trans), na.rm = TRUE, reorder=FALSE))
+  }else if(ncol(bs.variables.trans)==0){
+    J_preds.trans.fin <- NULL
   }
-  J_preds.trans <- `names<-`(data.frame(J_preds.trans), names(bs.variables.trans))
-  ## Sum "d.f" columns per variable (from J_preds.trans) to get "J_preds.trans.fin"
-  names(J_preds.trans) <- gsub("[[:digit:]]", "", names(J_preds.trans))
-  J_preds.trans.fin <- t(rowsum(t(J_preds.trans), group = colnames(J_preds.trans), na.rm = TRUE, reorder=FALSE))
+
+  trans.variables <- `names<-`(data.frame(as.matrix(trans.variables[, which(names(trans.variables) %in% unique(gsub("[[:digit:]]", "", names(bs.variables.trans))))],
+                                                    nrow=nrow(trans.variables))), names(trans.variables)[which(names(trans.variables) %in% unique(gsub("[[:digit:]]", "", names(bs.variables.trans))))])
+
+  t.data <- `names<-`(data.frame(as.matrix(t.data[, which(names(t.data) %in% unique(gsub("[[:digit:]]", "", names(bs.variables.trans))))],
+                                                    nrow=nrow(t.data))), names(t.data)[which(names(t.data) %in% unique(gsub("[[:digit:]]", "", names(bs.variables.trans))))])
+
+
 
 
   ####### Plots
@@ -486,7 +604,7 @@ gbsm <- function(s.data, t.data, p.d.mat, metric= "Simpson_eqn", d.f=4, order.jo
         graphics::points(p.dist, J_preds.p.d.fin, col=cols[(ncol(t.data)+1)], lwd=1, pch=10, cex=0.6)
         graphics::points(erate, J_preds.er.fin, col=cols[(ncol(t.data)+2)], lwd=1, pch=18, cex=0.7)
         graphics::legend("top", legend = names(trans.variables), col = cols, lty=1:ncol(trans.variables), lwd=1.5,
-                         pch = 1:(length(t.data)+2), bty = "n", cex = 0.8, ncol = 2)
+                         pch = 1:(ncol(trans.variables)), bty = "n", cex = 0.8, ncol = 2)
 
       }else if(leg==2){
         plot(x=trans.variables[,1], y=J_preds.trans.fin[,1], type = "l", lty=1, lwd=1.5, col=cols[1], ylim=c(llim, (ulim + 2)),
@@ -526,7 +644,7 @@ gbsm <- function(s.data, t.data, p.d.mat, metric= "Simpson_eqn", d.f=4, order.jo
         graphics::points(p.dist, J_preds.p.d.fin, col=cols[(ncol(t.data)+1)], lwd=1, pch=10, cex=0.6)
         graphics::points(erate, J_preds.er.fin, col=cols[(ncol(t.data)+2)], lwd=1, pch=18, cex=0.7)
         graphics::legend("top", legend = names(trans.variables), col = cols, lty=1:ncol(trans.variables), lwd=1.5,
-                         pch = 1:(length(t.data)+2), bty = "n", cex = 0.8, ncol = 2)
+                         pch = 1:(ncol(trans.variables)), bty = "n", cex = 0.8, ncol = 2)
 
       }else if(leg==2){
         plot(x=trans.variables[,1], y=J_preds.trans.fin[,1], type = "l", lty=1, lwd=1.5, col=cols[1], ylim=c(llim, (ulim + 2)),
@@ -540,7 +658,7 @@ gbsm <- function(s.data, t.data, p.d.mat, metric= "Simpson_eqn", d.f=4, order.jo
         graphics::points(p.dist, J_preds.p.d.fin, col=cols[(ncol(t.data)+1)], lwd=1, pch=10, cex=0.6)
         graphics::points(erate, J_preds.er.fin, col=cols[(ncol(t.data)+2)], lwd=1, pch=18, cex=0.7)
         graphics::legend("top", legend = names(trans.variables), col = cols, lty=1:ncol(trans.variables), lwd=1.5,
-                         pch = 1:(length(t.data)+2), bty = "n", cex = 0.8, ncol = 2)
+                         pch = 1:(ncol(trans.variables)), bty = "n", cex = 0.8, ncol = 2)
       }
     }
   }
@@ -556,6 +674,9 @@ gbsm <- function(s.data, t.data, p.d.mat, metric= "Simpson_eqn", d.f=4, order.jo
   gbs$bs_pred <- bs.variables.diff
   gbs$start.range <- start.range
   gbs$var.expld <- var.expd2
+  gbs$Original.VIFs <- Original.VIFs
+  gbs$Intermediate.VIFs <- Intermediate.VIFs
+  gbs$Final.VIFs <- Final.VIFs
   gbs$summary <- mysum
   class(gbs) <- "gbsm"
   return(gbs)

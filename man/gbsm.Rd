@@ -20,6 +20,8 @@ gbsm(
   response.curves = TRUE,
   ylabel = TRUE,
   leg = 1,
+  max.vif = 20,
+  max.vif2 = 10,
   start.range = c(-0.1, 0)
 )
 }
@@ -71,6 +73,14 @@ parameter is added to help control the appearance of plots in \link[msco]{gbsm_m
 \item{leg}{Boolean value indicating if the legend of the gbsm outputs should be included in the plots. This
 parameter is added to help control the appearance of plots in \link[msco]{gbsm_m.orders} function.}
 
+\item{max.vif}{This value can be varied to have an intermediate GBSM model (based on GLM) with  certain \code{VIF}
+values. Any predictor variable (from the original model) with \code{VIF} greater than this value is removed.
+This can be repeated until an ideal \code{VIF} of less or equal to a desired value is achieved.}
+
+\item{max.vif2}{This value can be varied to have a final GBSM model (based on GLM) with certain \code{VIF}
+values much less than \code{max.vif}. Any predictor variable (from the intermediate model) with \code{VIF} greater than
+this value is removed. This can be repeated until an ideal \code{VIF} of less or equal to to a desired value is achieved.}
+
 \item{start.range}{Range of starting values for glm regression.}
 }
 \value{
@@ -86,6 +96,9 @@ function and log link function.}
 \item{\code{bs_pred}}{B-spline-transformed \code{Predictors}.}
 \item{\code{var.expld}}{Amount of variation in joint occupancy explained by the \code{Predictors}. I.e.,
 it is the Pearson's \strong{\eqn{r^2}} between the observed and predicted values of joint occupancy.}
+\item{\code{Original.VIFs}}{Variance inflation factors from the original GBSM model (before removing covariates exceeding \code{max.vif}).}
+\item{\code{Intermediate.VIFs}}{Variance inflation factors from the intermediate GBSM model (after removing the 1st set of covariates exceeding \code{max.vif}).}
+\item{\code{Final.VIFs}}{Variance inflation factors from the final GBSM model (after removing the 2nd set of covariates exceeding \code{max.vif2}).}
 \item{\code{summary}}{summary of the regression results}
 }
 \description{
@@ -106,7 +119,7 @@ functions employed, with predictors transformed using a linear combination of B-
 
  my.gbsm <- msco::gbsm(s.data, t.data, p.d.mat, metric = "Simpson_eqn", gbsm.model,
   d.f=4, order.jo=3, degree=3, n=1000, b.plots=TRUE, scat.plot=TRUE,
-   bsplines="single", response.curves=TRUE, leg=1, start.range=c(-0.1,0))
+   bsplines="single", response.curves=TRUE, leg=1, max.vif, max.vif2, start.range=c(-0.1,0))
 
  my.gbsm$bs_pred
  my.gbsm$Predictors

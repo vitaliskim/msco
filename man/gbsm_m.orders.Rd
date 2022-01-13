@@ -21,6 +21,8 @@ gbsm_m.orders(
   response.curves = TRUE,
   j.occs.distrbn = FALSE,
   mp.plots = FALSE,
+  max.vif = 20,
+  max.vif2 = 10,
   start.range = c(-0.1, 0)
 )
 }
@@ -63,7 +65,11 @@ observed joint occupancy should be output.}
 
 \item{mp.plots}{A boolean value indicating if the model performance plots should be output.}
 
-\item{start.range}{As for \link[msco]{gbsm}}
+\item{max.vif}{As for \link[msco]{gbsm}.}
+
+\item{max.vif2}{As for \link[msco]{gbsm}.}
+
+\item{start.range}{As for \link[msco]{gbsm}.}
 }
 \value{
 \code{gbsm_m.orders} function returns a list containing the following outputs:
@@ -96,6 +102,9 @@ joint occupancy, for different orders.
 \item \code{n}:   As for \link[msco]{gbsm}.
 \item \code{degree}:   As for \link[msco]{gbsm}.
 \item \code{jo.orders}:   Orders of joint occupancy used.
+\item \code{Original.VIFs} As for \link[msco]{gbsm} (different orders).
+\item \code{Intermediate.VIFs} As for \link[msco]{gbsm} (different orders).
+\item \code{Final.VIFs} As for \link[msco]{gbsm} (different orders).
 }
 }
 \description{
@@ -131,7 +140,7 @@ function computes:
   metric="Simpson_eqn", orders = c(3:5, 8, 10, 15, 20), d.f=4,
    degree=3, n=1000, k=5, p=0.8, type="k-fold", scat.plots=TRUE,
     response.curves=TRUE, j.occs.distrbn=TRUE, mp.plots=TRUE,
-     start.range=c(-0.1,0))
+     max.vif, max.vif2, start.range=c(-0.1,0))
 
  jp$contbn_table[[1]]
  jp$model.validation.table
@@ -144,7 +153,7 @@ function computes:
   metric="Sorensen_eqn", orders = c(3:5, 8, 10, 15, 20), d.f=4,
    degree=3, n=1000, k=5, p=0.8, type="k-fold", scat.plots=TRUE,
     response.curves=TRUE, j.occs.distrbn=TRUE, mp.plots=TRUE,
-     start.range=c(-0.1,0))
+     max.vif, max.vif2, start.range=c(-0.1,0))
 
  jp2$contbn_table[[1]]
  jp2$model.validation.table
@@ -157,7 +166,7 @@ function computes:
   metric="raw_prop", orders = c(3:5, 8, 10, 15, 20), d.f=4,
    degree=3, n=1000, k=5, p=0.8, type="k-fold", scat.plots=TRUE,
     response.curves=TRUE, j.occs.distrbn=TRUE, mp.plots=TRUE,
-    start.range=c(-0.1,0))
+    max.vif, max.vif2, start.range=c(-0.1,0))
 
  jp3$contbn_table[[1]]
  jp3$model.validation.table
@@ -170,7 +179,7 @@ function computes:
   metric="raw", orders = c(3:5, 8, 10, 15, 20), d.f=4,
    degree=3, n=1000, k=5, p=0.8, type="k-fold", scat.plots=TRUE,
     response.curves=TRUE, j.occs.distrbn=TRUE, mp.plots=TRUE,
-    start.range=c(-0.1,0))
+    max.vif, max.vif2, start.range=c(-0.1,0))
 
  jp4$contbn_table[[1]]
  jp4$model.validation.table
@@ -183,7 +192,7 @@ function computes:
   metric="raw", orders = c(3:5, 8, 10, 15, 20), d.f=4,
    degree=3, n=1000, k=5, p=0.8, type="k-fold", scat.plots=TRUE,
     response.curves=TRUE, j.occs.distrbn=TRUE, mp.plots=TRUE,
-    start.range=c(-0.1,0))
+    max.vif, max.vif2, start.range=c(-0.1,0))
 
  jp5$contbn_table[[1]]
  jp5$model.validation.table
