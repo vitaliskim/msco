@@ -85,6 +85,9 @@ Returns all the results presented in Lagat \emph{et al}. (2021c). To replicate
              start.range=c(-0.1,0)
            )
 
+ gb.res$Original.VIFs$`order 3`
+ gb.res$Intermediate.VIFs$`order 3` ## After removing covariates with VIF > max.vif
+ gb.res$Final.VIFs$`order 3` ## After removing covariates with VIF > max.vif2
 
 }
 }

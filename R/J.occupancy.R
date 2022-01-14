@@ -369,8 +369,8 @@ Jo.res <- function(){
 #'    gb.res$contbn_table$`order 3`  ## Table 1
 #'    gb.res$model.validation.table  ## Table S1
 #'    gb.res$Original.VIFs$`order 3`
-#'    gb.res$Intermediate.VIFs$`order 3`
-#'    gb.res$Final.VIFs$`order 3`
+#'    gb.res$Intermediate.VIFs$`order 3` ## After removing covariates with VIF > max.vif
+#'    gb.res$Final.VIFs$`order 3` ## After removing covariates with VIF > max.vif2
 #'
 #'
 #'   ```
@@ -430,7 +430,7 @@ Jo.res <- function(){
 #'        t.data <- get(load("t.data.csv")) ##Species-by-trait matrix
 #'        p.d.mat <- get(load("p.d.mat.csv")) ##Species-by-species phylogenetic distance matrix
 #'        RNGkind(sample.kind = "Rejection")
-#'        set.seed(4)
+#'        set.seed(1)
 #'        pe <- msco::pred.error.bands(s.data,
 #'                            t.data,
 #'                            p.d.mat,
@@ -575,6 +575,9 @@ gbsm.res <- function(){
 #'                start.range=c(-0.1,0)
 #'              )
 #'
+#'    gb.res$Original.VIFs$`order 3`
+#'    gb.res$Intermediate.VIFs$`order 3` ## After removing covariates with VIF > max.vif
+#'    gb.res$Final.VIFs$`order 3` ## After removing covariates with VIF > max.vif2
 #'
 #'   ```
 #' @references

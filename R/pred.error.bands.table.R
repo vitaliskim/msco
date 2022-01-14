@@ -1,14 +1,14 @@
 
 pred.error.bands.table <- function(s.data, t.data, p.d.mat, metric="Simpson_eqn", d.f=4, simm=50, order.jo=2,
-                                   degree=3, n=1000, start.range=c(-0.1,0)){
+                                   degree=3, n=1000, max.vif=40, max.vif2=30, start.range=c(-0.1,0)){
 
-  predictors <- msco::gbsm(s.data, t.data, p.d.mat, metric = metric, d.f=d.f, order.jo=order.jo,
+  predictors <- msco::gbsm(s.data, t.data, p.d.mat, metric = metric, d.f=d.f, order.jo=order.jo, max.vif = max.vif, max.vif2 = max.vif2,
                            degree=degree, n=n, b.plots=FALSE, scat.plot=FALSE, response.curves=FALSE, leg=1, start.range=start.range)$Predictors
 
   simm_respns.table <- `names<-`(as.data.frame(matrix(NA, nrow = nrow(predictors), ncol = (ncol(t.data)+2)*simm)), rep(c(names(t.data), "P.dist", "E.rate"),simm))
 
   for (ki in 1:simm) {
-    responses <- msco::gbsm(s.data, t.data, p.d.mat, metric = metric, d.f=d.f, order.jo=order.jo,
+    responses <- msco::gbsm(s.data, t.data, p.d.mat, metric = metric, d.f=d.f, order.jo=order.jo, max.vif = max.vif, max.vif2 = max.vif2,
                             degree=degree, n=n, b.plots=FALSE, scat.plot=FALSE, response.curves=FALSE, leg=1, start.range=start.range)$Responses
 
     simm_respns.table[,(1+(ki-1)*5):(5+(ki-1)*5)] <- responses

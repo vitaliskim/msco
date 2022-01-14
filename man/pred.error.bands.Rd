@@ -15,6 +15,8 @@ pred.error.bands(
   orders,
   degree = 3,
   n = 1000,
+  max.vif = 40,
+  max.vif2 = 30,
   start.range = c(-0.1, 0)
 )
 }
@@ -41,6 +43,10 @@ phylogenetic distance between any two of them (species).}
 \item{degree}{As for \link[msco]{gbsm_m.orders}.}
 
 \item{n}{As for \link[msco]{gbsm_m.orders}.}
+
+\item{max.vif}{As for \link[msco]{gbsm}.}
+
+\item{max.vif2}{As for \link[msco]{gbsm}.}
 
 \item{start.range}{As for \link[msco]{gbsm_m.orders}.}
 }
@@ -70,7 +76,7 @@ standard deviation from the mean of the response variable) for all orders of joi
  RNGkind(sample.kind = "Rejection")
  set.seed(4)
  pe <- msco::pred.error.bands(s.data, t.data, p.d.mat, metric="Simpson_eqn", d.f=4, simm=10,
-  orders = c(2:5, 8, 10, 15), degree=3, n=1000, gbsm.model,
+  orders = c(2:5, 8, 10, 15), degree=3, n=1000, gbsm.model, max.vif, max.vif2,
    start.range=c(-0.1,0))
 
  pe$predictors$`order 2`
