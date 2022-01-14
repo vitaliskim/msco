@@ -64,7 +64,7 @@
 #'
 #' gbsm_obj <- msco::gbsm(s.data, t.data, p.d.mat, metric= "Simpson_eqn", d.f=4,
 #'  order.jo=3, degree=3, n=1000, b.plots=FALSE, bsplines="single", scat.plot=FALSE,
-#'   response.curves=FALSE, leg=1, start=seq(-0.1, 0, length.out=(ncol(t.data)+2)*4+1))
+#'   response.curves=FALSE, leg=1, max.vif, max.vif2, start.range=c(-0.1,0))
 #'
 #' val.set <- msco::cross_valid(gbsm_obj, type="validation.set", p=0.8)
 #' val.set
@@ -98,7 +98,8 @@ cross_valid <- function(gbsm_obj, type="k-fold", p, k, k_fold.repeats){
     test <- newdat[-training_obs, ]
 
     # Build the generalized linear regression model on the training set
-    model <- suppressWarnings(glm2::glm2(j.occs ~ ., family=stats::binomial(link="log"), data = train, start = gbsm_obj$start))
+    model <- suppressWarnings(glm2::glm2(j.occs ~ ., family=stats::binomial(link="log"), data = train,
+                                         start = seq(gbsm_obj$start.range[1], gbsm_obj$start.range[2], length.out=(ncol(data))+1)))
 
     # Use the model to make predictions on the test set
     predictions <- suppressWarnings(stats::predict.glm(model, newdata = test, type = "response"))
