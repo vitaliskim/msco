@@ -92,6 +92,8 @@
 #'  t.data <- get(load("t.data.csv")) ## Species-by-trait matrix
 #'  p.d.mat <- get(load("p.d.mat.csv")) ## Species-by-species phylogenetic distance matrix
 #'
+#'  RNGkind(sample.kind = "Rejection")
+#'  set.seed(0)
 #'  my.gbsm <- msco::gbsm(s.data, t.data, p.d.mat, metric = "Simpson_eqn", gbsm.model,
 #'   d.f=4, order.jo=3, degree=3, n=1000, b.plots=TRUE, scat.plot=TRUE,
 #'    bsplines="single", response.curves=TRUE, leg=1, max.vif = 10, max.vif2 = 3,
@@ -103,10 +105,8 @@
 #'  my.gbsm$order.jo
 #'  my.gbsm$var.expld
 #'  my.gbsm$Original.VIFs
-#'  my.gbsm$Intermediate.VIFs ## Resulting covariate VIFs after removing
-#'                                ## covariates with VIF > max.vif
-#'  my.gbsm$Final.VIFs ## Resulting covariate VIFs after removing
-#'                        ## covariates with VIF > max.vif2
+#'  my.gbsm$Intermediate.VIFs ## Resulting covariate VIFs after removing covariates with VIF > max.vif
+#'  my.gbsm$Final.VIFs ## Resulting covariate VIFs after removing covariates with VIF > max.vif2
 #'
 #'  }
 #'

@@ -372,7 +372,7 @@ Jo.res <- function(){
 #'    gb.res$Intermediate.VIFs$`order 3` ## Resulting covariate VIFs after removing
 #'                                          ## covariates with VIF > max.vif
 #'    gb.res$Final.VIFs$`order 3` ## Resulting covariate VIFs after removing
-#'                                  ## covariates with VIF > max.vif2
+#'                                           ## covariates with VIF > max.vif2
 #'
 #'
 #'   ```
@@ -404,6 +404,8 @@ Jo.res <- function(){
 #'        s.data <- get(load("s.data.csv")) ##Species-by-site matrix
 #'        t.data <- get(load("t.data.csv")) ##Species-by-trait matrix
 #'        p.d.mat <- get(load("p.d.mat.csv")) ##Species-by-species phylogenetic distance matrix
+#'        RNGkind(sample.kind = "Rejection")
+#'        set.seed(1)
 #'        my.gbsm <- msco::gbsm(s.data,
 #'                          t.data,
 #'                          p.d.mat,
@@ -418,13 +420,13 @@ Jo.res <- function(){
 #'                          scat.plot = FALSE,
 #'                          response.curves = FALSE,
 #'                          leg = 1,
-#'                          max.vif,
-#'                          max.vif2,
+#'                          max.vif = 10,
+#'                          max.vif2 = 3,
 #'                          start.range=c(-0.1,0)
 #'                        )
 #'
 #'      ```
-#'      + __Fig. S2__:
+#'      + __Fig. 6__:
 #'      ```
 #'        my.path <- system.file("extdata/gsmdat", package = "msco")
 #'        setwd(my.path)
@@ -443,7 +445,7 @@ Jo.res <- function(){
 #'                            orders = c(2:5, 8, 10, 15),
 #'                            degree = 3,
 #'                            n = 1000,
-#'                            start.range=c(-0.1,0)
+#'                            start.range = c(-0.2, 0)
 #'                          )
 #'      ```
 #'
@@ -461,9 +463,9 @@ Jo.res <- function(){
 #' gbs.res <- msco::gbsm.res()
 #' gbs.res$contbn_table$`order 3`
 #' gbs.res$model.validation.table
-#' gb.res$Original.VIFs$`order 3`
-#' gb.res$Intermediate.VIFs$`order 3`
-#' gb.res$Final.VIFs$`order 3`
+#' gbs.res$Original.VIFs$`order 3`
+#' gbs.res$Intermediate.VIFs$`order 3`
+#' gbs.res$Final.VIFs$`order 3`
 #'
 #' }
 #' @export

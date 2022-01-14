@@ -140,11 +140,14 @@ function computes:
   metric="Simpson_eqn", orders = c(3:5, 8, 10, 15, 20), d.f=4,
    degree=3, n=1000, k=5, p=0.8, type="k-fold", scat.plots=TRUE,
     response.curves=TRUE, j.occs.distrbn=TRUE, mp.plots=TRUE,
-     max.vif, max.vif2, start.range=c(-0.1,0))
+     max.vif = 10, max.vif2 = 4, start.range=c(-0.2,0))
 
  jp$contbn_table[[1]]
  jp$model.validation.table
  jp$jo.orders
+ jp$Original.VIFs$`order 3`
+ jp$Intermediate.VIFs$`order 3`
+ jp$Final.VIFs$`order 3`
 
  ## Close the open plots.gbsm.pdf file before running the 2nd example
  RNGkind(sample.kind = "Rejection")
@@ -153,11 +156,14 @@ function computes:
   metric="Sorensen_eqn", orders = c(3:5, 8, 10, 15, 20), d.f=4,
    degree=3, n=1000, k=5, p=0.8, type="k-fold", scat.plots=TRUE,
     response.curves=TRUE, j.occs.distrbn=TRUE, mp.plots=TRUE,
-     max.vif, max.vif2, start.range=c(-0.1,0))
+     max.vif = 10, max.vif2 = 4, start.range=c(-0.2,0))
 
  jp2$contbn_table[[1]]
  jp2$model.validation.table
  jp2$jo.orders
+ jp2$Original.VIFs$`order 3`
+ jp2$Intermediate.VIFs$`order 3`
+ jp2$Final.VIFs$`order 3`
 
 ## Close the open plots.gbsm.pdf file before running the 3rd example
  RNGkind(sample.kind = "Rejection")
@@ -166,37 +172,46 @@ function computes:
   metric="raw_prop", orders = c(3:5, 8, 10, 15, 20), d.f=4,
    degree=3, n=1000, k=5, p=0.8, type="k-fold", scat.plots=TRUE,
     response.curves=TRUE, j.occs.distrbn=TRUE, mp.plots=TRUE,
-    max.vif, max.vif2, start.range=c(-0.1,0))
+    max.vif = 10, max.vif2 = 4, start.range=c(-0.2,0))
 
  jp3$contbn_table[[1]]
  jp3$model.validation.table
  jp3$jo.orders
+ jp3$Original.VIFs$`order 3`
+ jp3$Intermediate.VIFs$`order 3`
+ jp3$Final.VIFs$`order 3`
 
-## Close the open plots.gbsm.pdf file before running the 3rd example
+## Close the open plots.gbsm.pdf file before running the 4th example
  RNGkind(sample.kind = "Rejection")
  set.seed(1)
  jp4 <- msco::gbsm_m.orders(s.data, t.data, p.d.mat, gbsm.model="nb",
   metric="raw", orders = c(3:5, 8, 10, 15, 20), d.f=4,
    degree=3, n=1000, k=5, p=0.8, type="k-fold", scat.plots=TRUE,
     response.curves=TRUE, j.occs.distrbn=TRUE, mp.plots=TRUE,
-    max.vif, max.vif2, start.range=c(-0.1,0))
+    max.vif = 10, max.vif2 = 4, start.range=c(-0.2,0))
 
  jp4$contbn_table[[1]]
  jp4$model.validation.table
  jp4$jo.orders
+ jp4$Original.VIFs$`order 3`
+ jp4$Intermediate.VIFs$`order 3`
+ jp4$Final.VIFs$`order 3`
 
-## Close the open plots.gbsm.pdf file before running the 3rd example
+## Close the open plots.gbsm.pdf file before running the 5th example
  RNGkind(sample.kind = "Rejection")
  set.seed(1)
  jp5 <- msco::gbsm_m.orders(s.data, t.data, p.d.mat, gbsm.model="quasipoisson",
   metric="raw", orders = c(3:5, 8, 10, 15, 20), d.f=4,
    degree=3, n=1000, k=5, p=0.8, type="k-fold", scat.plots=TRUE,
     response.curves=TRUE, j.occs.distrbn=TRUE, mp.plots=TRUE,
-    max.vif, max.vif2, start.range=c(-0.1,0))
+    max.vif = 10, max.vif2 = 4, start.range=c(-0.2,0))
 
  jp5$contbn_table[[1]]
  jp5$model.validation.table
  jp5$jo.orders
+ jp5$Original.VIFs$`order 3`
+ jp5$Intermediate.VIFs$`order 3`
+ jp5$Final.VIFs$`order 3`
 
  }
 

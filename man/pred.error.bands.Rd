@@ -74,10 +74,9 @@ standard deviation from the mean of the response variable) for all orders of joi
  p.d.mat <- get(load("p.d.mat.csv")) ## Species-by-species phylogenetic distance matrix
 
  RNGkind(sample.kind = "Rejection")
- set.seed(4)
+ set.seed(1)
  pe <- msco::pred.error.bands(s.data, t.data, p.d.mat, metric="Simpson_eqn", d.f=4, simm=10,
-  orders = c(2:5, 8, 10, 15), degree=3, n=1000, gbsm.model, max.vif, max.vif2,
-   start.range=c(-0.1,0))
+  orders = c(2:5, 8, 10, 15), degree=3, n=1000, gbsm.model, start.range=c(-0.2, 0))
 
  pe$predictors$`order 2`
  pe$responses$`order 2`
