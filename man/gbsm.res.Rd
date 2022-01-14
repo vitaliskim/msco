@@ -41,8 +41,10 @@ Returns all the results presented in Lagat \emph{et al}. (2021b). To replicate
  gb.res$contbn_table$`order 3`  ## Table 1
  gb.res$model.validation.table  ## Table S1
  gb.res$Original.VIFs$`order 3`
- gb.res$Intermediate.VIFs$`order 3` ## Resulting covariate VIFs after removing covariates with VIF > max.vif
- gb.res$Final.VIFs$`order 3` ## Resulting covariate VIFs after removing covariates with VIF > max.vif2
+ gb.res$Intermediate.VIFs$`order 3` ## Resulting covariate VIFs after removing
+                                       ## covariates with VIF > max.vif
+ gb.res$Final.VIFs$`order 3` ## Resulting covariate VIFs after removing
+                               ## covariates with VIF > max.vif2
 
 
 }

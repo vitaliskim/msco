@@ -130,8 +130,10 @@ functions employed, with predictors transformed using a linear combination of B-
  my.gbsm$order.jo
  my.gbsm$var.expld
  my.gbsm$Original.VIFs
- my.gbsm$Intermediate.VIFs ## Resulting covariate VIFs after removing covariates with VIF > max.vif
- my.gbsm$Final.VIFs ## Resulting covariate VIFs after removing covariates with VIF > max.vif2
+ my.gbsm$Intermediate.VIFs ## Resulting covariate VIFs after removing
+                               ## covariates with VIF > max.vif
+ my.gbsm$Final.VIFs ## Resulting covariate VIFs after removing
+                       ## covariates with VIF > max.vif2
 
  }
 
