@@ -73,13 +73,15 @@ parameter is added to help control the appearance of plots in \link[msco]{gbsm_m
 \item{leg}{Boolean value indicating if the legend of the gbsm outputs should be included in the plots. This
 parameter is added to help control the appearance of plots in \link[msco]{gbsm_m.orders} function.}
 
-\item{max.vif}{This value can be varied to have an intermediate GBSM model (based on GLM) with  certain \code{VIF}
-values. Any predictor variable (from the original model) with \code{VIF} greater than this value is removed.
-This can be repeated until an ideal \code{VIF} of less or equal to a desired value is achieved.}
+\item{max.vif}{This parameter is used to detect and avoid multi-collinearity among covariates. Its value can be varied
+to have an intermediate GBSM model (based on GLM) with  certain \code{VIF} values. Any predictor variable (from the
+original model) with \code{VIF} greater than this value is removed. This can be repeated until an ideal \code{VIF} of
+less or equal to a desired value is achieved.}
 
-\item{max.vif2}{This value can be varied to have a final GBSM model (based on GLM) with certain \code{VIF}
-values much less than \code{max.vif}. Any predictor variable (from the intermediate model) with \code{VIF} greater than
-this value is removed. This can be repeated until an ideal \code{VIF} of less or equal to to a desired value is achieved.}
+\item{max.vif2}{Like \code{max.vif}, this parameter is used to detect and avoid multi-collinearity among covariates.
+Its value can be varied to have a final GBSM model (based on GLM) with certain \code{VIF} values much less than \code{max.vif}.
+Any predictor variable (from the intermediate model) with \code{VIF} greater than this value is removed. This
+can be repeated until an ideal \code{VIF} of less or equal to a desired value is achieved.}
 
 \item{start.range}{Range of starting values for glm regression.}
 }
@@ -119,13 +121,18 @@ functions employed, with predictors transformed using a linear combination of B-
 
  my.gbsm <- msco::gbsm(s.data, t.data, p.d.mat, metric = "Simpson_eqn", gbsm.model,
   d.f=4, order.jo=3, degree=3, n=1000, b.plots=TRUE, scat.plot=TRUE,
-   bsplines="single", response.curves=TRUE, leg=1, max.vif, max.vif2, start.range=c(-0.1,0))
+   bsplines="single", response.curves=TRUE, leg=1, max.vif = 10, max.vif2 = 3,
+    start.range=c(-0.1,0))
 
- my.gbsm$bs_pred
- my.gbsm$Predictors
- my.gbsm$Responses
+ head(my.gbsm$bs_pred)
+ head(my.gbsm$Predictors)
+ head(my.gbsm$Responses)
  my.gbsm$order.jo
  my.gbsm$var.expld
+ my.gbsm$Original.VIFs
+ my.gbsm$Intermediate.VIFs ## Resulting covariate VIFs after removing covariates with VIF > max.vif
+ my.gbsm$Final.VIFs ## Resulting covariate VIFs after removing covariates with VIF > max.vif2
+
  }
 
 }
