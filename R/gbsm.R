@@ -613,7 +613,7 @@ gbsm <- function(s.data, t.data, p.d.mat, metric= "Simpson_eqn", d.f=4, order.jo
         graphics::points(p.dist, J_preds.p.d.fin, col=cols[(ncol(t.data)+1)], lwd=1, pch=10, cex=0.6)
         graphics::points(erate, J_preds.er.fin, col=cols[(ncol(t.data)+2)], lwd=1, pch=18, cex=0.7)
         graphics::legend("top", legend = names(trans.variables), col = cols, lty=1:ncol(trans.variables), lwd=1.5,
-                         pch = 1:(ncol(trans.variables)), bty = "n", cex = 0.8, ncol = 2)
+                         pch = 1:(ncol(trans.variables)), bty = "n", pt.cex = 0.8, text.width = 0.125, cex = 0.8, ncol = 2)
 
       }else if(leg==2){
         plot(x=trans.variables[,1], y=J_preds.trans.fin[,1], type = "l", lty=1, lwd=1.5, col=cols[1], ylim=c(llim, (ulim + 2)),
@@ -627,7 +627,7 @@ gbsm <- function(s.data, t.data, p.d.mat, metric= "Simpson_eqn", d.f=4, order.jo
         graphics::points(p.dist, J_preds.p.d.fin, col=cols[(ncol(t.data)+1)], lwd=1, pch=10, cex=0.6)
         graphics::points(erate, J_preds.er.fin, col=cols[(ncol(t.data)+2)], lwd=1, pch=18, cex=0.7)
         graphics::legend("top", legend = names(trans.variables), col = cols, lty=1:ncol(trans.variables), lwd=1.5,
-                         pch = 1:(length(t.data)+2), bty = "n", cex = 0.8, ncol = 2)
+                         pch = 1:(ncol(trans.variables)), bty = "n", pt.cex = 0.8, text.width = 0.125, cex = 0.8, ncol = 2)
       }
     }else{
       if(leg==0){
@@ -653,7 +653,7 @@ gbsm <- function(s.data, t.data, p.d.mat, metric= "Simpson_eqn", d.f=4, order.jo
         graphics::points(p.dist, J_preds.p.d.fin, col=cols[(ncol(t.data)+1)], lwd=1, pch=10, cex=0.6)
         graphics::points(erate, J_preds.er.fin, col=cols[(ncol(t.data)+2)], lwd=1, pch=18, cex=0.7)
         graphics::legend("top", legend = names(trans.variables), col = cols, lty=1:ncol(trans.variables), lwd=1.5,
-                         pch = 1:(ncol(trans.variables)), bty = "n", cex = 0.8, ncol = 2)
+                         pch = 1:(ncol(trans.variables)), bty = "n", pt.cex = 0.8, text.width = 0.125, cex = 0.8, ncol = 2)
 
       }else if(leg==2){
         plot(x=trans.variables[,1], y=J_preds.trans.fin[,1], type = "l", lty=1, lwd=1.5, col=cols[1], ylim=c(llim, (ulim + 2)),
@@ -667,7 +667,7 @@ gbsm <- function(s.data, t.data, p.d.mat, metric= "Simpson_eqn", d.f=4, order.jo
         graphics::points(p.dist, J_preds.p.d.fin, col=cols[(ncol(t.data)+1)], lwd=1, pch=10, cex=0.6)
         graphics::points(erate, J_preds.er.fin, col=cols[(ncol(t.data)+2)], lwd=1, pch=18, cex=0.7)
         graphics::legend("top", legend = names(trans.variables), col = cols, lty=1:ncol(trans.variables), lwd=1.5,
-                         pch = 1:(ncol(trans.variables)), bty = "n", cex = 0.8, ncol = 2)
+                         pch = 1:(ncol(trans.variables)), bty = "n", pt.cex = 0.8, text.width = 0.125, cex = 0.8, ncol = 2)
       }
     }
   }

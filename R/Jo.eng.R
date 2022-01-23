@@ -445,15 +445,17 @@ Jo.eng<-function(s.data, algo="sim2", metric = "raw", nReps = 999, dig = 3,
   ##################### (a) joint occupancy decline ############################
 
   lObs <- log10(Obs)
+  s.order <- 1:nrow(s.data)
   jod <- data.frame(s.order,lObs)
   jod <- do.call(data.frame, lapply(jod, function(x){
     replace(x, is.infinite(x) | is.na(x), NA)}))
   jod <- jod[stats::complete.cases(jod),]
-  # lObs <- jod$lObs
-  # s.order <- jod$s.order
+  lObs <- jod$lObs
+  s.order <- jod$s.order
   p1 <- ggplot2::ggplot(jod, ggplot2::aes(x=s.order, y=lObs))+
     ggplot2::theme_grey() +
     ggplot2::geom_point(ggplot2::aes(y = lObs), shape = 1) +
+    ggplot2::geom_line(ggplot2::aes(y = lObs)) +
     ggplot2::xlab("")+
     ggplot2::ylab("") +
     ggplot2::scale_x_continuous(
@@ -472,34 +474,36 @@ Jo.eng<-function(s.data, algo="sim2", metric = "raw", nReps = 999, dig = 3,
     lower.sd <- Obs - SDs
     dtf.sd <- data.frame(Obs, upper.sd, lower.sd)
     dtfl.sd <- dtf.sd
-    ldtf.sd <- data.frame(s.order, dtfl.sd)
-    ldtf.sd <- do.call(data.frame, lapply(ldtf.sd, function(x){
+    dtfl.sd <- do.call(data.frame, lapply(dtfl.sd, function(x){
       replace(x, is.infinite(x) | is.na(x), NA)}))
-    colnames(ldtf.sd) <- c("s.order.sd", "lObs", "lupper.sd", "llower.sd")
+
+    ldtf.sd <- data.frame(seq(nrow(s.data)), dtfl.sd)
+    # ldtf.sd <- do.call(data.frame, lapply(ldtf.sd, function(x){
+    #   replace(x, is.infinite(x) | is.na(x), NA)}))
+    colnames(ldtf.sd) <- c("s.order.sd", "Obs", "upper.sd", "lower.sd")
 
     ldtf.sd <- ldtf.sd[stats::complete.cases(ldtf.sd),]
 
     row_sub = apply(ldtf.sd, 1, function(row) all(row !=0 ))
     ldtf.sd <- ldtf.sd[row_sub,]
 
-    lObs.sd <- ldtf.sd$lObs
-    lupper.sd <- ldtf.sd$lupper.sd
-    llower.sd <- ldtf.sd$llower.sd
+    Obs.sd <- ldtf.sd$Obs
+    upper.sd <- ldtf.sd$upper.sd
+    lower.sd <- ldtf.sd$lower.sd
     s.order.sd <- ldtf.sd$s.order.sd
 
-    p1 <- ggplot2::ggplot(ldtf.sd, ggplot2::aes(x=s.order.sd, y=lObs.sd))+
+    p1 <- ggplot2::ggplot(ldtf.sd, ggplot2::aes(x=s.order.sd, y=Obs.sd))+
       ggplot2::theme_grey() +
-      ggplot2::geom_point(ggplot2::aes(y = lObs.sd), shape = 1) +
-      ggplot2::geom_line(ggplot2::aes(y = lupper.sd), size=0.1) +
-      ggplot2::geom_line(ggplot2::aes(y = llower.sd), size=0.1) +
+      ggplot2::geom_point(ggplot2::aes(y = Obs.sd), shape = 1) +
+      ggplot2::geom_line(ggplot2::aes(y = upper.sd), size=0.1) +
+      ggplot2::geom_line(ggplot2::aes(y = lower.sd), size=0.1) +
 
       ggplot2::scale_colour_manual("",values=c("black"))+
       ggplot2::xlab("")+
       ggplot2::ylab("") +
       ggplot2::scale_x_continuous(
         breaks = function(x) unique(floor(pretty(seq(0, (max(x) + 1) * 1.1)))))+
-      ggplot2::scale_y_continuous(labels = function(y)round((10^y)^(1/100),
-                                                            digits = dig),
+      ggplot2::scale_y_continuous(labels = function(y)round(y^(1/100), digits = dig),
                                   breaks = scales::pretty_breaks(n=4))+
       ggplot2::ggtitle("J. occ. decl.")+
       ggplot2::theme(plot.title = ggplot2::element_text(hjust = 0.5)) +
@@ -510,6 +514,7 @@ Jo.eng<-function(s.data, algo="sim2", metric = "raw", nReps = 999, dig = 3,
   ##################### (b) Exponential regression #############################
 
   fm <- stats::lm(jod$lObs ~ jod$s.order, na.action = stats::na.omit)
+  s.order <- seq(nrow(s.data))
   jo.exp <- suppressWarnings(minpack.lm::nlsLM(Obs ~ p * exp(q * s.order),
                                                start =list(p=exp(stats::coef(fm)[1]), q=stats::coef(fm)[2])))
   pred.exp <- log10(stats::predict(jo.exp, data.frame(s.order)))
@@ -541,6 +546,7 @@ Jo.eng<-function(s.data, algo="sim2", metric = "raw", nReps = 999, dig = 3,
 
   ls.order = log10(jod$s.order)
   fmp <- stats::lm(jod$lObs ~ ls.order, na.action = stats::na.omit)
+  s.order <- seq(nrow(s.data))
   jo.pl <- suppressWarnings(minpack.lm::nlsLM(Obs ~ m * (s.order)^n,
                                               start =list(m=1, n=stats::coef(fmp)[2])))
   pred.pl <- log10(stats::predict(jo.pl, data.frame(s.order)))
@@ -573,6 +579,7 @@ Jo.eng<-function(s.data, algo="sim2", metric = "raw", nReps = 999, dig = 3,
   ##################### (d) Exponential-Power law regression #####################
 
 
+  s.order <- seq(nrow(s.data))
   jo.exp.pl <- suppressWarnings(minpack.lm::nlsLM(Obs~a*exp(b*s.order)*s.order^c,
                                                   start=list(a=1, b=0, c=0)))
   pred.exp.pl <- log10(stats::predict(jo.exp.pl, data.frame(s.order)))
@@ -719,6 +726,7 @@ Jo.eng<-function(s.data, algo="sim2", metric = "raw", nReps = 999, dig = 3,
                                                             digits = dig),
                                   breaks = scales::pretty_breaks(n=4))+
       ggplot2::ggtitle("")+
+      # ggplot2::theme(plot.title = ggplot2::element_text(hjust = 0.5))+
       ggplot2::theme(legend.position = "right")
   }else{
     nplot1 <- ggplot2::ggplot(ldtf, ggplot2::aes(x=s.order,
@@ -748,25 +756,39 @@ Jo.eng<-function(s.data, algo="sim2", metric = "raw", nReps = 999, dig = 3,
   }
 
 
-  nplot <- cowplot::ggdraw() +
-    if(lab==TRUE & leg==TRUE){
+  if(lab==TRUE & leg==TRUE){
+    nplot <- cowplot::ggdraw() +
+
       cowplot::draw_plot(nplot1, x = 0.1, y = 0.1, width = 0.9, height = 0.9)+
+
       cowplot::draw_image(system.file("logos", "ylab.jpg", package = "msco"),
-                            x=0.05, y=0.1, scale = 0.65, width = 0.05) +
+                          x=0.05, y=0.1, scale = 0.65, width = 0.05) +
+
       cowplot::draw_image(system.file("logos", "xlab.jpg", package = "msco"),
-                            x=0.05, y=0.05, scale = 0.6, height = 0.05)+
+                          x=0.05, y=0.05, scale = 0.6, height = 0.05)+
+
       cowplot::draw_plot_label(label = myArch, size = 12, x=0.8, y = 0.93)
-    }else if(lab==TRUE & leg==FALSE){
+
+  }else if(lab==TRUE & leg==FALSE){
+    nplot <- cowplot::ggdraw() +
+
       cowplot::draw_plot(nplot1, x = 0.1, y = 0.1, width = 0.9, height = 0.9)+
+
       cowplot::draw_image(system.file("logos", "ylab.jpg", package = "msco"),
-                            x=0.05, y=0.1, scale = 0.65, width = 0.05) +
+                          x=0.05, y=0.1, scale = 0.65, width = 0.05) +
+
       cowplot::draw_image(system.file("logos", "xlab.jpg", package = "msco"),
-                            x=0.05, y=0.05, scale = 0.6, height = 0.05)
-    }else if(lab==FALSE & leg==TRUE){
+                          x=0.05, y=0.05, scale = 0.6, height = 0.05)
+  }else if(lab==FALSE & leg==TRUE){
+    nplot <- cowplot::ggdraw() +
+
       cowplot::draw_plot(nplot1, x = 0.1, y = 0.1, width = 0.9, height = 0.9)
-    }else if(lab==FALSE & leg==FALSE){
+
+  }else if(lab==FALSE & leg==FALSE){
+    nplot <- cowplot::ggdraw() +
+
       cowplot::draw_plot(nplot1, x = 0.1, y = 0.1, width = 0.9, height = 0.9)
-    }
+  }
 
   #######################################################################
 
