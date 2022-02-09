@@ -14,7 +14,6 @@ gbsm(
   degree = 3,
   n = 1000,
   b.plots = TRUE,
-  bsplines = "single",
   gbsm.model,
   scat.plot = TRUE,
   response.curves = TRUE,
@@ -52,12 +51,7 @@ from the total species pool \code{m}, i.e. \code{choose(m,i)}, is less than this
 used as the (maximum) number of samples one can set. Otherwise sampling without replacement is
 performed to select just the \code{n} samples.}
 
-\item{b.plots}{Boolean value indicating if B-spline basis functions should be plotted.}
-
-\item{bsplines}{This parameter indicates if a single or all B-spline curves should be plotted.
-If \code{b.plots=TRUE} and \code{bsplines="single"}, the B-splines for the first predictor (labelled, \code{"Trait variable"})
-in \code{t.data} will be plotted. Any other value for \code{bsplines} (other than \code{"single"}) results in the
-B-splines for all predictors being plotted.}
+\item{b.plots}{Boolean value indicating if B-spline basis functions (of the first predictor) should be plotted.}
 
 \item{gbsm.model}{The model used if the \code{raw} form of the metric is choosen. Availbale options are \code{"quasipoisson"}
 for quasipoisson GLM or \code{"nb"} for negative binomial GLM. Other metric types strictly uses binomial GLM.}
@@ -123,7 +117,7 @@ functions employed, with predictors transformed using a linear combination of B-
  set.seed(0)
  my.gbsm <- msco::gbsm(s.data, t.data, p.d.mat, metric = "Simpson_eqn", gbsm.model,
   d.f=4, order.jo=3, degree=3, n=1000, b.plots=TRUE, scat.plot=TRUE,
-   bsplines="single", response.curves=TRUE, leg=1, max.vif = 10, max.vif2 = 3,
+   response.curves=TRUE, leg=1, max.vif = 10, max.vif2 = 3,
     start.range=c(-0.1,0))
 
  head(my.gbsm$bs_pred)
