@@ -110,8 +110,8 @@
 #' @md
 
 gbsm <- function(s.data, t.data, p.d.mat, metric= "Simpson_eqn", d.f=4, order.jo=3, degree=3, n=1000, b.plots=TRUE,
-                 gbsm.model, scat.plot=TRUE, response.curves=TRUE, ylabel=TRUE, leg=1, max.vif = 20,
-                 max.vif2 = 10, start.range=c(-0.1,0)){
+gbsm.model, scat.plot=TRUE, response.curves=TRUE, ylabel=TRUE, leg=1, max.vif = 20,
+max.vif2 = 10, start.range=c(-0.1,0)){
 
   if(!is.null(t.data)){
     if(class(t.data)!="data.frame"){
@@ -250,6 +250,11 @@ gbsm <- function(s.data, t.data, p.d.mat, metric= "Simpson_eqn", d.f=4, order.jo
       erate[j] <- (prod(er))/(N^nsam)
     }
   }
+  if(ncom < n){
+    n <- ncom
+  }else{
+    n <- n
+  }
 
   if(metric=="raw_prop"){
     jo <- jo/N
@@ -270,19 +275,19 @@ gbsm <- function(s.data, t.data, p.d.mat, metric= "Simpson_eqn", d.f=4, order.jo
   }
 
   ## B-splines of p.dist & erate
+  ##bs.p.dist
   if(!is.null(p.d.mat)){
     bs.p.dist <- matrix(NA, nrow=n, ncol=d.f)
-  }
-
-  bs.erate <- matrix(NA, nrow=length(erate), ncol=d.f)
-  for (i in 1:d.f) {
-    if(!is.null(p.d.mat)){
+    for (i in 1:d.f) {
       bs.p.dist[,i] <- splines2::bSpline(p.dist, d.f=d.f, degree=degree, intercept = TRUE)[,i]
     }
-    bs.erate[,i] <- splines2::bSpline(erate, d.f=d.f, degree=degree, intercept = TRUE)[,i]
-  }
-  if(!is.null(p.d.mat)){
     bs.p.dist <- data.frame(bs.p.dist)
+  }
+
+  ## bs.erate
+  bs.erate <- matrix(NA, nrow=length(erate), ncol=d.f)
+  for (i in 1:d.f) {
+    bs.erate[,i] <- splines2::bSpline(erate, d.f=d.f, degree=degree, intercept = TRUE)[,i]
   }
   bs.erate <- data.frame(bs.erate)
 
@@ -340,21 +345,23 @@ gbsm <- function(s.data, t.data, p.d.mat, metric= "Simpson_eqn", d.f=4, order.jo
   erate.trans <- seq(from = range(erate)[1], to = range(erate)[2], length.out = myn)
 
   ### Compute the B-splines of the transformed p.dist & erate variables (p.dist.trans & erate.trans) to get bs.p.dist.trans & bs.erate.trans
-  bs.erate.trans <- matrix(NA, nrow=myn, ncol=d.f)
+
+  ##p.dist
   if(!is.null(p.d.mat)){
     bs.p.dist.trans <- matrix(NA, nrow=myn, ncol=d.f)
-  }
-
-  for (i in 1:d.f) {
-    bs.erate.trans[,i] <- splines2::bSpline(erate.trans, d.f=d.f, degree=degree, intercept = TRUE)[,i]
-    if(!is.null(p.d.mat)){
+    for (i in 1:d.f) {
       bs.p.dist.trans[,i] <- splines2::bSpline(p.dist.trans, d.f=d.f, degree=degree, intercept = TRUE)[,i]
     }
-  }
-  bs.erate.trans <- data.frame(bs.erate.trans)
-  if(!is.null(p.d.mat)){
     bs.p.dist.trans <- data.frame(bs.p.dist.trans)
   }
+
+  ##erate
+  bs.erate.trans <- matrix(NA, nrow=myn, ncol=d.f)
+  for (i in 1:d.f) {
+    bs.erate.trans[,i] <- splines2::bSpline(erate.trans, d.f=d.f, degree=degree, intercept = TRUE)[,i]
+  }
+  bs.erate.trans <- data.frame(bs.erate.trans)
+
 
 
   ## Assign names to bs.erate.trans and bs.p.dist.trans
@@ -366,21 +373,23 @@ gbsm <- function(s.data, t.data, p.d.mat, metric= "Simpson_eqn", d.f=4, order.jo
   }
 
   ## Transformed values of all variables (trans.variables) and their B-splines (bs.variables.trans)
-  bs.variables.trans <- bs.erate.trans
-  trans.variables <- erate.trans
-  names(trans.variables) <- "E.rate"
+
   if(!is.null(t.data) & is.null(p.d.mat)){
     bs.variables.trans <- cbind(bs.traits.trans, bs.erate.trans)
     trans.variables <- cbind(t.data.trans, erate.trans)
-    names(trans.variables) <- c(names(t.data.trans), "E.rate")
+    trans.variables <- `names<-`(as.data.frame(trans.variables), c(names(t.data.trans), "E.rate"))
   }else if(!is.null(p.d.mat) & is.null(t.data)){
     bs.variables.trans <- cbind(bs.p.dist.trans, bs.erate.trans)
     trans.variables <- cbind(p.dist.trans, erate.trans)
-    names(trans.variables) <- c("p.dist", "E.rate")
+    trans.variables <- `names<-`(as.data.frame(trans.variables), c("p.dist", "E.rate"))
   }else if(!is.null(t.data) & !is.null(p.d.mat)){
     bs.variables.trans <- cbind(bs.traits.trans, bs.p.dist.trans, bs.erate.trans)
     trans.variables <- cbind(t.data.trans, p.dist.trans, erate.trans)
-    names(trans.variables) <- c(names(t.data.trans), "p.dist", "E.rate")
+    trans.variables <- `names<-`(as.data.frame(trans.variables), c(names(t.data.trans), "p.dist", "E.rate"))
+  }else{
+    bs.variables.trans <- bs.erate.trans
+    trans.variables <- erate.trans
+    trans.variables <- `names<-`(as.data.frame(trans.variables), "E.rate")
   }
 
 
@@ -464,13 +473,15 @@ gbsm <- function(s.data, t.data, p.d.mat, metric= "Simpson_eqn", d.f=4, order.jo
   ######################################################################################################################
 
   ## Combine bs.traits.diff, bs.p.dist (b-splines of p.dist) and bs.erate (b-splines of erate)
-  bs.variables.diff <- bs.erate
+
   if(!is.null(t.data) & is.null(p.d.mat)){
     bs.variables.diff <- cbind(bs.traits.diff, bs.erate)
   }else if(!is.null(p.d.mat) & is.null(t.data)){
     bs.variables.diff <- cbind(bs.p.dist, bs.erate)
   }else if(!is.null(t.data) & !is.null(p.d.mat)){
     bs.variables.diff <- cbind(bs.traits.diff, bs.p.dist, bs.erate)
+  }else{
+    bs.variables.diff <- bs.erate
   }
 
   ## Perform regression between jo and bs.variables.diff to get the regression coefficients
@@ -511,53 +522,65 @@ gbsm <- function(s.data, t.data, p.d.mat, metric= "Simpson_eqn", d.f=4, order.jo
   ## Remove variables with VIF>max.vif and perform the regression again using the new data
   if(length(model$coefficients)<2){
     stop("Cannot compute the VIF of the model because the model contains fewer than 2 terms. Consider using a different dataset, or increase your 'max.vif' value.")
-  }else if(length(model$coefficients)>=2 & length(which(car::vif(model)>=max.vif))!=0){
-    bs.variables.diff <- bs.variables.diff[,names(trunc(car::vif(model)[-which(car::vif(model)>=max.vif)]))]
-    bs.variables.diff <- data.frame(bs.variables.diff)
-    if(ncol(bs.variables.diff)==0){
-      stop("No covariates for the model. Consider increasing the 'max.vif' value to avoid all covariates being removed, or use a different dataset of covariates.")
-    }else if(ncol(bs.variables.diff)>0){
-      if((metric %in% c("raw_prop", "Simpson_eqn", "Sorensen_eqn"))==TRUE){
-        model <- suppressWarnings(glm2::glm2(jo ~ ., family=stats::quasibinomial(link="log"), data = bs.variables.diff,
-                                             start = seq(start.range[1], start.range[2], length.out=(ncol(bs.variables.diff))+1)))
-      }else if(metric=="raw" & (metric %in% c("raw_prop", "Simpson_eqn", "Sorensen_eqn"))!=TRUE & gbsm.model=="quasipoisson"){
-        model <- suppressWarnings(glm2::glm2(jo ~ ., family=stats::quasipoisson(link="log"), data = bs.variables.diff,
-                                             start = seq(start.range[1], start.range[2], length.out=(ncol(bs.variables.diff))+1)))
-      }else if(metric=="raw" & (metric %in% c("raw_prop", "Simpson_eqn", "Sorensen_eqn"))!=TRUE & gbsm.model=="nb"){
-        model <- suppressWarnings(MASS::glm.nb(jo ~ ., link = log, data = bs.variables.diff,
+  }else if(length(model$coefficients)>2){
+    if(length(which(car::vif(model)>=max.vif))!=0){
+      bs.variables.diff <- bs.variables.diff[,names(trunc(car::vif(model)[-which(car::vif(model)>=max.vif)]))]
+      bs.variables.diff <- `names<-`(data.frame(bs.variables.diff), names(trunc(car::vif(model)[-which(car::vif(model)>=max.vif)])))
+      if(ncol(bs.variables.diff)==0){
+        stop("No covariates for the model. Consider increasing the 'max.vif' value to avoid all covariates being removed, or use a different dataset of covariates.")
+      }else if(ncol(bs.variables.diff)>0){
+        if((metric %in% c("raw_prop", "Simpson_eqn", "Sorensen_eqn"))==TRUE){
+          model <- suppressWarnings(glm2::glm2(jo ~ ., family=stats::quasibinomial(link="log"), data = bs.variables.diff,
                                                start = seq(start.range[1], start.range[2], length.out=(ncol(bs.variables.diff))+1)))
-      }else if(metric=="raw" & (metric %in% c("raw_prop", "Simpson_eqn", "Sorensen_eqn"))!=TRUE & (gbsm.model %in% c("quasipoisson", "nb"))!=TRUE){
-        stop("Wrong 'gbsm.model' used for 'raw' version of joint occupancy. It must either be 'quasipoisson' or 'nb'.")
+        }else if(metric=="raw" & (metric %in% c("raw_prop", "Simpson_eqn", "Sorensen_eqn"))!=TRUE & gbsm.model=="quasipoisson"){
+          model <- suppressWarnings(glm2::glm2(jo ~ ., family=stats::quasipoisson(link="log"), data = bs.variables.diff,
+                                               start = seq(start.range[1], start.range[2], length.out=(ncol(bs.variables.diff))+1)))
+        }else if(metric=="raw" & (metric %in% c("raw_prop", "Simpson_eqn", "Sorensen_eqn"))!=TRUE & gbsm.model=="nb"){
+          model <- suppressWarnings(MASS::glm.nb(jo ~ ., link = log, data = bs.variables.diff,
+                                                 start = seq(start.range[1], start.range[2], length.out=(ncol(bs.variables.diff))+1)))
+        }else if(metric=="raw" & (metric %in% c("raw_prop", "Simpson_eqn", "Sorensen_eqn"))!=TRUE & (gbsm.model %in% c("quasipoisson", "nb"))!=TRUE){
+          stop("Wrong 'gbsm.model' used for 'raw' version of joint occupancy. It must either be 'quasipoisson' or 'nb'.")
+        }
       }
     }
   }
-  Intermediate.VIFs <- car::vif(model)
+  if(length(model$coefficients)>2){
+    Intermediate.VIFs <- car::vif(model)
+  }else{
+    Intermediate.VIFs <- print("Not computed, since the model has fewer than 2 items")
+  }
+
 
   ## Remove variables with VIF>max.vif2 and perform the regression again using the new data
   if(length(model$coefficients)<2){
     stop("Cannot compute the VIF of the model because the model contains fewer than 2 terms. Consider using a different dataset, or increase your 'max.vif2' value.")
-  }else if(length(model$coefficients)>=2 & length(which(car::vif(model)>=max.vif2))!=0){
-    bs.variables.diff <- bs.variables.diff[,names(trunc(car::vif(model)[-which(car::vif(model)>=max.vif2)]))]
-    bs.variables.diff <- data.frame(bs.variables.diff)
-    if(ncol(bs.variables.diff)==0){
-      stop("No covariates for the model. Consider increasing the 'max.vif2' value to avoid all covariates being removed, or use a different dataset of covariates.")
-    }else if(ncol(bs.variables.diff)>0){
-      if((metric %in% c("raw_prop", "Simpson_eqn", "Sorensen_eqn"))==TRUE){
-        model <- suppressWarnings(glm2::glm2(jo ~ ., family=stats::quasibinomial(link="log"), data = bs.variables.diff,
-                                             start = seq(start.range[1], start.range[2], length.out=(ncol(bs.variables.diff))+1)))
-      }else if(metric=="raw" & (metric %in% c("raw_prop", "Simpson_eqn", "Sorensen_eqn"))!=TRUE & gbsm.model=="quasipoisson"){
-        model <- suppressWarnings(glm2::glm2(jo ~ ., family=stats::quasipoisson(link="log"), data = bs.variables.diff,
-                                             start = seq(start.range[1], start.range[2], length.out=(ncol(bs.variables.diff))+1)))
-      }else if(metric=="raw" & (metric %in% c("raw_prop", "Simpson_eqn", "Sorensen_eqn"))!=TRUE & gbsm.model=="nb"){
-        model <- suppressWarnings(MASS::glm.nb(jo ~ ., link = log, data = bs.variables.diff,
+  }else if(length(model$coefficients)>2){
+    if(length(which(car::vif(model)>=max.vif2))!=0){
+      bs.variables.diff <- bs.variables.diff[,names(trunc(car::vif(model)[-which(car::vif(model)>=max.vif2)]))]
+      bs.variables.diff <- data.frame(bs.variables.diff)
+      if(ncol(bs.variables.diff)==0){
+        stop("No covariates for the model. Consider increasing the 'max.vif2' value to avoid all covariates being removed, or use a different dataset of covariates.")
+      }else if(ncol(bs.variables.diff)>0){
+        if((metric %in% c("raw_prop", "Simpson_eqn", "Sorensen_eqn"))==TRUE){
+          model <- suppressWarnings(glm2::glm2(jo ~ ., family=stats::quasibinomial(link="log"), data = bs.variables.diff,
                                                start = seq(start.range[1], start.range[2], length.out=(ncol(bs.variables.diff))+1)))
-      }else if(metric=="raw" & (metric %in% c("raw_prop", "Simpson_eqn", "Sorensen_eqn"))!=TRUE & (gbsm.model %in% c("quasipoisson", "nb"))!=TRUE){
-        stop("Wrong 'gbsm.model' used for 'raw' version of joint occupancy. It must either be 'quasipoisson' or 'nb'.")
+        }else if(metric=="raw" & (metric %in% c("raw_prop", "Simpson_eqn", "Sorensen_eqn"))!=TRUE & gbsm.model=="quasipoisson"){
+          model <- suppressWarnings(glm2::glm2(jo ~ ., family=stats::quasipoisson(link="log"), data = bs.variables.diff,
+                                               start = seq(start.range[1], start.range[2], length.out=(ncol(bs.variables.diff))+1)))
+        }else if(metric=="raw" & (metric %in% c("raw_prop", "Simpson_eqn", "Sorensen_eqn"))!=TRUE & gbsm.model=="nb"){
+          model <- suppressWarnings(MASS::glm.nb(jo ~ ., link = log, data = bs.variables.diff,
+                                                 start = seq(start.range[1], start.range[2], length.out=(ncol(bs.variables.diff))+1)))
+        }else if(metric=="raw" & (metric %in% c("raw_prop", "Simpson_eqn", "Sorensen_eqn"))!=TRUE & (gbsm.model %in% c("quasipoisson", "nb"))!=TRUE){
+          stop("Wrong 'gbsm.model' used for 'raw' version of joint occupancy. It must either be 'quasipoisson' or 'nb'.")
+        }
       }
     }
   }
-
-  Final.VIFs <- car::vif(model)
+  if(length(model$coefficients)>2){
+    Final.VIFs <- car::vif(model)
+  }else{
+    Final.VIFs <- print("Not computed, since the model has fewer than 2 items")
+  }
 
   mysum <- summary(model)
 
@@ -664,7 +687,6 @@ gbsm <- function(s.data, t.data, p.d.mat, metric= "Simpson_eqn", d.f=4, order.jo
 
   ##Product of coefficients with variables
 
-  coeff.variables <- coeff.er
 
   if(!is.null(t.data) & is.null(p.d.mat)){
     coeff.variables <- c(coeff.traits, coeff.er)
@@ -672,6 +694,8 @@ gbsm <- function(s.data, t.data, p.d.mat, metric= "Simpson_eqn", d.f=4, order.jo
     coeff.variables <- c(coeff.p.d, coeff.er)
   }else if(!is.null(t.data) & !is.null(p.d.mat)){
     coeff.variables <- c(coeff.traits, coeff.p.d, coeff.er)
+  }else{
+    coeff.variables <- coeff.er
   }
 
   bs.variables.trans <- `names<-`(data.frame(as.matrix(bs.variables.trans[, which(names(bs.variables.trans) %in% names(coeff))],
@@ -713,8 +737,10 @@ gbsm <- function(s.data, t.data, p.d.mat, metric= "Simpson_eqn", d.f=4, order.jo
       if(leg==0){
         plot(x=trans.variables[,1], y=J_preds.trans.fin[,1], type = "l", lty=1, lwd=1.5, col=cols[1], ylim=c(llim, ulim),
              xlab = "Predictor value", ylab = "Wtd pred. value", main = noquote(paste("Order",order.jo)), cex=0.8, pch=1)
-        for(i in 2:ncol(trans.variables)){
-          graphics::lines(trans.variables[,i], J_preds.trans.fin[,i], col=cols[i], lwd=1.5, lty=i, cex=0.8, pch=i)
+        if(ncol(trans.variables)>=2){
+          for(i in 2:ncol(trans.variables)){
+            graphics::lines(trans.variables[,i], J_preds.trans.fin[,i], col=cols[i], lwd=1.5, lty=i, cex=0.8, pch=i)
+          }
         }
         if(!is.null(t.data)){
           for(i in 1:ncol(t.data)){
@@ -728,8 +754,10 @@ gbsm <- function(s.data, t.data, p.d.mat, metric= "Simpson_eqn", d.f=4, order.jo
       }else if(leg==1){
         plot(x=trans.variables[,1], y=J_preds.trans.fin[,1], type = "l", lty=1, lwd=1.5, col=cols[1], ylim=c(llim, (ulim + 0.2)),
              xlab = "Predictor value", ylab = "Wtd pred. value", main = noquote(paste("Order",order.jo)), cex=0.8, pch=1)
-        for(i in 2:ncol(trans.variables)){
-          graphics::lines(trans.variables[,i], J_preds.trans.fin[,i], col=cols[i], lwd=1.5, lty=i, cex=0.8, pch=i)
+        if(ncol(trans.variables)>=2){
+          for(i in 2:ncol(trans.variables)){
+            graphics::lines(trans.variables[,i], J_preds.trans.fin[,i], col=cols[i], lwd=1.5, lty=i, cex=0.8, pch=i)
+          }
         }
         if(!is.null(t.data)){
           for(i in 1:ncol(t.data)){
@@ -746,8 +774,10 @@ gbsm <- function(s.data, t.data, p.d.mat, metric= "Simpson_eqn", d.f=4, order.jo
       }else if(leg==2){
         plot(x=trans.variables[,1], y=J_preds.trans.fin[,1], type = "l", lty=1, lwd=1.5, col=cols[1], ylim=c(llim, (ulim + 2)),
              xlab = "Predictor value", ylab = "Wtd pred. value", main = noquote(paste("Order",order.jo)), cex=0.8, pch=1)
-        for(i in 2:ncol(trans.variables)){
-          graphics::lines(trans.variables[,i], J_preds.trans.fin[,i], col=cols[i], lwd=1.5, lty=i, cex=0.8, pch=i)
+        if(ncol(trans.variables)>=2){
+          for(i in 2:ncol(trans.variables)){
+            graphics::lines(trans.variables[,i], J_preds.trans.fin[,i], col=cols[i], lwd=1.5, lty=i, cex=0.8, pch=i)
+          }
         }
         if(!is.null(t.data)){
           for(i in 1:ncol(t.data)){
@@ -765,8 +795,10 @@ gbsm <- function(s.data, t.data, p.d.mat, metric= "Simpson_eqn", d.f=4, order.jo
       if(leg==0){
         plot(x=trans.variables[,1], y=J_preds.trans.fin[,1], type = "l", lty=1, lwd=1.5, col=cols[1], ylim=c(llim, ulim),
              xlab = "Predictor value", ylab = " ", main = noquote(paste("Order",order.jo)), cex=0.8, pch=1)
-        for(i in 2:ncol(trans.variables)){
-          graphics::lines(trans.variables[,i], J_preds.trans.fin[,i], col=cols[i], lwd=1.5, lty=i, cex=0.8, pch=i)
+        if(ncol(trans.variables)>=2){
+          for(i in 2:ncol(trans.variables)){
+            graphics::lines(trans.variables[,i], J_preds.trans.fin[,i], col=cols[i], lwd=1.5, lty=i, cex=0.8, pch=i)
+          }
         }
         if(!is.null(t.data)){
           for(i in 1:ncol(t.data)){
@@ -780,8 +812,10 @@ gbsm <- function(s.data, t.data, p.d.mat, metric= "Simpson_eqn", d.f=4, order.jo
       }else if(leg==1){
         plot(x=trans.variables[,1], y=J_preds.trans.fin[,1], type = "l", lty=1, lwd=1.5, col=cols[1], ylim=c(llim, (ulim + 0.2)),
              xlab = "Predictor value", ylab = " ", main = noquote(paste("Order",order.jo)), cex=0.8, pch=1)
-        for(i in 2:ncol(trans.variables)){
-          graphics::lines(trans.variables[,i], J_preds.trans.fin[,i], col=cols[i], lwd=1.5, lty=i, cex=0.8, pch=i)
+        if(ncol(trans.variables)>=2){
+          for(i in 2:ncol(trans.variables)){
+            graphics::lines(trans.variables[,i], J_preds.trans.fin[,i], col=cols[i], lwd=1.5, lty=i, cex=0.8, pch=i)
+          }
         }
         if(!is.null(t.data)){
           for(i in 1:ncol(t.data)){
@@ -798,8 +832,10 @@ gbsm <- function(s.data, t.data, p.d.mat, metric= "Simpson_eqn", d.f=4, order.jo
       }else if(leg==2){
         plot(x=trans.variables[,1], y=J_preds.trans.fin[,1], type = "l", lty=1, lwd=1.5, col=cols[1], ylim=c(llim, (ulim + 2)),
              xlab = "Predictor value", ylab = " ", main = noquote(paste("Order",order.jo)), cex=0.8, pch=1)
-        for(i in 2:ncol(trans.variables)){
-          graphics::lines(trans.variables[,i], J_preds.trans.fin[,i], col=cols[i], lwd=1.5, lty=i, cex=0.8, pch=i)
+        if(ncol(trans.variables)>=2){
+          for(i in 2:ncol(trans.variables)){
+            graphics::lines(trans.variables[,i], J_preds.trans.fin[,i], col=cols[i], lwd=1.5, lty=i, cex=0.8, pch=i)
+          }
         }
         if(!is.null(t.data)){
           for(i in 1:ncol(t.data)){

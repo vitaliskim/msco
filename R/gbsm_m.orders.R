@@ -222,38 +222,48 @@ gbsm_m.orders <- function(s.data, t.data, p.d.mat, metric="Simpson_eqn", orders,
 
 
     ## Cross-validation
-    if(type=="validation.set"){
-      cvalid[[i]] <- cross_valid(mss[[i]], type, k=k, p=p)
-    }else{
+    # if(type=="validation.set"){
+    #   cvalid[[i]] <- cross_valid(mss[[i]], type, k=k, p=p)
+    # }else{
+    #   cvalid[[i]] <- cross_valid(mss[[i]], type, k=k, p=p)$results[2:4]
+    # }
+
+    if(type=="k-fold"){
       cvalid[[i]] <- cross_valid(mss[[i]], type, k=k, p=p)$results[2:4]
+    }else{
+      cvalid[[i]] <- NA
     }
 
 
     ### Predictor contribution
-    for(j in 1:ncol(Predictors)){
-      data <- as.data.frame(bs_pred[, -which(names(`names<-`(bs_pred,gsub("[[:digit:]]", "", names(bs_pred)))) %in% c(unique(
-        names(`names<-`(bs_pred,gsub("[[:digit:]]", "", names(bs_pred)))))[j]))])
+    if(ncol(Predictors)==1){
+      contbn_table$contribution <- gof
+    }else if(ncol(Predictors)>1){
+      for(j in 1:ncol(Predictors)){
+        data <- as.data.frame(bs_pred[, -which(names(`names<-`(bs_pred, gsub("[[:digit:]]", "", names(bs_pred)))) %in% c(unique(
+          names(`names<-`(bs_pred,gsub("[[:digit:]]", "", names(bs_pred)))))[j]))])
 
-      if((metric %in% c("raw_prop", "Simpson_eqn", "Sorensen_eqn"))==TRUE){
-        pred.cont[[j]] <- suppressWarnings(glm2::glm2(j.occs ~ ., family=stats::quasibinomial(link="log"), data = data,
-                                                      start = seq(start.range[1], start.range[2], length.out=ncol(data)+1)))
-      }else if(metric=="raw" & (metric %in% c("raw_prop", "Simpson_eqn", "Sorensen_eqn"))!=TRUE & gbsm.model=="quasipoisson"){
-        pred.cont[[j]] <- suppressWarnings(glm2::glm2(j.occs ~ ., family=stats::quasipoisson(link="log"), data = data,
-                                                      start = seq(start.range[1], start.range[2], length.out=ncol(data)+1)))
-      }else if(metric=="raw" & (metric %in% c("raw_prop", "Simpson_eqn", "Sorensen_eqn"))!=TRUE & gbsm.model=="nb"){
-        pred.cont[[j]] <- suppressWarnings(MASS::glm.nb(j.occs ~ ., link = log, data = data, start = seq(start.range[1],
-                                                                                                               start.range[2],
-                                                                                                               length.out=ncol(data)+1)))
-      }else  if(metric=="raw" & (metric %in% c("raw_prop", "Simpson_eqn", "Sorensen_eqn"))!=TRUE & (gbsm.model %in% c("quasipoisson", "nb"))!=TRUE){
-        stop("Wrong gbsm.model used for 'raw' version of joint occupancy. It must either be 'quasipoisson' or 'nb'.")
+        if((metric %in% c("raw_prop", "Simpson_eqn", "Sorensen_eqn"))==TRUE){
+          pred.cont[[j]] <- suppressWarnings(glm2::glm2(j.occs ~ ., family=stats::quasibinomial(link="log"), data = data,
+                                                        start = seq(start.range[1], start.range[2], length.out=ncol(data)+1)))
+        }else if(metric=="raw" & (metric %in% c("raw_prop", "Simpson_eqn", "Sorensen_eqn"))!=TRUE & gbsm.model=="quasipoisson"){
+          pred.cont[[j]] <- suppressWarnings(glm2::glm2(j.occs ~ ., family=stats::quasipoisson(link="log"), data = data,
+                                                        start = seq(start.range[1], start.range[2], length.out=ncol(data)+1)))
+        }else if(metric=="raw" & (metric %in% c("raw_prop", "Simpson_eqn", "Sorensen_eqn"))!=TRUE & gbsm.model=="nb"){
+          pred.cont[[j]] <- suppressWarnings(MASS::glm.nb(j.occs ~ ., link = log, data = data, start = seq(start.range[1],
+                                                                                                           start.range[2],
+                                                                                                           length.out=ncol(data)+1)))
+        }else  if(metric=="raw" & (metric %in% c("raw_prop", "Simpson_eqn", "Sorensen_eqn"))!=TRUE & (gbsm.model %in% c("quasipoisson", "nb"))!=TRUE){
+          stop("Wrong gbsm.model used for 'raw' version of joint occupancy. It must either be 'quasipoisson' or 'nb'.")
+        }
+
+        contbn_table$predictor[j] <- unique(names(`names<-`(bs_pred,gsub("[[:digit:]]", "", names(bs_pred)))))[j]
+        contbn_table$var.expld_M2[j] <- stats::cor(j.occs, as.numeric(suppressWarnings(stats::predict.glm(pred.cont[[j]],
+                                                                                                          newdata = data,
+                                                                                                          type = "response"))))^2
+        contbn_table$var.expld_M1[j] <- gof
+        contbn_table$contribution[j] <- (contbn_table$var.expld_M1[j] - contbn_table$var.expld_M2[j])/(contbn_table$var.expld_M1[j])
       }
-
-      contbn_table$predictor[j] <- unique(names(`names<-`(bs_pred,gsub("[[:digit:]]", "", names(bs_pred)))))[j]
-      contbn_table$var.expld_M2[j] <- stats::cor(j.occs, as.numeric(suppressWarnings(stats::predict.glm(pred.cont[[j]],
-                                                                                             newdata = data,
-                                                                                             type = "response"))))^2
-      contbn_table$var.expld_M1[j] <- gof
-      contbn_table$contribution[j] <- (contbn_table$var.expld_M1[j] - contbn_table$var.expld_M2[j])/(contbn_table$var.expld_M1[j])
     }
     contbn_tablee[[i]] <- contbn_table
     vars2[i] <- gof
