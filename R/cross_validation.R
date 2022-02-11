@@ -87,10 +87,11 @@ cross_valid <- function(gbsm_obj, type="k-fold", p, k, k_fold.repeats){
   data <- gbsm_obj$bs_pred
   newdat <- `names<-`(data.frame(gbsm_obj$j.occs, data), c("j.occs", names(data)))
 
+  cvad <- data.frame()
   if(sum(newdat$j.occs)==0){
-    stop("The model cannot be trained since all `j.occs` are zero")
-  }else if(sum(newdat$j.occs)>0){
-    cvad <- data.frame()
+    warning("The model cannot be trained since all `j.occs` are zero")
+    print(gbsm_obj$order.jo)
+  }else{
     if(type=="validation.set"){
 
       #split the dataset into a training set ((p*100)%) and test set ((1-(p*100))%).
@@ -150,4 +151,6 @@ cross_valid <- function(gbsm_obj, type="k-fold", p, k, k_fold.repeats){
     return(cvad)
   }
 }
+
+
 
