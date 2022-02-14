@@ -63,7 +63,7 @@
 #' p.d.mat <- get(load("p.d.mat.csv")) ## Species-by-species phylogenetic distance matrix
 #'
 #' gbsm_obj <- msco::gbsm(s.data, t.data, p.d.mat, metric= "Simpson_eqn", d.f=4,
-#'  order.jo=3, degree=3, n=1000, b.plots=FALSE, bsplines="single", scat.plot=FALSE,
+#'  order.jo=3, degree=3, n=1000, b.plots=FALSE, scat.plot=FALSE,
 #'   response.curves=FALSE, leg=1, max.vif, max.vif2, start.range=c(-0.1,0))
 #'
 #' val.set <- msco::cross_valid(gbsm_obj, type="validation.set", p=0.8)
@@ -88,69 +88,66 @@ cross_valid <- function(gbsm_obj, type="k-fold", p, k, k_fold.repeats){
   newdat <- `names<-`(data.frame(gbsm_obj$j.occs, data), c("j.occs", names(data)))
 
   cvad <- data.frame()
-  if(sum(newdat$j.occs)==0){
-    warning("The model cannot be trained since all `j.occs` are zero")
-    print(gbsm_obj$order.jo)
+
+  if(type=="validation.set"){
+
+    #split the dataset into a training set ((p*100)%) and test set ((1-(p*100))%).
+    `%>%` <- dplyr::`%>%`
+    training_obs <- newdat$j.occs %>% caret::createDataPartition(p = p, list = FALSE)
+
+    train <- newdat[training_obs, ]
+    test <- newdat[-training_obs, ]
+
+    # Build the generalized linear regression model on the training set
+    model <- suppressWarnings(glm2::glm2(j.occs ~ ., family=stats::binomial(link="log"), data = train,
+                                         start = seq(gbsm_obj$start.range[1], gbsm_obj$start.range[2], length.out=(ncol(data))+1)))
+
+    # Use the model to make predictions on the test set
+    predictions <- suppressWarnings(stats::predict.glm(model, newdata = test, type = "response"))
+
+    #Examine R-squared, RMSE, and MAE of predictions
+    cvad <- data.frame(RMSE = caret::RMSE(predictions, test$j.occs),
+                       R_squared = caret::R2(predictions, test$j.occs),
+                       MAE = caret::MAE(predictions, test$j.occs))
+
+  }else if(type=="k-fold"){
+
+    #define the number of subsets (or "folds") to use
+    train_control <- caret::trainControl(method = "cv", number = k)
+
+    #train the model
+    model <- suppressWarnings(caret::train(j.occs ~ ., data = newdat, method = "glm", trControl = train_control))
+
+    #Summarize the results
+    cvad <- model
+
+  }else if(type=="LOOCV"){
+
+    #specify that we want to use LOOCV
+    train_control <- caret::trainControl(method = "LOOCV")
+
+    #train the model
+    model <- suppressWarnings(caret::train(j.occs ~ ., data = newdat, method = "glm", trControl = train_control))
+
+    #summarize the results
+    cvad <- model
+
+  }else if(type=="repeated.k-fold"){
+
+    #define the number of subsets to use and number of times to repeat k-fold CV
+    train_control <- caret::trainControl(method = "repeatedcv", number = k, repeats = k_fold.repeats)
+
+    #train the model
+    model <- suppressWarnings(caret::train(j.occs ~ ., data = newdat, method = "glm", trControl = train_control))
+
+    #summarize the results
+    cvad <- model
   }else{
-    if(type=="validation.set"){
-
-      #split the dataset into a training set ((p*100)%) and test set ((1-(p*100))%).
-      `%>%` <- dplyr::`%>%`
-      training_obs <- newdat$j.occs %>% caret::createDataPartition(p = p, list = FALSE)
-
-      train <- newdat[training_obs, ]
-      test <- newdat[-training_obs, ]
-
-      # Build the generalized linear regression model on the training set
-      model <- suppressWarnings(glm2::glm2(j.occs ~ ., family=stats::binomial(link="log"), data = train,
-                                           start = seq(gbsm_obj$start.range[1], gbsm_obj$start.range[2], length.out=(ncol(data))+1)))
-
-      # Use the model to make predictions on the test set
-      predictions <- suppressWarnings(stats::predict.glm(model, newdata = test, type = "response"))
-
-      #Examine R-squared, RMSE, and MAE of predictions
-      cvad <- data.frame(RMSE = caret::RMSE(predictions, test$j.occs),
-                         R_squared = caret::R2(predictions, test$j.occs),
-                         MAE = caret::MAE(predictions, test$j.occs))
-
-    }else if(type=="k-fold"){
-
-      #define the number of subsets (or "folds") to use
-      train_control <- caret::trainControl(method = "cv", number = k)
-
-      #train the model
-      model <- suppressWarnings(caret::train(j.occs ~ ., data = newdat, method = "glm", trControl = train_control))
-
-      #Summarize the results
-      cvad <- model
-
-    }else if(type=="LOOCV"){
-
-      #specify that we want to use LOOCV
-      train_control <- caret::trainControl(method = "LOOCV")
-
-      #train the model
-      model <- suppressWarnings(caret::train(j.occs ~ ., data = newdat, method = "glm", trControl = train_control))
-
-      #summarize the results
-      cvad <- model
-
-    }else if(type=="repeated.k-fold"){
-
-      #define the number of subsets to use and number of times to repeat k-fold CV
-      train_control <- caret::trainControl(method = "repeatedcv", number = k, repeats = k_fold.repeats)
-
-      #train the model
-      model <- suppressWarnings(caret::train(j.occs ~ ., data = newdat, method = "glm", trControl = train_control))
-
-      #summarize the results
-      cvad <- model
-    }else{
-      stop("Wrong type of cross-validation! The only available types are 'validation.set', 'k-fold', 'LOOCV', or 'repeated.k-fold'.")
-    }
-    return(cvad)
+    stop("Wrong type of cross-validation! The only available types are 'validation.set', 'k-fold', 'LOOCV', or 'repeated.k-fold'.")
   }
+  return(cvad)
 }
+
 
 
 

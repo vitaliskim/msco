@@ -182,17 +182,27 @@ gbsm_m.orders <- function(s.data, t.data, p.d.mat, metric="Simpson_eqn", orders,
                           p=0.8, type="k-fold", gbsm.model, scat.plots=FALSE, response.curves=TRUE,
                           j.occs.distrbn=FALSE, mp.plots=FALSE, max.vif=20, max.vif2=10, start.range=c(-0.1,0)){
 
-  grDevices::pdf(file = paste0(system.file("ms", package = "msco"), "/plots.gbsm.pdf"), height = 8.27, width = 4)
+  # grDevices::pdf(file = paste0(system.file("ms", package = "msco"), "/plots.gbsm.pdf"), height = 8.27, width = 4)
+  grDevices::pdf(file = paste0(system.file("ms", package = "msco"), "/plots.gbsm.pdf"), height = 5.8, width = 4)
   graphics::par(mar=c(5,5,4,1)+.1)
   graphics::par(mfrow=c((length(orders)+1)/2,2))
 
   vars2 <- rep(NA, length(orders))
-  pred.variables <- c(names(t.data), "P.dist", "E.rate")
+  if(!is.null(t.data) & is.null(p.d.mat)){
+    pred.variables <- c(names(t.data), "Encounter_rate")
+  }else if(!is.null(p.d.mat) & is.null(t.data)){
+    pred.variables <- c("Phylogenetic_distance", "Encounter_rate")
+  }else if(!is.null(t.data) & !is.null(p.d.mat)){
+    pred.variables <- c(names(t.data), "Phylogenetic_distance", "Encounter_rate")
+  }else{
+    pred.variables <- "Encounter_rate"
+  }
+
   cols <- c("red","blue","black","green", "orange", "brown", "purple", "yellow", "pink")
   names.var <- c()
   mss <- list()
   contbn_tablee <- list()
-  cvalid <- list()
+  # cvalid <- list()
   cvalid_TEs <- matrix(NA, nrow = length(orders), ncol = 3)
   order.names <- c()
   Original.VIFs <- list()
@@ -221,19 +231,12 @@ gbsm_m.orders <- function(s.data, t.data, p.d.mat, metric="Simpson_eqn", orders,
                                                                       "contribution"))
 
 
-    ## Cross-validation
+    # Cross-validation
     # if(type=="validation.set"){
     #   cvalid[[i]] <- cross_valid(mss[[i]], type, k=k, p=p)
     # }else{
     #   cvalid[[i]] <- cross_valid(mss[[i]], type, k=k, p=p)$results[2:4]
     # }
-
-    if(type=="k-fold"){
-      cvalid[[i]] <- cross_valid(mss[[i]], type, k=k, p=p)$results[2:4]
-    }else{
-      cvalid[[i]] <- NA
-    }
-
 
     ### Predictor contribution
     if(ncol(Predictors)==1){
@@ -290,13 +293,15 @@ gbsm_m.orders <- function(s.data, t.data, p.d.mat, metric="Simpson_eqn", orders,
   if(response.curves==TRUE){
     graphics::plot.new()
     nvar <- 1
-    ncex <- 1
+    ncex <- 0.8
+    pt.cex = 0.8
     if(length(pred.variables)>9){
       nvar <- 2
       ncex <- 0.6
+      pt.cex = 0.6
     }
     graphics::legend("center", legend = pred.variables, col = cols, bty = "n", lty=1:length(pred.variables),
-                     lwd=2, pch = 1:(length(t.data)+2), cex = ncex, ncol = nvar)
+                     lwd=2, pch = 1:(length(pred.variables)), pt.cex = pt.cex, cex = ncex, ncol = nvar)
   }
 
   if(scat.plots==TRUE){
@@ -353,12 +358,12 @@ gbsm_m.orders <- function(s.data, t.data, p.d.mat, metric="Simpson_eqn", orders,
   GoFs <- `names<-`(data.frame(vars2), "Rsquared_gf")
 
 
-  for (j in 1:length(orders)) {
-    cvalid_TEs[j,] <- as.numeric(Filter(Negate(is.null), cvalid)[[j]])
-  }
-  cvalid_rsq <- cvalid_TEs[,2]
-  cvalid_rsq <- `names<-`(as.data.frame(cvalid_rsq), "Rsquared_cv")
-  mod.valid <- cbind(orders, GoFs, cvalid_rsq)
+  # for (j in 1:length(orders)) {
+  #   cvalid_TEs[j,] <- as.numeric(Filter(Negate(is.null), cvalid)[[j]])
+  # }
+  # cvalid_rsq <- cvalid_TEs[,2]
+  # cvalid_rsq <- `names<-`(as.data.frame(cvalid_rsq), "Rsquared_cv")
+  # mod.valid <- cbind(orders, GoFs, cvalid_rsq)
 
   ### Model performance plots
   if(mp.plots==TRUE){
@@ -409,7 +414,7 @@ gbsm_m.orders <- function(s.data, t.data, p.d.mat, metric="Simpson_eqn", orders,
 
   m.orders <- list()
   m.orders$contbn_table <- contbn_tablee
-  m.orders$model.validation.table <- mod.valid
+  # m.orders$model.validation.table <- mod.valid
   m.orders$metric <- metric
   m.orders$d.f <- d.f
   m.orders$n <- n

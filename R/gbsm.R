@@ -110,8 +110,8 @@
 #' @md
 
 gbsm <- function(s.data, t.data, p.d.mat, metric= "Simpson_eqn", d.f=4, order.jo=3, degree=3, n=1000, b.plots=TRUE,
-gbsm.model, scat.plot=TRUE, response.curves=TRUE, ylabel=TRUE, leg=1, max.vif = 20,
-max.vif2 = 10, start.range=c(-0.1,0)){
+                 gbsm.model, scat.plot=TRUE, response.curves=TRUE, ylabel=TRUE, leg=1, max.vif = 20, max.vif2 = 10,
+                 start.range=c(-0.1,0)){
 
   if(!is.null(t.data)){
     if(class(t.data)!="data.frame"){
@@ -148,9 +148,9 @@ max.vif2 = 10, start.range=c(-0.1,0)){
 
   if(!is.null(t.data)){
     bs.traits <- matrix(NA, nrow(t.data), (ncol(t.data) * d.f))
-    for (j in 1:ncol(t.data)) {
-      for (i in 1:d.f) {
-        bs.traits[,(j - 1) * d.f + i] <- splines2::bSpline(t.data[,j], d.f=d.f, degree=degree, intercept = TRUE)[,i]
+    for (j in seq(ncol(t.data))) {
+      for (i in seq(d.f)) {
+        bs.traits[,(j - 1) * d.f + i] <- splines2::bSpline(t.data[,j], df=d.f, degree=degree, intercept = TRUE)[,i]
       }
     }
     bs.traits <- data.frame(bs.traits)
@@ -164,7 +164,7 @@ max.vif2 = 10, start.range=c(-0.1,0)){
     bs.traits <- `rownames<-`(bs.traits, rownames(t.data))
   }
 
-  ## Compute the differences on the values transformed using b-splines (bs.traits) using SD, to get bs.traits.diff. Simultaneously compute p.dist and encounter rate
+  ## Compute the differences on the values transformed using b-splines (bs.traits) using SD, to get bs.traits.diff. Simultaneously compute Phylogenetic_distance and encounter rate
   order <- 1:nrow(s.data) ## Possible joint occupancy orders
   sn <- dim(s.data)[1] ## Total number of species
   N <- dim(s.data)[2] ## Total number of sites
@@ -178,7 +178,7 @@ max.vif2 = 10, start.range=c(-0.1,0)){
 
     erate <- rep(NA, n)
     if(!is.null(p.d.mat)){
-      p.dist <- rep(NA, n)
+      Phylogenetic_distance <- rep(NA, n)
     }
 
     for (j in 1:n) {
@@ -197,9 +197,9 @@ max.vif2 = 10, start.range=c(-0.1,0)){
       }else if(metric=="Sorensen_eqn"){
         jo[j] <- jo[j]/mean(rowSums(s.data[sam,]))
       }
-      ## p.dist
+      ## Phylogenetic_distance
       if(!is.null(p.d.mat)){
-        p.dist[j] <- mean(p.d.mat[t(utils::combn(sort(sam), 2))])
+        Phylogenetic_distance[j] <- mean(p.d.mat[t(utils::combn(sort(sam), 2))])
       }
 
       ## Encounter rate
@@ -218,7 +218,7 @@ max.vif2 = 10, start.range=c(-0.1,0)){
 
     erate <- rep(NA, ncom)
     if(!is.null(p.d.mat)){
-      p.dist <- rep(NA, ncom)
+      Phylogenetic_distance <- rep(NA, ncom)
     }
 
     com <- utils::combn(sn, order.jo)
@@ -236,9 +236,9 @@ max.vif2 = 10, start.range=c(-0.1,0)){
         jo[j] <- (msco::j.occ(s.data[com[,j],], order = order.jo)$jo.val)/mean(rowSums(s.data[com[,j],]))
       }
 
-      ## p.dist
+      ## Phylogenetic_distance
       if(!is.null(p.d.mat)){
-        p.dist[j] <- mean(p.d.mat[t(utils::combn(sort(com[,j]), 2))])
+        Phylogenetic_distance[j] <- mean(p.d.mat[t(utils::combn(sort(com[,j]), 2))])
       }
 
       ## Encounter rate
@@ -262,9 +262,9 @@ max.vif2 = 10, start.range=c(-0.1,0)){
   if((metric %in% c("raw", "raw_prop", "Simpson_eqn", "Sorensen_eqn"))!=TRUE){
     stop("Wrong option for the joint occupancy metric provided. It must either be 'raw', 'raw_prop', 'Simpson_eqn', or 'Sorensen_eqn'.")
   }
-  ## Rescale p.dist to be in [0,1]
+  ## Rescale Phylogenetic_distance to be in [0,1]
   if(!is.null(p.d.mat)){
-    p.dist<- (p.dist - min(p.dist))/(max(p.dist)-min(p.dist))
+    Phylogenetic_distance<- (Phylogenetic_distance - min(Phylogenetic_distance))/(max(Phylogenetic_distance)-min(Phylogenetic_distance))
   }
 
   ## Assign bs.traits.diff (trait differences of B-splines of t.data) column names
@@ -274,31 +274,31 @@ max.vif2 = 10, start.range=c(-0.1,0)){
     bs.traits.diff <- data.frame(bs.traits.diff)
   }
 
-  ## B-splines of p.dist & erate
-  ##bs.p.dist
+  ## B-splines of Phylogenetic_distance & erate
+  ##bs.Phylogenetic_distance
   if(!is.null(p.d.mat)){
-    bs.p.dist <- matrix(NA, nrow=n, ncol=d.f)
-    for (i in 1:d.f) {
-      bs.p.dist[,i] <- splines2::bSpline(p.dist, d.f=d.f, degree=degree, intercept = TRUE)[,i]
+    bs.Phylogenetic_distance <- matrix(NA, nrow=n, ncol=d.f)
+    for (i in seq(d.f)) {
+      bs.Phylogenetic_distance[,i] <- splines2::bSpline(Phylogenetic_distance, df=d.f, degree=degree, intercept = TRUE)[,i]
     }
-    bs.p.dist <- data.frame(bs.p.dist)
+    bs.Phylogenetic_distance <- data.frame(bs.Phylogenetic_distance)
   }
 
   ## bs.erate
   bs.erate <- matrix(NA, nrow=length(erate), ncol=d.f)
   for (i in 1:d.f) {
-    bs.erate[,i] <- splines2::bSpline(erate, d.f=d.f, degree=degree, intercept = TRUE)[,i]
+    bs.erate[,i] <- splines2::bSpline(erate, df=d.f, degree=degree, intercept = TRUE)[,i]
   }
   bs.erate <- data.frame(bs.erate)
 
-  ## Assign names to bs.erate & p.dist
+  ## Assign names to bs.erate & Phylogenetic_distance
   for (j in 1:d.f) {
-    names(bs.erate)[j] <- paste("E.rate", j, sep = "")
+    names(bs.erate)[j] <- paste("Encounter_rate", j, sep = "")
     if(!is.null(p.d.mat)){
-      names(bs.p.dist)[j] <- paste("p.dist", j, sep = "")
+      names(bs.Phylogenetic_distance)[j] <- paste("Phylogenetic_distance", j, sep = "")
     }
   }
-  ## Rescale p.dist to be in [0,1]
+  ## Rescale Phylogenetic_distance to be in [0,1]
   erate <- (erate - min(erate))/(max(erate)-min(erate))
 
 
@@ -324,7 +324,7 @@ max.vif2 = 10, start.range=c(-0.1,0)){
     bs.traits.trans <- matrix(NA, nrow(t.data.trans), (ncol(t.data.trans) * d.f))
     for (j in 1:ncol(t.data.trans)) {
       for (i in 1:d.f) {
-        bs.traits.trans[,(j - 1) * d.f + i] <- splines2::bSpline(t.data.trans[,j], d.f=d.f, degree=degree, intercept = TRUE)[,i]
+        bs.traits.trans[,(j - 1) * d.f + i] <- splines2::bSpline(t.data.trans[,j], df=d.f, degree=degree, intercept = TRUE)[,i]
       }
     }
     bs.traits.trans <- data.frame(bs.traits.trans)
@@ -338,37 +338,37 @@ max.vif2 = 10, start.range=c(-0.1,0)){
   }
 
 
-  ### Transform the p.dist & erate variables to fill the gaps in the data for smooth plotting using seq
+  ### Transform the Phylogenetic_distance & erate variables to fill the gaps in the data for smooth plotting using seq
   if(!is.null(p.d.mat)){
-    p.dist.trans <- seq(from = range(p.dist)[1], to = range(p.dist)[2], length.out = myn)
+    Phylogenetic_distance.trans <- seq(from = range(Phylogenetic_distance)[1], to = range(Phylogenetic_distance)[2], length.out = myn)
   }
   erate.trans <- seq(from = range(erate)[1], to = range(erate)[2], length.out = myn)
 
-  ### Compute the B-splines of the transformed p.dist & erate variables (p.dist.trans & erate.trans) to get bs.p.dist.trans & bs.erate.trans
+  ### Compute the B-splines of the transformed Phylogenetic_distance & erate variables (Phylogenetic_distance.trans & erate.trans) to get bs.Phylogenetic_distance.trans & bs.erate.trans
 
-  ##p.dist
+  ##Phylogenetic_distance
   if(!is.null(p.d.mat)){
-    bs.p.dist.trans <- matrix(NA, nrow=myn, ncol=d.f)
+    bs.Phylogenetic_distance.trans <- matrix(NA, nrow=myn, ncol=d.f)
     for (i in 1:d.f) {
-      bs.p.dist.trans[,i] <- splines2::bSpline(p.dist.trans, d.f=d.f, degree=degree, intercept = TRUE)[,i]
+      bs.Phylogenetic_distance.trans[,i] <- splines2::bSpline(Phylogenetic_distance.trans, df=d.f, degree=degree, intercept = TRUE)[,i]
     }
-    bs.p.dist.trans <- data.frame(bs.p.dist.trans)
+    bs.Phylogenetic_distance.trans <- data.frame(bs.Phylogenetic_distance.trans)
   }
 
   ##erate
   bs.erate.trans <- matrix(NA, nrow=myn, ncol=d.f)
   for (i in 1:d.f) {
-    bs.erate.trans[,i] <- splines2::bSpline(erate.trans, d.f=d.f, degree=degree, intercept = TRUE)[,i]
+    bs.erate.trans[,i] <- splines2::bSpline(erate.trans, df=d.f, degree=degree, intercept = TRUE)[,i]
   }
   bs.erate.trans <- data.frame(bs.erate.trans)
 
 
 
-  ## Assign names to bs.erate.trans and bs.p.dist.trans
+  ## Assign names to bs.erate.trans and bs.Phylogenetic_distance.trans
   for (j in 1:d.f) {
-    names(bs.erate.trans)[j] <- paste("E.rate", j, sep = "")
+    names(bs.erate.trans)[j] <- paste("Encounter_rate", j, sep = "")
     if(!is.null(p.d.mat)){
-      names(bs.p.dist.trans)[j] <- paste("p.dist", j, sep = "")
+      names(bs.Phylogenetic_distance.trans)[j] <- paste("Phylogenetic_distance", j, sep = "")
     }
   }
 
@@ -377,19 +377,19 @@ max.vif2 = 10, start.range=c(-0.1,0)){
   if(!is.null(t.data) & is.null(p.d.mat)){
     bs.variables.trans <- cbind(bs.traits.trans, bs.erate.trans)
     trans.variables <- cbind(t.data.trans, erate.trans)
-    trans.variables <- `names<-`(as.data.frame(trans.variables), c(names(t.data.trans), "E.rate"))
+    trans.variables <- `names<-`(as.data.frame(trans.variables), c(names(t.data.trans), "Encounter_rate"))
   }else if(!is.null(p.d.mat) & is.null(t.data)){
-    bs.variables.trans <- cbind(bs.p.dist.trans, bs.erate.trans)
-    trans.variables <- cbind(p.dist.trans, erate.trans)
-    trans.variables <- `names<-`(as.data.frame(trans.variables), c("p.dist", "E.rate"))
+    bs.variables.trans <- cbind(bs.Phylogenetic_distance.trans, bs.erate.trans)
+    trans.variables <- cbind(Phylogenetic_distance.trans, erate.trans)
+    trans.variables <- `names<-`(as.data.frame(trans.variables), c("Phylogenetic_distance", "Encounter_rate"))
   }else if(!is.null(t.data) & !is.null(p.d.mat)){
-    bs.variables.trans <- cbind(bs.traits.trans, bs.p.dist.trans, bs.erate.trans)
-    trans.variables <- cbind(t.data.trans, p.dist.trans, erate.trans)
-    trans.variables <- `names<-`(as.data.frame(trans.variables), c(names(t.data.trans), "p.dist", "E.rate"))
+    bs.variables.trans <- cbind(bs.traits.trans, bs.Phylogenetic_distance.trans, bs.erate.trans)
+    trans.variables <- cbind(t.data.trans, Phylogenetic_distance.trans, erate.trans)
+    trans.variables <- `names<-`(as.data.frame(trans.variables), c(names(t.data.trans), "Phylogenetic_distance", "Encounter_rate"))
   }else{
     bs.variables.trans <- bs.erate.trans
     trans.variables <- erate.trans
-    trans.variables <- `names<-`(as.data.frame(trans.variables), "E.rate")
+    trans.variables <- `names<-`(as.data.frame(trans.variables), "Encounter_rate")
   }
 
 
@@ -401,15 +401,15 @@ max.vif2 = 10, start.range=c(-0.1,0)){
       plot(x=trans.variables[,1], y=bs.variables.trans[,(1+((1-1)*d.f))], type = "l", lty=1, lwd=2, col=cols[1], ylim=c(0,max(bs.variables.trans[,(1+((1-1)*d.f))])),
            xlab = "Trait value", ylab = "B-splines", main = "Trait variable")
 
-      for(i in 2:4){
+      for(i in 2:d.f){
         graphics::lines(trans.variables[,1], bs.variables.trans[,i], col=cols[i], lwd=2, lty = i)
       }
       if(!is.null(t.data)){
-        for (i in 1:4) {
+        for (i in 1:d.f) {
           graphics::points(t.data[,1], bs.traits[,i], col=cols[i], pch=match(cols[i], cols))
         }
       }else if(is.null(t.data) & !is.null(p.d.mat)){
-        graphics::points(p.dist, bs.p.dist[,i], col=cols[i], pch=match(cols[i], cols))
+        graphics::points(Phylogenetic_distance, bs.Phylogenetic_distance[,i], col=cols[i], pch=match(cols[i], cols))
       }else if(is.null(t.data) & is.null(p.d.mat)){
         graphics::points(erate, bs.erate[,i], col=cols[i], pch=match(cols[i], cols))
 
@@ -441,7 +441,7 @@ max.vif2 = 10, start.range=c(-0.1,0)){
     #       }
     #     }else if(v.index==(ncol(t.data)+1)){
     #       for (i in 1:d.f) {
-    #         graphics::points(p.dist, bs.p.dist[,i], col=cols[i], pch=match(cols[i], cols))
+    #         graphics::points(Phylogenetic_distance, bs.Phylogenetic_distance[,i], col=cols[i], pch=match(cols[i], cols))
     #       }
     #     }else if(v.index==(ncol(t.data)+2)){
     #       for (i in 1:d.f) {
@@ -472,14 +472,14 @@ max.vif2 = 10, start.range=c(-0.1,0)){
   ############################### B-spline regression (start) ##########################################################
   ######################################################################################################################
 
-  ## Combine bs.traits.diff, bs.p.dist (b-splines of p.dist) and bs.erate (b-splines of erate)
+  ## Combine bs.traits.diff, bs.Phylogenetic_distance (b-splines of Phylogenetic_distance) and bs.erate (b-splines of erate)
 
   if(!is.null(t.data) & is.null(p.d.mat)){
     bs.variables.diff <- cbind(bs.traits.diff, bs.erate)
   }else if(!is.null(p.d.mat) & is.null(t.data)){
-    bs.variables.diff <- cbind(bs.p.dist, bs.erate)
+    bs.variables.diff <- cbind(bs.Phylogenetic_distance, bs.erate)
   }else if(!is.null(t.data) & !is.null(p.d.mat)){
-    bs.variables.diff <- cbind(bs.traits.diff, bs.p.dist, bs.erate)
+    bs.variables.diff <- cbind(bs.traits.diff, bs.Phylogenetic_distance, bs.erate)
   }else{
     bs.variables.diff <- bs.erate
   }
@@ -625,44 +625,44 @@ max.vif2 = 10, start.range=c(-0.1,0)){
     }
   }
 
-  ########## p.dist
+  ########## Phylogenetic_distance
 
   if(!is.null(p.d.mat)){
-    bs.p.dist <- `names<-`(data.frame(as.matrix(bs.p.dist[, which(names(bs.p.dist) %in% names(coeff))],
-                                                nrow=nrow(bs.p.dist))), names(bs.p.dist)[which(names(bs.p.dist) %in% names(coeff))])
+    bs.Phylogenetic_distance <- `names<-`(data.frame(as.matrix(bs.Phylogenetic_distance[, which(names(bs.Phylogenetic_distance) %in% names(coeff))],
+                                                nrow=nrow(bs.Phylogenetic_distance))), names(bs.Phylogenetic_distance)[which(names(bs.Phylogenetic_distance) %in% names(coeff))])
     if(!is.null(t.data)){
-      coeff.p.d <- coeff[(dim(bs.traits)[2]+1):(dim(bs.traits)[2]+ncol(bs.p.dist))]
+      coeff.p.d <- coeff[(dim(bs.traits)[2]+1):(dim(bs.traits)[2]+ncol(bs.Phylogenetic_distance))]
     }else if(is.null(t.data)){
-      coeff.p.d <- coeff[(seq(ncol(bs.p.dist)))]
+      coeff.p.d <- coeff[(seq(ncol(bs.Phylogenetic_distance)))]
     }
 
 
-    if(ncol(bs.p.dist)>0){
-      J_preds.p.d <- matrix(NA, nrow=nrow(bs.p.dist), ncol=ncol(bs.p.dist))
-      for (i in 1:ncol(bs.p.dist)) {
-        J_preds.p.d[,i] <- coeff.p.d[i]*bs.p.dist[,i] + intercept/(length(coeff))
+    if(ncol(bs.Phylogenetic_distance)>0){
+      J_preds.p.d <- matrix(NA, nrow=nrow(bs.Phylogenetic_distance), ncol=ncol(bs.Phylogenetic_distance))
+      for (i in 1:ncol(bs.Phylogenetic_distance)) {
+        J_preds.p.d[,i] <- coeff.p.d[i]*bs.Phylogenetic_distance[,i] + intercept/(length(coeff))
       }
-      J_preds.p.d <- `names<-`(data.frame(J_preds.p.d), names(bs.p.dist))
+      J_preds.p.d <- `names<-`(data.frame(J_preds.p.d), names(bs.Phylogenetic_distance))
 
       # Sum columns per variable (from J_preds.p.d) to get "J_preds.p.d.fin"
       names(J_preds.p.d) <- gsub("[[:digit:]]", "", names(J_preds.p.d))
       J_preds.p.d.fin <- t(rowsum(t(J_preds.p.d), group = colnames(J_preds.p.d), na.rm = TRUE, reorder=FALSE))
-    }else if(ncol(bs.p.dist)==0){
+    }else if(ncol(bs.Phylogenetic_distance)==0){
       J_preds.p.d.fin <- NULL
     }
   }
 
 
-  ########## E.rate
+  ########## Encounter_rate
 
   bs.erate <- `names<-`(data.frame(as.matrix(bs.erate[, which(names(bs.erate) %in% names(coeff))],
                                                nrow=nrow(bs.erate))), names(bs.erate)[which(names(bs.erate) %in% names(coeff))])
   if(!is.null(t.data) & !is.null(p.d.mat)){
-    coeff.er <- coeff[(dim(bs.traits)[2]+ncol(bs.p.dist)+1):(dim(bs.variables.diff)[2])]
+    coeff.er <- coeff[(dim(bs.traits)[2]+ncol(bs.Phylogenetic_distance)+1):(dim(bs.variables.diff)[2])]
   }else if(!is.null(t.data) & is.null(p.d.mat)){
     coeff.er <- coeff[(dim(bs.traits)[2]+1):(dim(bs.variables.diff)[2])]
   }else if(is.null(t.data) & !is.null(p.d.mat)){
-    coeff.er <- coeff[(ncol(bs.p.dist)+1):(dim(bs.variables.diff)[2])]
+    coeff.er <- coeff[(ncol(bs.Phylogenetic_distance)+1):(dim(bs.variables.diff)[2])]
   }else if(is.null(t.data) & is.null(p.d.mat)){
     coeff.er <- coeff[seq(dim(bs.variables.diff)[2])]
   }
@@ -748,9 +748,9 @@ max.vif2 = 10, start.range=c(-0.1,0)){
           }
         }
         if(!is.null(p.d.mat)){
-          graphics::points(p.dist, J_preds.p.d.fin, col=cols[(ncol(t.data)+1)], lwd=1, pch=10, cex=0.6)
+          graphics::points(Phylogenetic_distance, J_preds.p.d.fin, col=cols[(length(trans.variables)-1)], lwd=1, pch=10, cex=0.6)
         }
-        graphics::points(erate, J_preds.er.fin, col=cols[(ncol(t.data)+2)], lwd=1, pch=18, cex=0.7)
+        graphics::points(erate, J_preds.er.fin, col=cols[(length(trans.variables))], lwd=1, pch=18, cex=0.7)
       }else if(leg==1){
         plot(x=trans.variables[,1], y=J_preds.trans.fin[,1], type = "l", lty=1, lwd=1.5, col=cols[1], ylim=c(llim, (ulim + 0.2)),
              xlab = "Predictor value", ylab = "Wtd pred. value", main = noquote(paste("Order",order.jo)), cex=0.8, pch=1)
@@ -765,11 +765,11 @@ max.vif2 = 10, start.range=c(-0.1,0)){
           }
         }
         if(!is.null(p.d.mat)){
-          graphics::points(p.dist, J_preds.p.d.fin, col=cols[(ncol(t.data)+1)], lwd=1, pch=10, cex=0.6)
+          graphics::points(Phylogenetic_distance, J_preds.p.d.fin, col=cols[(length(trans.variables)-1)], lwd=1, pch=10, cex=0.6)
         }
-        graphics::points(erate, J_preds.er.fin, col=cols[(ncol(t.data)+2)], lwd=1, pch=18, cex=0.7)
+        graphics::points(erate, J_preds.er.fin, col=cols[(length(trans.variables))], lwd=1, pch=18, cex=0.7)
         graphics::legend("top", legend = names(trans.variables), col = cols, lty=1:ncol(trans.variables), lwd=1.5,
-                         pch = 1:(ncol(trans.variables)), bty = "n", pt.cex = 0.8, text.width = 0.125, cex = 0.8, ncol = 2)
+                         pch = 1:(ncol(trans.variables)), bty = "n", pt.cex = 0.8, text.width = 0.25, cex = 0.8, ncol = 2)
 
       }else if(leg==2){
         plot(x=trans.variables[,1], y=J_preds.trans.fin[,1], type = "l", lty=1, lwd=1.5, col=cols[1], ylim=c(llim, (ulim + 2)),
@@ -785,11 +785,11 @@ max.vif2 = 10, start.range=c(-0.1,0)){
           }
         }
         if(!is.null(p.d.mat)){
-          graphics::points(p.dist, J_preds.p.d.fin, col=cols[(ncol(t.data)+1)], lwd=1, pch=10, cex=0.6)
+          graphics::points(Phylogenetic_distance, J_preds.p.d.fin, col=cols[(length(trans.variables)-1)], lwd=1, pch=10, cex=0.6)
         }
-        graphics::points(erate, J_preds.er.fin, col=cols[(ncol(t.data)+2)], lwd=1, pch=18, cex=0.7)
+        graphics::points(erate, J_preds.er.fin, col=cols[length(trans.variables)], lwd=1, pch=18, cex=0.7)
         graphics::legend("top", legend = names(trans.variables), col = cols, lty=1:ncol(trans.variables), lwd=1.5,
-                         pch = 1:(ncol(trans.variables)), bty = "n", pt.cex = 0.8, text.width = 0.125, cex = 0.8, ncol = 2)
+                         pch = 1:(ncol(trans.variables)), bty = "n", pt.cex = 0.8, text.width = 0.25, cex = 0.8, ncol = 2)
       }
     }else{
       if(leg==0){
@@ -806,9 +806,9 @@ max.vif2 = 10, start.range=c(-0.1,0)){
           }
         }
         if(!is.null(p.d.mat)){
-          graphics::points(p.dist, J_preds.p.d.fin, col=cols[(ncol(t.data)+1)], lwd=1, pch=10, cex=0.6)
+          graphics::points(Phylogenetic_distance, J_preds.p.d.fin, col=cols[(length(trans.variables)-1)], lwd=1, pch=10, cex=0.6)
         }
-        graphics::points(erate, J_preds.er.fin, col=cols[(ncol(t.data)+2)], lwd=1, pch=18, cex=0.7)
+        graphics::points(erate, J_preds.er.fin, col=cols[(length(trans.variables))], lwd=1, pch=18, cex=0.7)
       }else if(leg==1){
         plot(x=trans.variables[,1], y=J_preds.trans.fin[,1], type = "l", lty=1, lwd=1.5, col=cols[1], ylim=c(llim, (ulim + 0.2)),
              xlab = "Predictor value", ylab = " ", main = noquote(paste("Order",order.jo)), cex=0.8, pch=1)
@@ -823,11 +823,11 @@ max.vif2 = 10, start.range=c(-0.1,0)){
           }
         }
         if(!is.null(p.d.mat)){
-          graphics::points(p.dist, J_preds.p.d.fin, col=cols[(ncol(t.data)+1)], lwd=1, pch=10, cex=0.6)
+          graphics::points(Phylogenetic_distance, J_preds.p.d.fin, col=cols[(length(trans.variables)-1)], lwd=1, pch=10, cex=0.6)
         }
-        graphics::points(erate, J_preds.er.fin, col=cols[(ncol(t.data)+2)], lwd=1, pch=18, cex=0.7)
+        graphics::points(erate, J_preds.er.fin, col=cols[(length(trans.variables))], lwd=1, pch=18, cex=0.7)
         graphics::legend("top", legend = names(trans.variables), col = cols, lty=1:ncol(trans.variables), lwd=1.5,
-                         pch = 1:(ncol(trans.variables)), bty = "n", pt.cex = 0.8, text.width = 0.125, cex = 0.8, ncol = 2)
+                         pch = 1:(ncol(trans.variables)), bty = "n", pt.cex = 0.8, text.width = 0.25, cex = 0.8, ncol = 2)
 
       }else if(leg==2){
         plot(x=trans.variables[,1], y=J_preds.trans.fin[,1], type = "l", lty=1, lwd=1.5, col=cols[1], ylim=c(llim, (ulim + 2)),
@@ -843,11 +843,11 @@ max.vif2 = 10, start.range=c(-0.1,0)){
           }
         }
         if(!is.null(p.d.mat)){
-          graphics::points(p.dist, J_preds.p.d.fin, col=cols[(ncol(t.data)+1)], lwd=1, pch=10, cex=0.6)
+          graphics::points(Phylogenetic_distance, J_preds.p.d.fin, col=cols[(length(trans.variables)-1)], lwd=1, pch=10, cex=0.6)
         }
-        graphics::points(erate, J_preds.er.fin, col=cols[(ncol(t.data)+2)], lwd=1, pch=18, cex=0.7)
+        graphics::points(erate, J_preds.er.fin, col=cols[(length(trans.variables))], lwd=1, pch=18, cex=0.7)
         graphics::legend("top", legend = names(trans.variables), col = cols, lty=1:ncol(trans.variables), lwd=1.5,
-                         pch = 1:(ncol(trans.variables)), bty = "n", pt.cex = 0.8, text.width = 0.125, cex = 0.8, ncol = 2)
+                         pch = 1:(ncol(trans.variables)), bty = "n", pt.cex = 0.8, text.width = 0.25, cex = 0.8, ncol = 2)
       }
     }
   }

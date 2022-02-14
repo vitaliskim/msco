@@ -66,7 +66,7 @@ t.data <- get(load("t.data.csv")) ## Species-by-trait matrix
 p.d.mat <- get(load("p.d.mat.csv")) ## Species-by-species phylogenetic distance matrix
 
 gbsm_obj <- msco::gbsm(s.data, t.data, p.d.mat, metric= "Simpson_eqn", d.f=4,
- order.jo=3, degree=3, n=1000, b.plots=FALSE, bsplines="single", scat.plot=FALSE,
+ order.jo=3, degree=3, n=1000, b.plots=FALSE, scat.plot=FALSE,
   response.curves=FALSE, leg=1, max.vif, max.vif2, start.range=c(-0.1,0))
 
 val.set <- msco::cross_valid(gbsm_obj, type="validation.set", p=0.8)
