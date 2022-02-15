@@ -183,7 +183,7 @@ gbsm_m.orders <- function(s.data, t.data, p.d.mat, metric="Simpson_eqn", orders,
                           j.occs.distrbn=FALSE, mp.plots=FALSE, max.vif=20, max.vif2=10, start.range=c(-0.1,0)){
 
   # grDevices::pdf(file = paste0(system.file("ms", package = "msco"), "/plots.gbsm.pdf"), height = 8.27, width = 4)
-  grDevices::pdf(file = paste0(system.file("ms", package = "msco"), "/plots.gbsm.pdf"), height = 5.8, width = 4)
+  grDevices::pdf(file = paste0(system.file("ms", package = "msco"), "/plots.gbsm.pdf"), height = 5.8, width = 5.8)
   graphics::par(mar=c(5,5,4,1)+.1)
   graphics::par(mfrow=c((length(orders)+1)/2,2))
 
@@ -203,7 +203,7 @@ gbsm_m.orders <- function(s.data, t.data, p.d.mat, metric="Simpson_eqn", orders,
   mss <- list()
   contbn_tablee <- list()
   # cvalid <- list()
-  cvalid_TEs <- matrix(NA, nrow = length(orders), ncol = 3)
+  # cvalid_TEs <- matrix(NA, nrow = length(orders), ncol = 3)
   order.names <- c()
   Original.VIFs <- list()
   Final.VIFs <- list()
@@ -357,60 +357,76 @@ gbsm_m.orders <- function(s.data, t.data, p.d.mat, metric="Simpson_eqn", orders,
 
   GoFs <- `names<-`(data.frame(vars2), "Rsquared_gf")
 
+#
+#   for (j in 1:length(orders)) {
+#     cvalid_TEs[j,] <- as.numeric(Filter(Negate(is.null), cvalid)[[j]])
+#   }
+#   cvalid_rsq <- cvalid_TEs[,2]
+#   cvalid_rsq <- `names<-`(as.data.frame(cvalid_rsq), "Rsquared_cv")
+#   mod.valid <- cbind(orders, GoFs, cvalid_rsq)
 
-  # for (j in 1:length(orders)) {
-  #   cvalid_TEs[j,] <- as.numeric(Filter(Negate(is.null), cvalid)[[j]])
-  # }
-  # cvalid_rsq <- cvalid_TEs[,2]
-  # cvalid_rsq <- `names<-`(as.data.frame(cvalid_rsq), "Rsquared_cv")
-  # mod.valid <- cbind(orders, GoFs, cvalid_rsq)
+  grDevices::dev.off()
 
   ### Model performance plots
   if(mp.plots==TRUE){
-    GoFs <- GoFs$Rsquared_gf
-    cvalid_rsq <- cvalid_rsq$Rsquared_cv
-    ## Fit GoFs (with Orders) to exponential-power law
-    mod2 <- minpack.lm::nlsLM(GoFs~a*exp(b*orders)*orders^c, start=list(a=1, b=0, c=0))
-    pred.GoFs <- stats::predict(mod2, data.frame(orders), type="response")
-    cc <- summary(mod2)$coefficients[,1]
-
-    ## Fit model performance from cross validation (cvalid_rsq; with Orders) to exponential-power law
-    mod3 <- minpack.lm::nlsLM(cvalid_rsq~a*exp(b*orders)*orders^c, start=list(a=1, b=0, c=0))
-    pred.cvalid_rsq <- stats::predict(mod3, data.frame(orders), type="response")
-    cc2 <- summary(mod3)$coefficients[,1]
-
-    ## Compare GoFs and cvalid_rsq to have overall model performance
-    mod4 <- stats::lm(GoFs~cvalid_rsq)
-    mod4.val <- seq(from=range(cvalid_rsq)[1], to=range(cvalid_rsq)[2], length.out=1000)
-    mod4y <- (summary(mod4)$coefficients[,1][[2]]*mod4.val) + summary(mod4)$coefficients[,1][[1]]
-
-    ############ Transform using seq()
-    orders.trans <- seq(from=range(orders)[1], to=range(orders)[2], length.out=1000)
-    GoFs.est <- (cc[[1]])*(exp(cc[[2]]*orders.trans)) * (orders.trans)^(cc[[3]])
-    cvalid_rsq.est <- (cc2[[1]])*(exp(cc2[[2]]*orders.trans)) * (orders.trans)^(cc2[[3]])
-
-    cols <- c("red","blue","black","green", "orange", "brown", "purple")
-    graphics::par(mar=c(5,5,4,1)+.1)
-    graphics::par(mfrow=c(2,1))
-
-    graphics::plot(orders.trans, GoFs.est, type = "l", lwd=2, lty=1, col=cols[1], main = "Effect of predictors on J. occ",
-                   ylim=range(GoFs, cvalid_rsq, GoFs.est, cvalid_rsq.est),
-                   xlab = "Joint occupancy order", ylab = noquote(expression(paste("Variance explained", "  ", (r^2)))))
-    graphics::points(orders, GoFs, lwd=2, col=cols[1], pch=1)
-    graphics::lines(orders.trans, cvalid_rsq.est, type="l", lty=2, lwd=2, col=cols[2])
-    graphics::points(orders, cvalid_rsq, lwd=2, col=cols[2], pch=4)
-    graphics::legend("topright", legend = c("Rsquared_gf", "Rsquared_cv"), pch=c(1,4), col = cols, lty=c(1,2), lwd=2,
-                     bty = "n", cex=0.7, ncol = 1)
-    graphics::mtext("(a)", side = 3, adj = -0.2, line = 1.5, cex=1.2, font = 2)
-
-    graphics::plot(mod4.val, mod4y, type="l", col="black", lwd=2, main = "Model performance", ylim=range(cvalid_rsq, mod4y),
-                   xlab = "Rsquared_cv", ylab = "Rsquared_gf")
-    graphics::points(GoFs, cvalid_rsq, lwd=2, col=cols[3])
-    graphics::mtext("(b)", side = 3, adj = -0.2, line = 1.5, cex = 1.2, font = 2)
-    graphics::text(0.29, (max(mod4.val)-0.05), paste("mp", "", "=", "", round(((stats::cor(GoFs, cvalid_rsq))^2)*100, 1),"%"), font=2)
+    # grDevices::pdf(file = paste0(system.file("ms", package = "msco"), "/model.performance.pdf"), height = 8.27, width = 4)
+    # GoFs <- mod.valid$Rsquared_gf
+    # cvalid_rsq <- mod.valid$Rsquared_cv
+    # ## Fit GoFs (with Orders) to exponential-power law
+    # # mod2 <- minpack.lm::nlsLM(GoFs~a*exp(b*orders)*orders^c, start=list(a=1, b=0, c=0))
+    # # pred.GoFs <- stats::predict(mod2, data.frame(orders), type="response")
+    # # mmd2 <- summary(mod2)
+    # # cc <- mmd2$coefficients[,1]
+    #
+    # ## Fit model performance from cross validation (cvalid_rsq; with Orders) to exponential-power law
+    # # mod3 <- minpack.lm::nlsLM(cvalid_rsq~a*exp(b*orders)*orders^c, start=list(a=1, b=0, c=0))
+    # # pred.cvalid_rsq <- stats::predict(mod3, data.frame(orders), type="response")
+    # # mmd3 <- summary(mod3)
+    # # cc2 <- mmd3$coefficients[,1]
+    #
+    # ## Compare GoFs and cvalid_rsq to have overall model performance
+    # mod4 <- stats::lm(GoFs~cvalid_rsq)
+    # mod4.val <- seq(from=range(cvalid_rsq)[1], to=range(cvalid_rsq)[2], length.out=1000)
+    # mmd4 <- summary(mod4)
+    # mod4y <- (mmd4$coefficients[,1][[2]]*mod4.val) + mmd4$coefficients[,1][[1]]
+    #
+    # # ############ Transform using seq()
+    # # orders.trans <- seq(from=range(orders)[1], to=range(orders)[2], length.out=1000)
+    # # GoFs.est <- (cc[[1]])*(exp(cc[[2]]*orders.trans)) * (orders.trans)^(cc[[3]])
+    # # cvalid_rsq.est <- (cc2[[1]])*(exp(cc2[[2]]*orders.trans)) * (orders.trans)^(cc2[[3]])
+    #
+    # cols <- c("red","blue","black","green", "orange", "brown", "purple")
+    # graphics::par(mar=c(5,5,4,1)+.1)
+    # graphics::par(mfrow=c(2,1))
+    #
+    # # graphics::plot(orders.trans, GoFs.est, type = "l", lwd=2, lty=1, col=cols[1], main = "Effect of predictors on J. occ",
+    # #                ylim=range(GoFs, cvalid_rsq, GoFs.est, cvalid_rsq.est),
+    # #                xlab = "Joint occupancy order", ylab = noquote(expression(paste("Variance explained", "  ", (r^2)))))
+    # # graphics::points(orders, GoFs, lwd=2, col=cols[1], pch=1)
+    # # graphics::lines(orders.trans, cvalid_rsq.est, type="l", lty=2, lwd=2, col=cols[2])
+    # # graphics::points(orders, cvalid_rsq, lwd=2, col=cols[2], pch=4)
+    #
+    # graphics::plot(orders, GoFs, type = "l", lwd=2, lty=1, col=cols[1], main = "Effect of predictors on J. occ",
+    #               ylim=range(GoFs, cvalid_rsq),
+    #               xlab = "Joint occupancy order", ylab = noquote(expression(paste("Variance explained", "  ", (r^2)))))
+    # graphics::points(orders, GoFs, lwd=2, col=cols[1], pch=1)
+    # graphics::lines(orders, cvalid_rsq, type="l", lty=2, lwd=2, col=cols[2])
+    # graphics::points(orders, cvalid_rsq, lwd=2, col=cols[2], pch=4)
+    #
+    # graphics::legend("topright", legend = c("Rsquared_gf", "Rsquared_cv"), pch=c(1,4), col = cols, lty=c(1,2), lwd=2,
+    #                  bty = "n", cex=0.7, ncol = 1)
+    # graphics::mtext("(a)", side = 3, adj = -0.2, line = 1.5, cex=1.2, font = 2)
+    #
+    # graphics::plot(mod4.val, mod4y, type="l", col="black", lwd=2, main = "Model performance", ylim=range(cvalid_rsq, mod4y),
+    #                xlab = "Rsquared_cv", ylab = "Rsquared_gf")
+    # graphics::points(GoFs, cvalid_rsq, lwd=2, col=cols[3])
+    # graphics::mtext("(b)", side = 3, adj = -0.2, line = 1.5, cex = 1.2, font = 2)
+    # graphics::text(0.29, (max(mod4.val)-0.05), paste("mp", "", "=", "", round(((stats::cor(GoFs, cvalid_rsq))^2)*100, 1),"%"), font=2)
+    #
+    # grDevices::dev.off()
 
   }
-  grDevices::dev.off()
+
 
   m.orders <- list()
   m.orders$contbn_table <- contbn_tablee
@@ -423,6 +439,6 @@ gbsm_m.orders <- function(s.data, t.data, p.d.mat, metric="Simpson_eqn", orders,
   m.orders$Original.VIFs <- Original.VIFs
   m.orders$Intermediate.VIFs <- Intermediate.VIFs
   m.orders$Final.VIFs <- Final.VIFs
-  m.orders$gbsm.plots <- print(noquote("Check msco's 'ms' folder in your R version's directory for a 'plots.gbsm.pdf' file."))
+  m.orders$gbsm.plots <- print(noquote("Check msco's 'ms' folder in your R version's directory for 'model.performance.pdf' and 'plots.gbsm.pdf' files."))
   return(m.orders)
 }

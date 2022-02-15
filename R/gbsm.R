@@ -182,8 +182,11 @@ gbsm <- function(s.data, t.data, p.d.mat, metric= "Simpson_eqn", d.f=4, order.jo
     }
 
     for (j in 1:n) {
-      sam <- sample(1:sn, order.jo, replace = FALSE)
-
+      repeat{
+        sam <- sample(1:sn, order.jo, replace = FALSE)
+        if(msco::j.occ(s.data[sam,], order = order.jo)$jo.val>0){
+          break
+        }}
       if(!is.null(t.data)){
         bs.traits.diff[j,] <- apply(bs.traits[sam,], 2, stats::sd)
       }
