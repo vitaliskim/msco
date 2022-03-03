@@ -71,26 +71,31 @@
 #' }
 #' @export
 #' @md
-s.phylo <- function(s.data, database = "ncbi", obs.taxa=TRUE, taxa.levels = NULL, Obs.data=TRUE,
+s.phylo <- function(s.data, p.d.mat, database = "ncbi", obs.taxa=FALSE, taxa.levels = NULL, Obs.data=FALSE,
                    phy.d.mat=TRUE,  phylo.plot = TRUE){
 
   #taxa
-  if(is.null(taxa.levels)){
-    vee <- taxize::tax_name(sci = c(row.names(s.data)), get = c("genus","family"), db = "ncbi")
-    if(database == "itis"){
-      vee <- taxize::tax_name(sci = c(row.names(s.data)), get = c("genus","family"), db = "itis")
-    }
-    taxa <- vee[,c(2,3,4)]
-    names(taxa)[1] <- "species"
-    taxa <- taxa[stats::complete.cases(taxa),]
-  }else {
-    taxa <- taxa.levels
-  }
+
 
   ##Phylogenetic distance matrix
-  kimm <- import::here("V.PhyloMaker", "nodes.info.1", "GBOTB.extended", "phylo.maker")
-  vdat <- kimm$phylo.maker(sp.list = taxa, tree = kimm$GBOTB.extended)$scenario.3
-  p.d.mat <- as.matrix(ape::cophenetic.phylo(vdat))
+  if(is.null(p.d.mat)){
+    if(is.null(taxa.levels)){
+      vee <- taxize::tax_name(sci = c(row.names(s.data)), get = c("genus","family"), db = "ncbi")
+      if(database == "itis"){
+        vee <- taxize::tax_name(sci = c(row.names(s.data)), get = c("genus","family"), db = "itis")
+      }
+      taxa <- vee[,c(2,3,4)]
+      names(taxa)[1] <- "species"
+      taxa <- taxa[stats::complete.cases(taxa),]
+    }else {
+      taxa <- taxa.levels
+    }
+    kimm <- import::here("V.PhyloMaker", "nodes.info.1", "GBOTB.extended", "phylo.maker")
+    vdat <- kimm$phylo.maker(sp.list = taxa, tree = kimm$GBOTB.extended)$scenario.3
+    p.d.mat <- as.matrix(ape::cophenetic.phylo(vdat))
+  }else{
+    p.d.mat <- p.d.mat
+  }
 
   ##Create a list of all outputs
   phylo.vee <- list()
@@ -112,7 +117,9 @@ s.phylo <- function(s.data, database = "ncbi", obs.taxa=TRUE, taxa.levels = NULL
       phylo.vee$s.data <- as.data.frame(sttt.data)
     }
   }
-  if(obs.taxa==TRUE){
+  if(obs.taxa==TRUE & is.null(taxa.levels)){
+    warning("No taxa since 'taxa.levels' is NULL. ")
+  }else if(obs.taxa==TRUE & !is.null(taxa.levels)){
     phylo.vee$taxa.levels <- taxa
   }
 
@@ -120,17 +127,34 @@ s.phylo <- function(s.data, database = "ncbi", obs.taxa=TRUE, taxa.levels = NULL
     phylo.vee$phylogenetic.distance.matrix <- as.data.frame(p.d.mat)
   }
 
-
-  if(phylo.plot == TRUE){
-    grDevices::pdf(file = paste0(system.file("ms", package = "msco"), "/Phylogenetic.tree.pdf"), paper="a4r", height = 8.27, width = 11.69)
-    hc <- stats::as.hclust(vdat)
-    dend <- stats::as.dendrogram(hc)
-    graphics::par(mar = c(12, 6, 4, 0)) # leave space for the labels
-    graphics::plot(dend, ylab = "Phylogenetic distance", main = "Cluster Dendrogram")
-    # phylo.vee$phylo.plot <- grDevices::recordPlot()
-    grDevices::dev.off()
-    print(noquote("Check msco's 'ms' folder in your R version's directory for a 'Phylogenetic.tree.pdf' file."))
+  if(is.null(p.d.mat)){
+    if(phylo.plot == TRUE){
+      grDevices::pdf(file = paste0(system.file("ms", package = "msco"), "/Phylogenetic.tree.pdf"), paper="a4r", height = 8.27, width = 11.69)
+      hc <- stats::as.hclust(vdat)
+      dend <- stats::as.dendrogram(hc)
+      graphics::par(mar = c(12, 6, 4, 0)) # leave space for the labels
+      graphics::plot(dend, ylab = "Phylogenetic distance", main = "Cluster Dendrogram")
+      # phylo.vee$phylo.plot <- grDevices::recordPlot()
+      grDevices::dev.off()
+      print(noquote("Check msco's 'ms' folder in your R version's directory for a 'Phylogenetic.tree.pdf' file."))
+    }
+  }else{
+    if(phylo.plot == TRUE){
+      grDevices::pdf(file = paste0(system.file("ms", package = "msco"), "/Phylogenetic.tree.pdf"), paper="a4r", height = 8.27, width = 11.69)
+      dist.mat <- as.dist(p.d.mat)
+      dist.phy <- ape::nj(dist.mat)
+      vee <- root(dist.phy, row.names(p.d.mat)[1], resolve.root = TRUE)
+      ult <- phytools::force.ultrametric(vee, method= "extend")
+      hc <- stats::as.hclust(ult)
+      dend <- phylogram::as.dendrogram.phylo(vee)
+      graphics::par(mar = c(12, 6, 4, 0)) # leave space for the labels
+      graphics::plot(dend, ylab = "Phylogenetic distance", main = "Cluster Dendrogram")
+      # phylo.vee$phylo.plot <- grDevices::recordPlot()
+      grDevices::dev.off()
+      print(noquote("Check msco's 'ms' folder in your R version's directory for a 'Phylogenetic.tree.pdf' file."))
+    }
   }
+
 
   return(phylo.vee)
 }

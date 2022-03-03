@@ -6,10 +6,11 @@
 \usage{
 s.phylo(
   s.data,
+  p.d.mat,
   database = "ncbi",
-  obs.taxa = TRUE,
+  obs.taxa = FALSE,
   taxa.levels = NULL,
-  Obs.data = TRUE,
+  Obs.data = FALSE,
   phy.d.mat = TRUE,
   phylo.plot = TRUE
 )
