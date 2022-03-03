@@ -21,6 +21,8 @@ occurrence (1) and non-occurrence (0) of species in a site. The rows should have
 scientific names following \href{https://en.wikipedia.org/wiki/Binomial_nomenclature}{binomial nomenclature},
 with no initials.}
 
+\item{p.d.mat}{As for \link[msco]{gbsm}.}
+
 \item{database}{The online database used to obtain the taxonomic names (species,
 genus and family) for a given rank (species list in this function). The options
 are "ncbi" (default) or "itis".}

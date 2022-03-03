@@ -27,6 +27,7 @@
 #' @param obs.taxa A Boolean indicating if `taxa.levels` should be included in the returned list.
 #' @param phy.d.mat A Boolean indicating if phylogenetic distance matrix should be in the returned list.
 #' @param phylo.plot Boolean value indicating if the phylogenetic tree (cluster dendrogram) should be plotted.
+#' @param p.d.mat As for \link[msco]{gbsm}.
 #' @return Returns a `list` with the following outputs:
 #' * `s.data`: &nbsp;A `data.frame` with sites as columns and species as rows.
 #' * `taxa.levels`: &nbsp;A `data.frame` with the following columns:
@@ -141,9 +142,9 @@ s.phylo <- function(s.data, p.d.mat, database = "ncbi", obs.taxa=FALSE, taxa.lev
   }else{
     if(phylo.plot == TRUE){
       grDevices::pdf(file = paste0(system.file("ms", package = "msco"), "/Phylogenetic.tree.pdf"), paper="a4r", height = 8.27, width = 11.69)
-      dist.mat <- as.dist(p.d.mat)
+      dist.mat <- stats::as.dist(p.d.mat)
       dist.phy <- ape::nj(dist.mat)
-      vee <- root(dist.phy, row.names(p.d.mat)[1], resolve.root = TRUE)
+      vee <- ape::root(dist.phy, row.names(p.d.mat)[1], resolve.root = TRUE)
       ult <- phytools::force.ultrametric(vee, method= "extend")
       hc <- stats::as.hclust(ult)
       dend <- phylogram::as.dendrogram.phylo(vee)
