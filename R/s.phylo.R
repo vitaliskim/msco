@@ -94,7 +94,7 @@ s.phylo <- function(s.data, p.d.mat, database = "ncbi", obs.taxa=FALSE, taxa.lev
     kimm <- import::here("V.PhyloMaker", "nodes.info.1", "GBOTB.extended", "phylo.maker")
     vdat <- kimm$phylo.maker(sp.list = taxa, tree = kimm$GBOTB.extended)$scenario.3
     p.d.mat <- as.matrix(ape::cophenetic.phylo(vdat))
-  }else{
+  }else if(!is.null(p.d.mat)){
     p.d.mat <- p.d.mat
   }
 
@@ -139,7 +139,7 @@ s.phylo <- function(s.data, p.d.mat, database = "ncbi", obs.taxa=FALSE, taxa.lev
       grDevices::dev.off()
       print(noquote("Check msco's 'ms' folder in your R version's directory for a 'Phylogenetic.tree.pdf' file."))
     }
-  }else{
+  }else if(!is.null(p.d.mat)){
     if(phylo.plot == TRUE){
       grDevices::pdf(file = paste0(system.file("ms", package = "msco"), "/Phylogenetic.tree.pdf"), paper="a4r", height = 8.27, width = 11.69)
       dist.mat <- stats::as.dist(p.d.mat)
