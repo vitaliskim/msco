@@ -388,6 +388,7 @@ Jo.res <- function(){
 #'        s.data <- get(load("s.data.csv")) ##Species-by-site matrix
 #'        taxa <- get(load("taxa.levels.csv")) ##Species taxa
 #'        my.phylo.plot <- msco::s.phylo(s.data,
+#'                                  p.d.mat = NULL,
 #'                                  database = "ncbi",
 #'                                  obs.taxa = FALSE,
 #'                                  taxa.levels = taxa,
@@ -416,7 +417,6 @@ Jo.res <- function(){
 #'                          degree = 3,
 #'                          n = 1000,
 #'                          b.plots = TRUE,
-#'                          bsplines = "single",
 #'                          scat.plot = FALSE,
 #'                          response.curves = FALSE,
 #'                          leg = 1,

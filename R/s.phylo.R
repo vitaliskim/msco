@@ -57,7 +57,7 @@
 #' s.data <- get(load("s.data.csv"))
 #' taxa <- get(load("taxa.levels.csv"))
 #'
-#' my.s.phylo <- msco::s.phylo(s.data, database = "ncbi", obs.taxa=TRUE,
+#' my.s.phylo <- msco::s.phylo(s.data, p.d.mat = NULL, database = "ncbi", obs.taxa=TRUE,
 #'  taxa.levels = taxa, Obs.data=TRUE, phy.d.mat=TRUE, phylo.plot = TRUE)
 #'
 #' my.s.data <- my.s.phylo$s.data
@@ -78,7 +78,16 @@ s.phylo <- function(s.data, p.d.mat, database = "ncbi", obs.taxa=FALSE, taxa.lev
   #taxa
 
 
+  if(is.null(p.d.mat) & is.null(taxa.levels)){
+    stop("'p.d.mat' and 'taxa.levels' cannot be both NULL. Provide data for either of the two to proceed.")
+  }
+  if(!is.null(p.d.mat) & !is.null(taxa.levels)){
+    taxa.levels <- NULL
+    warning("'taxa.levels' not used.")
+  }
+
   ##Phylogenetic distance matrix
+  p.d.matt <- NULL
   if(is.null(p.d.mat)){
     if(is.null(taxa.levels)){
       vee <- taxize::tax_name(sci = c(row.names(s.data)), get = c("genus","family"), db = "ncbi")
@@ -93,26 +102,26 @@ s.phylo <- function(s.data, p.d.mat, database = "ncbi", obs.taxa=FALSE, taxa.lev
     }
     kimm <- import::here("V.PhyloMaker", "nodes.info.1", "GBOTB.extended", "phylo.maker")
     vdat <- kimm$phylo.maker(sp.list = taxa, tree = kimm$GBOTB.extended)$scenario.3
-    p.d.mat <- as.matrix(ape::cophenetic.phylo(vdat))
+    p.d.matt <- as.matrix(ape::cophenetic.phylo(vdat))
   }else if(!is.null(p.d.mat)){
-    p.d.mat <- p.d.mat
+    p.d.matt <- p.d.mat
   }
 
   ##Create a list of all outputs
   phylo.vee <- list()
-  if(nrow(p.d.mat) != nrow(s.data)){
-    warning(paste(deparse(setdiff(base::chartr(" ", "_", row.names(s.data)), row.names(p.d.mat))),
+  if(nrow(p.d.matt) != nrow(s.data)){
+    warning(paste(deparse(setdiff(base::chartr(" ", "_", row.names(s.data)), row.names(p.d.matt))),
                   " species failed to be binded to the tree", ". It was removed from s.data.",
                   sep = ""))
     st.data <- `row.names<-`(s.data, base::chartr(" ", "_", row.names(s.data)))
-    stt.data <- st.data[intersect(row.names(st.data), row.names(p.d.mat)),]
+    stt.data <- st.data[intersect(row.names(st.data), row.names(p.d.matt)),]
     sttt.data <- `row.names<-`(stt.data, base::sub("_", " ", row.names(stt.data)))
     if(Obs.data==TRUE){
       phylo.vee$s.data <- as.data.frame(sttt.data)
     }
-  }else if(nrow(p.d.mat) == nrow(s.data)){
+  }else if(nrow(p.d.matt) == nrow(s.data)){
     st.data <- `row.names<-`(s.data, base::chartr(" ", "_", row.names(s.data)))
-    stt.data <- st.data[intersect(row.names(st.data), row.names(p.d.mat)),]
+    stt.data <- st.data[intersect(row.names(st.data), row.names(p.d.matt)),]
     sttt.data <- `row.names<-`(stt.data, base::sub("_", " ", row.names(stt.data)))
     if(Obs.data==TRUE){
       phylo.vee$s.data <- as.data.frame(sttt.data)
@@ -125,7 +134,7 @@ s.phylo <- function(s.data, p.d.mat, database = "ncbi", obs.taxa=FALSE, taxa.lev
   }
 
   if(phy.d.mat==TRUE){
-    phylo.vee$phylogenetic.distance.matrix <- as.data.frame(p.d.mat)
+    phylo.vee$phylogenetic.distance.matrix <- as.data.frame(p.d.matt)
   }
 
   if(is.null(p.d.mat)){

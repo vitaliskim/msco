@@ -80,7 +80,7 @@ setwd(my.path)
 s.data <- get(load("s.data.csv"))
 taxa <- get(load("taxa.levels.csv"))
 
-my.s.phylo <- msco::s.phylo(s.data, database = "ncbi", obs.taxa=TRUE,
+my.s.phylo <- msco::s.phylo(s.data, p.d.mat = NULL, database = "ncbi", obs.taxa=TRUE,
  taxa.levels = taxa, Obs.data=TRUE, phy.d.mat=TRUE, phylo.plot = TRUE)
 
 my.s.data <- my.s.phylo$s.data
