@@ -1402,17 +1402,17 @@ mJo.eng <- function(my.files,
          tick = FALSE, padj= -1.5)
     graphics::hist(as.numeric(datf.Delta_AIc$Exp.pl.D_AIC), col = "blue",
          ylab = "No. of communities", xlab = "Delta_AIC", labels = FALSE,
-         main = "Exponential-Power law",
+         main = "Exponential-Power law", border = "blue",
          breaks = seq(range(as.numeric(datf.Delta_AIc$Exp.pl.D_AIC))[1],
                       ceiling(range(as.numeric(datf.Delta_AIc$Exp.pl.D_AIC))[2]),1))
     graphics::hist(as.numeric(datf.Delta_AIc$Exp.D_AIC), col = "red",
          ylab = "No. of communities", xlab = "Delta_AIC", labels = FALSE,
-         main = "Exponential",
+         main = "Exponential", border = "red",
          breaks = seq(range(as.numeric(datf.Delta_AIc$Exp.D_AIC))[1],
                       ceiling(range(as.numeric(datf.Delta_AIc$Exp.D_AIC))[2]), 1))
     graphics::hist(as.numeric(datf.Delta_AIc$Pl.D_AIC), col = "black",
          ylab = "No. of communities", xlab = "Delta_AIC", labels = FALSE,
-         main = "Power law",
+         main = "Power law", border = "black",
          breaks = seq(range(as.numeric(datf.Delta_AIc$Pl.D_AIC))[1],
                       ceiling(range(as.numeric(datf.Delta_AIc$Pl.D_AIC))[2]), 1))
   }
