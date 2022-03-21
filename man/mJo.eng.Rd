@@ -46,11 +46,12 @@ of joint occupancy decline regression models for all communities should be inclu
 
 \item{datf.Delta_AIC}{A Boolean indicating whether a \code{data.frame} with \code{Classes} and \code{Param.mods} as
 columns, where the former has 1, 2 and 3 values categorizing the three parametric models that has
-Delta_AIC=0 for each communities.}
+Delta_AIC=0 for each communities; and the later shows the respective parametric form of joint
+occupancy decline.}
 
-\item{param_hist}{A Boolean indicating whether a histogram of the number of communities where the
+\item{param_hist}{A Boolean indicating whether histograms of the number of communities where the
 three parametric forms (exponential, power law and exponential-power law) of joint occupancy
-decline had the lowest AIC values.}
+decline had the lowest AIC values, should be plotted.}
 
 \item{params}{A Boolean indicating whether parameter estimates of the joint occupancy decline
 regression models should be included in the output.}
