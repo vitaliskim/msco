@@ -12,12 +12,15 @@ execute the following code:\preformatted{  RNGkind(sample.kind = "Rejection")
   set.seed(39)
   my.path <- system.file("extdata/myCSVs", package = "msco")
   setwd(my.path)
-  my.files <- gtools::mixedsort(list.files(path = my.path, pattern = "*.csv"))
+  my.files <- gtools::mixedsort(list.files(path = my.path, pattern = ".csv"))
   Lag.res <- msco::mJo.eng(my.files,
                    algo = "sim2",
                    metric = "raw",
                    Archetypes = FALSE,
                    AICs = FALSE,
+                   Delta_AIC = FALSE,
+                   datf.Delta_AIC = TRUE,
+                   param_hist = TRUE,
                    params = FALSE,
                    my.r2 = FALSE,
                    my.r2.s = TRUE,
@@ -28,8 +31,8 @@ execute the following code:\preformatted{  RNGkind(sample.kind = "Rejection")
 
 }
 
-\strong{Caveat:} The above code can take approximately 10 minutes to execute. It took 10.39014 minutes to run
-(and output results) on a 64 bit system with 8 GB RAM and 3.60 GHz CPU.
+\strong{Caveat:} The above code can take approximately 8 minutes to execute. It took 8.210296 minutes to run
+(and output results) on a 64 bit system with 32 GB RAM and  i7-11800H \code{@} 2.30GHz processor.
 \itemize{
 \item \strong{Fig. 3} can be replicated using:
 }\preformatted{ grDevices::dev.new()
@@ -40,7 +43,7 @@ execute the following code:\preformatted{  RNGkind(sample.kind = "Rejection")
 \item \strong{Fig. S1} can be replicated using:
 }\preformatted{my.path <- system.file("extdata/myCSVs", package = "msco")
 setwd(my.path)
-my.files <- gtools::mixedsort(list.files(path = my.path, pattern = "*.csv"))
+my.files <- gtools::mixedsort(list.files(path = my.path, pattern = ".csv"))
 grDevices::dev.new()
 msco:::richness.variances(my.files)
 

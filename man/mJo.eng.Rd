@@ -11,6 +11,9 @@ mJo.eng(
   nReps = 999,
   Archetypes = FALSE,
   AICs = FALSE,
+  Delta_AIC = FALSE,
+  datf.Delta_AIC = FALSE,
+  param_hist = FALSE,
   params = FALSE,
   best.mod2 = FALSE,
   best.mod3 = FALSE,
@@ -38,6 +41,16 @@ of species co-occurrences in multiple communities should be included in the outp
 
 \item{AICs}{A Boolean indicating whether the akaike information criterion (AIC) and Delta AIC
 of joint occupancy decline regression models for all communities should be included in the output.}
+
+\item{Delta_AIC}{A Boolean indicating whether Delta AIC (excluding AIC) should be output.}
+
+\item{datf.Delta_AIC}{A Boolean indicating whether a \code{data.frame} with \code{Classes} and \code{Param.mods} as
+columns, where the former has 1, 2 and 3 values categorizing the three parametric models that has
+Delta_AIC=0 for each communities.}
+
+\item{param_hist}{A Boolean indicating whether a histogram of the number of communities where the
+three parametric forms (exponential, power law and exponential-power law) of joint occupancy
+decline had the lowest AIC values.}
 
 \item{params}{A Boolean indicating whether parameter estimates of the joint occupancy decline
 regression models should be included in the output.}

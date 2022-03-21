@@ -638,7 +638,6 @@ Jo.eng<-function(s.data, algo="sim2", metric = "raw", nReps = 999, dig = 3,
 
 
 
-
   jo.exp.coeff <-data.frame(t(as.matrix(c(stats::coef(jo.exp)[[1]],
                                           stats::coef(jo.exp)[[2]], NA))))
 

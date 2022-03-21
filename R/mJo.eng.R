@@ -43,8 +43,15 @@
 #'  of species co-occurrences in multiple communities should be included in the output.
 #' @param AICs A Boolean indicating whether the akaike information criterion (AIC) and Delta AIC
 #'  of joint occupancy decline regression models for all communities should be included in the output.
+#' @param Delta_AIC A Boolean indicating whether Delta AIC (excluding AIC) should be output.
+#' @param datf.Delta_AIC A Boolean indicating whether a `data.frame` with `Classes` and `Param.mods` as
+#'  columns, where the former has 1, 2 and 3 values categorizing the three parametric models that has
+#'   Delta_AIC=0 for each communities.
 #' @param params A Boolean indicating whether parameter estimates of the joint occupancy decline
 #'  regression models should be included in the output.
+#' @param param_hist A Boolean indicating whether a histogram of the number of communities where the
+#'  three parametric forms (exponential, power law and exponential-power law) of joint occupancy
+#'   decline had the lowest AIC values.
 #' @param best.mod2 A Boolean indicating if exponential and power law regression model comparisons
 #'  should be included in the output.
 #' @param best.mod3 A Boolean indicating if exponential, power law and exponential-power law
@@ -233,6 +240,9 @@ mJo.eng <- function(my.files,
                       nReps = 999,
                       Archetypes = FALSE,
                       AICs = FALSE,
+                      Delta_AIC = FALSE,
+                      datf.Delta_AIC = FALSE,
+                      param_hist = FALSE,
                       params = FALSE,
                       best.mod2 = FALSE,
                       best.mod3 = FALSE,
@@ -240,7 +250,7 @@ mJo.eng <- function(my.files,
                       my.r2 = FALSE,
                       my.r2.s = FALSE){
 
-  if(length(gtools::mixedsort(list.files(path = getwd(), pattern = "*.csv")))==0){
+  if(length(gtools::mixedsort(list.files(path = getwd(), pattern = ".csv")))==0){
     stop("No \`.csv\` binary matrices in your working directory. The \"my.files\" file path
          and the working directory should be the same.")
   }
@@ -250,6 +260,8 @@ mJo.eng <- function(my.files,
   nmstats <- list()
   nm_arch <- list()
   all.AICs <- list()
+  Delta_aic <- list()
+  datf.Delta_aic <- matrix(NA, nrow = length(my.files), ncol = 5)
   r2 <- list()
   myfiles = lapply(my.files, utils::read.csv, header=T)
   param <- matrix(NA, ncol = 8, nrow = length(myfiles))
@@ -263,6 +275,22 @@ mJo.eng <- function(my.files,
     nmstats[[j]] <- coe$nmod_stats ### StatisticsTable
     nm_arch[[j]] <- `names<-`(list(nmstats[[j]], Archs[[j]]), c("nmod_stats", "Archetype"))
     all.AICs[[j]] <- coe$AIC ### all. AICs
+    Delta_aic[[j]] <- `names<-`(as.data.frame(`rownames<-`(matrix(coe$AIC$Delta_AIC3, nrow=3),
+                                                                                       rownames(coe$AIC))), names(coe$AIC)[3])
+    if(min(Delta_aic[[j]])==Delta_aic[[j]][3,1]){
+      datf.Delta_aic[j,1] <- 1
+      datf.Delta_aic[j,2] <- "E-p"
+    }else if(min(Delta_aic[[j]])==Delta_aic[[j]][1,1]){
+      datf.Delta_aic[j,1] <- 2
+      datf.Delta_aic[j,2] <- "E"
+    }else if(min(Delta_aic[[j]])==Delta_aic[[j]][2,1]){
+      datf.Delta_aic[j,1] <- 3
+      datf.Delta_aic[j,2] <- "Pl"
+    }
+    datf.Delta_aic[j,3] <- round(Delta_aic[[j]][3,1], 4)
+    datf.Delta_aic[j,4] <- round(Delta_aic[[j]][1,1], 4)
+    datf.Delta_aic[j,5] <- round(Delta_aic[[j]][2,1], 4)
+
     r2[[j]] <- coe$r2 ### rsq
 
 
@@ -1359,14 +1387,46 @@ mJo.eng <- function(my.files,
   r2.s$rsq.per.Archs <- rsq[which(rowSums(rsq[,2:5]) > 0),]
   r2.s$rsq.all.Communities <- all.rsq
 
+  datf.Delta_AIc <- `colnames<-`(as.data.frame(datf.Delta_aic),
+                                 c("Classes", "Param.mods", "Exp.pl.D_AIC", "Exp.D_AIC", "Pl.D_AIC"))
+
   ####################################### END ######################################################
 
-  myres <-list()
+  myres <- list()
+  if(param_hist==TRUE){
+    graphics::hist(as.numeric(datf.Delta_AIc$Classes), labels = TRUE,
+                   col = c("blue", "red", "black"), breaks=seq(0, 3, 1), xaxt = "n",
+                   ylab = "No. of Communities", xlab = " ", main = "Three parametric models compared")
+    h <- graphics::hist(as.numeric(datf.Delta_AIc$Classes), plot = FALSE)
+    graphics::axis(1, at = c(0.5,1.5,2.5), labels = c("Exponential-P.law", "Exponential", "Power_law"),
+         tick = FALSE, padj= -1.5)
+    graphics::hist(as.numeric(datf.Delta_AIc$Exp.pl.D_AIC), col = "blue",
+         ylab = "No. of communities", xlab = "Delta_AIC", labels = FALSE,
+         main = "Exponential-Power law",
+         breaks = seq(range(as.numeric(datf.Delta_AIc$Exp.pl.D_AIC))[1],
+                      ceiling(range(as.numeric(datf.Delta_AIc$Exp.pl.D_AIC))[2]),1))
+    graphics::hist(as.numeric(datf.Delta_AIc$Exp.D_AIC), col = "red",
+         ylab = "No. of communities", xlab = "Delta_AIC", labels = FALSE,
+         main = "Exponential",
+         breaks = seq(range(as.numeric(datf.Delta_AIc$Exp.D_AIC))[1],
+                      ceiling(range(as.numeric(datf.Delta_AIc$Exp.D_AIC))[2]), 1))
+    graphics::hist(as.numeric(datf.Delta_AIc$Pl.D_AIC), col = "black",
+         ylab = "No. of communities", xlab = "Delta_AIC", labels = FALSE,
+         main = "Power law",
+         breaks = seq(range(as.numeric(datf.Delta_AIc$Pl.D_AIC))[1],
+                      ceiling(range(as.numeric(datf.Delta_AIc$Pl.D_AIC))[2]), 1))
+  }
   if(Archetypes == TRUE){
     myres$Archs <- `names<-`(nm_arch, my.files)
   }
   if(AICs == TRUE){
     myres$all.AICs <- `names<-`(all.AICs, my.files)
+  }
+  if(Delta_AIC==TRUE){
+    myres$Delta_AIC <- `names<-`(Delta_aic, my.files)
+  }
+  if(datf.Delta_AIC==TRUE){
+    myres$datf.Delta_AIC <- datf.Delta_AIc
   }
   if(my.r2 == TRUE){
     myres$r2 <- `names<-`(r2, my.files)

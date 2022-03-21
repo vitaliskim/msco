@@ -263,12 +263,15 @@ j.occs<-function(s.data, orders = 1:nrow(s.data), metric = "raw"){
 #'    set.seed(39)
 #'    my.path <- system.file("extdata/myCSVs", package = "msco")
 #'    setwd(my.path)
-#'    my.files <- gtools::mixedsort(list.files(path = my.path, pattern = "*.csv"))
+#'    my.files <- gtools::mixedsort(list.files(path = my.path, pattern = ".csv"))
 #'    Lag.res <- msco::mJo.eng(my.files,
 #'                     algo = "sim2",
 #'                     metric = "raw",
 #'                     Archetypes = FALSE,
 #'                     AICs = FALSE,
+#'                     Delta_AIC = FALSE,
+#'                     datf.Delta_AIC = TRUE,
+#'                     param_hist = TRUE,
 #'                     params = FALSE,
 #'                     my.r2 = FALSE,
 #'                     my.r2.s = TRUE,
@@ -279,8 +282,8 @@ j.occs<-function(s.data, orders = 1:nrow(s.data), metric = "raw"){
 #'
 #'  ```
 #'
-#'  **Caveat:** The above code can take approximately 10 minutes to execute. It took 10.39014 minutes to run
-#'   (and output results) on a 64 bit system with 8 GB RAM and 3.60 GHz CPU.
+#'  **Caveat:** The above code can take approximately 8 minutes to execute. It took 8.210296 minutes to run
+#'   (and output results) on a 64 bit system with 32 GB RAM and  i7-11800H `@` 2.30GHz processor.
 #'
 #'  * __Fig. 3__ can be replicated using:
 #'  ```
@@ -292,7 +295,7 @@ j.occs<-function(s.data, orders = 1:nrow(s.data), metric = "raw"){
 #'  ```
 #'  my.path <- system.file("extdata/myCSVs", package = "msco")
 #'  setwd(my.path)
-#'  my.files <- gtools::mixedsort(list.files(path = my.path, pattern = "*.csv"))
+#'  my.files <- gtools::mixedsort(list.files(path = my.path, pattern = ".csv"))
 #'  grDevices::dev.new()
 #'  msco:::richness.variances(my.files)
 #'
