@@ -280,6 +280,28 @@ j.occs<-function(s.data, orders = 1:nrow(s.data), metric = "raw"){
 #'                     params_c.i = TRUE
 #'                    );Lag.res
 #'
+#'    graphics::hist(as.numeric(Lag.res$datf.Delta_AIc$Classes), labels = TRUE,
+#'               col = c("blue", "red", "black"), breaks=seq(0, 3, 1), xaxt = "n",
+#'               ylab = "No. of Communities", xlab = " ", main = "Three parametric models compared")
+#'    h <- graphics::hist(as.numeric(Lag.res$datf.Delta_AIc$Classes), plot = FALSE)
+#'    graphics::axis(1, at = c(0.5,1.5,2.5), labels = c("Exponential-P.law", "Exponential", "Power_law"),
+#'               tick = FALSE, padj= -1.5)
+#'    graphics::hist(as.numeric(Lag.res$datf.Delta_AIc$Exp.pl.D_AIC), col = "blue",
+#'               ylab = "No. of communities", xlab = "Delta_AIC", labels = FALSE,
+#'               main = "Exponential-Power law", border = "blue",
+#'               breaks = seq(range(as.numeric(Lag.res$datf.Delta_AIc$Exp.pl.D_AIC))[1],
+#'                            ceiling(range(as.numeric(Lag.res$datf.Delta_AIc$Exp.pl.D_AIC))[2]),1))
+#'    graphics::hist(as.numeric(Lag.res$datf.Delta_AIc$Exp.D_AIC), col = "red",
+#'               ylab = "No. of communities", xlab = "Delta_AIC", labels = FALSE,
+#'               main = "Exponential", border = "red",
+#'               breaks = seq(range(as.numeric(Lag.res$datf.Delta_AIc$Exp.D_AIC))[1],
+#'                            ceiling(range(as.numeric(Lag.res$datf.Delta_AIc$Exp.D_AIC))[2]), 1))
+#'    graphics::hist(as.numeric(Lag.res$datf.Delta_AIc$Pl.D_AIC), col = "black",
+#'               ylab = "No. of communities", xlab = "Delta_AIC", labels = FALSE,
+#'               main = "Power law", border = "black",
+#'               breaks = seq(range(as.numeric(Lag.res$datf.Delta_AIc$Pl.D_AIC))[1],
+#'                            ceiling(range(as.numeric(Lag.res$datf.Delta_AIc$Pl.D_AIC))[2]), 1))
+#'
 #'  ```
 #'
 #'  **Caveat:** The above code can take approximately 8 minutes to execute. It took 8.210296 minutes to run
