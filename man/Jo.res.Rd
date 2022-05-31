@@ -8,7 +8,9 @@ Jo.res()
 }
 \value{
 Returns all the results presented in Lagat \emph{et al}. (2021a). To replicate these results,
-execute the following code:\preformatted{  RNGkind(sample.kind = "Rejection")
+execute the following code:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{  RNGkind(sample.kind = "Rejection")
   set.seed(39)
   my.path <- system.file("extdata/myCSVs", package = "msco")
   setwd(my.path)
@@ -28,25 +30,29 @@ execute the following code:\preformatted{  RNGkind(sample.kind = "Rejection")
                    best.mod3 = TRUE,
                    params_c.i = TRUE
                   );Lag.res
-}
+}\if{html}{\out{</div>}}
 
 \strong{Caveat:} The above code can take approximately 8 minutes to execute. It took 8.210296 minutes to run
 (and output results) on a 64 bit system with 32 GB RAM and  i7-11800H \code{@} 2.30GHz processor.
 \itemize{
 \item \strong{Fig. 3} can be replicated using:
-}\preformatted{ grDevices::dev.new()
+}
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{ grDevices::dev.new()
  msco:::nullmod_archs()
 
-}
+}\if{html}{\out{</div>}}
 \itemize{
 \item \strong{Fig. S1} can be replicated using:
-}\preformatted{my.path <- system.file("extdata/myCSVs", package = "msco")
+}
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{my.path <- system.file("extdata/myCSVs", package = "msco")
 setwd(my.path)
 my.files <- gtools::mixedsort(list.files(path = my.path, pattern = ".csv"))
 grDevices::dev.new()
 msco:::richness.variances(my.files)
 
-}
+}\if{html}{\out{</div>}}
 }
 \description{
 This function allows the replication of the results presented in Lagat \emph{et al}. (2021a). Executing

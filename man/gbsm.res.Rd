@@ -9,7 +9,9 @@ gbsm.res()
 \value{
 Returns all the results presented in Lagat \emph{et al}. (2021b). To replicate
 \itemize{
-\item \strong{Figs. 1}, \strong{3}, \strong{4}, \strong{5}, and \strong{Tables 1} and \strong{S1}, execute the following code:\preformatted{
+\item \strong{Figs. 1}, \strong{3}, \strong{4}, \strong{5}, and \strong{Tables 1} and \strong{S1}, execute the following code:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{
  my.path <- system.file("extdata/gsmdat", package = "msco")
  setwd(my.path)
  s.data <- get(load("s.data.csv")) ##Species-by-site matrix
@@ -47,11 +49,13 @@ Returns all the results presented in Lagat \emph{et al}. (2021b). To replicate
                                         ## covariates with VIF > max.vif2
 
 
-}
+}\if{html}{\out{</div>}}
 \item \strong{Figs. S1, 2,} and \strong{S2}, execute the following codes:
 \itemize{
 \item \strong{Fig. S1}:
-}\preformatted{  remotes::install_github("jinyizju/V.PhyloMaker", force = TRUE)
+}
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{  remotes::install_github("jinyizju/V.PhyloMaker", force = TRUE)
   library(V.PhyloMaker)
   my.path <- system.file("extdata/gsmdat", package = "msco")
   setwd(my.path)
@@ -66,10 +70,12 @@ Returns all the results presented in Lagat \emph{et al}. (2021b). To replicate
                             phy.d.mat = FALSE,
                             phylo.plot = TRUE)
 
-}
+}\if{html}{\out{</div>}}
 \itemize{
 \item \strong{Fig. 2}:
-}\preformatted{  my.path <- system.file("extdata/gsmdat", package = "msco")
+}
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{  my.path <- system.file("extdata/gsmdat", package = "msco")
   setwd(my.path)
   s.data <- get(load("s.data.csv")) ##Species-by-site matrix
   t.data <- get(load("t.data.csv")) ##Species-by-trait matrix
@@ -94,10 +100,12 @@ Returns all the results presented in Lagat \emph{et al}. (2021b). To replicate
                     start.range=c(-0.1,0)
                   )
 
-}
+}\if{html}{\out{</div>}}
 \itemize{
 \item \strong{Fig. 6}:
-}\preformatted{  my.path <- system.file("extdata/gsmdat", package = "msco")
+}
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{  my.path <- system.file("extdata/gsmdat", package = "msco")
   setwd(my.path)
   s.data <- get(load("s.data.csv")) ##Species-by-site matrix
   t.data <- get(load("t.data.csv")) ##Species-by-trait matrix
@@ -116,7 +124,7 @@ Returns all the results presented in Lagat \emph{et al}. (2021b). To replicate
                       n = 1000,
                       start.range = c(-0.2, 0)
                     )
-}
+}\if{html}{\out{</div>}}
 }
 
 \strong{Caveat:} The above codes can collectively take approximately 7 minutes to execute

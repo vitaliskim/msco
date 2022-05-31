@@ -9,7 +9,9 @@ msco.res()
 \value{
 Returns all the results presented in Lagat \emph{et al}. (2021c). To replicate
 \itemize{
-\item \strong{Figs. 1}, \strong{2} and \strong{Table 2}, execute the following code:\preformatted{
+\item \strong{Figs. 1}, \strong{2} and \strong{Table 2}, execute the following code:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{
  RNGkind(sample.kind = "Rejection")
  set.seed(14)
  ex.data <- read.csv(system.file("extdata", "251.csv", package = "msco"))
@@ -49,14 +51,18 @@ Returns all the results presented in Lagat \emph{et al}. (2021c). To replicate
  grDevices::dev.new()
  j.en$all.plots
 
-}
-\item \strong{Fig. 4}, execute the following code:\preformatted{ RNGkind(sample.kind = "Rejection")
+}\if{html}{\out{</div>}}
+\item \strong{Fig. 4}, execute the following code:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{ RNGkind(sample.kind = "Rejection")
  set.seed(14)
  grDevices::dev.new()
  msco:::nullmod_archs2()
 
-}
-\item \strong{Fig. 5}, execute the following code:\preformatted{
+}\if{html}{\out{</div>}}
+\item \strong{Fig. 5}, execute the following code:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{
  my.path <- system.file("extdata/gsmdat", package = "msco")
  setwd(my.path)
  s.data <- get(load("s.data.csv")) #Species-by-site matrix
@@ -91,7 +97,7 @@ Returns all the results presented in Lagat \emph{et al}. (2021c). To replicate
  gb.res$Final.VIFs$`order 3` ## Resulting covariate VIFs after removing
                                  ## covariates with VIF > max.vif2
 
-}
+}\if{html}{\out{</div>}}
 }
 }
 \description{
