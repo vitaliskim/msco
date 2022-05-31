@@ -137,15 +137,22 @@ gbsm <- function(s.data, t.data, p.d.mat, metric= "Simpson_eqn", d.f=4, order.jo
     }
   }
 
-  t.data<- t.data[-which(rowSums(s.data)==0),]
-  p.d.mat <- p.d.mat[-which(rowSums(s.data)==0),-which(rowSums(s.data)==0)]
-  s.data <- s.data[rowSums(s.data) > 0, ] ## Remove rows with no species
-
-  if(!is.null(t.data)){
-    for (i in 1:ncol(t.data)) {
-      t.data[, i] <- (t.data[, i] - min(t.data[, i]))/(max(t.data[, i])-min(t.data[, i]))
-    }
+  if(length(which(rowSums(s.data)==0))>0){
+    t.data<- t.data[-which(rowSums(s.data)==0),]
+    p.d.mat <- p.d.mat[-which(rowSums(s.data)==0),-which(rowSums(s.data)==0)]
+    s.data <- s.data[rowSums(s.data) > 0, ] ## Remove rows with no species
+  }else{
+    t.data <- t.data
+    s.data <- s.data
+    p.d.mat <- p.d.mat
   }
+
+
+  # if(!is.null(t.data)){
+  #   for (i in 1:ncol(t.data)) {
+  #     t.data[, i] <- (t.data[, i] - min(t.data[, i]))/(max(t.data[, i])-min(t.data[, i]))
+  #   }
+  # }
 
 
 
