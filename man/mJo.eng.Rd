@@ -238,7 +238,7 @@ data matrices at once. If one community matrix is analyzed, the outputs of the f
 
 my.path <- system.file("extdata", package = "msco")
 setwd(my.path)
-my.files <- gtools::mixedsort(list.files(path = my.path, pattern = "*.csv"))
+my.files <- gtools::mixedsort(list.files(path = my.path, pattern = ".csv"))
 my.res <- msco::mJo.eng(my.files = my.files, algo = "sim2", Archetypes = TRUE,
              metric = "raw", nReps = 999, AICs = FALSE, params = FALSE,
              best.mod2 = FALSE, best.mod3 = FALSE, params_c.i = FALSE,
@@ -247,7 +247,7 @@ my.res$Archs$`252.csv`
 
 my.path2 <- system.file("extdata/myCSVs", package = "msco")
 setwd(my.path2)
-my.files2 <- gtools::mixedsort(list.files(path = my.path2, pattern = "*.csv"))
+my.files2 <- gtools::mixedsort(list.files(path = my.path2, pattern = ".csv"))
 my.res2 <- msco::mJo.eng(my.files = my.files2[250:255], algo = "sim2", Archetypes = FALSE,
               metric = "raw", nReps = 999, AICs = FALSE, params = TRUE,
               best.mod2 = FALSE, best.mod3 = FALSE, params_c.i = FALSE,
@@ -256,7 +256,7 @@ my.res2
 
 my.path2 <- system.file("extdata/myCSVs", package = "msco")
 setwd(my.path2)
-my.files2 <- gtools::mixedsort(list.files(path = my.path2, pattern = "*.csv"))
+my.files2 <- gtools::mixedsort(list.files(path = my.path2, pattern = ".csv"))
 my.res3 <- msco::mJo.eng(my.files = my.files2[250:255], algo = "sim2", Archetypes = FALSE,
               metric = "raw", nReps = 999, AICs = FALSE, params = FALSE,
               best.mod2 = FALSE, best.mod3 = FALSE, params_c.i = TRUE,

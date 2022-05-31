@@ -444,11 +444,15 @@ Jo.eng<-function(s.data, algo="sim2", metric = "raw", nReps = 999, dig = 3,
 
   ##################### (a) joint occupancy decline ############################
 
-  lObs <- log10(Obs)
+  Obs <- jo.exps(s.data,1:nrow(s.data), metric = metric)
   s.order <- 1:nrow(s.data)
-  jod <- data.frame(s.order,lObs)
+  ls.order <- log10(s.order)
+
+  lObs <- log10(Obs)
+  jod <- data.frame(Obs, s.order, ls.order, lObs)
   jod <- do.call(data.frame, lapply(jod, function(x){
     replace(x, is.infinite(x) | is.na(x), NA)}))
+
   jod <- jod[stats::complete.cases(jod),]
   lObs <- jod$lObs
   s.order <- jod$s.order
@@ -513,16 +517,22 @@ Jo.eng<-function(s.data, algo="sim2", metric = "raw", nReps = 999, dig = 3,
 
   ##################### (b) Exponential regression #############################
 
-  fm <- stats::lm(jod$lObs ~ jod$s.order, na.action = stats::na.omit)
-  s.order <- seq(nrow(s.data))
+  lObs <- jod$lObs
+  s.order <- jod$s.order
+  Obs <- jod$Obs
+
+  fm <- stats::lm(lObs ~ s.order, na.action = stats::na.omit)
   jo.exp <- suppressWarnings(minpack.lm::nlsLM(Obs ~ p * exp(q * s.order),
                                                start =list(p=exp(stats::coef(fm)[1]), q=stats::coef(fm)[2])))
+
   pred.exp <- log10(stats::predict(jo.exp, data.frame(s.order)))
-  pred.exp[is.infinite(pred.exp)]<-NA
-  lObs <- log10(Obs)
-  lObs[is.infinite(lObs)]<-NA
   jode <- data.frame(s.order, lObs, pred.exp)
+  do.call(data.frame, lapply(jode, function(x){
+    replace(x, is.infinite(x) | is.na(x), NA)}))
+
   jode <- jode[stats::complete.cases(jode),]
+  s.order <- jode$s.order
+  pred.exp <- jode$pred.exp
 
   p2 <- ggplot2::ggplot(jode, ggplot2::aes(x=s.order, y=lObs)) +
     ggplot2::theme_grey() +
@@ -544,17 +554,20 @@ Jo.eng<-function(s.data, algo="sim2", metric = "raw", nReps = 999, dig = 3,
 
   ##################### (c) Power-law regression ##############################
 
-  ls.order = log10(jod$s.order)
-  fmp <- stats::lm(jod$lObs ~ ls.order, na.action = stats::na.omit)
-  s.order <- seq(nrow(s.data))
+  Obs <- jod$Obs
+  s.order <- jod$s.order
+  lObs <- jod$lObs
+  ls.order <- jod$ls.order
+  fmp <- stats::lm(lObs ~ ls.order, na.action = stats::na.omit)
+
   jo.pl <- suppressWarnings(minpack.lm::nlsLM(Obs ~ m * (s.order)^n,
-                                              start =list(m=1, n=stats::coef(fmp)[2])))
+                                              start =list(m=exp(stats::coef(fmp)[1]), n=stats::coef(fmp)[2])))
   pred.pl <- log10(stats::predict(jo.pl, data.frame(s.order)))
   pred.pl[is.infinite(pred.pl)]<-NA
-  lObs <- log10(Obs)
-  lObs[is.infinite(lObs)]<-NA
   jodpl <- data.frame(s.order,lObs, pred.pl)
   jodpl <- jodpl[stats::complete.cases(jodpl),]
+  s.order <- jodpl$s.order
+  pred.pl <- jodpl$pred.pl
 
   p3 <- ggplot2::ggplot(jodpl, ggplot2::aes(x=s.order, y=lObs)) +
     ggplot2::theme_grey() +
@@ -580,13 +593,14 @@ Jo.eng<-function(s.data, algo="sim2", metric = "raw", nReps = 999, dig = 3,
 
 
   s.order <- seq(nrow(s.data))
-  jo.exp.pl <- suppressWarnings(minpack.lm::nlsLM(Obs~a*exp(b*s.order)*s.order^c,
+  Obs <- jo.exps(s.data,1:nrow(s.data), metric = metric)
+  lObs <- log10(Obs)
+  lObs[is.infinite(lObs)]<-NA
+  jo.exp.pl <- suppressWarnings(minpack.lm::nlsLM(Obs ~ a*exp(b*s.order)*s.order^c,
                                                   start=list(a=1, b=0, c=0)))
   pred.exp.pl <- log10(stats::predict(jo.exp.pl, data.frame(s.order)))
   pred.exp.pl[is.infinite(pred.exp.pl)]<-NA
-  lObs <- log10(Obs)
-  lObs[is.infinite(lObs)]<-NA
-  jodepl <- data.frame(s.order,lObs, pred.exp.pl)
+  jodepl <- data.frame(s.order, lObs, pred.exp.pl)
   jodepl <- jodepl[stats::complete.cases(jodepl),]
 
   p4 <- ggplot2::ggplot(jodepl, ggplot2::aes(x=s.order, y=lObs)) +
@@ -615,22 +629,22 @@ Jo.eng<-function(s.data, algo="sim2", metric = "raw", nReps = 999, dig = 3,
   trunc <- function(x, ..., prec = 0) base::trunc(x * 10^prec, ...) / 10^prec
   rsq <- function (x, y) stats::cor(x, y) ^ 2
 
-  pred.exp <- stats::predict(jo.exp, data.frame(s.order))
-  pred.pl <- stats::predict(jo.pl, data.frame(s.order))
-  pred.exp.pl <- stats::predict(jo.exp.pl, data.frame(s.order))
+  # pred.exp <- stats::predict(jo.exp, data.frame(s.order))
+  # pred.pl <- stats::predict(jo.pl, data.frame(s.order))
+  # pred.exp.pl <- stats::predict(jo.exp.pl, data.frame(s.order))
 
-  exp.r2 <- trunc(rsq(Obs, pred.exp),prec=4)
-  pl.r2 <-  trunc(rsq(Obs, pred.pl),prec=4)
-  exp.pl.r2 <- trunc(rsq(Obs, pred.exp.pl),prec=4)
+  exp.r2 <- trunc(rsq(jode$lObs, jode$pred.exp),prec=4)
+  pl.r2 <-  trunc(rsq(jodpl$lObs, jodpl$pred.pl),prec=4)
+  exp.pl.r2 <- trunc(rsq(jodepl$lObs, jodepl$pred.exp.pl),prec=4)
 
   rsq <- c(exp.r2, pl.r2, exp.pl.r2)
 
   ########## AIC for exp, p.law & exp-p.law models ##################
 
-  aic1 <- stats::AIC(jo.exp, jo.pl, jo.exp.pl)
+  aic1 <- suppressWarnings(stats::AIC(jo.exp, jo.pl, jo.exp.pl))
   Delta_AIC3 <- (aic1[,2])-min(aic1[,2])
 
-  aic3 <- stats::AIC(jo.exp, jo.pl)
+  aic3 <- suppressWarnings(stats::AIC(jo.exp, jo.pl))
   Delta_AIC2 <- (aic3[,2])-min(aic3[,2])
 
   Delta_AIC2 <- c(Delta_AIC2, NA)
@@ -818,10 +832,10 @@ Jo.eng<-function(s.data, algo="sim2", metric = "raw", nReps = 999, dig = 3,
     jo.engine$r2 <- rsq
   }
   if(Exp_Reg == TRUE){
-    jo.engine$Exp_reg <- jo.exp
+    jo.engine$Exp_reg <- fm
   }
   if(P.law_Reg == TRUE){
-    jo.engine$P.law_reg <- jo.pl
+    jo.engine$P.law_reg <- fmp
   }
   if(Exp_p.l_Reg == TRUE){
     jo.engine$Exp_p.l_reg <- jo.exp.pl
