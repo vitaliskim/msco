@@ -182,6 +182,10 @@ gbsm_m.orders <- function(s.data, t.data, p.d.mat, metric="Simpson_eqn", orders,
                           p=0.8, type="k-fold", gbsm.model, scat.plots=FALSE, response.curves=TRUE,
                           j.occs.distrbn=FALSE, mp.plots=FALSE, max.vif=20, max.vif2=10, start.range=c(-0.1,0)){
 
+  t.data<- t.data[-which(rowSums(s.data)==0),]
+  p.d.mat <- p.d.mat[-which(rowSums(s.data)==0),-which(rowSums(s.data)==0)]
+  s.data <- s.data[rowSums(s.data) > 0, ] ## Remove rows with no species
+
   if(length(orders) < 4){
     grDevices::pdf(file = paste0(system.file("ms", package = "msco"), "/plots.gbsm.pdf"), height = 5.8, width = 5.8)
   }else{

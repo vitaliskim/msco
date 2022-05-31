@@ -113,6 +113,10 @@ gbsm <- function(s.data, t.data, p.d.mat, metric= "Simpson_eqn", d.f=4, order.jo
                  gbsm.model, scat.plot=TRUE, response.curves=TRUE, ylabel=TRUE, leg=1, max.vif = 20, max.vif2 = 10,
                  start.range=c(-0.1,0)){
 
+  t.data<- t.data[-which(rowSums(s.data)==0),]
+  p.d.mat <- p.d.mat[-which(rowSums(s.data)==0),-which(rowSums(s.data)==0)]
+  s.data <- s.data[rowSums(s.data) > 0, ] ## Remove rows with no species
+
   if(!is.null(t.data)){
     if(class(t.data)!="data.frame"){
       t.data <- as.data.frame(t.data)
