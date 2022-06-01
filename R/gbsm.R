@@ -563,7 +563,7 @@ gbsm <- function(s.data, t.data, p.d.mat, metric= "Simpson_eqn", d.f=4, order.jo
   if(length(model$coefficients)>2){
     Intermediate.VIFs <- car::vif(model)
   }else{
-    Intermediate.VIFs <- print("Not computed, since the model has fewer than 2 items")
+    Intermediate.VIFs <- print("Intermediate.VIFs Not computed, since the model has fewer than 2 items")
   }
 
 
@@ -595,7 +595,7 @@ gbsm <- function(s.data, t.data, p.d.mat, metric= "Simpson_eqn", d.f=4, order.jo
   if(length(model$coefficients)>2){
     Final.VIFs <- car::vif(model)
   }else{
-    Final.VIFs <- print("Not computed, since the model has fewer than 2 items")
+    Final.VIFs <- print("Final.VIFs Not computed, since the model has fewer than 2 items")
   }
 
   mysum <- summary(model)
