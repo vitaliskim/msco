@@ -2,12 +2,12 @@
 % Please edit documentation in R/J.occupancy.R
 \name{gbsm.res}
 \alias{gbsm.res}
-\title{Results on generalised B-spline modelling (presented in Lagat et al., 2021b)}
+\title{Results on generalised B-spline modelling (presented in Lagat et al., 2023b)}
 \usage{
 gbsm.res()
 }
 \value{
-Returns all the results presented in Lagat \emph{et al}. (2021b). To replicate
+Returns all the results presented in Lagat \emph{et al}. (2023b). To replicate
 \itemize{
 \item \strong{Figs. 1}, \strong{3}, \strong{4}, \strong{5}, and \strong{Tables 1} and \strong{S1}, execute the following code:
 
@@ -133,14 +133,14 @@ to run (and output results) on a 64 bit system with 8 GB RAM and 3.60 GHz CPU.
 }
 \description{
 This function allows the replication of the results on generalised B-spline modelling, presented
-in Lagat \emph{et al}. (2021b). Executing \code{gbsm.res()} therefore gives these outputs that are saved
+in Lagat \emph{et al}. (2023b). Executing \code{gbsm.res()} therefore gives these outputs that are saved
 as \code{.RDS} files in \code{msco}. If the codes that produced these (saved) outcomes are desired, the
 codes below are made available.
 }
 \note{
 The function \link[msco]{gbsm.res} is not for general use. We included it in this package to help
-the readers of Lagat \emph{et al}. (2021b) paper, who may want to get a deeper understanding of how the results
-presented in this paper were arrived at. It also allows deeper scrutiny of Lagat \emph{et al}. (2021b)'s
+the readers of Lagat \emph{et al}. (2023b) paper, who may want to get a deeper understanding of how the results
+presented in this paper were arrived at. It also allows deeper scrutiny of Lagat \emph{et al}. (2023b)'s
 findings.
 }
 \examples{
@@ -156,7 +156,7 @@ gbs.res$Final.VIFs$`order 3`
 }
 }
 \references{
-Lagat, V. K., Latombe, G. and Hui, C. (2021b). \emph{Dissecting the effects
+Lagat, V. K., Latombe, G. and Hui, C. (2023b). \emph{Dissecting the effects
 of random encounter versus functional trait mismatching on multi-species
 co-occurrence and interference with generalised B-spline modelling}. DOI: \verb{<To be added>}.
 }

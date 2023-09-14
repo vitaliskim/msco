@@ -37,6 +37,6 @@ jos2 <- msco::j.occs(ex.data2, orders = 1:nrow(ex.data), metric = "raw")
 jos2
 }
 \references{
-Lagat, V. K., Latombe, G. and Hui, C. (2021a). \emph{A multi-species co-occurrence
+Lagat, V. K., Latombe, G. and Hui, C. (2023a). \emph{A multi-species co-occurrence
 index to avoid type II errors in null model testing}. DOI: \verb{<To be added>}.
 }

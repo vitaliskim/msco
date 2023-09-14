@@ -2,12 +2,12 @@
 % Please edit documentation in R/J.occupancy.R
 \name{Jo.res}
 \alias{Jo.res}
-\title{Results on joint occupancy index (presented in Lagat et al., 2021a)}
+\title{Results on joint occupancy index (presented in Lagat et al., 2023a)}
 \usage{
 Jo.res()
 }
 \value{
-Returns all the results presented in Lagat \emph{et al}. (2021a). To replicate these results,
+Returns all the results presented in Lagat \emph{et al}. (2023a). To replicate these results,
 execute the following code:
 
 \if{html}{\out{<div class="sourceCode">}}\preformatted{  RNGkind(sample.kind = "Rejection")
@@ -55,14 +55,14 @@ msco:::richness.variances(my.files)
 }\if{html}{\out{</div>}}
 }
 \description{
-This function allows the replication of the results presented in Lagat \emph{et al}. (2021a). Executing
+This function allows the replication of the results presented in Lagat \emph{et al}. (2023a). Executing
 \code{Jo.res()} therefore gives these outputs that are saved as \code{.RDS} files in \code{msco}. If the codes that
 produced these (saved) outcomes are desired, the codes below are made available.
 }
 \note{
 The function \link[msco]{Jo.res} is not for general use. We included it in this package to help
-the readers of Lagat \emph{et al}. (2021a) paper, who may want to get a deeper understanding of how the results
-presented in this paper were arrived at. It also allows deeper scrutiny of Lagat \emph{et al}. (2021a)'s
+the readers of Lagat \emph{et al}. (2023a) paper, who may want to get a deeper understanding of how the results
+presented in this paper were arrived at. It also allows deeper scrutiny of Lagat \emph{et al}. (2023a)'s
 findings.
 }
 \examples{
@@ -76,6 +76,6 @@ ms.res$params_c.i
 }
 }
 \references{
-Lagat, V. K., Latombe, G. and Hui, C. (2021a). \emph{A multi-species co-occurrence
+Lagat, V. K., Latombe, G. and Hui, C. (2023a). \emph{A multi-species co-occurrence
 index to avoid type II errors in null model testing}. DOI: \verb{<To be added>}.
 }

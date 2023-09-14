@@ -11,7 +11,7 @@
 #'  \item{A1}{The joint occupancy value of the observed community matrix (observed; dark solid line) is above the null
 #'   model. This means the null hypothesis (i.e. a statement that imply any change in the observed patterns do
 #'    not reflect any community assembly process as underlying cause) should be rejected, confirming the presence of a
-#'    mechanism of interest being tested (Lagat *et al.,* 2021a). It is typical of a community whose
+#'    mechanism of interest being tested (Lagat *et al.,* 2023a). It is typical of a community whose
 #'    species are positively associated (or aggregated) more often than would be expected by chance.
 #'     Such patterns of community structure may arise from a number of ecological mechanisms
 #'      including environmental filtering or shared habitat requirements (Cordero and Jackson,
@@ -20,39 +20,39 @@
 #'   for \eqn{i \ge 3}. This implies a pairwise metric detects a non-random pattern of the community
 #'   structure, but when higher order species are considered, a random pattern is produced. This is
 #'    typical of a community whose species are aggregated more often than by chance in sites with few
-#'     species than in sites with many species (Lagat *et al.,* 2021a).}
+#'     species than in sites with many species (Lagat *et al.,* 2023a).}
 #'  \item{A3}{The observed is greater than null expectation for lower orders, within null expectation for
 #'   medium orders, and less than null expectation for higher orders. This means species co-occur more
 #'    often than by chance in sites with few species, but are segregated more often than by chance in
 #'     sites with many species, depicting a community structured by two different community assembly
-#'      processes (Lagat *et al.,* 2021a).}
+#'      processes (Lagat *et al.,* 2023a).}
 #'  \item{A4}{The observed is within null expectation for `i = 2` but greater than null expectation for
 #'   \eqn{i \ge 3}. This means when use pairwise co-occurrence is used, the null hypothesis is not
 #'    rejected, but when joint occupancy is used, the same null hypothesis is rejected. I.e., pairwise
 #'     co-occurrence fails at detecting patterns of aggregation for sites with many species, i.e. a
-#'      type II error or false negative (Lagat *et al.,* 2021a).}
+#'      type II error or false negative (Lagat *et al.,* 2023a).}
 #'  \item{A5}{The observed is within the null expectation for all orders \eqn{i \ge 2}, implying the
 #'   test is not statistically significant. This has been ecologically inferred to mean ecological
 #'    communities are random and that no community assembly processes or mechanisms influence their
-#'     structure (Lagat *et al.,* 2021a; Cordero and Jackson, 2019; Gotelli and Sounding, 2001).}
+#'     structure (Lagat *et al.,* 2023a; Cordero and Jackson, 2019; Gotelli and Sounding, 2001).}
 #'  \item{A6}{The observed is within the null expectation for `i = 2` but less than the null expectation
 #'   for \eqn{i \ge 3}. This means when use pairwise co-occurrence is used, the null hypothesis is not
 #'    rejected, but when joint occupancy is used, the same null hypothesis is rejected. I.e., pairwise
 #'     co-occurrence fails at detecting patterns of segregation for sites with many species, i.e. a
-#'      type II error or false negative (Lagat *et al.,* 2021a).}
+#'      type II error or false negative (Lagat *et al.,* 2023a).}
 #'  \item{A7}{The observed is less than null expectation for lower orders, within null expectation
 #'   for medium orders, and greater than null expectation for higher orders. Implying species are
 #'    segregated more often than would be expected by chance in sites with few species, but co-occur
 #'     more often than by chance in sites with many species, depicting a community structured by
-#'      two different community assembly processes (Lagat *et al.,* 2021a).}
+#'      two different community assembly processes (Lagat *et al.,* 2023a).}
 #'  \item{A8}{The observed is less than null expectation for `i = 2` but within null expectation for
 #'   \eqn{i \ge 3}. This means a pairwise metric detects a non-random pattern of the community structure,
 #'   but when higher order species are considered, a random pattern is produced. This is typical of a
 #'    community whose species are segregated more often than by chance in sites with few species than
-#'     in sites with many species (Lagat *et al.,* 2021a).}
+#'     in sites with many species (Lagat *et al.,* 2023a).}
 #'  \item{A9}{The joint occupancy value of the observed community matrix (dark solid line) is below the
 #'   null model. This means the null hypothesis should be rejected, confirming the presence of a
-#'    mechanism of interest being tested (Lagat *et al.,* 2021a). It is typical of a community
+#'    mechanism of interest being tested (Lagat *et al.,* 2023a). It is typical of a community
 #'     structured by inter-specific competition or limiting similarity, though predation might also
 #'      generate similar patterns (Hein et al. 2014).}
 #' @references
@@ -68,7 +68,7 @@
 #'   dependence of species interactions. *Proc. R. Soc. B Biol. Sci.* **281**.
 #'    <https://doi.org/10.1098/rspb.2013.2641>}
 #'
-#'  \item{Lagat, V. K., Latombe, G. and Hui, C. (2021a). *A multi-species co-occurrence index to
+#'  \item{Lagat, V. K., Latombe, G. and Hui, C. (2023a). *A multi-species co-occurrence index to
 #'   avoid type II errors in null model testing*. DOI: `<To be added>`.}
 #' }
 #' @note `Arch_schem` is not a generic function which can take in any dataset and give the outputs,
@@ -104,7 +104,7 @@ Arch_schem <- function(){
 #'      the affixed `AIC` and `rsq` values on (b), (c) and (d) plots,
 #'       respectively)}.
 #'   }
-#' @references Lagat, V. K., Latombe, G. and Hui, C. (2021a). *A multi-species co-occurrence
+#' @references Lagat, V. K., Latombe, G. and Hui, C. (2023a). *A multi-species co-occurrence
 #'  index to avoid type II errors in null model testing*. DOI: `<To be added>`.
 #' @examples
 #' \dontrun{
@@ -152,7 +152,7 @@ Jo.plots <- function(jo_Obj){
 #' @return Returns a `list` with the following outputs:
 #' \item{jo.val}{Joint occupancy value.}
 #' \item{jo.sd}{The standard deviation of `jo.val`.}
-#' @references Lagat, V. K., Latombe, G. and Hui, C. (2021a). *A multi-species co-occurrence
+#' @references Lagat, V. K., Latombe, G. and Hui, C. (2023a). *A multi-species co-occurrence
 #'  index to avoid type II errors in null model testing*. DOI: `<To be added>`.
 #' @examples
 #' ex.data <- read.csv(system.file("extdata", "274.csv", package = "msco"))
@@ -217,7 +217,7 @@ j.occ<-function(s.data, order, metric = "raw"){
 #' @return Returns a `list` with the following outputs:
 #' \item{jo.vals}{A vector of joint occupancy values for a range number of species (in `orders`).}
 #' \item{jo.sds}{A vector of standard deviations of `jo.vals`.}
-#' @references Lagat, V. K., Latombe, G. and Hui, C. (2021a). *A multi-species co-occurrence
+#' @references Lagat, V. K., Latombe, G. and Hui, C. (2023a). *A multi-species co-occurrence
 #'  index to avoid type II errors in null model testing*. DOI: `<To be added>`.
 #' @examples
 #' ex.data <- read.csv(system.file("extdata", "274.csv", package = "msco"))
@@ -244,18 +244,18 @@ j.occs<-function(s.data, orders = 1:nrow(s.data), metric = "raw"){
   return(jo.inds)
 }
 
-#' Results on joint occupancy index (presented in Lagat et al., 2021a)
+#' Results on joint occupancy index (presented in Lagat et al., 2023a)
 #'
-#' This function allows the replication of the results presented in Lagat *et al*. (2021a). Executing
+#' This function allows the replication of the results presented in Lagat *et al*. (2023a). Executing
 #'   `Jo.res()` therefore gives these outputs that are saved as `.RDS` files in `msco`. If the codes that
 #'    produced these (saved) outcomes are desired, the codes below are made available.
 #'
 #' @note The function \link[msco]{Jo.res} is not for general use. We included it in this package to help
-#'  the readers of Lagat *et al*. (2021a) paper, who may want to get a deeper understanding of how the results
-#'   presented in this paper were arrived at. It also allows deeper scrutiny of Lagat *et al*. (2021a)'s
+#'  the readers of Lagat *et al*. (2023a) paper, who may want to get a deeper understanding of how the results
+#'   presented in this paper were arrived at. It also allows deeper scrutiny of Lagat *et al*. (2023a)'s
 #'    findings.
 #'
-#' @return Returns all the results presented in Lagat *et al*. (2021a). To replicate these results,
+#' @return Returns all the results presented in Lagat *et al*. (2023a). To replicate these results,
 #'  execute the following code:
 #'
 #'  ```
@@ -300,7 +300,7 @@ j.occs<-function(s.data, orders = 1:nrow(s.data), metric = "raw"){
 #'
 #'  ```
 #'
-#' @references Lagat, V. K., Latombe, G. and Hui, C. (2021a). *A multi-species co-occurrence
+#' @references Lagat, V. K., Latombe, G. and Hui, C. (2023a). *A multi-species co-occurrence
 #'  index to avoid type II errors in null model testing*. DOI: `<To be added>`.
 #'
 #' @examples
@@ -321,19 +321,19 @@ Jo.res <- function(){
   return(res)
 }
 
-#' Results on generalised B-spline modelling (presented in Lagat et al., 2021b)
+#' Results on generalised B-spline modelling (presented in Lagat et al., 2023b)
 #'
 #' This function allows the replication of the results on generalised B-spline modelling, presented
-#'  in Lagat *et al*. (2021b). Executing `gbsm.res()` therefore gives these outputs that are saved
+#'  in Lagat *et al*. (2023b). Executing `gbsm.res()` therefore gives these outputs that are saved
 #'   as `.RDS` files in `msco`. If the codes that produced these (saved) outcomes are desired, the
 #'    codes below are made available.
 #'
 #' @note The function \link[msco]{gbsm.res} is not for general use. We included it in this package to help
-#'  the readers of Lagat *et al*. (2021b) paper, who may want to get a deeper understanding of how the results
-#'   presented in this paper were arrived at. It also allows deeper scrutiny of Lagat *et al*. (2021b)'s
+#'  the readers of Lagat *et al*. (2023b) paper, who may want to get a deeper understanding of how the results
+#'   presented in this paper were arrived at. It also allows deeper scrutiny of Lagat *et al*. (2023b)'s
 #'    findings.
 #'
-#' @return Returns all the results presented in Lagat *et al*. (2021b). To replicate
+#' @return Returns all the results presented in Lagat *et al*. (2023b). To replicate
 #'
 #' * __Figs. 1__, __3__, __4__, __5__, and __Tables 1__ and __S1__, execute the following code:
 #'
@@ -455,7 +455,7 @@ Jo.res <- function(){
 #'   (with prediction uncertainty plot taking 6 minutes alone). It took 7.3895 minutes
 #'    to run (and output results) on a 64 bit system with 8 GB RAM and 3.60 GHz CPU.
 #'
-#' @references Lagat, V. K., Latombe, G. and Hui, C. (2021b). *Dissecting the effects
+#' @references Lagat, V. K., Latombe, G. and Hui, C. (2023b). *Dissecting the effects
 #'  of random encounter versus functional trait mismatching on multi-species
 #'   co-occurrence and interference with generalised B-spline modelling*. DOI: `<To be added>`.
 #'
@@ -479,19 +479,19 @@ gbsm.res <- function(){
   return(gres)
 }
 
-#' Results on `msco` illustration (presented in Lagat et al., 2021c)
+#' Results on `msco` illustration (presented in Lagat et al., 2023c)
 #'
 #' This function allows the replication of the results on `msco` R package illustration paper presented
-#'  in Lagat *et al*. (2021c). Executing `msco.res()` therefore gives these outputs that are saved
+#'  in Lagat *et al*. (2023c). Executing `msco.res()` therefore gives these outputs that are saved
 #'   as `.RDS` files in `msco`. If the codes that produced these (saved) outcomes are desired, the
 #'    codes below are made available.
 #'
 #' @note The function \link[msco]{msco.res} is not for general use. We included it in this package to help
-#'  the readers of Lagat *et al*. (2021c) paper, who may want to get a deeper understanding of how the results
-#'   presented in this paper were arrived at. It also allows deeper scrutiny of Lagat *et al*. (2021c)'s
+#'  the readers of Lagat *et al*. (2023c) paper, who may want to get a deeper understanding of how the results
+#'   presented in this paper were arrived at. It also allows deeper scrutiny of Lagat *et al*. (2023c)'s
 #'    findings, and broader understanding of the main functionalities of `msco` R package.
 #'
-#' @return Returns all the results presented in Lagat *et al*. (2021c). To replicate
+#' @return Returns all the results presented in Lagat *et al*. (2023c). To replicate
 #'
 #' * __Figs. 1__, __2__ and __Table 2__, execute the following code:
 #'
@@ -590,14 +590,14 @@ gbsm.res <- function(){
 #'   ```
 #' @references
 #' \enumerate{
-#' \item{Lagat, V. K., Latombe, G. and Hui, C. (2021a). *A multi-species co-occurrence
+#' \item{Lagat, V. K., Latombe, G. and Hui, C. (2023a). *A multi-species co-occurrence
 #'  index to avoid type II errors in null model testing*. DOI: `<To be added>`.}
 #'
-#'  \item{Lagat, V. K., Latombe, G. and Hui, C. (2021b). *Dissecting the effects of random
+#'  \item{Lagat, V. K., Latombe, G. and Hui, C. (2023b). *Dissecting the effects of random
 #'   encounter versus functional trait mismatching on multi-species co-occurrence and
 #'    interference with generalised B-spline modelling*. DOI: `<To be added>`.}
 #'
-#'   \item{Lagat, V. K., Latombe, G. and Hui, C. (2021c). *`msco`: an R software package
+#'   \item{Lagat, V. K., Latombe, G. and Hui, C. (2023c). *`msco`: an R software package
 #'   for null model testing of multi-species interactions and interference with
 #'    covariates*. DOI: `<To be added>`.}
 #'

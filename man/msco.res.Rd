@@ -2,12 +2,12 @@
 % Please edit documentation in R/J.occupancy.R
 \name{msco.res}
 \alias{msco.res}
-\title{Results on \code{msco} illustration (presented in Lagat et al., 2021c)}
+\title{Results on \code{msco} illustration (presented in Lagat et al., 2023c)}
 \usage{
 msco.res()
 }
 \value{
-Returns all the results presented in Lagat \emph{et al}. (2021c). To replicate
+Returns all the results presented in Lagat \emph{et al}. (2023c). To replicate
 \itemize{
 \item \strong{Figs. 1}, \strong{2} and \strong{Table 2}, execute the following code:
 
@@ -102,14 +102,14 @@ Returns all the results presented in Lagat \emph{et al}. (2021c). To replicate
 }
 \description{
 This function allows the replication of the results on \code{msco} R package illustration paper presented
-in Lagat \emph{et al}. (2021c). Executing \code{msco.res()} therefore gives these outputs that are saved
+in Lagat \emph{et al}. (2023c). Executing \code{msco.res()} therefore gives these outputs that are saved
 as \code{.RDS} files in \code{msco}. If the codes that produced these (saved) outcomes are desired, the
 codes below are made available.
 }
 \note{
 The function \link[msco]{msco.res} is not for general use. We included it in this package to help
-the readers of Lagat \emph{et al}. (2021c) paper, who may want to get a deeper understanding of how the results
-presented in this paper were arrived at. It also allows deeper scrutiny of Lagat \emph{et al}. (2021c)'s
+the readers of Lagat \emph{et al}. (2023c) paper, who may want to get a deeper understanding of how the results
+presented in this paper were arrived at. It also allows deeper scrutiny of Lagat \emph{et al}. (2023c)'s
 findings, and broader understanding of the main functionalities of \code{msco} R package.
 }
 \examples{
@@ -122,14 +122,14 @@ ms.res$nmod_stats ## Table 2
 }
 \references{
 \enumerate{
-\item{Lagat, V. K., Latombe, G. and Hui, C. (2021a). \emph{A multi-species co-occurrence
+\item{Lagat, V. K., Latombe, G. and Hui, C. (2023a). \emph{A multi-species co-occurrence
 index to avoid type II errors in null model testing}. DOI: \verb{<To be added>}.}
 
-\item{Lagat, V. K., Latombe, G. and Hui, C. (2021b). \emph{Dissecting the effects of random
+\item{Lagat, V. K., Latombe, G. and Hui, C. (2023b). \emph{Dissecting the effects of random
 encounter versus functional trait mismatching on multi-species co-occurrence and
 interference with generalised B-spline modelling}. DOI: \verb{<To be added>}.}
 
-\item{Lagat, V. K., Latombe, G. and Hui, C. (2021c). \emph{\code{msco}: an R software package
+\item{Lagat, V. K., Latombe, G. and Hui, C. (2023c). \emph{\code{msco}: an R software package
 for null model testing of multi-species interactions and interference with
 covariates}. DOI: \verb{<To be added>}.}
 

@@ -59,6 +59,6 @@ jplots4
 }
 }
 \references{
-Lagat, V. K., Latombe, G. and Hui, C. (2021a). \emph{A multi-species co-occurrence
+Lagat, V. K., Latombe, G. and Hui, C. (2023a). \emph{A multi-species co-occurrence
 index to avoid type II errors in null model testing}. DOI: \verb{<To be added>}.
 }
