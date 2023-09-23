@@ -24,7 +24,7 @@ Description: Co-occurrence patterns are typically explored between species pairs
  also implements the generalized B-spline model and related analyses.
 Depends: R (>= 3.5.0)
 License: GPL-3
-Imports: scales, car, ggplot2, dplyr, magick, minpack.lm, cowplot, gtools, tibble, tidyr, caret,
+Imports: scales, car, ggplot2, dplyr, minpack.lm, cowplot, gtools, tibble, tidyr, caret,
  pagenum, ape, import, taxize, glm2, MASS, splines2, phylogram, phytools
 Encoding: UTF-8
 LazyData: true

@@ -13,7 +13,7 @@ co-occurrence patterns (denoted by \eqn{\{Ai: i \in (1:9)\}}), with the followin
 \item{A1}{The joint occupancy value of the observed community matrix (observed; dark solid line) is above the null
 model. This means the null hypothesis (i.e. a statement that imply any change in the observed patterns do
 not reflect any community assembly process as underlying cause) should be rejected, confirming the presence of a
-mechanism of interest being tested (Lagat \emph{et al.,} 2023a). It is typical of a community whose
+mechanism of interest being tested (Lagat \emph{et al.,} 2021a). It is typical of a community whose
 species are positively associated (or aggregated) more often than would be expected by chance.
 Such patterns of community structure may arise from a number of ecological mechanisms
 including environmental filtering or shared habitat requirements (Cordero and Jackson,
@@ -22,39 +22,39 @@ including environmental filtering or shared habitat requirements (Cordero and Ja
 for \eqn{i \ge 3}. This implies a pairwise metric detects a non-random pattern of the community
 structure, but when higher order species are considered, a random pattern is produced. This is
 typical of a community whose species are aggregated more often than by chance in sites with few
-species than in sites with many species (Lagat \emph{et al.,} 2023a).}
+species than in sites with many species (Lagat \emph{et al.,} 2021a).}
 \item{A3}{The observed is greater than null expectation for lower orders, within null expectation for
 medium orders, and less than null expectation for higher orders. This means species co-occur more
 often than by chance in sites with few species, but are segregated more often than by chance in
 sites with many species, depicting a community structured by two different community assembly
-processes (Lagat \emph{et al.,} 2023a).}
+processes (Lagat \emph{et al.,} 2021a).}
 \item{A4}{The observed is within null expectation for \code{i = 2} but greater than null expectation for
 \eqn{i \ge 3}. This means when use pairwise co-occurrence is used, the null hypothesis is not
 rejected, but when joint occupancy is used, the same null hypothesis is rejected. I.e., pairwise
 co-occurrence fails at detecting patterns of aggregation for sites with many species, i.e. a
-type II error or false negative (Lagat \emph{et al.,} 2023a).}
+type II error or false negative (Lagat \emph{et al.,} 2021a).}
 \item{A5}{The observed is within the null expectation for all orders \eqn{i \ge 2}, implying the
 test is not statistically significant. This has been ecologically inferred to mean ecological
 communities are random and that no community assembly processes or mechanisms influence their
-structure (Lagat \emph{et al.,} 2023a; Cordero and Jackson, 2019; Gotelli and Sounding, 2001).}
+structure (Lagat \emph{et al.,} 2021a; Cordero and Jackson, 2019; Gotelli and Sounding, 2001).}
 \item{A6}{The observed is within the null expectation for \code{i = 2} but less than the null expectation
 for \eqn{i \ge 3}. This means when use pairwise co-occurrence is used, the null hypothesis is not
 rejected, but when joint occupancy is used, the same null hypothesis is rejected. I.e., pairwise
 co-occurrence fails at detecting patterns of segregation for sites with many species, i.e. a
-type II error or false negative (Lagat \emph{et al.,} 2023a).}
+type II error or false negative (Lagat \emph{et al.,} 2021a).}
 \item{A7}{The observed is less than null expectation for lower orders, within null expectation
 for medium orders, and greater than null expectation for higher orders. Implying species are
 segregated more often than would be expected by chance in sites with few species, but co-occur
 more often than by chance in sites with many species, depicting a community structured by
-two different community assembly processes (Lagat \emph{et al.,} 2023a).}
+two different community assembly processes (Lagat \emph{et al.,} 2021a).}
 \item{A8}{The observed is less than null expectation for \code{i = 2} but within null expectation for
 \eqn{i \ge 3}. This means a pairwise metric detects a non-random pattern of the community structure,
 but when higher order species are considered, a random pattern is produced. This is typical of a
 community whose species are segregated more often than by chance in sites with few species than
-in sites with many species (Lagat \emph{et al.,} 2023a).}
+in sites with many species (Lagat \emph{et al.,} 2021a).}
 \item{A9}{The joint occupancy value of the observed community matrix (dark solid line) is below the
 null model. This means the null hypothesis should be rejected, confirming the presence of a
-mechanism of interest being tested (Lagat \emph{et al.,} 2023a). It is typical of a community
+mechanism of interest being tested (Lagat \emph{et al.,} 2021a). It is typical of a community
 structured by inter-specific competition or limiting similarity, though predation might also
 generate similar patterns (Hein et al. 2014).}
 }
@@ -81,7 +81,7 @@ Biogeogr.} \strong{10}, 337-343. \url{https://doi.org/10.1046/j.1466-822X.2001.0
 dependence of species interactions. \emph{Proc. R. Soc. B Biol. Sci.} \strong{281}.
 \url{https://doi.org/10.1098/rspb.2013.2641}}
 
-\item{Lagat, V. K., Latombe, G. and Hui, C. (2023a). \emph{A multi-species co-occurrence index to
+\item{Lagat, V. K., Latombe, G. and Hui, C. (2021a). \emph{A multi-species co-occurrence index to
 avoid type II errors in null model testing}. DOI: \verb{<To be added>}.}
 }
 }
